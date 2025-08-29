@@ -1,0 +1,113 @@
+node {
+    stage("Git Checkout") {
+        git url: 'https://baldevops.bajajauto.co.in/gitea/BALMULESOFT/apidocs',
+        branch: "${env.BRANCH_NAME}",
+        credentialsId: '4d05650f-e853-4ce2-ab3c-0eef6ebd39f8'
+    }
+ 
+    def remote = [:]
+ 
+    if (env.BRANCH_NAME == 'master') {
+        remote.name = 'GoAuthentikPOC'
+        remote.host = '4.213.36.236'
+        remote.ip = "4.213.36.236"
+        remote.port = 22
+        remote.allowAnyHosts = true
+    }
+   
+    stage ("Installing Packages") {
+        nodejs(nodeJSInstallationName: 'Node 22') {
+            sh 'rm -rf node_modules package-lock.json'
+            sh 'npm i --no-audit'
+        }
+    }
+   
+    stage ("SonarQube") {
+        withSonarQubeEnv('SonarQube-cloud') {
+            nodejs(nodeJSInstallationName: 'Node 22') {
+                withCredentials([string(credentialsId: '1f15b069-1f81-4c36-99fd-c3c23d89d0d6', variable: 'sonarLoginKey')]) {
+                    def sonarScannerHome = tool 'sonar-scanner6.2.1'
+                    sh """${sonarScannerHome}/bin/sonar-scanner \
+                        -Dsonar.projectKey=apidocs \
+                        -Dsonar.sources=. \
+                        -Dsonar.host.url=https://baldevops.bajajauto.co.in/sonar \
+                        -Dsonar.login=${sonarLoginKey}"""
+                }
+            }
+        }
+    }
+   
+    stage ("dTrack") {
+        nodejs(nodeJSInstallationName: 'Node 22') {
+            sh "npx cyclonedx-npm package.json --ignore-npm-errors --omit dev --output-format json --output-file bom.json"
+        }
+       
+        env.projectVersionNumber = sh(script: "awk -F'\"' '/\"version\":/{print \$4; exit}' package.json", returnStdout: true).trim()
+        env.projectName = sh(script: "awk -F'\"' '/\"name\":/{print \$4; exit}' package.json", returnStdout: true).trim()
+       
+        if (env.BRANCH_NAME == 'master') {
+            env.projectGroup = "apidocs-prod"
+        } else if (env.BRANCH_NAME == 'develop') {
+            env.projectGroup = "apidocs-dev"
+        } else if (env.BRANCH_NAME == 'staging') {
+            env.projectGroup = "apidocs-stag"
+        } else {
+            env.projectGroup = "apidocs"
+        }
+       
+        env.projectDesc = sh(script: "awk -F'\"' '/\"description\":/{print \$4; exit}' package.json", returnStdout: true).trim()
+ 
+        echo "Project Name: ${env.projectName}"
+        echo "Project Version Number: ${env.projectVersionNumber}"
+        echo "Project Description: ${env.projectDesc}"
+       
+        dependencyTrackPublisher artifact: 'bom.json',
+            autoCreateProjects: true, projectName: "${env.projectName}",
+            projectVersion: "${env.projectVersionNumber}",
+            synchronous:true,
+            projectProperties: [
+            description: "${env.projectDesc}",
+            group: "${env.projectGroup}",
+            ],
+            failOnViolationFail: true
+          //  failedTotalCritical: 1,
+          //  failedTotalHigh: 1
+    }
+   
+    if (env.BRANCH_NAME == 'master') {
+        stage ("Build") {
+            nodejs(nodeJSInstallationName: 'Node 22') {
+                sh "npm i --no-audit && npm run build"
+                sh "date > build/builddate.txt"
+            }
+        }
+    } else if (env.BRANCH_NAME == 'develop') {
+        stage ("Build") {
+            nodejs(nodeJSInstallationName: 'Node 22') {
+                sh "npm run build"
+            }
+        }
+    }
+ 
+    if (env.BRANCH_NAME == 'master') {
+        stage ("Deploy") {
+            withCredentials([sshUserPrivateKey(credentialsId: '86ebeb14-64a3-4e87-9c49-5dd553a4ec4b', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'userName')]) {
+                remote.user = userName
+                remote.identityFile = identity
+ 
+                stage('Remove Old Build') {
+                    sshCommand remote: remote, command: 'touch /var/www/apidocs/filecreatedtoavoiderror && rm -rf /var/www/apidocs/*'
+                }
+ 
+                stage('Copy New Build') {
+                    sshPut remote: remote, from: 'build', into: '/var/www/apidocs'
+                    sshCommand remote: remote, command: 'mv -f /var/www/apidocs/build/* /var/www/apidocs/.'
+                }
+ 
+                stage('Verify Deployment') {
+                    sshCommand remote: remote, command: 'cat /var/www/apidocs/builddate.txt'
+                }
+            }
+        }
+    }
+}
