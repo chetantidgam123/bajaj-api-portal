@@ -6,6 +6,7 @@ import Login from '../auth/Login';
 import ForgotPassword from '../auth/ForgotPassword';
 import ResetPassword from '../auth/ResetPasswrd';
 import { useEffect, useState } from 'react';
+import '../../../src/new.css'
 
 import { arrayIndex, availableApi, getTokenData } from '../../Utils';
 import { useNavigate } from 'react-router-dom';
@@ -17,7 +18,174 @@ function LandingPage() {
     return (
         <div>
             <Header />
-            <div className="gifDiv">
+            <div className='banner'>
+                <div className='container'>
+                    <p className='text-center welcome'>Welcome to</p>
+                    <h1 className='mt-3'>Bajaj API Developer Portal</h1>
+                    <div className='row d-flex justify-content-center mt-3'>
+                        <div className='col-10'>
+                            <p className='text-center text-white'>— your one-stop destination for accessing, integrating, and managing powerful APIs that drive seamless digital experiences. Whether you're building customer journeys, or partner integrations, our APIs offer secure, scalable, and easy-to-use solutions to accelerate your development.</p>
+                        </div>
+                        <div className='d-flex justify-content-center'>
+                            <button className='btn btn-blue' onClick={() => { navigate('/get-started') }}>Get Started <i className="fa-solid fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className='card-bg '>
+                <div className='container'>
+                    <div className='card-Works'>
+                        <h1>How it Works?</h1>
+                        <p className='text-center'>Onboard your developers effortlessly. Discover how easy it is to integrate Bajaj APIs in just a few simple steps.</p>
+                        {/* <div className='row d-flex justify-content-center pt-5'>
+                            <div className='col-xl-11 col-lg-10 col-md-12 col-sm-12 col-12'>
+                                <div className='display-grid-works'>
+                                    <div className=''>
+                                         <div className="card-frame">
+                                    <div className="card-works">
+                                    <img src="/assets/img/Works-1.png" alt="" className="w-100" />
+                                    </div>
+                                </div>
+                               
+                                    </div>
+                                    <div>
+                                         <img src="/assets/img/arrow.png" alt="" className='w-100' />
+                                    </div>
+                                      <div className=''>
+                                         <div className="card-frame">
+                                    <div className="card-works">
+                                    <img src="/assets/img/Works-1.png" alt="" className="w-100" />
+                                    </div>
+                                </div>
+                                    </div>
+                                        <div>
+                                         <img src="/assets/img/arrow.png" alt="" className='w-100' />
+                                    </div>
+                                     <div className=''>
+                                         <div className="card-frame">
+                                    <div className="card-works">
+                                    <img src="/assets/img/Works-1.png" alt="" className="w-100" />
+                                    </div>
+                                </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div> */}
+                             <div className="grid-column mt-5">
+            <div className="">
+                <div className="card card-border p-4 border-0 height-320px">
+                   <img src="/assets/img/Works-1.png" width="100%" alt='' />
+                </div>
+                <h5 className="mt-3 text-center">Sign Up to Get Started</h5>
+                <p className="text-center">Create your account to explore and manage powerful APIs.
+                </p>
+            </div>
+            <div className='position-relative'>
+               <img src="/assets/img/arrow.png" width="100%" alt='' className='arrow-absolute'/>
+            </div>
+
+              <div className="">
+                <div className="card card-border p-4 border-0 height-320px">
+                   <img src="/assets/img/Works-2.png" width="100%" alt='' />
+                </div>
+                <h5 className="mt-3 text-center">Select Our Available API</h5>
+                <p className="text-center">Explore and select from our wide range of available APIs.
+                </p>
+            </div>
+            <div className='position-relative'>
+               <img src="/assets/img/arrow.png" width="100%" alt='' className='arrow-absolute'/>
+            </div>
+              <div className="">
+                <div className="card card-border p-4 border-0 height-320px">
+                   <img src="/assets/img/Works-3.png" width="100%" alt=''/>
+                </div>
+                <h5 className="mt-3 text-center">Test it Out</h5>
+                <p className="text-center">Create your account to explore and manage powerful APIs.
+                </p>
+            </div>
+           
+        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+            <div className='Golive pt-5'>
+                <h1 className='text-center'>Go Live With Us</h1>
+                <p className='text-center text-white'>Onboard your developers effortlessly. Discover how easy it is to integrate Bajaj APIs in just a few simple steps.</p>
+                <div className='container'>
+                    <div className='row d-flex justify-content-center mt-5'>
+                        <div className='col-xl-7 col-lg-10 col-md-12 col-sm-12 col-12'>
+                            <div className='row'>
+                                <div className='col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 mb-3 gx-5'>
+                                    <div className='go-semi-cirle'>
+                                        <h3 className='mb-0 color-blue'>1</h3>
+                                    </div>
+                                    <div className='go-line'>
+                                        <p className='font-20 color-deve mb-0'>Development</p>
+                                    </div>
+                                    <div className='bottom-card'>
+                                        <img src="/assets/img/go-1.png" alt="" className='w-100' />
+                                    </div>
+                                </div>
+                                <div className='col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 mb-3 gx-5'>
+                                    <div className='go-semi-cirle'>
+                                        <h3 className='mb-0 color-blue'>2</h3>
+                                    </div>
+                                    <div className='go-line'>
+                                        <p className='font-20 color-deve mb-0'>UAT</p>
+                                    </div>
+                                    <div className='bottom-card'>
+                                        <img src="/assets/img/go-2.png" alt="" className='w-100' />
+                                    </div>
+                                </div>
+                                <div className='col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 mb-3 gx-5'>
+                                    <div className='go-semi-cirle'>
+                                        <h3 className='mb-0 color-blue'>3</h3>
+                                    </div>
+                                    <div className='go-line'>
+                                        <p className='font-20 color-deve mb-0'>Production</p>
+                                    </div>
+                                    <div className='bottom-card'>
+                                        <img src="/assets/img/go-3.png" alt="" className='w-100' />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className='availableApi py-5'>
+
+                <h1>Available API</h1>
+                <p className='text-center'>Onboard your developers effortlessly. Discover how easy it is to integrate Bajaj APIs in just a few simple steps.</p>
+                <div className='container'>
+                    <div className='row mt-5'>
+                        {availableApi.map((card, index) => (
+                            <div className='col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 mb-3' key={arrayIndex('card', index)}>
+                                <div className='card-ava'>
+                                    <div className="circle-ava">
+                                        <img src="/assets/img/bullet.png" alt="NA" className='' />
+                                    </div>
+                                    <div className="content-title  my-3">
+                                        {card.title}
+                                    </div>
+                                    <div className="content-details four-lines">
+                                        {card.details}
+                                    </div>
+
+                                </div>
+                            </div>
+                        ))
+                        }
+                    </div>
+                </div>
+            </div>
+            <FooterHome />
+            {/* <div className="gifDiv">
                 <div style={{ padding: '3em 6em', display: 'flex', justifyContent: "space-between" }}>
                     <div className="gif-content">
                         <p className='mb-0'>Welcome to</p>
@@ -135,7 +303,7 @@ function LandingPage() {
                     </div>
                 </div>
                 <FooterHome />
-            </div>
+            </div> */}
             <Modal size="lg" show={show} onHide={() => setShow(false)} centered>
                 <Modal.Header closeButton className="border-bottom-0 py-0"></Modal.Header>
                 <Modal.Body className="pt-0">

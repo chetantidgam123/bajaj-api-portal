@@ -1,0 +1,265 @@
+.header {
+   background-color: white;
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+}
+
+
+.banner{
+     background-image: url("/assets/img/banner.png");
+      background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 150px 0px;
+}
+
+.banner .welcome {
+    color: #ffffff;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 25px;
+}
+.banner h1 {
+    color: #FFF;
+    font-size: 80px;
+    font-style: normal;
+    font-weight: 400;
+    text-align: center;
+}
+.btn-blue{
+    background-color: #006AD0;
+    color: white;
+}
+.btn-blue:hover{
+    background-color: white;
+    color: #006AD0;
+    border:1px solid #006AD0;
+}
+.card-bg{
+    background-color: #F5F6FA;
+    padding: 30px 0px;
+}
+.card-Works{
+    background-color: white;
+    border-radius: 20px;
+    padding: 50px 50px 70px 50px;
+    margin-top: -100px;
+
+}
+.card-Works h1{
+     color: #333;
+    text-align: center;
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 400;
+}
+.Golive{
+     background-image: url("/assets/img/Go Live With Us.png");
+      background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 30px 0px;
+}
+.Golive h1{
+     color: #FFF;
+       text-align: center;
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 400;
+}
+.go-semi-cirle{
+    background-color: white;
+    height: 100px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100px 100px 0px 0px;
+}
+.go-semi-cirle h3{
+    font-size: 48px;
+}
+.color-blue{
+    color: #27384E;
+}
+.font-20 {
+    font-size: 20px;
+}
+.color-deve{
+    color: #27384E;
+}
+.go-line{
+    background-color: white;
+    height: 50px;
+   display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+.bottom-card{
+    background-color: #F5F6FA;
+       margin-top: 10px;
+     height: 200px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0px 0px 100px 100px;
+}
+.availableApi h1{
+     color: #333;
+    text-align: center;
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 400;
+}
+.circle-ava{
+    width: 80px;
+    height: 80px;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ecefff;
+    margin: 0 auto;
+
+}
+
+.four-lines {
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+        -webkit-line-clamp: 4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.footer {
+      background-image: url("/assets/img/footer.png");
+      padding: 40px;
+
+}
+.border-white{
+    border: 2px solid #ffffff;
+}
+
+    .footer ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .footer ul li {
+      margin: 0 15px;
+      position: relative;
+    }
+
+    .footer ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 18px;
+      transition: color 0.3s;
+    }
+
+    .footer ul li a:hover {
+      color: #ddd;
+    }
+
+
+    .display-grid-works{
+          display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    align-items: center;
+
+    }
+    /* Divider line */
+    .footer ul li:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      right: -17px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 2px;
+      height: 18px;
+      background: #fff;
+      opacity: 0.6;
+    }
+    .footer-bottom{
+        background-color: #00305E;
+        padding: 14px 0px;
+    }
+
+ .card-frame{
+  position: relative;
+  height: 300px;
+  width: 100%;
+  display: inline-block;        /* keeps the frame tight to content */
+  padding: 5px;                /* space between frame strokes and inner card */
+  border-radius: 38px;
+  z-index: 0;                   /* root stacking context */
+  /* optional drop shadow for the whole frame */
+  -webkit-backdrop-filter: none;
+}
+
+/* outer light-blue stroke */
+.card-frame::before{
+  content: "";
+  position: absolute;
+  top: -26px;
+  left: -26px;
+  right: -26px;
+  bottom: -26px;
+  border-radius: 46px;
+  border: 12px solid #99C3EC; /* light outer stroke */
+  z-index: -2;
+  pointer-events: none;
+}
+
+
+
+
+/* your card (inner content) */
+.card-works{                /* adapt width as needed */
+  border-radius: 18px 18px 0px 0px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 8px 30px rgba(11, 28, 48, 0.06); /* soft shadow */
+  position: relative;
+  z-index: 1;                   /* sit on top of pseudo-elements */
+}
+
+/* if you use an img inside the card */
+.card-works img{
+  display: block;
+  width: 100%;
+     height: 285px;
+    border-radius: 12px 12px 0px 0px;         /* small rounding so it doesn't overlap the white card corners */
+}
+.terms{
+    background-image: url("/assets/img/TermsofService.png");
+    padding: 60px 0px 80px 0px;
+}
+.terms h1{
+        color: #FFF;
+    font-size: 70px;
+    font-style: normal;
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 50px;
+}
+.privacy{
+    background-image: url("/assets/img/privacy-policy.png");
+    padding: 60px 0px 80px 0px;
+}
+.privacy h1{
+        color: #FFF;
+    font-size: 70px;
+    font-style: normal;
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 50px;
+}
