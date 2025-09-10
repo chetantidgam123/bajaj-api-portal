@@ -5,7 +5,7 @@ import { apiMethods, arrayIndex, convertToPayload, offsetPagination, statusCodes
 import { useEffect, useState } from 'react';
 import RequestParamtereAdd from './RequestParamtereAdd';
 import moment from 'moment';
-import { post_auth_data } from '../../ApiServices';
+import { post_auth_data, post_data } from '../../ApiServices';
 import { confirm_swal_with_text, error_swal_toast, success_swal_toast } from '../../SwalServices';
 import { LoaderWight, PageLoaderBackdrop } from '../../Loader';
 import generateSchema from "generate-schema";
@@ -18,7 +18,11 @@ function CreateApi() {
     const [showSampleModal, setShowSampleModal] = useState(false);
     const [modalType, setModalType] = useState('');
     const [modalvalue, setModalvalue] = useState(false);
-    const [applicaionList,setApplicationList] = useState([])
+    const [applicationList, setApplicationList] = useState([]);
+    const [sampleIndex, setSampleIndex] = useState(-1);
+    const [categoryList, setCategoryList] = useState([])
+    const [subCategoryList, setSubCategoryList] = useState([])
+
     const navigate = useNavigate();
     const apiForm = useFormik({
         initialValues: {
@@ -38,7 +42,6 @@ function CreateApi() {
         },
         // validationSchema: createApiSchema,
         onSubmit: (values) => {
-            console.log(values)
             let obj = values;
             obj.categoryid = Number(obj.categoryid)
             if (api_id) {
@@ -54,7 +57,6 @@ function CreateApi() {
                     resschema: e.resschema
                 }
                 if (e.code == 200) {
-                    console.log(e)
                     obj.reqsample = e.reqbody
                     obj.reqschema = e.reqschema
                 }
@@ -133,10 +135,7 @@ function CreateApi() {
         setModalType(modalType);
         setShow(true);
     }
-
-    const [sampleIndex, setSampleIndex] = useState(-1);
     const viewSample = (item, index = 0) => {
-        console.log(item)
         sampelForm.setValues({
             ...sampelForm.values,
             ...item,
@@ -153,8 +152,7 @@ function CreateApi() {
         try { obj = JSON.parse(val) } catch (e) { obj = val; console.log(e) }
         return (JSON.stringify(obj, null, 2));
     }
-    const [categoryList, setCategoryList] = useState([])
-    const [subCategoryList, setSubCategoryList] = useState([])
+
     const getCategoryList = () => {
         post_auth_data("portal/private", convertToPayload('get-all-categories', {}), {})
             .then((response) => {
@@ -196,6 +194,7 @@ function CreateApi() {
                 if (response.data.status) {
                     apiForm.setValues({
                         ...apiForm.values,
+                        "application_name": response.data.data.application_name,
                         "categoryid": response.data.data.categoryid,
                         "subcategoryid": response.data.data.subcategoryid,
                         "apiname": response.data.data.apiname,
@@ -235,15 +234,7 @@ function CreateApi() {
         setShowSampleModal(true);
         setSampleIndex(-1)
     }
-
-    useEffect(() => {
-        getCategoryList();
-        if (api_id?.length > 0) {
-            getApiById()
-        }
-    }, [])
     const handleGenerate = (value, type) => {
-        console.log(value)
         try {
             const parsed = JSON.parse(value);
             const rawSchema = generateSchema.json("GeneratedSchema", parsed);
@@ -258,6 +249,27 @@ function CreateApi() {
             error_swal_toast('Invalid JSON')
         }
     };
+    const getApplicationList = () => {
+        post_data("portal/public", convertToPayload('getPlatformApps', {}), {})
+            .then((response) => {
+                setLoader({ ...loader, pageloader: false })
+                let _a = response.data.data || []
+                _a = _a.map((app) => {
+                    let obj = {
+                        id: app.id,
+                        name: app.artifact.name,
+                        createTime: app.artifact.createTime,
+                        lastUpdateTime: app.artifact.lastUpdateTime
+                    }
+                    return obj
+                })
+                setApplicationList(_a)
+            }).catch((error) => {
+                setLoader({ ...loader, pageloader: false })
+                setApplicationList([])
+                error_swal_toast(error.message || error);
+            })
+    }
 
     useEffect(() => {
         if (apiForm.values.categoryid) {
@@ -266,6 +278,14 @@ function CreateApi() {
             setSubCategoryList([])
         }
     }, [apiForm.values.categoryid])
+
+    useEffect(() => {
+        getCategoryList();
+        getApplicationList();
+        if (api_id?.length > 0) {
+            getApiById()
+        }
+    }, [])
     return (
         <div>
             <FormikProvider value={apiForm}>
@@ -332,13 +352,13 @@ function CreateApi() {
                                 </div>
                                 <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-3">
                                     <label className="form-label" htmlFor="application_name">Application Name</label>
-                                    <select className="form-select" id="application_name" name="application_name"
+                                    <select className="form-select position-relative" id="application_name" name="application_name"
                                         value={apiForm.values.application_name}
                                         onChange={apiForm.handleChange}>
-                                        <option value="">Select Method</option>
+                                        <option value="">Select app</option>
                                         {
-                                            apiMethods.map((m, i) => (
-                                                <option key={arrayIndex('api-method', i)} value={m.id}>{m.name}</option>
+                                            applicationList.map((m, i) => (
+                                                <option key={arrayIndex('application_name', i)} value={m.id}>{m.name}</option>
                                             ))
                                         }
                                     </select>
