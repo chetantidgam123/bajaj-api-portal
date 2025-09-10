@@ -77,4 +77,8 @@ export const subCategoryFormSchema = yup.object().shape({
     sub_categoryid: yup.number(),
 });
 
+export const termscondFormSchema = yup.object().shape({
+    text:yup.string.required('Content is required')
+})
+
 
