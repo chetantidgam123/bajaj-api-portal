@@ -9,7 +9,8 @@ function TermCond() {
     const [openModalTC, setOpenModalTC] = useState(false)
     const termForm = useFormik({
         initialValues: {
-            text: ''
+            text: '',
+            
         },
         onSubmit: (() => {
 
