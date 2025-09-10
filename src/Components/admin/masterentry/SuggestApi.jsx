@@ -1,4 +1,7 @@
+import { useState } from "react"
+
 function SuggestApi(){
+    const[suggApiList, setSuggApiList]= useState([])
     return(
  <div className="mx-2">
             <div className="d-flex justify-content-between my-2">
@@ -18,8 +21,8 @@ function SuggestApi(){
                     </tr>
                 </thead>
                 <tbody>
-                    {/* {
-                        userList.length > 0 && userList.map((user, index) => (
+                    {
+                        suggApiList.length > 0 ?( suggApiList.map((user, index) => (
                             <tr key={arrayIndex('user', index)}>
                                 <td>{user.sr_no || index + 1}</td>
                                 <td>{user.fullname}</td>
@@ -44,8 +47,8 @@ function SuggestApi(){
                                     </div>
                                 </td>
                             </tr>
-                        ))
-                    } */}
+                        ))):(<td colSpan={7} className="text-center">No data found</td>)
+                    }
 
                 </tbody>
             </table>

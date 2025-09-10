@@ -273,3 +273,13 @@
 .contactus .nav-pills .nav-link.active{
         background-color: #006AD0;
 }
+.card-bg{
+    background-color:#F5F6FA;
+    border-radius: 16px;
+        padding: 1.5rem !important;
+}
+.card-new{
+    box-shadow: 0px 4px 4px 0px #00000040;
+    background-color: white;
+        border-radius: 16px;
+}

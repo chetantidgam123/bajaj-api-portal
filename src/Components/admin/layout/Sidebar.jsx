@@ -50,7 +50,7 @@ function Sidebar() {
                     <Accordion.Item eventKey="2" className="mb-2 position-relative">
                         <Accordion.Header>
                             <i className="fa-brands fa-microsoft"></i>
-                            <span className="link-name ms-2">Master</span>
+                            <span className="link-name ms-2">CMS</span>
                         </Accordion.Header>
                         <Accordion.Body>
                             <ul className="admin-sidebar-ul">
