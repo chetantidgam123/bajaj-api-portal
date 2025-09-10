@@ -47,6 +47,28 @@ function Sidebar() {
                             </ul>
                         </Accordion.Body>
                     </Accordion.Item>
+                    <Accordion.Item eventKey="2" className="mb-2 position-relative">
+                        <Accordion.Header>
+                            <i className="fa-brands fa-microsoft"></i>
+                            <span className="link-name ms-2">Master</span>
+                        </Accordion.Header>
+                        <Accordion.Body>
+                            <ul className="admin-sidebar-ul">
+                                <li>
+                                    <Link className="admin-sidebar-li" to={'/master/term-and-condition'}>Terms and Conditions</Link>
+                                </li>
+                                <li>
+                                    <Link className="admin-sidebar-li" to={'/master/privacy-policy'}>Privacy Policy</Link>
+                                </li>
+                                <li>
+                                    <Link className="admin-sidebar-li" to={'/master/suggest-an-api'}>Suggest an API</Link>
+                                </li>
+                                 <li>
+                                    <Link className="admin-sidebar-li" to={'/master/get-in-touch'}>Get in Touch</Link>
+                                </li>
+                            </ul>
+                        </Accordion.Body>
+                    </Accordion.Item>
                 </Accordion>
             </div>
         </nav>

@@ -13,6 +13,12 @@ const CreateApi = lazy(() => import('../Components/admin/CreateApi'));
 const UserList = lazy(() => import('../Components/admin/UserList'));
 const PageNotFound = lazy(() => import('../Components/admin/PageNotFound'));
 
+ /***  Master Entry Start ***/
+const SuggestApi = lazy(()=>import('../Components/admin/masterentry/SuggestApi'))
+const TermsCond = lazy(()=>import('../Components/admin/masterentry/TermCond'))
+const GetinTouch = lazy(()=> import('../Components/admin/masterentry/GetinTouch'))
+const PrivacyPolicy = lazy(()=> import('../Components/admin/masterentry/PrivacyPolicy'))
+
 function PrivateRoute({ children }) {
     const tokenData = getTokenData();
     if (!tokenData) {
@@ -42,6 +48,13 @@ const routes = [
             { path: "/create-api", element: <PrivateRoute><CreateApi /></PrivateRoute> },
             { path: "/update-api/:api_id", element: <PrivateRoute><CreateApi /></PrivateRoute> },
             { path: "/user-list", element: <PrivateRoute><UserList /></PrivateRoute> },
+
+            /***  Master Entry Start ***/
+            { path: "/term-and-condition", element: <PrivateRoute><TermsCond /></PrivateRoute> },
+            { path: "/privacy-policy", element: <PrivateRoute><PrivacyPolicy /></PrivateRoute> },
+            { path: "/suggest-an-api", element: <PrivateRoute><SuggestApi /></PrivateRoute> },
+            { path: "/get-in-touch", element: <PrivateRoute><GetinTouch /></PrivateRoute> },
+
         ]
     }
 
