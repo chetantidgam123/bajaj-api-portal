@@ -117,7 +117,7 @@ function LandingPage() {
                 <h1 className='text-center'>Go Live With Us</h1>
                 <p className='text-center text-white'>Onboard your developers effortlessly. Discover how easy it is to integrate Bajaj APIs in just a few simple steps.</p>
                 <div className='container'>
-                    <div className='row d-flex justify-content-center mt-5'>
+                    <div className='row d-flex justify-content-center  mt-5'>
                         <div className='col-xl-7 col-lg-10 col-md-12 col-sm-12 col-12'>
                             <div className='row'>
                                 <div className='col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 mb-3 gx-5'>
@@ -159,11 +159,10 @@ function LandingPage() {
                 </div>
             </div>
             <div className='availableApi py-5'>
-
                 <h1>Available API</h1>
                 <p className='text-center'>Onboard your developers effortlessly. Discover how easy it is to integrate Bajaj APIs in just a few simple steps.</p>
                 <div className='container'>
-                    <div className='row mt-5'>
+                    <div className='row mt-5 d-flex justify-content-center'>
                         {availableApi.map((card, index) => (
                             <div className='col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 mb-3' key={arrayIndex('card', index)}>
                                 <div className='card-ava'>

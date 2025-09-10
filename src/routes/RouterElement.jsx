@@ -12,6 +12,7 @@ import Email from '../Components/Home/Email';
 import { error_swal_toast } from '../SwalServices';
 import TermsofServices from '../Components/Home/TermsofServices';
 import Privacypolicy from '../Components/Home/Privacypolicy';
+import Contactus from '../Components/Home/Contactus';
 const HomePageContent = lazy(() => import('../Components/user/HomePageContent'));
 const PageNotFound = lazy(() => import('../Components/user/PageNotFound'));
 
@@ -34,6 +35,7 @@ const routes = [
     { path: '/faq', element: <FaqList /> },
      { path: "/TermsofServices", element: <TermsofServices /> },
      { path: "/Privacypolicy", element: <Privacypolicy /> },
+     { path: "/Contactus", element: <Contactus /> },
     {
         element: <HomeLayout />,
         children: [

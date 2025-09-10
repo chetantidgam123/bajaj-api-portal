@@ -2,7 +2,7 @@
    background-color: white;
     position: sticky;
     top: 0;
-    z-index: 9999;
+    z-index: 99;
 }
 
 
@@ -262,4 +262,14 @@
     font-weight: 400;
     text-align: center;
     margin-bottom: 50px;
+}
+
+.close-absolute{
+        position: absolute;
+    right: 10px;
+    top: 20px;
+}
+
+.contactus .nav-pills .nav-link.active{
+        background-color: #006AD0;
 }
