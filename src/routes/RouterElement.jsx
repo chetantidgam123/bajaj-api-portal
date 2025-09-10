@@ -10,6 +10,9 @@ import FaqList from '../Components/Home/FaqList';
 import Profile from '../Components/user/Profile';
 import Email from '../Components/Home/Email';
 import { error_swal_toast } from '../SwalServices';
+import TermsofServices from '../Components/Home/TermsofServices';
+import Privacypolicy from '../Components/Home/Privacypolicy';
+import Contactus from '../Components/Home/Contactus';
 const HomePageContent = lazy(() => import('../Components/user/HomePageContent'));
 const PageNotFound = lazy(() => import('../Components/user/PageNotFound'));
 
@@ -30,11 +33,15 @@ const routes = [
     { path: '/', element: <LandingPage /> },
     { path: '/email/:token', element: <Email /> },
     { path: '/faq', element: <FaqList /> },
+     { path: "/TermsofServices", element: <TermsofServices /> },
+     { path: "/Privacypolicy", element: <Privacypolicy /> },
+     { path: "/Contactus", element: <Contactus /> },
     {
         element: <HomeLayout />,
         children: [
             // { path: "/api", element: <HomePageContent /> },
             { path: "/get-started", element: <HomePageContent /> },
+           
             { path: "/api/:collection_id", element: <HomePageContent /> },
             { path: "/collection-api/:collection_id/:api_id", element: <HomePageContent /> },
             { path: "/api/:collection_id/:category_id", element: <HomePageContent /> },

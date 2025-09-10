@@ -22,7 +22,7 @@ function Header() {
   };
   return (
     <div className="header">
-      <nav className="navbar navbar-expand-lg px-2">
+      <nav className="navbar navbar-expand-lg">
         <div className="container-fluid bg-white">
           <Link className="navbar-brand d-flex align-items-center" to="/">
             <img
@@ -39,7 +39,7 @@ function Header() {
 
           {/* Collapsible Content */}
           <div
-            className="collapse navbar-collapse justify-content-end"
+            className="collapse navbar-collapse justify-content-center"
             id="navbarCenterContent"
           >
             {/* Center: Links */}
@@ -61,16 +61,46 @@ function Header() {
                   FAQ
                 </Link>
               </li>
-              {!getTokenData() && (
+             
+            </ul>
+
+            <div className="d-flex gap-2  d-none">
+              <Link
+                className="btn btn-primary"
+                onClick={() => {
+                  setModalName("signup");
+                  setShow(true);
+                }}
+              >
+                Sign Up
+              </Link>
+              <Link
+                className="btn btn-outline-primary"
+                onClick={() => {
+                  setModalName("login");
+                  setShow(true);
+                }}
+              >
+                Sign In
+              </Link>
+            </div>
+          </div>
+          <div>
+              <ul className="navbar-nav mb-2 mb-lg-0">
+             {!getTokenData() && (
                 <li className="nav-item">
                   <button
-                    className="btn btn-primary"
+                    className="btn btn-blue"
                     onClick={() => {
                       setModalName("login");
                       setShow(true);
                     }}
+                      style={{
+                    backgroundClip: "#006AD0;",
+                    color : "#ffffff;"
+                  }}
                   >
-                    Sign In
+                    Sign In <i class="fa-solid fa-arrow-right"></i>
                   </button>
                 </li>
               )}
@@ -170,28 +200,7 @@ function Header() {
                   </Dropdown.Menu>
                 </Dropdown>
               </li>
-            </ul>
-
-            <div className="d-flex gap-2  d-none">
-              <Link
-                className="btn btn-primary"
-                onClick={() => {
-                  setModalName("signup");
-                  setShow(true);
-                }}
-              >
-                Sign Up
-              </Link>
-              <Link
-                className="btn btn-outline-primary"
-                onClick={() => {
-                  setModalName("login");
-                  setShow(true);
-                }}
-              >
-                Sign In
-              </Link>
-            </div>
+              </ul>
           </div>
         </div>
       </nav>
