@@ -83,11 +83,10 @@ function FooterHome() {
                     </ul>
                 </div>
             </div>
+             <p className="text-center text-white mb-0">Copyright © 2025.  All rights reserved</p>
         </div>
        </div>
-       <div className="footer-bottom">
-        <p className="text-center text-white mb-0">Copyright © 2025.  All rights reserved</p>
-       </div>
+      
         {/* <div className={`${location.pathname == '/' ? 'footerDiv' : 'otherFooterDiv'}  col-12 m4-5`}>
             <div className="row g-0 mb-5 pt-5" style={{ borderTop: "1px solid white" }}>
                 <div className="col-1"></div>
@@ -105,7 +104,7 @@ function FooterHome() {
                         </div>
                         <div className="col-3">
                             <h6>Support</h6>
-                            <p>Contact Us</p>
+                          <li><Link  to={"/Contactus"} data-bs-toggle="modal" data-bs-target="#exampleModal">Contact Us</Link></li>
                             <p>Support Center</p>
                         </div>
                         <div className="col-3">

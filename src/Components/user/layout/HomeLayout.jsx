@@ -6,29 +6,30 @@ import { useEffect, useState } from 'react';
 import Sidebard from './Sidebard';
 
 function HomeLayout() {
-    const [pageData, setPageData] = useState('');
-    const [showsidebar, setShowsidebar] = useState(true)
-    const path = useLocation()
+  const [pageData, setPageData] = useState("");
+ const [showsidebar, setShowsidebar] = useState(true);
+  const path = useLocation();
 
-    useEffect(() => {
-        if (path.pathname == '/user/profile') {
-            setShowsidebar(false)
-        }
-        else {
-            setShowsidebar(true)
-        }
-    }, [path.pathname])
+  useEffect(() => {
+    if (path.pathname === "/user/profile") {
+      setShowsidebar(false);
+    } else {
+      setShowsidebar(true);
+    }
+  }, [path.pathname]);
+
+ 
 
     return (
         <div className="home-layout pt-2">
             <Header />
-            <div className="container-fluid col-12 mt-2">
-                {showsidebar && <div className="row">
-                    <div className="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <div className="container-fluid col-12 mt-2 main-layout">
+                {showsidebar && <div className="DashboardLayout">
+                    {/* <div className={`sidebar_entity ${isClosed ? "close" : ""}`}> */}
                         {/* <Sidebar setPageData={setPageData} /> */}
                         <Sidebard />
-                    </div>
-                    <div className="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                    {/* </div> */}
+                    <div className="entity_mainSection_user">
                         <Outlet context={{ pageData }} />
                     </div>
                 </div>}

@@ -15,6 +15,8 @@ function Sidebard() {
     const [modalName, setModalName] = useState('login');
     const [activeKey, setActiveKey] = useState(-1);
     const { api_id } = useParams();
+      const [showsidebar, setShowsidebar] = useState(true);
+  const [isClosed, setIsClosed] = useState(false); // sidebar toggle
 
     const checkLogin = (collection_id, category_id, api_id) => {
         if (!getTokenData()) {
@@ -69,9 +71,29 @@ function Sidebard() {
     useEffect(() => {
         getSidebarlist()
     }, [])
+
+     const toggleSidebar = () => {
+    setIsClosed(!isClosed);
+  };
     return (
+         <div className={`sidebar_entity-user ${isClosed ? "close" : ""}`}>
         <div className="sidebar bg-white">
-            <Accordion className="m-3" onSelect={(key) => { setActiveKey(key) }}>
+             <div className="row">
+                <div className="col-xl-9 col-lg-9 col-md-9 col-sm-10 col-10">
+                    <h4 className="heading-hide heading-display">Explore Api</h4>
+                </div>
+                <div className={`${
+    isClosed
+      ? "col-xl-12 col-lg-12 col-md-12 col-sm-2 col-2"
+      : "col-xl-3 col-lg-3 col-md-3 col-sm-2 col-2"
+  } d-flex justify-content-center`}
+>
+                   <div className="circle-arrow toggle" onClick={toggleSidebar}>
+                     <i class="fa-solid fa-arrow-left" role="button"></i>
+                   </div>
+                                  </div>
+           
+            <Accordion className="mt-2" onSelect={(key) => { setActiveKey(key) }}>
                 {
                     sidebarData.map((item, i) =>
                     (
@@ -79,7 +101,7 @@ function Sidebard() {
                             <Accordion.Header className={(item.subcategories.length <= 0 && item.apis_category.length <= 0) ? "disabled" : ""}
                                 onClick={() => { navigate('/api/' + item.record_uuid) }}>
                                 <img src={`/assets/img/${i == activeKey ? 'act_sidebar.png' : 'sidebaricon.png'}`} className="me-2" alt="NA" style={{ height: '24px', width: '24px' }}></img>
-                                {item.categoryname}
+                              <span className="text">  {item.categoryname}</span>
                             </Accordion.Header>
                             {
                                 item.subcategories.length > 0 && <Accordion.Body className="p-0">
@@ -128,7 +150,7 @@ function Sidebard() {
                     ))
                 }
             </Accordion>
-
+ </div>
 
             <Modal size="lg" show={showModal} onHide={() => setShowModal(false)} centered>
                 <Modal.Header closeButton className="border-bottom-0 py-0"></Modal.Header>
@@ -156,6 +178,7 @@ function Sidebard() {
                     </div>
                 </Modal.Body>
             </Modal>
+        </div>
         </div>
     )
 }
