@@ -1,9 +1,12 @@
-function GetinTouch(){
-    return(
- <div className="mx-2">
+import { useState } from "react"
+
+function GetinTouch() {
+    const[getintouchList, setgetintouchList]= useState([])
+    return (
+        <div className="mx-2">
             <div className="d-flex justify-content-between my-2">
                 <h1 className="">Get in Touch List</h1>
-                
+
             </div>
             <table className="table table-bordered ">
                 <thead>
@@ -18,8 +21,8 @@ function GetinTouch(){
                     </tr>
                 </thead>
                 <tbody>
-                    {/* {
-                        userList.length > 0 && userList.map((user, index) => (
+                    {
+                        getintouchList.length > 0 ? (getintouchList.map((user, index) => (
                             <tr key={arrayIndex('user', index)}>
                                 <td>{user.sr_no || index + 1}</td>
                                 <td>{user.fullname}</td>
@@ -44,8 +47,8 @@ function GetinTouch(){
                                     </div>
                                 </td>
                             </tr>
-                        ))
-                    } */}
+                        ))):(<td colSpan={7} className="text-center">No data found</td>)
+                    }
 
                 </tbody>
             </table>
