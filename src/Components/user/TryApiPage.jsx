@@ -128,7 +128,7 @@ function TryApiPage() {
 
     const renderBodyChange = () => {
         return (
-            <LangCurlExecuteComp apiData={apiData} setStatusCode={setStatusCode} bodyReqSample={bodyRequestSample} />
+            <LangCurlExecuteComp apiData={apiData} setStatusCode={setStatusCode} bodyReqSample={bodyRequestSample} tryit={true} />
         );
     };
 
@@ -138,30 +138,34 @@ function TryApiPage() {
     }, [bodyRequestSample])
     return (
         <div className="home-container">
-            {/* <div className="bg-white my-2 p-2 text-end">
-                <button className='btn btn-primary' onClick={checkAccess}>Try it {tryitLoader && <Loader />}</button>
-            </div> */}
+            
             <div className="home-content">
                 <div className={`center-content ${!api_id ? 'center-content-condition' : ''}`}>
                     {(collection_id) &&
-                        <div className="card mb-3">
-                            <div className="card-body">
-                                <h5>{title || 'Get Started'}</h5>
-                                <ReactMarkdown remarkPlugins={[remarkGfm]}>{description}</ReactMarkdown>
-                                {/* {(collection_id == 0 && getTokenData()?.role != 1) && <GetStarted />} */}
-                            </div>
-                        </div>}
+                        <div className="card-new mb-3">
+                                                    <div className="card-body card-bg">
+                                                        <div className='row align-items-center'>
+                                                            <div className='col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12'>
+                                                                <h5 className='mb-0'>{title || 'Get Started'}</h5>
+                                                                <ReactMarkdown remarkPlugins={[remarkGfm]}>{description}</ReactMarkdown>
+                                                            </div>
+                                                           
+                                                        </div>
+                        
+                                                        {/* {(collection_id == 0 && getTokenData()?.role != 1) && <GetStarted />} */}
+                                                    </div>
+                                                </div>}
                     {(collection_id == 0 || location.pathname.includes('get-started')) && <GetStarted />}
                     {api_id && apiData && <div className="card  mb-3">
-                        <div className="card-body">
+                        <div className="card-body card-bg">
                             <div className="d-flex justify-content-between align-items-center mb-3">
                                 <h5 className="" id='requestSample'>Request Sample :</h5>
-                                <button onClick={() => { copyToClipboard(JSON.parse(apiData.reqsample) || '{}') }} className='span-btn'><img src="/assets/img/copy.png" alt="copy" /></button>
+                                {/* <button onClick={() => { copyToClipboard(JSON.parse(apiData.reqsample) || '{}') }} className='span-btn'><img src="/assets/img/copy.png" alt="copy" /></button> */}
                             </div>
                             <EditableBody curl={bodyRequestSample} onChange={handleBodyChange} />
                         </div>
                     </div>}
-                    {api_id && apiData && <div className="card mb-3">
+                    {/* {api_id && apiData && <div className="card mb-3">
                         <div className="card-body">
                             <div className="d-flex justify-content-between mb-3">
                                 <h5>Request Parameters Details :</h5>
@@ -196,9 +200,9 @@ function TryApiPage() {
                                 </Table>
                             </div>
                         </div>
-                    </div>}
+                    </div>} */}
                     {api_id && apiData && <div className="card  mb-3">
-                        <div className="card-body">
+                        <div className="card-body card-bg">
                             <div className="d-flex justify-content-between mb-3">
                                 <h5>Request Headers :</h5>
                                 <button type="button" className="btn btn-outline-primary" onClick={() => { setModalData({ header: [], body: JSON.parse(apiData?.reqheader?.value || '[]') }); setShow(true) }}>View in detail</button>
@@ -233,7 +237,7 @@ function TryApiPage() {
                             </div>
                         </div>
                     </div>}
-                    {api_id && apiData && <div className="card  mb-3">
+                    {/* {api_id && apiData && <div className="card  mb-3">
                         <div className="card-body">
                             <div className="d-flex justify-content-between align-items-center mb-3">
                                 <h5 className="">Response Sample :</h5>
@@ -241,9 +245,9 @@ function TryApiPage() {
                             </div>
                             <SyntaxHighLighter jsonString={responsData.resbody || '{}'} />
                         </div>
-                    </div>}
+                    </div>} */}
                     {api_id && apiData && <div className="card mb-3">
-                        <div className="card-body">
+                        <div className="card-body card-bg">
                             <div className="d-flex justify-content-between mb-3">
                                 <h5>Response Parameters Details :</h5>
                                 <button type="button" className="btn btn-outline-primary" onClick={() => { setShow1(true) }}>View in detail</button>
@@ -279,7 +283,7 @@ function TryApiPage() {
                         </div>
                     </div>}
                     {api_id && apiData && <div className="card  mb-3">
-                        <div className="card-body">
+                        <div className="card-body card-bg">
                             <div className="d-flex justify-content-between mb-3">
                                 <h5>Response Headers :</h5>
                                 <button type="button" className="btn btn-outline-primary" onClick={() => { setModalData({ header: [], body: JSON.parse(apiData?.resheader?.value || '[]') }); setShow(true) }}>View in detail</button>
@@ -316,7 +320,7 @@ function TryApiPage() {
                     </div>}
                 </div>
                 {api_id && apiData && <div className="right-content">
-                    <LangCurlExecuteComp apiData={apiData} setStatusCode={setStatusCode} bodyReqSample={bodyRequestSample} />
+                   { renderBodyChange()}
                 </div>}
             </div>
             <Modal size="xl" show={show} onHide={() => setShow(false)} centered>

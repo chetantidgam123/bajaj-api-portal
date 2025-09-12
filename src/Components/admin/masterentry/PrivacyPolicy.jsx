@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-
 function PrivacyPolicy() {
     const [openModalTC, setOpenModalTC] = useState(false);
+useEffect(()=>{
+    console.log(ClassicEditor.builtinPlugins.map(p => p.pluginName),'editor');
 
+},[])
 
     const apiHtml = `<div>
   <h2>Privacy Policy</h2>
@@ -50,8 +52,7 @@ function PrivacyPolicy() {
 
   <h4>8. Contact Us</h4>
   <p>
-    If you have any questions about this Privacy Policy, please contact us at 
-    <a href="mailto:support@example.com">support@example.com</a>.
+    If you have any questions about this Privacy Policy, please contact us at .
   </p>
 </div>
 
@@ -65,8 +66,24 @@ function PrivacyPolicy() {
         setOpenModalTC(false);
     };
 
-    return (
-        <div className="mx-2">
+    return (<>
+    <style>
+                {`
+        .modal-dialog {
+          overflow: visible !important;
+        }
+
+        .modal-body {
+          overflow: visible !important;
+        }
+
+        .ck.ck-balloon-panel,
+        .ck.ck-tooltip {
+          z-index: 1060 !important;
+        }
+      `}
+            </style>
+       <div className="mx-2">
             <div className="d-flex justify-content-between my-2">
                 <h1>Privacy Policy</h1>
                 <button
@@ -92,9 +109,10 @@ function PrivacyPolicy() {
                 show={openModalTC}
                 size="xl"
                 centered
+                enforceFocus={false}
                 onHide={() => setOpenModalTC(false)}
             >
-                <Modal.Header closeButton>
+                <Modal.Header closeButton >
                     <Modal.Title>Edit Privacy Policy</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -110,7 +128,7 @@ function PrivacyPolicy() {
                                 "heading",              // Heading (H1, H2, H3...)
                                 "|",
                                 "bold", "italic", "underline", "strikethrough",
-                                  "link",
+                                "link",
                                 "|",
                                 "bulletedList", "numberedList", "blockQuote",
                                 "|",
@@ -119,7 +137,7 @@ function PrivacyPolicy() {
                                 "imageUpload",         // image upload
                                 "|",
                                 "undo", "redo",
-                                "removeFormat"
+                                "removeFormat",
                             ],
                         }}
                     />
@@ -134,6 +152,8 @@ function PrivacyPolicy() {
                 </Modal.Footer>
             </Modal>
         </div>
+    </>
+     
     );
 }
 
