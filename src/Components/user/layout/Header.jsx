@@ -85,10 +85,10 @@ function Header() {
               </Link>
             </div>
           </div>
-          <div>
-              <ul className="navbar-nav mb-2 mb-lg-0">
-             {!getTokenData() && (
-                <li className="nav-item">
+        
+            <div className="d-flex justify-content-center align-items-center">
+                 {!getTokenData() && (
+                
                   <button
                     className="btn btn-blue"
                     onClick={() => {
@@ -102,31 +102,30 @@ function Header() {
                   >
                     Sign In <i class="fa-solid fa-arrow-right"></i>
                   </button>
-                </li>
               )}
               {getTokenData() && (
-                <li
-                  className="nav-item"
-                  style={{
-                    borderRadius: "22px",
-                    border: "1px solid gray",
-                    padding: "2px",
-                  }}
-                >
-                  <Dropdown style={{ borderRadius: "22px" }}>
+             
+              //  <div className="row">
+              //   <div className="col-4">
+              //    <div className="circle-profile">
+              //    <i className="fa fa-user"></i>
+              //     </div>
+              //   </div>
+              //   <div className="col-8">
+                <Dropdown className="p-0">
                     <Dropdown.Toggle
-                      className="span-btn pb-0 pt-2"
-                      id="dropdown-basic"
-                      style={{
-                        color: "rgba(0,0,0, 0.8)",
-                        borderRadius: "22px",
-                        padding: "10px 10px",
-                      }}
+                      className="d-flex justify-content-center align-items-center btn-white p-0"
                     >
+                      <div className="circle-profile">
+                 <i className="fa fa-user"></i>
+                  </div>
+                    <div className="ms-2 text-start color-blue">
+                        Welcome <br></br>
                       {getTokenData()?.fullname ? `${getTokenData().fullname.split(" ")[0]}` : "User"}
-                      <i className="fa fa-user ms-1"></i>
+                    </div>
+                     
                     </Dropdown.Toggle>
-                    {/* Dropdown Menu */}
+                    
                     <Dropdown.Menu>
                       <Link
                         style={{ textDecoration: "none", color: "#212529" }}
@@ -143,16 +142,17 @@ function Header() {
                       </Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
-                </li>
+                // </div>
+                // </div>
               )}
-              <li className="nav-item">
+          
                 <Dropdown align="end">
                   <Dropdown.Toggle
                     id="dropdown-basic"
                     style={{
                       background: "transparent",
                       border: "none",
-                      padding: "8px",
+                      padding: "0px",
                       borderRadius: "50%",
                       position: "relative",
                     }}
@@ -164,9 +164,9 @@ function Header() {
                     <span
                       style={{
                         position: "absolute",
-                        top: "4px",
+                        top: "-13px",
                         right: "4px",
-                        background: "red",
+                        background: "#0052A4",
                         color: "white",
                         borderRadius: "50%",
                         padding: "2px 6px",
@@ -199,9 +199,9 @@ function Header() {
                     </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
-              </li>
-              </ul>
-          </div>
+             
+            </div>
+            
         </div>
       </nav>
 

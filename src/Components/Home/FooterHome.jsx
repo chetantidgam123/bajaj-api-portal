@@ -66,13 +66,17 @@ function FooterHome() {
   </div>
 </div>
        <div className="footer">
-        <div className="container border-white">
-            <div className="row p-3 align-items-center">
-                <div className="col-2">
+        <div className="container">
+            <div className="row align-items-center justify-content-center">
+                <div className="col-2 d-flex justify-content-center mb-3">
                       <img src="/assets/img/white_logo.png" alt="" />
                 </div>
-                <div className="col-10">
-                      <ul>
+            </div>
+             
+        </div>
+        <div className="border-top border-bottom">
+            <div className="container my-3">
+                      <ul className="">
                     <li><Link  to={"/user/profile"}>Documentation</Link></li>
                     <li><Link  to={"/Contactus"} data-bs-toggle="modal" data-bs-target="#exampleModal">Contact Us</Link></li>
                     <li><Link  to={"/user/profile"}>Support Center</Link></li>
@@ -81,9 +85,11 @@ function FooterHome() {
                     <li><Link  to={"/TermsofServices"}>Terms of Service</Link></li>
                     <li><Link  to={"/Privacypolicy"}>Privacy Policy</Link></li>
                     </ul>
-                </div>
+              
             </div>
-             <p className="text-center text-white mb-0">Copyright © 2025.  All rights reserved</p>
+        </div>
+        <div className="container">
+              <p className="text-center text-white mt-3 mb-0">Copyright © 2025.  All rights reserved</p>
         </div>
        </div>
       
