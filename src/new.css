@@ -7,11 +7,12 @@
 
 
 .banner{
-     background-image: url("/assets/img/banner.png");
+     /* background-image: url("/assets/img/banner.png"); */
+     background-image: url("/assets/img/banner-img.png");
       background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    padding: 150px 0px;
+    padding: 50px 0px;
 }
 
 .banner .welcome {
@@ -39,13 +40,12 @@
 }
 .card-bg{
     background-color: #F5F6FA;
-    padding: 30px 0px;
+    padding: 50px 0px;
 }
 .card-Works{
     background-color: white;
     border-radius: 20px;
     padding: 50px 50px 70px 50px;
-    margin-top: -100px;
 
 }
 .card-Works h1{
@@ -56,19 +56,20 @@
     font-weight: 400;
 }
 .Golive{
-     background-image: url("/assets/img/Go Live With Us.png");
+     /* background-image: url("/assets/img/Go Live With Us.png");
       background-position: center;
     background-repeat: no-repeat;
-    background-size: cover;
-    padding: 30px 0px;
+    background-size: cover; */
+    background: linear-gradient(180deg, #0087FF 0%, #0052A4 100%);
+    padding: 30px 0px 100px 0px;
 }
-.Golive h1{
+/* .Golive h1{
      color: #FFF;
        text-align: center;
     font-size: 50px;
     font-style: normal;
     font-weight: 400;
-}
+} */
 .go-semi-cirle{
     background-color: white;
     height: 100px;
@@ -120,10 +121,10 @@
     height: 80px;
     border-radius: 50px;
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     background-color: #ecefff;
-    margin: 0 auto;
+    /* margin: 0 auto; */
 
 }
 
@@ -135,7 +136,8 @@
     text-overflow: ellipsis;
 }
 .footer {
-      background-image: url("/assets/img/footer.png");
+      
+      background: linear-gradient(180deg, #0087FF 0%, #0052A4 100%);
       padding: 40px;
 
 }
@@ -189,7 +191,6 @@
       opacity: 0.6;
     }
     .footer-bottom{
-        background-color: #00305E;
         padding: 14px 0px;
     }
 
@@ -283,3 +284,226 @@
     background-color: white;
         border-radius: 16px;
 }
+.circle-arrow{
+    width: 30px;
+    color: #155ad8;
+    height: 30px;
+    background-color: #155ad840;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+/* sidebar css */
+.entity_mainSection_user {
+    height: 100vh;
+    left: 10px;
+    position: relative;
+    transition: all .5s ease;
+    transition: var(--tran-05);
+    width: calc(100% - 290px);
+}
+
+
+
+.sidebar_entity-user.close {
+    width: 110px;
+}
+.sidebar_entity-user.close~.entity_mainSection_user {
+    left: 10px;
+    width: calc(100% - 120px);
+}
+
+.sidebar_entity-user {
+    background-color: #fff;
+    box-shadow: 2px 4px 8px 0 #0000000f;
+    transition: all 0.4s ease;
+    width: 280px;
+    z-index: 100;
+}
+
+.DashboardLayout {
+  display: flex;
+  flex-direction: row; /* sidebar left, content right */
+  height: 100vh;
+}
+.sidebar_entity-user.close .text {
+    opacity: 0;
+}
+.sidebar_entity-user.close .heading-hide{
+display: none;
+}
+
+
+ .bar {
+    height: 5px;
+    width: 90px;
+    background: #bdd1f5;
+    margin: 15px auto 20px;
+    position: relative;
+    border-radius: 30px;
+}
+.bar:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: -2.6px;
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    background: #155ad8;
+    animation-duration: 3s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-name: MOVE-BG;
+}
+@keyframes MOVE-BG {
+    0% {
+        transform: translateX(0)
+    }
+
+    to {
+        transform: translateX(88px)
+    }
+}
+
+.border-dashed{
+      border-top: 3px dashed #155ad8;
+    position: relative;
+    top: -20px;
+    z-index: 8;
+}
+.border-relative{
+ position: relative;
+   z-index: 9;
+}
+.card-ava{
+      background-color: white;
+        box-shadow: 0px 4px 30px 0px #0000001A;
+        border-radius: 30px;
+        padding: 30px;
+        min-height: 280px;
+}
+.circle-work{
+    border: 1px solid #D9E1FF;
+    width: 70px;
+height: 70px;
+border-radius: 50%;
+padding: 10px;
+background-color: #F5F6FA;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+ .bar-white {
+    height: 5px;
+    width: 90px;
+    background: #e4e4e4;
+    margin: 15px auto 20px;
+    position: relative;
+    border-radius: 30px;
+}
+.bar-white:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: -2.6px;
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    background: #ffffff;
+    animation-duration: 3s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-name: MOVE-BG;
+}
+@keyframes MOVE-BG {
+    0% {
+        transform: translateX(0)
+    }
+
+    to {
+        transform: translateX(88px)
+    }
+}
+.step-1{
+   font-size: 120px;
+    color: #ffffff;
+    line-height: 60px;
+    letter-spacing: 0px;
+    opacity: 0.2;
+}
+.position-go-subheading{
+    position: absolute;
+    bottom: -12px;
+}
+.img-up{
+    margin-top: -100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.img-up img{
+    border-radius: 20px;
+}
+.all{
+     background-color: #F3F6F7;
+}
+.custom-arrow {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: #ffffff; /* default white */
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.15);
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  transition: all 0.3s ease;
+}
+
+.custom-arrow.prev { left: -60px; }
+.custom-arrow.next { right: -60px; }
+
+.custom-arrow i {
+  font-size: 18px;
+  color: #333;
+}
+
+/* ✅ Active arrow */
+.custom-arrow.active {
+  background: #0d6efd;
+}
+
+.custom-arrow.active i {
+  color: #fff; /* white icon on blue */
+}
+
+/* ✅ Disabled arrow */
+.custom-arrow.disabled {
+  background: #ffffff;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.top_image_bounce {
+animation: top-image-bounce 3s ease-in-out infinite;
+  }
+  @keyframes top-image-bounce {
+      0% {
+          transform: translateY(-8px)
+      }
+      50% {
+          transform: translateY(12px)
+      }
+      to {
+          transform: translateY(-8px)
+      }
+  }

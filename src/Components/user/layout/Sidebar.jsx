@@ -34,6 +34,7 @@ function Sidebar({ setPageData }) {
     }
     return (
         <div className="sidebar bg-white">
+           
             <Accordion className="m-3" onSelect={(key) => { setActiveKey(key) }}>
                 {
                     sidebardata.map((item, i) =>

@@ -36,17 +36,28 @@ function LangCurlExecuteComp({ apiData, setStatusCode }) {
     }, [apiData.uniqueid])
     return (
         <div>
-            <div className="card my-3">
-                <div className="card-body d-flex align-items-center p-2">
-                    <Badge pill bg="" className={`me-2 badge-${apiData.apimethod.toLowerCase()}`}> {apiData.apimethod}</Badge>
-                    <small className="word-break">{apiData.apiurl}</small>
+            <div className="card mb-3">
+                <div className="card-body card-bg d-flex align-items-center p-2">
+                    <div className="row">
+                        <div className="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+                            <Badge pill bg="" className={`me-2 badge-${apiData.apimethod.toLowerCase()}`}> {apiData.apimethod}</Badge>
+                        </div>
+                        <div className="col-xl-7 col-lg-7 col-md-6 col-sm-12 col-12">
+                            <small className="word-break">{apiData.apiurl}</small>
+                        </div>
+                        <div className="col-xl-2 col-lg-2 col-md-6 col-sm-12 col-12">
+                            <button
+                                //  onClick={() => { copyToClipboard(JSON.parse(apiData.reqsample) || '{}') }}
+                                className='span-btn-cirlce'><img src="/assets/img/copy.png" alt="copy" /></button>
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
             <div className="card mb-3">
-                <div className="card-header bg-white">
-                    <h5>Languages you can test</h5>
-                </div>
-                <div className="card-body">
+                <div className="card-bg">
+                    <h5 className="border-bottom pb-2">Languages you can test</h5>
                     <div className="language-tabs">
                         {lang.map((item, i) => (
                             <button className="span-btn" key={arrayIndex('lang', i)} onClick={() => { generateLangReq(item.lang) }}>
@@ -58,21 +69,26 @@ function LangCurlExecuteComp({ apiData, setStatusCode }) {
                 </div>
             </div>
             <div className="card mb-3">
-                <div className="card-header bg-white">
-                    <div className="d-flex justify-content-between align-items-center">
-                        <h5 className="mb-0">Request Sample</h5>
-                        <button onClick={() => { copyToClipboard(sampleReq) }} className='span-btn'><img src="/assets/img/copy.png" alt="copy" /></button>
+                <div className="card-bg">
+                    <div className="row d-flex justify-content-between align-items-start pb-2 border-bottom">
+                        <div className='col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12'>
+                            <h5 className=" mb-0">Request Sample</h5>
+                        </div>
+                        <div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-end'>
+                            <button onClick={() => { copyToClipboard(sampleReq) }} className='span-btn'><img src="/assets/img/copy.png" alt="copy" /></button>
+                        </div>
+
                     </div>
-                </div>
-                <div className="card-body">
+
+
                     <SyntaxHighLighter jsonString={sampleReq} />
                 </div>
+
             </div>
             <div className="card mb-3">
-                <div className="card-header bg-white">
-                    <h5>Status Code</h5>
-                </div>
-                <div className="card-body">
+             <div className="card-bg">
+                    <h5 className="border-bottom pb-2">Status Code</h5>
+              
                     <select className="form-select" onChange={(e) => { genrateCodeRes(e.target.value) }}>
                         <option value="">Select status Code</option>
                         {
@@ -84,13 +100,18 @@ function LangCurlExecuteComp({ apiData, setStatusCode }) {
                 </div>
             </div>
             <div className="card mb-3">
-                <div className="card-header bg-white">
-                    <div className="d-flex justify-content-between align-items-center">
-                        <h5 className="mb-0">Response Sample</h5>
-                        <button onClick={() => { copyToClipboard(JSON.stringify(sampleRes || {}, null, 2)) }} className='span-btn'><img src="/assets/img/copy.png" alt="copy" /></button>
+                 <div className="card-bg">
+                      <div className="row d-flex justify-content-between align-items-start pb-2 border-bottom">
+                        <div className='col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12'>
+                           <h5 className="mb-0">Response Sample</h5>
+                        </div>
+                        <div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-end'>
+                          <button onClick={() => { copyToClipboard(JSON.stringify(sampleRes || {}, null, 2)) }} className='span-btn'><img src="/assets/img/copy.png" alt="copy" /></button>
+                        </div>
+
                     </div>
-                </div>
-                <div className="card-body">
+
+                
                     <SyntaxHighLighter jsonString={JSON.stringify(sampleRes || {}, null, 2)} />
                 </div>
             </div>

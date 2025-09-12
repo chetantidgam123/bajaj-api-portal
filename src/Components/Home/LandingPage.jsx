@@ -6,107 +6,162 @@ import Login from '../auth/Login';
 import ForgotPassword from '../auth/ForgotPassword';
 import ResetPassword from '../auth/ResetPasswrd';
 import { useEffect, useState } from 'react';
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
 import '../../../src/new.css'
 
 import { arrayIndex, availableApi, getTokenData } from '../../Utils';
 import { useNavigate } from 'react-router-dom';
+function NextArrow({ onClick, isActive }) {
+  return (
+    <div
+      className={`custom-arrow next ${isActive ? "active" : "disabled"}`}
+      onClick={isActive ? onClick : null}
+    >
+      <i className="fa-solid fa-arrow-right"></i>
+    </div>
+  );
+}
+
+function PrevArrow({ onClick, isActive }) {
+  return (
+    <div
+      className={`custom-arrow prev ${isActive ? "active" : "disabled"}`}
+      onClick={isActive ? onClick : null}
+    >
+      <i className="fa-solid fa-arrow-left"></i>
+    </div>
+  );
+}
 
 function LandingPage() {
     const [show, setShow] = useState(false);
     const [modalName, setModalName] = useState("");
     const navigate = useNavigate();
+ const [current, setCurrent] = useState(0);
+  const slidesToShow = 3;
+
+  const settings = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow,
+    slidesToScroll: 1,
+    initialSlide: 0,
+    onInit: () => setCurrent(0), // ✅ ensures arrows update on load
+    beforeChange: (_, next) => setCurrent(next),
+    nextArrow: (
+      <NextArrow
+        isActive={current < availableApi.length - slidesToShow}
+      />
+    ),
+    prevArrow: <PrevArrow isActive={current > 0} />,
+    responsive: [
+      { breakpoint: 1024, settings: { slidesToShow: 2 } },
+      { breakpoint: 768, settings: { slidesToShow: 1 } }
+    ]
+  };
+
+
     return (
-        <div>
+        <div className='all'>
             <Header />
             <div className='banner'>
                 <div className='container'>
-                    <p className='text-center welcome'>Welcome to</p>
-                    <h1 className='mt-3'>Bajaj API Developer Portal</h1>
-                    <div className='row d-flex justify-content-center mt-3'>
-                        <div className='col-10'>
-                            <p className='text-center text-white'>— your one-stop destination for accessing, integrating, and managing powerful APIs that drive seamless digital experiences. Whether you're building customer journeys, or partner integrations, our APIs offer secure, scalable, and easy-to-use solutions to accelerate your development.</p>
+                    <div className='row align-items-center'>
+                        <div className='col-xl-7 col-lg-8 col-md-12 col-sm-12 col-12'>
+                            <p className='text-start welcome'>Welcome to</p>
+                            <h1 className='text-start mt-3'>Bajaj API Developer Portal</h1>
+                            <div className='row d-flex justify-content-start mt-3'>
+                                <div className='col-10'>
+                                    <p className='text-start text-white'>— your one-stop destination for accessing, integrating, and managing powerful APIs that drive seamless digital experiences. Whether you're building customer journeys, or partner integrations, our APIs offer secure, scalable, and easy-to-use solutions to accelerate your development.</p>
+                                </div>
+                                <div className='d-flex justify-content-start'>
+                                    <button className='btn btn-blue' onClick={() => { navigate('/get-started') }}>Get Started <i className="fa-solid fa-arrow-right"></i></button>
+                                </div>
+                            </div>
                         </div>
-                        <div className='d-flex justify-content-center'>
-                            <button className='btn btn-blue' onClick={() => { navigate('/get-started') }}>Get Started <i className="fa-solid fa-arrow-right"></i></button>
+                        <div className='col-xl-5 col-lg-4 col-md-12 col-sm-12 col-12 top_image_bounce'>
+                            <img src="/assets/img/right-side.png" className='w-100' alt='' />
                         </div>
                     </div>
+
                 </div>
             </div>
-            <div className='card-bg '>
+            <div className='card-bg pt-5'>
                 <div className='container'>
-                    <div className='card-Works'>
-                        <h1>How it Works?</h1>
-                        <p className='text-center'>Onboard your developers effortlessly. Discover how easy it is to integrate Bajaj APIs in just a few simple steps.</p>
-                        {/* <div className='row d-flex justify-content-center pt-5'>
-                            <div className='col-xl-11 col-lg-10 col-md-12 col-sm-12 col-12'>
-                                <div className='display-grid-works'>
-                                    <div className=''>
-                                         <div className="card-frame">
-                                    <div className="card-works">
-                                    <img src="/assets/img/Works-1.png" alt="" className="w-100" />
+                    <h1 className='text-center'>How it Works?</h1>
+                    <div className="bar"></div>
+                    <div className='row justify-content-center'>
+                        <div className='col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12'>
+                            <p className='text-center'>Onboard your developers effortlessly. Discover how easy it is to integrate Bajaj APIs in just a few simple steps.</p>
+                        </div>
+                    </div>
+
+                    <div className='row mt-4 border-relative '>
+                        <div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-center'>
+                            <button className='btn btn-outline-primary px-3 bg-white'>Step 1</button>
+                        </div>
+                        <div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-center'>
+                            <button className='btn btn-primary px-3'>Step 2</button>
+                        </div>
+                        <div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-center'>
+                            <button className='btn btn-outline-primary px-3 bg-white'>Step 3</button>
+                        </div>
+                    </div>
+                    <div className='border-dashed'></div>
+                    <div className='row mt-5'>
+                        <div className='col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-3'>
+                            <div className='card-ava'>
+                                <div className='row'>
+                                    <div className='col-6'>
+                                        <img src="/assets/img/Works-1.png" alt="" className="w-100" />
                                     </div>
-                                </div>
-                               
-                                    </div>
-                                    <div>
-                                         <img src="/assets/img/arrow.png" alt="" className='w-100' />
-                                    </div>
-                                      <div className=''>
-                                         <div className="card-frame">
-                                    <div className="card-works">
-                                    <img src="/assets/img/Works-1.png" alt="" className="w-100" />
-                                    </div>
-                                </div>
-                                    </div>
-                                        <div>
-                                         <img src="/assets/img/arrow.png" alt="" className='w-100' />
-                                    </div>
-                                     <div className=''>
-                                         <div className="card-frame">
-                                    <div className="card-works">
-                                    <img src="/assets/img/Works-1.png" alt="" className="w-100" />
-                                    </div>
-                                </div>
+                                    <div className='col-6'>
+                                        <div className='circle-work'>
+                                            <img src="/assets/img/sign-up 1.png" alt="" className="w-75 d-flex justify-content-center align-items-center" />
+                                        </div>
+                                        <h5 className='mt-2'>Sign Up to
+                                            Get Started</h5>
+                                        <p>Create your account to explore and manage powerful APIs.</p>
                                     </div>
                                 </div>
                             </div>
-
-
-                        </div> */}
-                             <div className="grid-column mt-5">
-            <div className="">
-                <div className="card card-border p-4 border-0 height-320px">
-                   <img src="/assets/img/Works-1.png" width="100%" alt='' />
-                </div>
-                <h5 className="mt-3 text-center">Sign Up to Get Started</h5>
-                <p className="text-center">Create your account to explore and manage powerful APIs.
-                </p>
-            </div>
-            <div className='position-relative'>
-               <img src="/assets/img/arrow.png" width="100%" alt='' className='arrow-absolute'/>
-            </div>
-
-              <div className="">
-                <div className="card card-border p-4 border-0 height-320px">
-                   <img src="/assets/img/Works-2.png" width="100%" alt='' />
-                </div>
-                <h5 className="mt-3 text-center">Select Our Available API</h5>
-                <p className="text-center">Explore and select from our wide range of available APIs.
-                </p>
-            </div>
-            <div className='position-relative'>
-               <img src="/assets/img/arrow.png" width="100%" alt='' className='arrow-absolute'/>
-            </div>
-              <div className="">
-                <div className="card card-border p-4 border-0 height-320px">
-                   <img src="/assets/img/Works-3.png" width="100%" alt=''/>
-                </div>
-                <h5 className="mt-3 text-center">Test it Out</h5>
-                <p className="text-center">Create your account to explore and manage powerful APIs.
-                </p>
-            </div>
-           
-        </div>
+                        </div>
+                        <div className='col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-3'>
+                            <div className='card-ava'>
+                                <div className='row'>
+                                    <div className='col-6'>
+                                        <img src="/assets/img/Works-2.png" alt="" className="w-100" />
+                                    </div>
+                                    <div className='col-6'>
+                                        <div className='circle-work'>
+                                            <img src="/assets/img/sign-up 2.png" alt="" className="w-75 d-flex justify-content-center align-items-center" />
+                                        </div>
+                                        <h5 className='mt-2'>Select Our Available API</h5>
+                                        <p>Explore and select from our wide range of available APIs.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-3'>
+                            <div className='card-ava'>
+                                <div className='row'>
+                                    <div className='col-6'>
+                                        <img src="/assets/img/Works-3.png" alt="" className="w-100" />
+                                    </div>
+                                    <div className='col-6'>
+                                        <div className='circle-work'>
+                                            <img src="/assets/img/sign-up 3.png" alt="" className="w-75 d-flex justify-content-center align-items-center" />
+                                        </div>
+                                        <h5 className='mt-2'>Test it
+                                            Out</h5>
+                                        <p>Use our interactive mock API to test your integration.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
 
@@ -114,195 +169,89 @@ function LandingPage() {
                 </div>
             </div>
             <div className='Golive pt-5'>
-                <h1 className='text-center'>Go Live With Us</h1>
-                <p className='text-center text-white'>Onboard your developers effortlessly. Discover how easy it is to integrate Bajaj APIs in just a few simple steps.</p>
-                <div className='container'>
-                    <div className='row d-flex justify-content-center  mt-5'>
-                        <div className='col-xl-7 col-lg-10 col-md-12 col-sm-12 col-12'>
-                            <div className='row'>
-                                <div className='col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 mb-3 gx-5'>
-                                    <div className='go-semi-cirle'>
-                                        <h3 className='mb-0 color-blue'>1</h3>
-                                    </div>
-                                    <div className='go-line'>
-                                        <p className='font-20 color-deve mb-0'>Development</p>
-                                    </div>
-                                    <div className='bottom-card'>
-                                        <img src="/assets/img/go-1.png" alt="" className='w-100' />
-                                    </div>
-                                </div>
-                                <div className='col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 mb-3 gx-5'>
-                                    <div className='go-semi-cirle'>
-                                        <h3 className='mb-0 color-blue'>2</h3>
-                                    </div>
-                                    <div className='go-line'>
-                                        <p className='font-20 color-deve mb-0'>UAT</p>
-                                    </div>
-                                    <div className='bottom-card'>
-                                        <img src="/assets/img/go-2.png" alt="" className='w-100' />
-                                    </div>
-                                </div>
-                                <div className='col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 mb-3 gx-5'>
-                                    <div className='go-semi-cirle'>
-                                        <h3 className='mb-0 color-blue'>3</h3>
-                                    </div>
-                                    <div className='go-line'>
-                                        <p className='font-20 color-deve mb-0'>Production</p>
-                                    </div>
-                                    <div className='bottom-card'>
-                                        <img src="/assets/img/go-3.png" alt="" className='w-100' />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <h1 className='text-center text-white'>Go Live With Us</h1>
+                <div className="bar-white"></div>
+                <div className='row justify-content-center'>
+                    <div className='col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12'>
+                        <p className='text-center text-white'>Onboard your developers effortlessly. Discover how easy it is to integrate Bajaj APIs in just a few simple steps.</p>
                     </div>
                 </div>
+                <div className='container'>
+                    <div className='row d-flex justify-content-center my-5'>
+                        <div className='col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 mb-3'>
+                            <div className='position-relative mt-3'>
+                                <h1 className='step-1'>01</h1>
+                                <h3 className='text-white position-go-subheading mb-0'>Development</h3>
+                            </div>
+                            <p className='mt-4 text-white pe-5'>Build and test APIs in a controlled developer environment.</p>
+                        </div>
+                        <div className='col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 mb-3'>
+                            <div className='position-relative mt-3'>
+                                <h1 className='step-1'>02</h1>
+                                <h3 className='text-white position-go-subheading mb-0'>UAT</h3>
+                            </div>
+                            <p className='mt-4 text-white pe-5'>Validate APIs in a staging environment before going live.</p>
+                        </div>
+                        <div className='col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 mb-3'>
+                            <div className='position-relative mt-3'>
+                                <h1 className='step-1'>03</h1>
+                                <h3 className='text-white position-go-subheading mb-0'>Production</h3>
+                            </div>
+                             <p className='mt-4 text-white pe-5'>Access live, secure, and fully
+                                operational APIs.</p>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <div className='container'>
+            <div className='img-up '>
+                <img src="/assets/img/Go-live-with-us.png" alt="" className='w-100' />
+            </div>
             </div>
             <div className='availableApi py-5'>
                 <h1>Available API</h1>
-                <p className='text-center'>Onboard your developers effortlessly. Discover how easy it is to integrate Bajaj APIs in just a few simple steps.</p>
-                <div className='container'>
-                    <div className='row mt-5 d-flex justify-content-center'>
-                        {availableApi.map((card, index) => (
-                            <div className='col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 mb-3' key={arrayIndex('card', index)}>
-                                <div className='card-ava'>
-                                    <div className="circle-ava">
-                                        <img src="/assets/img/bullet.png" alt="NA" className='' />
-                                    </div>
-                                    <div className="content-title  my-3">
-                                        {card.title}
-                                    </div>
-                                    <div className="content-details four-lines">
-                                        {card.details}
-                                    </div>
-
-                                </div>
-                            </div>
-                        ))
-                        }
+                <div className="bar"></div>
+                <div className='row justify-content-center'>
+                    <div className='col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12'>
+                        <p className='text-center'>Onboard your developers effortlessly. Discover how easy it is to integrate Bajaj APIs in just a few simple steps.</p>
                     </div>
                 </div>
+              <div className='container'>
+      {/* Slider Section */}
+      <Slider {...settings}>
+        {availableApi.map((card, index) => (
+          <div key={arrayIndex("card", index)} className="p-3">
+            <div className='card-ava'>
+              <div className="circle-ava">
+                <img 
+                  src="/assets/img/bullet.png" 
+                  alt="NA" 
+                  className='w-100 d-flex justify-content-start align-items-center' 
+                />
+              </div>
+              <div className="content-title my-3">
+                {card.title}
+              </div>
+              <div className="content-details four-lines">
+                {card.details}
+              </div>
+            </div>
+          </div>
+        ))}
+      </Slider>
+
+      {/* Button Section */}
+      <div className='d-flex justify-content-center mt-4'>
+        <button className='btn btn-primary p-3'>
+          View All APIs <i className="fa-solid fa-arrow-right ms-2"></i>
+        </button>
+      </div>
+    </div>
             </div>
             <FooterHome />
-            {/* <div className="gifDiv">
-                <div style={{ padding: '3em 6em', display: 'flex', justifyContent: "space-between" }}>
-                    <div className="gif-content">
-                        <p className='mb-0'>Welcome to</p>
-                        <div >Bajaj API Developer Portal</div>
-                        <small>— your one-stop destination for accessing, integrating, and managing powerful APIs that drive seamless digital experiences. Whether you're building customer journeys, or partner integrations, our APIs offer secure, scalable, and easy-to-use solutions to accelerate your development.</small>
-                        <button className='btn btn-primary' onClick={() => { navigate('/get-started') }}>Get Started <i className="fa-solid fa-arrow-right"></i></button>
-                    </div>
-                    <div className="bannerImg">
-                        <img src="/assets/img/baneerside.png" alt="Na" className='w-100' style={{ height: '500px' }} />
-                    </div>
-                </div>
-                <div className='howItWorks'>
-                    <div className='titleDiv'> How it Works?</div>
-                    <p>Onboard your developers effortlessly. Discover how easy it is to integrate Bajaj APIs in just a few simple steps.</p>
-                    <div className="card-section row g-0 mt-5 pb-5">
-                        <div className="card col-3 m-auto">
-                            <div className="card-body">
-                                <div className='content-title'>Sign Up to Get Started</div>
-                                <div className='content-data'>Create your account to explore and manage powerful APIs.</div>
-                                <div className="">
-                                    <img src="/assets/img/createaccount.png" alt="NA" className='w-100' />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-1 d-flex align-items-center justify-content-center">
-                            <img src="/assets/img/prime_forward.png" alt='Na' className='forword-icon' />
-                        </div>
-                        <div className="card col-3 m-auto">
-                            <div className="card-body">
-                                <div className='content-title'>Select Our Available API</div>
-                                <div className='content-data'>Explore and select from our wide range of available APIs.</div>
-                                <div className="">
-                                    <img src="/assets/img/sidebar.png" alt="NA" className='w-100' />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-1 d-flex align-items-center justify-content-center">
-                            <img src="/assets/img/prime_forward.png" alt='Na' className='forword-icon' />
-                        </div>
-                        <div className="card col-3 m-auto">
-                            <div className="card-body">
-                                <div className='content-title'>Test it Out</div>
-                                <div className='content-data'>Use our interactive mock API to test your integration.</div>
-                                <div className="">
-                                    <img src="/assets/img/commingsoon.png" alt="NA" className='w-100' />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="goLiveSection py-5">
-                    <div className='titleDiv'> Go Live With Us</div>
-                    <div className='section-details'>Onboard your developers effortlessly. Discover how easy it is to integrate Bajaj APIs in just a few simple steps.</div>
-                    <div className="card-section row g-0 mt-5 pb-5">
-                        <div className="card col-3 m-auto">
-                            <div className="card-body p-4">
-                                <div className='content-title'>Development </div>
-                                <div className="">
-                                    <img src="/assets/img/dev.png" alt="NA" className='w-100' />
-                                </div>
-                                <div className="content-details d-none">
-                                    Lorem ipsum dolor sit amet consectetur. Facilisis consequat cursus enim sed. Sollicitudin et nullam pellentesque id diam sit mollis. Faucibus vehicula.
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-1 d-flex align-items-center justify-content-center">
-                            <img src="/assets/img/prime_forward.png" alt='Na' className='forword-icon' />
-                        </div>
-                        <div className="card col-3 m-auto">
-                            <div className="card-body p-4">
-                                <div className='content-title'>UAT</div>
-                                <div className="">
-                                    <img src="/assets/img/uat.png" alt="NA" className='w-100' />
-                                </div>
-                                <div className="content-details d-none">
-                                    Lorem ipsum dolor sit amet consectetur. Facilisis consequat cursus enim sed. Sollicitudin et nullam pellentesque id diam sit mollis. Faucibus vehicula.
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-1 d-flex align-items-center justify-content-center">
-                            <img src="/assets/img/prime_forward.png" alt='Na' className='forword-icon' />
-                        </div>
-                        <div className="card col-3 m-auto">
-                            <div className="card-body p-4">
-                                <div className='content-title'>Production</div>
-                                <div className="">
-                                    <img src="/assets/img/prod.png" alt="NA" className='w-100' />
-                                </div>
-                                <div className="content-details d-none">
-                                    Lorem ipsum dolor sit amet consectetur. Facilisis consequat cursus enim sed. Sollicitudin et nullam pellentesque id diam sit mollis. Faucibus vehicula.
-                                </div>
-                            </div>
-                        </div>
 
-                    </div>
-                </div>
-                <div className="availableApi py-5">
-                    <div className='titleDiv'> Available API</div>
-                    <div className='section-details'>Onboard your developers effortlessly. Discover how easy it is to integrate Bajaj APIs in just a few simple steps.</div>
-                    <div className="card-section mt-5 pb-5">
-                        {availableApi.map((card, index) => (
-                            <div key={arrayIndex('card', index)} className="card" style={{ width: '308px' }}>
-                                <div className="card-body p-4">
-                                    <img src="/assets/img/bullet.png" alt="NA" className='' />
-                                    <div className="content-title my-3">
-                                        {card.title}
-                                    </div>
-                                    <div className="content-details">
-                                        {card.details}
-                                    </div>
-                                </div>
-                            </div>
-                        ))
-                        }
-                    </div>
-                </div>
-                <FooterHome />
-            </div> */}
             <Modal size="lg" show={show} onHide={() => setShow(false)} centered>
                 <Modal.Header closeButton className="border-bottom-0 py-0"></Modal.Header>
                 <Modal.Body className="pt-0">
