@@ -250,16 +250,15 @@ function CreateApi() {
         }
     };
     const getApplicationList = () => {
-        post_data("portal/public", convertToPayload('getPlatformApps', {}), {})
+        post_data("portal/public", convertToPayload('getPlatformApps', { "env_id": "f79233ef-d46b-4d66-83e4-e7b0c7b7c442" }), {})
             .then((response) => {
+                console.log(response)
                 setLoader({ ...loader, pageloader: false })
-                let _a = response.data.data || []
+                let _a = response.data.instances || []
                 _a = _a.map((app) => {
                     let obj = {
                         id: app.id,
-                        name: app.artifact.name,
-                        createTime: app.artifact.createTime,
-                        lastUpdateTime: app.artifact.lastUpdateTime
+                        name: app.assetId,
                     }
                     return obj
                 })
