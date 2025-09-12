@@ -15,7 +15,7 @@ function SuggestApi(){
                         <th>Full Name</th>
                         <th>Email Id</th>
                         <th>Mobile Number</th>
-                        <th>Approved Status</th>
+                        
                         <th>Created Date</th>
                         <th>Action</th>
                     </tr>
@@ -47,7 +47,7 @@ function SuggestApi(){
                                     </div>
                                 </td>
                             </tr>
-                        ))):(<td colSpan={7} className="text-center">No data found</td>)
+                        ))):(<td colSpan={6} className="text-center">No data found</td>)
                     }
 
                 </tbody>

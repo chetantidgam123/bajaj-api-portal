@@ -15,6 +15,7 @@ import Privacypolicy from '../Components/Home/Privacypolicy';
 import Contactus from '../Components/Home/Contactus';
 const HomePageContent = lazy(() => import('../Components/user/HomePageContent'));
 const PageNotFound = lazy(() => import('../Components/user/PageNotFound'));
+const TryApiPage = lazy(()=>import('../Components/user/TryApiPage'))
 
 function PrivateRoute({ children }) {
     const tokenData = getTokenData();
@@ -49,6 +50,8 @@ const routes = [
             { path: "/user/reset-password/:token", element: <HomePageContent /> },
             { path: "/user/profile", element: <PrivateRoute><Profile /></PrivateRoute> },
             { path: "/page", element: <PrivateRoute><PageNotFound /></PrivateRoute> },
+
+             { path: "/try-api/:collection_id/:category_id/:api_id", element: <PrivateRoute><TryApiPage /></PrivateRoute>},
         ]
     }
 

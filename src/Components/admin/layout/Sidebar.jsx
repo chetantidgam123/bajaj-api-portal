@@ -60,6 +60,19 @@ function Sidebar() {
                                 <li>
                                     <Link className="admin-sidebar-li" to={'/master/privacy-policy'}>Privacy Policy</Link>
                                 </li>
+                               
+                            </ul>
+                        </Accordion.Body>
+                    </Accordion.Item>
+                    <Accordion.Item eventKey="3" className="mb-2 position-relative">
+                        <Accordion.Header>
+                            <i className="fa-brands fa-microsoft"></i>
+                            <span className="link-name ms-2">Contact us</span>
+                        </Accordion.Header>
+                        <Accordion.Body>
+                            <ul className="admin-sidebar-ul">
+                              
+                               
                                 <li>
                                     <Link className="admin-sidebar-li" to={'/master/suggest-an-api'}>Suggest an API</Link>
                                 </li>
