@@ -88,7 +88,7 @@ useEffect(() => {
                             <p className='text-start welcome'>Welcome to</p>
                             <h1 className='text-start mt-3'>Bajaj API Developer Portal</h1>
                             <div className='row d-flex justify-content-start mt-3'>
-                                <div className='col-10'>
+                                 <div className='col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12'>
                                     <p className='text-start text-white'>— your one-stop destination for accessing, integrating, and managing powerful APIs that drive seamless digital experiences. Whether you're building customer journeys, or partner integrations, our APIs offer secure, scalable, and easy-to-use solutions to accelerate your development.</p>
                                 </div>
                                 <div className='d-flex justify-content-start mt-3'>
@@ -114,13 +114,13 @@ useEffect(() => {
                     </div>
 
                     <div className='row mt-4 border-relative'  data-aos="fade-up">
-                        <div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-center'>
+                        <div className='col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 d-flex justify-content-center'>
                             <button className='btn btn-outline-primary px-3 bg-white'>Step 1</button>
                         </div>
-                        <div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-center'>
+                        <div className='col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 d-flex justify-content-center'>
                             <button className='btn btn-primary px-3'>Step 2</button>
                         </div>
-                        <div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-center'>
+                        <div className='col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 d-flex justify-content-center'>
                             <button className='btn btn-outline-primary px-3 bg-white'>Step 3</button>
                         </div>
                     </div>

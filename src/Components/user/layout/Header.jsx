@@ -90,7 +90,7 @@ function Header() {
                  {!getTokenData() && (
                 
                   <button
-                    className="btn btn-blue"
+                    className="btn btn-blue me-3"
                     onClick={() => {
                       setModalName("login");
                       setShow(true);
