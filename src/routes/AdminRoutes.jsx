@@ -14,10 +14,11 @@ const UserList = lazy(() => import('../Components/admin/UserList'));
 const PageNotFound = lazy(() => import('../Components/admin/PageNotFound'));
 
  /***  Master Entry Start ***/
-const SuggestApi = lazy(()=>import('../Components/admin/masterentry/SuggestApi'))
+const SuggestApi = lazy(()=>import('../Components/admin/contactus/SuggestApi'))
 const TermsCond = lazy(()=>import('../Components/admin/masterentry/TermCond'))
-const GetinTouch = lazy(()=> import('../Components/admin/masterentry/GetinTouch'))
+const GetinTouch = lazy(()=> import('../Components/admin/contactus/GetinTouch'))
 const PrivacyPolicy = lazy(()=> import('../Components/admin/masterentry/PrivacyPolicy'))
+const RequestAccessList = lazy(()=> import ('../Components/admin/RequestAccessList'))
 
 function PrivateRoute({ children }) {
     const tokenData = getTokenData();
@@ -54,6 +55,8 @@ const routes = [
             { path: "/privacy-policy", element: <PrivateRoute><PrivacyPolicy /></PrivateRoute> },
             { path: "/suggest-an-api", element: <PrivateRoute><SuggestApi /></PrivateRoute> },
             { path: "/get-in-touch", element: <PrivateRoute><GetinTouch /></PrivateRoute> },
+
+            { path: "/request-access-list", element: <PrivateRoute><RequestAccessList /></PrivateRoute> },
 
         ]
     }
