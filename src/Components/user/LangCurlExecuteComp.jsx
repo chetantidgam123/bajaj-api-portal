@@ -3,12 +3,13 @@ import SyntaxHighLighter from "./SyntaxHighLighter"
 import { useEffect, useState } from "react"
 import PropTypes from 'prop-types';
 import { Badge } from "react-bootstrap";
-function LangCurlExecuteComp({ apiData, setStatusCode }) {
+function LangCurlExecuteComp({ apiData, setStatusCode,bodyReqSample,tryit=false }) {
     const [sampleRes, setSampleRes] = useState(null);
     const [sampleReq, setSampleReq] = useState(null);
     const generateLangReq = (lang) => {
         let obj = {
-            body: JSON.parse(apiData.reqsample || '{}'),
+            // body: JSON.parse(apiData.reqsample || '{}'),
+            body: bodyReqSample,
             method: apiData.apimethod,
             url: apiData.apiurl,
             request_header: JSON.parse(apiData.reqheader.value || '[]')
@@ -33,7 +34,7 @@ function LangCurlExecuteComp({ apiData, setStatusCode }) {
     useEffect(() => {
         console.log(apiData)
         generateLangReq('curl')
-    }, [apiData.uniqueid])
+    }, [apiData.uniqueid,bodyReqSample])
     return (
         <div>
             <div className="card mb-3">
@@ -85,7 +86,7 @@ function LangCurlExecuteComp({ apiData, setStatusCode }) {
                 </div>
 
             </div>
-            <div className="card mb-3">
+            {!tryit && <div className="card mb-3">
              <div className="card-bg">
                     <h5 className="border-bottom pb-2">Status Code</h5>
               
@@ -98,7 +99,7 @@ function LangCurlExecuteComp({ apiData, setStatusCode }) {
                         }
                     </select>
                 </div>
-            </div>
+            </div>}
             <div className="card mb-3">
                  <div className="card-bg">
                       <div className="row d-flex justify-content-between align-items-start pb-2 border-bottom">
@@ -122,6 +123,8 @@ function LangCurlExecuteComp({ apiData, setStatusCode }) {
 LangCurlExecuteComp.propTypes = {
     apiData: PropTypes.any,
     setStatusCode: PropTypes.func,
+    bodyReqSample: PropTypes.any,
+    tryit: PropTypes.bool
 }
 
 export default LangCurlExecuteComp

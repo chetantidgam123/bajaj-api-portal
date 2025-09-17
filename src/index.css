@@ -962,3 +962,12 @@ select.form-select {
     height: 30px;
 }
 
+  .active-tab {
+   background-color: #5278F2;
+  color: #fff !important;
+   border-radius: 4px; 
+  /* padding: 6px 12px; */
+  display: inline-block;
+  width: 100%;
+  /* border-bottom: 1px solid #5278F2 */
+}

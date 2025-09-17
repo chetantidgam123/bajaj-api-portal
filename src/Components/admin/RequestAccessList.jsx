@@ -1,28 +1,57 @@
 import { useState } from "react"
+import { confirm_swal_with_text } from "../../SwalServices";
 
-function SuggestApi(){
-    const[suggApiList, setSuggApiList]= useState([])
+function RequestAccessList(){
+    const[reqAccList, setReqAccList]= useState([]);
+    
+        const confirm_swal_call = (user, status) => {
+            const callback = (resolve, reject) => {
+                toggleStatus(user,status, resolve, reject)
+            }
+            confirm_swal_with_text(callback, `Are you sure <br/> you want to ${status == 'approve' ? 'approve' : 'reject'} Access?`)
+        }
+        const toggleStatus = (user,status, resolve, reject) => {
+            // let payload = {
+            //     "record_uuid": user.record_uuid,
+            //     "approved_status": user.approved_status == 0 ? 1 : 0
+            // }
+            // post_data("portal/private", convertToPayload('approve-user', payload), { "jwt_token": getTokenData()?.jwt_token })
+            //     .then((response) => {
+            //         if (response.data.status) {
+            //             getUserList();
+            //             resolve();
+            //         } else {
+            //             reject();
+            //             error_swal_toast(response.data.message || "something went wrong");
+            //         }
+            //     }).catch((error) => {
+            //         reject();
+            //         console.error("Error during signup:", error);
+            //     })
+            console.log("Approved or Rejected", status, user)
+            resolve();
+        }
     return(
  <div className="mx-2">
             <div className="d-flex justify-content-between my-2">
-                <h1 className="">Suggested Api List</h1>
+                <h1 className="">Request Access List</h1>
                 
             </div>
             <table className="table table-bordered ">
                 <thead>
                     <tr>
                         <th>Sr. No</th>
-                        <th>Full Name</th>
-                        <th>Email Id</th>
-                        <th>Mobile Number</th>
-                        <th>Approved Status</th>
-                        <th>Created Date</th>
+                        <th>Username</th>
+                        <th>Api Name</th>
+                        <th>App Name</th>
+                        
+                        <th>Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {
-                        suggApiList.length > 0 ?( suggApiList.map((user, index) => (
+                    {/* {
+                        reqAccList.length > 0 ?( reqAccList.map((user, index) => (
                             <tr key={arrayIndex('user', index)}>
                                 <td>{user.sr_no || index + 1}</td>
                                 <td>{user.fullname}</td>
@@ -47,8 +76,22 @@ function SuggestApi(){
                                     </div>
                                 </td>
                             </tr>
-                        ))):(<td colSpan={7} className="text-center">No data found</td>)
-                    }
+                        ))):(<td colSpan={6} className="text-center">No data found</td>)
+                    } */}
+                    <tr>
+                        <td>1</td>
+                        <td>Ramesh Deshmukh</td>
+                        <td>Generate Token</td>
+                        <td>ABC App</td>
+                         <td> </td>
+                           <td> 
+                            <div className='d-flex'>
+                                <button className="btn btn-primary btn-sm mx-2" title="Approve Request" onClick={()=>confirm_swal_call('Ramesh','approve')}><i className="fa fa-check"></i></button>
+                                <button className="btn btn-danger btn-sm" title="Reject Request" onClick={()=>confirm_swal_call('Ramesh','reject')}><i className="fa fa-xmark"></i></button>
+
+                            </div>
+                           </td>
+                    </tr>
 
                 </tbody>
             </table>
@@ -111,4 +154,4 @@ function SuggestApi(){
         </div>
     )
 }
-export default SuggestApi
+export default RequestAccessList
