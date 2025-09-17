@@ -10,7 +10,7 @@ function TermsofServices() {
           </div>
             <div className='card-bg '>
                 <div className='container'>
-                    <div className='card-Works'>
+                    <div className='card-Works margin-top-100px'>
                 <p>Welcome to the Bajaj API Portal. These Terms of Service govern your access to and use of the Portal, APIs, documentation, SDKs, and related services provided by Bajaj.</p>
                 <h4 className="mt-3">Eligibility</h4>
                 <ol>

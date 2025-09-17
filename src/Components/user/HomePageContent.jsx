@@ -148,9 +148,9 @@ function HomePageContent() {
             navigate('/');
         }
     }, [category_id])
+
     return (
         <div className="home-container">
-
             {/* <div className="bg-white my-2 p-2 text-end">
                 <button className='btn btn-primary' onClick={checkAccess}>Try it</button>
             </div> */}
@@ -457,7 +457,6 @@ function HomePageContent() {
                 loader && <PageLoaderBackdrop />
             }
         </div>
-
     );
 }
 

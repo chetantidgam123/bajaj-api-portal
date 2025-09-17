@@ -836,7 +836,7 @@ select.form-select {
 }
 
 .profilePageButton {
-    padding: 15px !important;
+    padding: 8px !important;
 }
 
 .profileImage {
@@ -961,6 +961,7 @@ select.form-select {
     width: 30px;
     height: 30px;
 }
+
   .active-tab {
    background-color: #5278F2;
   color: #fff !important;

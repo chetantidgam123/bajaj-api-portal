@@ -23,7 +23,7 @@ function LandingPage() {
                     <p className='text-center welcome'>Welcome to</p>
                     <h1 className='mt-3'>Bajaj API Developer Portal</h1>
                     <div className='row d-flex justify-content-center mt-3'>
-                        <div className='col-10'>
+                        <div className='col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12'>
                             <p className='text-center text-white'>— your one-stop destination for accessing, integrating, and managing powerful APIs that drive seamless digital experiences. Whether you're building customer journeys, or partner integrations, our APIs offer secure, scalable, and easy-to-use solutions to accelerate your development.</p>
                         </div>
                         <div className='d-flex justify-content-center'>
@@ -73,40 +73,40 @@ function LandingPage() {
 
 
                         </div> */}
-                             <div className="grid-column mt-5">
-            <div className="">
-                <div className="card card-border p-4 border-0 height-320px">
-                   <img src="/assets/img/Works-1.png" width="100%" alt='' />
-                </div>
-                <h5 className="mt-3 text-center">Sign Up to Get Started</h5>
-                <p className="text-center">Create your account to explore and manage powerful APIs.
-                </p>
-            </div>
-            <div className='position-relative'>
-               <img src="/assets/img/arrow.png" width="100%" alt='' className='arrow-absolute'/>
-            </div>
+                        <div className="grid-column mt-5">
+                            <div className="">
+                                <div className="card card-border p-4 border-0 height-320px">
+                                    <img src="/assets/img/Works-1.png" width="100%" alt='' />
+                                </div>
+                                <h5 className="mt-3 text-center">Sign Up to Get Started</h5>
+                                <p className="text-center">Create your account to explore and manage powerful APIs.
+                                </p>
+                            </div>
+                            <div className='position-relative'>
+                                <img src="/assets/img/arrow.png" width="100%" alt='' className='arrow-absolute' />
+                            </div>
 
-              <div className="">
-                <div className="card card-border p-4 border-0 height-320px">
-                   <img src="/assets/img/Works-2.png" width="100%" alt='' />
-                </div>
-                <h5 className="mt-3 text-center">Select Our Available API</h5>
-                <p className="text-center">Explore and select from our wide range of available APIs.
-                </p>
-            </div>
-            <div className='position-relative'>
-               <img src="/assets/img/arrow.png" width="100%" alt='' className='arrow-absolute'/>
-            </div>
-              <div className="">
-                <div className="card card-border p-4 border-0 height-320px">
-                   <img src="/assets/img/Works-3.png" width="100%" alt=''/>
-                </div>
-                <h5 className="mt-3 text-center">Test it Out</h5>
-                <p className="text-center">Create your account to explore and manage powerful APIs.
-                </p>
-            </div>
-           
-        </div>
+                            <div className="">
+                                <div className="card card-border p-4 border-0 height-320px">
+                                    <img src="/assets/img/Works-2.png" width="100%" alt='' />
+                                </div>
+                                <h5 className="mt-3 text-center">Select Our Available API</h5>
+                                <p className="text-center">Explore and select from our wide range of available APIs.
+                                </p>
+                            </div>
+                            <div className='position-relative'>
+                                <img src="/assets/img/arrow.png" width="100%" alt='' className='arrow-absolute' />
+                            </div>
+                            <div className="">
+                                <div className="card card-border p-4 border-0 height-320px">
+                                    <img src="/assets/img/Works-3.png" width="100%" alt='' />
+                                </div>
+                                <h5 className="mt-3 text-center">Test it Out</h5>
+                                <p className="text-center">Create your account to explore and manage powerful APIs.
+                                </p>
+                            </div>
+
+                        </div>
                     </div>
 
 

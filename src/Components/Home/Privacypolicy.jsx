@@ -11,7 +11,7 @@ function Privacypolicy() {
           </div>
                  <div className='card-bg '>
                 <div className='container'>
-                    <div className='card-Works'>
+                    <div className='card-Works margin-top-100px'>
                         <p>At Bajaj we are committed to protecting the privacy of our users. This Privacy Policy outlines our practices regarding the collection, use, and disclosure of your information.</p>
                          <h4 className="mt-3">Introduction</h4>
                          <p>At PrivacyGuard, we are committed to protecting the privacy of our users. This Privacy Policy outlines our practices regarding the collection, use, and disclosure of your information.</p>
