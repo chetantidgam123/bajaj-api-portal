@@ -45,7 +45,7 @@ function LangCurlExecuteComp({ apiData, setStatusCode }) {
                         <div className="col-xl-7 col-lg-7 col-md-6 col-sm-12 col-12">
                             <small className="word-break">{apiData.apiurl}</small>
                         </div>
-                        <div className="col-xl-2 col-lg-2 col-md-6 col-sm-12 col-12">
+                        <div className="col-xl-2 col-lg-2 col-md-6 col-sm-12 col-12 d-flex justify-content-center">
                             <button
                                 //  onClick={() => { copyToClipboard(JSON.parse(apiData.reqsample) || '{}') }}
                                 className='span-btn-cirlce'><img src="/assets/img/copy.png" alt="copy" /></button>

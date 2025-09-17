@@ -61,13 +61,17 @@ function FaqList() {
     return (
         <div className="bg-white">
             <Header />
-            <div className="main-content">
-                <div className="faq-main-content">
-                    <div className="faqtTitle mt-3">Frequently Asked Questions</div>
+            <div className="faqs">
+            <h1 className='mt-3'>Frequently Asked Questions</h1>
+          </div>
+                 <div className='card-bg faq'>
+                <div className='container'>
+                    <div className='card-Works margin-top-100px'>
+            
                     <Accordion>
                         {
                             faq.map((faq, fi) => (
-                                <Accordion.Item key={arrayIndex('faq', fi)} className="my-3" eventKey={fi}>
+                                <Accordion.Item key={arrayIndex('faq', fi)} className="mb-3" eventKey={fi}>
                                     <Accordion.Header >{faq.que}</Accordion.Header>
                                     <Accordion.Body className="">{faq.ans}</Accordion.Body>
                                 </Accordion.Item>
@@ -79,15 +83,16 @@ function FaqList() {
                         <button className="btn btn-outline-primary">Load More</button>
                     </div>
 
-                    <div className="mb-5 card">
-                        <div className="card-body  addFaqDiv">
+                        <div className="addFaq">
                             <div className="text">
-                                <h6>Still have questions?</h6>
-                                <small>If you have any other questions or need further information, don’t hesitate to contact us. We are here to help you!</small>
+                                <h5 className="text-dark text-center">Still have questions?</h5>
+                                <p  className="text-dark text-center">If you have any other questions or need further information, don’t hesitate to contact us. We are here to help you!</p>
                             </div>
-                            <button className="btn btn-primary" onClick={() => { setShowModal(true) }}>Get in Touch <i className="fa-solid fa-arrow-right"></i></button>
+                            <div className="d-flex justify-content-center">
+                                <button className="btn btn-blue" onClick={() => { setShowModal(true) }}>Get in Touch <i className="fa-solid fa-arrow-right"></i></button>
+                            </div>
                         </div>
-                    </div>
+                </div>
                 </div>
             </div>
             <FooterHome />

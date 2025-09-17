@@ -92,7 +92,7 @@ useEffect(() => {
                                     <p className='text-start text-white'>— your one-stop destination for accessing, integrating, and managing powerful APIs that drive seamless digital experiences. Whether you're building customer journeys, or partner integrations, our APIs offer secure, scalable, and easy-to-use solutions to accelerate your development.</p>
                                 </div>
                                 <div className='d-flex justify-content-start mt-3'>
-                                     <button className='btn btn-primary p-3' onClick={() => { navigate('/get-started') }}>Get Started <i className="fa-solid fa-arrow-right"></i></button>
+                                     <button className='btn btn-blue p-3' onClick={() => { navigate('/get-started') }}>Get Started <i className="fa-solid fa-arrow-right"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -268,7 +268,7 @@ useEffect(() => {
       </Slider>
 
       <div className='d-flex justify-content-center mt-4'>
-        <button className='btn btn-primary p-3'>
+        <button className='btn btn-blue p-3'>
           View All APIs <i className="fa-solid fa-arrow-right ms-2"></i>
         </button>
       </div>

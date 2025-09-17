@@ -124,9 +124,9 @@ function HomePageContent() {
             navigate('/');
         }
     }, [category_id])
+
     return (
         <div className="home-container">
-          
             {/* <div className="bg-white my-2 p-2 text-end">
                 <button className='btn btn-primary' onClick={checkAccess}>Try it</button>
             </div> */}
@@ -137,43 +137,43 @@ function HomePageContent() {
                             <div className="card-body card-bg">
                                 <div className='row align-items-center'>
                                     <div className='col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12'>
-                                    <h5 className='mb-0'>{title || 'Get Started'}</h5>
-                                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{description}</ReactMarkdown>
+                                        <h5 className='mb-0'>{title || 'Get Started'}</h5>
+                                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{description}</ReactMarkdown>
                                     </div>
                                     <div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-end'>
                                         <button className="btn btn-outline-primary profilePageButton px-4" onClick={checkAccess}>Try it</button>
 
                                     </div>
                                 </div>
-                              
+
                                 {/* {(collection_id == 0 && getTokenData()?.role != 1) && <GetStarted />} */}
                             </div>
                         </div>}
                     {(collection_id == 0 || location.pathname.includes('get-started')) && <GetStarted />}
                     {api_id && apiData && <div className="card  mb-3">
-                         <div className="card-body card-bg">
+                        <div className="card-body card-bg">
                             <div className="row d-flex justify-content-between align-items-start mb-3">
                                 <div className='col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12'>
-                                 <h5 className="mb-0" id='requestSample'>Request Sample :</h5>
-                               </div>
-                                 <div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-end'>
-                                <button onClick={() => { copyToClipboard(JSON.parse(apiData.reqsample) || '{}') }} className='span-btn-cirlce'><img src="/assets/img/copy.png" alt="copy" /></button>
-                               </div>
-                               
+                                    <h5 className="mb-0" id='requestSample'>Request Sample :</h5>
+                                </div>
+                                <div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-end'>
+                                    <button onClick={() => { copyToClipboard(JSON.parse(apiData.reqsample) || '{}') }} className='span-btn-cirlce'><img src="/assets/img/copy.png" alt="copy" /></button>
+                                </div>
+
                             </div>
                             <SyntaxHighLighter jsonString={JSON.parse(apiData.reqsample) || '{}'} />
                         </div>
                     </div>}
                     {api_id && apiData && <div className="card mb-3">
-                       <div className="card-body card-bg">
-                             <div className="row d-flex justify-content-between align-items-start mb-3">
+                        <div className="card-body card-bg">
+                            <div className="row d-flex justify-content-between align-items-start mb-3">
                                 <div className='col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12'>
-                                <h5>Request Parameters Details :</h5>
+                                    <h5>Request Parameters Details :</h5>
                                 </div>
-                                 <div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-end'>
-                                      <button type="button" className="btn btn-outline-primary" onClick={() => { setModalData({ header: [], body: JSON.parse(apiData?.reqbody?.value || '[]') }); setShow(true) }}>View in detail</button>
-                                    </div>
-                                
+                                <div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-end'>
+                                    <button type="button" className="btn btn-outline-primary" onClick={() => { setModalData({ header: [], body: JSON.parse(apiData?.reqbody?.value || '[]') }); setShow(true) }}>View in detail</button>
+                                </div>
+
                             </div>
                             <div className="table-responsive-custom">
                                 <Table bordered responsive='lg'>
@@ -206,14 +206,14 @@ function HomePageContent() {
                         </div>
                     </div>}
                     {api_id && apiData && <div className="card  mb-3">
-                       <div className="card-body card-bg">
-                           <div className="row d-flex justify-content-between align-items-start mb-3">
+                        <div className="card-body card-bg">
+                            <div className="row d-flex justify-content-between align-items-start mb-3">
                                 <div className='col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12'>
-                                <h5>Request Headers :</h5>
+                                    <h5>Request Headers :</h5>
                                 </div>
                                 <div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-end'>
-                                        <button type="button" className="btn btn-outline-primary" onClick={() => { setModalData({ header: [], body: JSON.parse(apiData?.reqheader?.value || '[]') }); setShow(true) }}>View in detail</button>
-                                    </div>
+                                    <button type="button" className="btn btn-outline-primary" onClick={() => { setModalData({ header: [], body: JSON.parse(apiData?.reqheader?.value || '[]') }); setShow(true) }}>View in detail</button>
+                                </div>
                             </div>
                             <div className="table-responsive-custom">
                                 <Table bordered responsive='lg'>
@@ -246,27 +246,27 @@ function HomePageContent() {
                         </div>
                     </div>}
                     {api_id && apiData && <div className="card  mb-3">
-                      <div className="card-body card-bg">
-                        <div className="row d-flex justify-content-between align-items-start mb-3">
+                        <div className="card-body card-bg">
+                            <div className="row d-flex justify-content-between align-items-start mb-3">
                                 <div className='col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12'>
-                                 <h5 className="mb-0">Response Sample :</h5>
+                                    <h5 className="mb-0">Response Sample :</h5>
                                 </div>
                                 <div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-end'>
-                                         <button onClick={() => { copyToClipboard(responsData.resbody || '{}') }} className='span-btn'><img src="/assets/img/copy.png" alt="copy" /></button>
-                                    </div>
+                                    <button onClick={() => { copyToClipboard(responsData.resbody || '{}') }} className='span-btn'><img src="/assets/img/copy.png" alt="copy" /></button>
+                                </div>
                             </div>
                             <SyntaxHighLighter jsonString={responsData.resbody || '{}'} />
                         </div>
                     </div>}
                     {api_id && apiData && <div className="card mb-3">
-                      <div className="card-body card-bg">
-                         <div className="row d-flex justify-content-between align-items-start mb-3">
+                        <div className="card-body card-bg">
+                            <div className="row d-flex justify-content-between align-items-start mb-3">
                                 <div className='col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12'>
-                                 <h5 className="mb-0">Response Parameters Details :</h5>
+                                    <h5 className="mb-0">Response Parameters Details :</h5>
                                 </div>
                                 <div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-end'>
-                                         <button type="button" className="btn btn-outline-primary" onClick={() => { setShow1(true) }}>View in detail</button>
-                                    </div>
+                                    <button type="button" className="btn btn-outline-primary" onClick={() => { setShow1(true) }}>View in detail</button>
+                                </div>
                             </div>
 
                             <div className="table-responsive-custom">
@@ -300,14 +300,14 @@ function HomePageContent() {
                         </div>
                     </div>}
                     {api_id && apiData && <div className="card  mb-3">
-                       <div className="card-body card-bg">
-                        <div className="row d-flex justify-content-between align-items-start mb-3">
+                        <div className="card-body card-bg">
+                            <div className="row d-flex justify-content-between align-items-start mb-3">
                                 <div className='col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12'>
-                                 <h5 className="mb-0">Response Headers :</h5>
+                                    <h5 className="mb-0">Response Headers :</h5>
                                 </div>
                                 <div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-end'>
-                                      <button type="button" className="btn btn-outline-primary" onClick={() => { setModalData({ header: [], body: JSON.parse(apiData?.resheader?.value || '[]') }); setShow(true) }}>View in detail</button>
-                                    </div>
+                                    <button type="button" className="btn btn-outline-primary" onClick={() => { setModalData({ header: [], body: JSON.parse(apiData?.resheader?.value || '[]') }); setShow(true) }}>View in detail</button>
+                                </div>
                             </div>
 
                             <div className="table-responsive-custom">
@@ -417,7 +417,6 @@ function HomePageContent() {
                 loader && <PageLoaderBackdrop />
             }
         </div>
-
     );
 }
 
