@@ -702,9 +702,10 @@ h6 {
 }
 
 .adminHeader {
-    box-shadow: 2px 4px 8px 0px #0000000f;
+    /* box-shadow: 2px 4px 8px 0px #0000000f; */
     height: 65px;
     padding: 5px;
+    border-bottom: 1px solid #dddddd;
 }
 
 textarea.form-control {
@@ -970,4 +971,15 @@ select.form-select {
   display: inline-block;
   width: 100%;
   /* border-bottom: 1px solid #5278F2 */
+}
+
+.sidebar_entity.close .heading-hide {
+    display: none;
+}
+.border-bottom-dash{
+    border-bottom: 1px solid #dddddd;
+    padding-bottom: 4px;
+}
+.adminHeader .dropdown{
+    border-bottom: 2px solid #0052a4;
 }

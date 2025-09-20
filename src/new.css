@@ -635,3 +635,7 @@ background-color: #F5F6FA !important;
 .btn-blue:hover i {
   transform: translateX(5px); /* move to the right */
 }
+.header .border_bottom{
+     border-bottom: 2px solid #0052a4 !important;
+     border-radius: 0px;
+}
