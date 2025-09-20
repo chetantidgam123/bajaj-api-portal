@@ -1,41 +1,66 @@
-import { useState } from "react"
-import { confirm_swal_with_text } from "../../SwalServices";
+import { useEffect, useState } from "react"
+import { confirm_swal_with_text, error_swal_toast } from "../../SwalServices";
+import { post_auth_data } from "../../ApiServices";
+import { arrayIndex, convertToPayload } from "../../Utils";
+import moment from "moment";
+import { Form } from "react-bootstrap";
 
-function RequestAccessList(){
-    const[reqAccList, setReqAccList]= useState([]);
-    
-        const confirm_swal_call = (user, status) => {
-            const callback = (resolve, reject) => {
-                toggleStatus(user,status, resolve, reject)
-            }
-            confirm_swal_with_text(callback, `Are you sure <br/> you want to ${status == 'approve' ? 'approve' : 'reject'} Access?`)
+function RequestAccessList() {
+    const [reqAccList, setReqAccList] = useState([]);
+
+    const confirm_swal_call = (user, status) => {
+        const callback = (resolve, reject) => {
+            toggleStatus(user, status, resolve, reject)
         }
-        const toggleStatus = (user,status, resolve, reject) => {
-            // let payload = {
-            //     "record_uuid": user.record_uuid,
-            //     "approved_status": user.approved_status == 0 ? 1 : 0
-            // }
-            // post_data("portal/private", convertToPayload('approve-user', payload), { "jwt_token": getTokenData()?.jwt_token })
-            //     .then((response) => {
-            //         if (response.data.status) {
-            //             getUserList();
-            //             resolve();
-            //         } else {
-            //             reject();
-            //             error_swal_toast(response.data.message || "something went wrong");
-            //         }
-            //     }).catch((error) => {
-            //         reject();
-            //         console.error("Error during signup:", error);
-            //     })
-            console.log("Approved or Rejected", status, user)
-            resolve();
+        confirm_swal_with_text(callback, `Are you sure <br/> you want to ${status == 'approve' ? 'approve' : 'reject'} Access?`)
+    }
+    const toggleStatus = (user, status, resolve, reject) => {
+        // let payload = {
+        //     "record_uuid": user.record_uuid,
+        //     "approved_status": user.approved_status == 0 ? 1 : 0
+        // }
+        // post_data("portal/private", convertToPayload('approve-user', payload), { "jwt_token": getTokenData()?.jwt_token })
+        //     .then((response) => {
+        //         if (response.data.status) {
+        //             getUserList();
+        //             resolve();
+        //         } else {
+        //             reject();
+        //             error_swal_toast(response.data.message || "something went wrong");
+        //         }
+        //     }).catch((error) => {
+        //         reject();
+        //         console.error("Error during signup:", error);
+        //     })
+        console.log("Approved or Rejected", status, user)
+        resolve();
+    }
+    const getapilsit = (page = 1) => {
+        let payload = {
+            "application_name": "",
+            "limit": "20",
+            "page": page
         }
-    return(
- <div className="mx-2">
+        post_auth_data("portal/private", convertToPayload('get-all-api-request', payload), {})
+            .then(async (response) => {
+                if (response.data.status) {
+                    setReqAccList(response.data.data);
+                }
+                else {
+                    error_swal_toast(response.data.message);
+                }
+            }).catch((error) => {
+                error_swal_toast(error.message)
+            })
+    }
+    useEffect(() => {
+        getapilsit()
+    }, [])
+    return (
+        <div className="mx-2">
             <div className="d-flex justify-content-between my-2">
                 <h1 className="">Request Access List</h1>
-                
+
             </div>
             <table className="table table-bordered ">
                 <thead>
@@ -44,21 +69,20 @@ function RequestAccessList(){
                         <th>Username</th>
                         <th>Api Name</th>
                         <th>App Name</th>
-                        
+
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {/* {
-                        reqAccList.length > 0 ?( reqAccList.map((user, index) => (
+                    {
+                        reqAccList.length > 0 ? (reqAccList.map((user, index) => (
                             <tr key={arrayIndex('user', index)}>
                                 <td>{user.sr_no || index + 1}</td>
                                 <td>{user.fullname}</td>
-                                <td>{user.emailid}</td>
-                                <td>{user.mobileno}</td>
+                                <td>{user.apiname}</td>
+                                <td>{user.application_name}</td>
                                 <td>{user.approved_status}</td>
-                                <td>{moment().format('DD-MMM-yyyy')}</td>
                                 <td>
                                     <div className="d-flex">
                                         <Form.Check // prettier-ignore
@@ -76,23 +100,8 @@ function RequestAccessList(){
                                     </div>
                                 </td>
                             </tr>
-                        ))):(<td colSpan={6} className="text-center">No data found</td>)
-                    } */}
-                    <tr>
-                        <td>1</td>
-                        <td>Ramesh Deshmukh</td>
-                        <td>Generate Token</td>
-                        <td>ABC App</td>
-                         <td> </td>
-                           <td> 
-                            <div className='d-flex'>
-                                <button className="btn btn-primary btn-sm mx-2" title="Approve Request" onClick={()=>confirm_swal_call('Ramesh','approve')}><i className="fa fa-check"></i></button>
-                                <button className="btn btn-danger btn-sm" title="Reject Request" onClick={()=>confirm_swal_call('Ramesh','reject')}><i className="fa fa-xmark"></i></button>
-
-                            </div>
-                           </td>
-                    </tr>
-
+                        ))) : (<tr><td colSpan={6} className="text-center">No data found</td></tr>)
+                    }
                 </tbody>
             </table>
             {/* <Modal show={show} onHide={handleClose}>

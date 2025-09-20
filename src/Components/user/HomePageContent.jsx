@@ -7,7 +7,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm'
 import { arrayIndex, convertToPayload, copyToClipboard, getTokenData, trucateString } from '../../Utils';
 import GetStarted from './GetStarted';
-import { error_swal_toast } from '../../SwalServices';
+import { error_swal_toast, success_swal_toast } from '../../SwalServices';
 import { post_auth_data, post_data } from '../../ApiServices';
 import { PageLoaderBackdrop, Loader } from '../../Loader';
 function HomePageContent() {
@@ -119,27 +119,45 @@ function HomePageContent() {
         post_auth_data("portal/private", convertToPayload('check-api-access', payload), {})
             .then(async (response) => {
                 setTryitLoader(false)
-                navigate(`/try-api/${collection_id}/${category_id}/${api_id}`)
-                // if (response.data.status) {
-                //     navigate(`/try-api/${collection_id}/${category_id}/${api_id}`)
-                // }
-                // else {
-                //     setOpenTryitModal(true)
-                //     setTryitModalDesc(response.data.message)
-                //     if (response.data.error_code == 'CLIENT_CRED_UNAVAILABLE') {
+                // navigate(`/try-api/${collection_id}/${category_id}/${api_id}`)
+                if (response.data.status) {
+                    navigate(`/try-api/${collection_id}/${category_id}/${api_id}`)
+                }
+                else {
+                    setOpenTryitModal(true)
+                    setTryitModalDesc(response.data.message)
+                    if (response.data.error_code == 'CLIENT_CRED_UNAVAILABLE') {
 
-                //         setTryitButton('Generate Credentials')
+                        setTryitButton('Generate Credentials')
 
-                //     }
-                //     else {
-                //         setTryitButton('Request Access')
-                //     }
-                // }
+                    }
+                    else {
+                        setTryitButton('Request Access')
+                    }
+                }
             }).catch((error) => {
                 setTryitLoader(false)
                 console.log(error)
                 error_swal_toast(error.message)
 
+            })
+    }
+    const sendRequest = () => {
+        const payload = {
+            api_id: api_id,
+            application_name: apiData.application_name
+        }
+        post_auth_data("portal/private", convertToPayload('send-api-access-request', payload), {})
+            .then(async (response) => {
+                if (response.data.status) {
+                    setOpenTryitModal(false);
+                    success_swal_toast(response.data.message);
+                }
+                else {
+                    error_swal_toast(response.data.message);
+                }
+            }).catch((error) => {
+                error_swal_toast(error.message)
             })
     }
 
@@ -151,9 +169,6 @@ function HomePageContent() {
 
     return (
         <div className="home-container">
-            {/* <div className="bg-white my-2 p-2 text-end">
-                <button className='btn btn-primary' onClick={checkAccess}>Try it</button>
-            </div> */}
             <div className="home-content">
                 <div className={`center-content ${!api_id ? 'center-content-condition' : ''}`}>
                     {(collection_id) &&
@@ -445,7 +460,7 @@ function HomePageContent() {
                     <div>
                         <div style={{ fontSize: '1.25rem' }}>{tryitModalDesc}</div> {/* Slightly larger font */}
                         <div className="d-flex justify-content-end mt-3">
-                            <Button variant="primary" type="button">
+                            <Button variant="primary" type="button" onClick={sendRequest}>
                                 {tryitButton} <i className="fa fa-arrow-right"></i>
                             </Button>
                         </div>
