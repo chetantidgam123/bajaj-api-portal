@@ -102,55 +102,113 @@ function UserList() {
         getUserList();
     }, [])
     return (
-        <div className="mx-2">
-            <div className="d-flex justify-content-between my-2">
-                <h1 className="">Users</h1>
-                <button className="btn btn-primary py-1" onClick={handleShow}>Add User</button>
+        <div className="mx-2 card-admin-main">
+            <div className="card-body card-bg">
+                <div className="row justify-content-between">
+                    <div className="col-3">
+                        <h4 className="mb-2">Users</h4>
+                    </div>
+                    <div className="col-2 d-flex justify-content-end">
+                        <button className="btn btn-primary px-3 py-2" onClick={handleShow}>
+                            Add User</button>
+                    </div>
+                </div>
             </div>
-            <table className="table table-bordered ">
-                <thead>
-                    <tr>
-                        <th>Sr. No</th>
-                        <th>Full Name</th>
-                        <th>Email Id</th>
-                        <th>Mobile Number</th>
-                        <th>Approved Status</th>
-                        <th>Created Date</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        userList.length > 0 && userList.map((user, index) => (
-                            <tr key={arrayIndex('user', index)}>
-                                <td>{user.sr_no || index + 1}</td>
-                                <td>{user.fullname}</td>
-                                <td>{user.emailid}</td>
-                                <td>{user.mobileno}</td>
-                                <td>{user.approved_status}</td>
-                                <td>{moment().format('DD-MMM-yyyy')}</td>
-                                <td>
-                                    <div className="d-flex">
-                                        <Form.Check // prettier-ignore
-                                            type="switch"
-                                            id="custom-switch"
-                                            checked={user.approved_status == 1}
-                                            onChange={() => { confirm_swal_call(user) }}
-                                        />
-                                        <button className="btn btn-primary btn-sm mx-2" title="Edit User">
-                                            <i className="fa fa-pencil" ></i>
-                                        </button>
-                                        <button className="btn btn-danger btn-sm" title="Delete User">
-                                            <i className="fa fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        ))
-                    }
 
-                </tbody>
-            </table>
+            <div className="mt-4">
+                <div className="row">
+                     <label for="exampleInputEmail1">Filters</label>
+                      <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+                          <div class="form-group mt-2">
+                            <input type="email" class="form-control p-3" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email/Phone Number" />
+                        </div>
+                    </div>
+                    <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+                          <div class="form-group mt-2">
+                          <select class="form-control p-3" id="exampleFormControlSelect1">
+                            <option>Status</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           <div className="table-responsive mt-4">
+  <table className="table table-bordered custom-table table-striped">
+    <thead>
+      <tr>
+        <th>Sr. No</th>
+        <th>Full Name</th>
+        <th>Email Id</th>
+        <th>Mobile Number</th>
+        <th>Approved Status</th>
+        <th>dummy</th>
+        <th>Created Date</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {userList.length > 0 &&
+        userList.map((user, index) => (
+          <tr key={index}>
+            <td>{user.sr_no || index + 1}</td>
+            <td>{user.fullname}</td>
+            <td>{user.emailid}</td>
+            <td>{user.mobileno}</td>
+            <td><i class="fa-solid fa-circle-exclamation text-warning"></i> Pending{user.approved_status}</td>
+            <td><i class="fa-solid fa-circle-check text-success"></i> Approved{user.approved_status}</td>
+            <td>{moment().format("DD-MMM-yyyy")}</td>
+            <td>
+                <div className="d-flex justify-content-center">
+                     <div className="dropdown">
+            <button
+                className="btn btn-secondary "
+                type="button"
+                id="dropdownMenuButton"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+            >
+                <i className="fa-solid fa-ellipsis-vertical"></i>
+            </button>
+            <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li><a className="dropdown-item" href="#">Action</a></li>
+                <li><a className="dropdown-item" href="#">Another action</a></li>
+                <li><a className="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+            </div>
+                </div>
+               
+
+
+              {/* <div className="d-flex">
+                <Form.Check
+                  type="switch"
+                  id="custom-switch"
+                  checked={user.approved_status == 1}
+                  onChange={() => {
+                    confirm_swal_call(user);
+                  }}
+                /> 
+                <button
+                  className="btn btn-primary btn-sm mx-2"
+                  title="Edit User"
+                >
+                  <i className="fa fa-pencil"></i>
+                </button>
+                <button className="btn btn-danger btn-sm" title="Delete User">
+                  <i className="fa fa-trash"></i>
+                </button>
+              </div>*/}
+            </td>
+          </tr>
+        ))}
+    </tbody>
+  </table>
+</div>
+
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Add User</Modal.Title>
