@@ -357,7 +357,7 @@ function CreateApi() {
                                         <option value="">Select app</option>
                                         {
                                             applicationList.map((m, i) => (
-                                                <option key={arrayIndex('application_name', i)} value={m.id}>{m.name}</option>
+                                                <option key={arrayIndex('application_name', i)} value={m.name}>{m.name}</option>
                                             ))
                                         }
                                     </select>
