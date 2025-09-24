@@ -189,8 +189,9 @@ body {
 }
 
 .accordion-button:not(.collapsed) {
-    background: #5278F2 !important;
+    background: #0682fa !important;
     color: white !important;
+    border-radius: 10px !important;
 }
 
 .accordion-button:not(.collapsed)::after {
@@ -680,7 +681,7 @@ h6 {
     height: 100%;
     width: 250px;
     background-color: white;
-    box-shadow: 2px 4px 8px 0px #0000000f;
+    /* box-shadow: 2px 4px 8px 0px #0000000f; */
     transition: var(--tran-04);
     z-index: 100;
 }
@@ -702,9 +703,10 @@ h6 {
 }
 
 .adminHeader {
-    box-shadow: 2px 4px 8px 0px #0000000f;
+    /* box-shadow: 2px 4px 8px 0px #0000000f; */
     height: 65px;
     padding: 5px;
+    border-bottom: 1px solid #dddddd;
 }
 
 textarea.form-control {
@@ -736,7 +738,7 @@ select.form-select {
 
 .admin-sidebar-ul a {
     text-decoration: none;
-    color: #000;
+    color: #fff;
 }
 
 .h-60 {
@@ -832,7 +834,7 @@ select.form-select {
     font-size: 16px;
     line-height: 100%;
     letter-spacing: 0%;
-    color: #384D6C;
+    color: #ffffff;
 }
 
 .profilePageButton {
@@ -971,3 +973,18 @@ select.form-select {
   width: 100%;
   /* border-bottom: 1px solid #5278F2 */
 }
+
+.sidebar_entity.close .heading-hide {
+    display: none;
+}
+.border-bottom-dash{
+    border-bottom: 1px solid #dddddd;
+    padding-bottom: 4px;
+}
+.adminHeader .dropdown{
+    border-bottom: 2px solid #0052a4;
+}
+.min-height{
+ min-height: 100vh;
+}
+   

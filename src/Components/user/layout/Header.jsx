@@ -114,7 +114,7 @@ function Header() {
               //   <div className="col-8">
                 <Dropdown className="p-0">
                     <Dropdown.Toggle
-                      className="d-flex justify-content-center align-items-center btn-white p-0"
+                      className="d-flex justify-content-center align-items-center btn-white p-0 border_bottom"
                     >
                       <div className="circle-profile">
                  <i className="fa fa-user"></i>

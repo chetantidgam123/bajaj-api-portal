@@ -15,23 +15,16 @@ function Dashboard() {
   }, []);
 
   return (
-    <div className="card gifDivAdmi">
-      <div className="card-body p-0">
-        <div className="row g-0">
-          <div className="col-12 px-3 py-2 px-4 d-flex">
-            <img className="profileImage m-2" alt='Na' src={userProfile || "/assets/img/userdummy.png"} />
-            <div className="d-flex flex-column justify-content-center ms-3">
-              <h5 className="profileHeaders font-size-24 text-white">
-                Greetings, {fullName.split(" ")[0]}!
+    <div className="center-content">
+      <div className="card-body card-bg">
+        <div className="row g-0 align-items-center">
+            <div className="col-1">
+                 <img alt='Na'className="w-50" src="/assets/img/hello.png" /> 
+          </div>
+          <div className="col-11">
+            <h5 className="profileHeaders font-size-24">
+                  Greetings, {fullName.split(" ")[0]}!
               </h5>
-              <span className="">
-                Welcome to the Admin Dashboard. Here you can Manage APIs & Users,
-                View Reports, and Configure Settings.
-              </span>
-              <div className="newsline-container">
-                <p className="newsline-text">Innovation thrives where APIs open doors to new possibilities.</p>
-              </div>
-            </div>
           </div>
         </div>
         <div className="justify-content-center d-flex flex-column align-items-center">

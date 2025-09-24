@@ -84,10 +84,10 @@ function Sidebard() {
 
   return (
     <div className={`sidebar_entity-user ${isClosed ? "close" : ""}`}>
-      <div className="sidebar-user bg-white">
+      <div className="sidebar-user ">
         <div className="row">
           <div className="col-xl-9 col-lg-9 col-md-9 col-sm-10 col-10">
-            <h4 className="heading-hide heading-display">Explore Api</h4>
+            <h4 className="heading-hide heading-display text-white">Explore Api</h4>
           </div>
           <div
             className={`${
@@ -103,7 +103,7 @@ function Sidebard() {
 
           {/* Main Accordion */}
           <Accordion
-            className="mt-2"
+            className="mt-2 explore"
             activeKey={activeKey}
             onSelect={(key) => setActiveKey(key)}
             alwaysOpen={false}
@@ -127,10 +127,10 @@ function Sidebard() {
                 >
                   <img
                     src={`/assets/img/${
-                      i == activeKey ? "act_sidebar.png" : "sidebaricon.png"
+                      i == activeKey ? "visualization.png" : "visualization-2.png"
                     }`}
                     alt="NA"
-                    style={{ height: "24px", width: "24px" }}
+                    style={{ height: "15px", width: "15px" }}
                   />
                   <span className="link-name ms-2">{item.categoryname}</span>
                 </Accordion.Header>
@@ -289,7 +289,7 @@ function ApiList({ si, cItem, item, sItem, returnClass }) {
           >
             {sItem.apimethod}
           </Badge>
-          <small className="text-dark">{sItem.apiname}</small>
+          <small className="text-white">{sItem.apiname}</small>
         </div>
       </Link>
     </div>

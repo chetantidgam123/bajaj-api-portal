@@ -175,12 +175,16 @@ function HomePageContent() {
                         <div className="card-new mb-3">
                             <div className="card-body card-bg">
                                 <div className='row align-items-center'>
-                                    <div className='col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12'>
+                                    <div className='col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12'>
                                         <h5 className='mb-0'>{title || 'Get Started'}</h5>
                                         <ReactMarkdown remarkPlugins={[remarkGfm]}>{description}</ReactMarkdown>
                                     </div>
-                                    <div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-end'>
+                                    <div className='col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12 d-flex justify-content-end'>
                                         <button className="btn btn-outline-primary profilePageButton px-4" onClick={checkAccess}>Try it {tryitLoader && <Loader />}</button>
+
+                                    </div>
+                                    <div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-end'>
+                                        <button className="btn btn-primary profilePageButton px-3">API Playground History </button>
 
                                     </div>
                                 </div>

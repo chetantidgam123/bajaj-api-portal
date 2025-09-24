@@ -80,7 +80,7 @@
     font-size: 48px;
 }
 .color-blue{
-    color: #27384E;
+    color: #384D6C;
 }
 .font-20 {
     font-size: 20px;
@@ -273,7 +273,7 @@
         background-color: #006AD0;
 }
 .card-bg{
-    background-color:#F5F6FA;
+    background-color:#E6F1FB;
     border-radius: 16px;
         padding: 20px;
 }
@@ -283,14 +283,14 @@
         border-radius: 16px;
 }
 .circle-arrow{
-    width: 30px;
-    color: #155ad8;
-    height: 30px;
-    background-color: #155ad840;
+    width: 35px;
+    color: #000000;
+    height: 35px;
+    background-color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
+    border-radius: 10px;
 }
 
 /* sidebar css */
@@ -318,8 +318,8 @@
 }
 
 .sidebar_entity-user {
-    background-color: #fff;
-    box-shadow: 2px 4px 8px 0 #0000000f;
+    /* background-color: #fff; */
+    /* box-shadow: 2px 4px 8px 0 #0000000f; */
     transition: all 0.4s ease;
     width: 280px;
     border-radius: 1em;
@@ -634,4 +634,54 @@ background-color: #F5F6FA !important;
 
 .btn-blue:hover i {
   transform: translateX(5px); /* move to the right */
+}
+.header .border_bottom{
+     border-bottom: 2px solid #0052a4 !important;
+     border-radius: 0px;
+}
+.card-gradient{
+        background: linear-gradient(274deg, #006AD0, #7EC0FF);
+}
+.btn-upload{
+    background-color: white;
+    border-radius: 4px;
+    color: #006AD0;
+    padding: 10px 20px;
+    font-size: 17px;
+        font-weight: 600;
+}
+.font-600{
+        font-weight: 600;
+}
+.generate-token{
+      padding: 1rem !important;
+}
+.main-layout{
+    background: linear-gradient(#0685FF,#00519E);
+}
+.explore .accordion-button{
+    background-color: transparent;
+    border: none;
+    color: white;
+}
+.explore .accordion-item{
+      background-color: transparent;
+    border: none;
+    color: white;
+}
+.linear{
+        background: linear-gradient(#0685FF, #00519E);
+}
+
+.admin-sidebar .accordion-header .accordion-button{
+    background-color: transparent;
+    color: white;
+}
+.admin-sidebar .accordion-item{
+    background-color: transparent;
+    border: none !important;
+}
+
+.admin-sidebar-ul{
+    color: white;
 }

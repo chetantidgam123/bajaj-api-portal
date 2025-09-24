@@ -126,183 +126,190 @@ function Profile() {
     }, [])
 
     return (
-       <>
-        <div className="card-new p-4 mt-4">
-            <div className="card-bg">
-                <div className="row">
-                    <div className="col-6 p-3 d-flex">
-                        <img className="profileImage" src="/assets/img/userImage.png" />
-                        <div className="d-flex flex-column justify-content-center ms-3">
-                            <h5 className="profileHeaders">{fullName}</h5>
-                            <span className="">{emailId}</span>
+        <>
+            <div className="card-new p-4 mt-4">
+                <div className="card-bg card-gradient">
+                    <div className="row d-flex justify-content-between">
+                        <div className="col-6 p-3 d-flex">
+                            <img className="profileImage" src="/assets/img/userImage.png" />
+                            <div className="d-flex flex-column justify-content-center ms-3">
+                                <h5 className="profileHeaders">{fullName}</h5>
+                                <span className="text-white">{emailId}</span>
+                            </div>
                         </div>
-                    </div>
-                    <div className="col-6 d-flex justify-content-end align-items-center">
-                        <input type="file" className="d-none" id="profileImageInput" onChange={(e) => uploadProfileImage(e.target.files[0])} />
-                        <label htmlFor="profileImageInput" className="btn btn-primary profilePageButton float-end">
-                            <i className="fa fa-upload"></i> Upload New Photo
-                        </label>
+                        <div className="col-3 d-flex justify-content-end align-items-center">
+                            <input type="file" className="d-none" id="profileImageInput" onChange={(e) => uploadProfileImage(e.target.files[0])} />
+                            <label htmlFor="profileImageInput" className="btn btn-upload ">
+                                <i className="fa fa-upload"></i> Upload New Photo
+                            </label>
+
+                        </div>
 
                     </div>
-       
-            </div>
-            </div>
-           
+                </div>
+
                 <FormikProvider value={Profileform}>
                     <Form className="w-100 d-flex flex-column card-bg mt-3">
-                        <h5 className="profileHeaders mt-3">Personal Details</h5>
-                        
+                        <p className=" color-blue mt-3 font-600">Personal Details</p>
+
                         <div className="row">
+                            
                             <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
                                 {/* <FloatingInputLabel fieldName={`fullName`} formikFrom={Profileform} labelText={`Enter Full Name`} /> */}
-
-                                 <Form.Floating className="mb-3">
-      <Form.Control
-        id="fullName"
-        type="text"
-        placeholder="Enter Full Name"
-      />
-      <label htmlFor="fullName">Enter Full Name</label>
-    </Form.Floating>
-                                  <input 
-                                        type="text" 
-                                        class="form-control p-3" 
-                                        id="fullName" 
-                                        name="fullName" 
+                                    <input
+                                    type="text"
+                                    class="form-control p-3"
+                                      id="fullName"
+                                   name="fullName"
+                                  placeholder="Enter Full Name"
+                                    value={Profileform.values.fullName}
+                                />
+                                {/* <Form.Floating className="mb-3">
+                                    <Form.Control
+                                        id="fullName"
+                                        type="text"
                                         placeholder="Enter Full Name"
-                                        value={Profileform.values.fullName}
                                     />
+                                    <label htmlFor="fullName">Enter Full Name</label>
+                                </Form.Floating>
+                                <input
+                                    type="text"
+                                    class="form-control p-3"
+                                    id="fullName"
+                                    name="fullName"
+                                    placeholder="Enter Full Name"
+                                    value={Profileform.values.fullName}
+                                /> */}
                             </div>
                             <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
                                 {/* <FloatingInputLabel fieldName={`phoneNumber`} formikFrom={Profileform} labelText={`Enter Phone No.`} /> */}
-                                 <input 
-                                        type="text" 
-                                        class="form-control p-3" 
-                                        id="phoneNumber" 
-                                        name="phoneNumber" 
-                                        placeholder="Enter Phone No."
-                                        value={Profileform.values.phoneNumber}
-                                    />
+                                <input
+                                    type="text"
+                                    class="form-control p-3"
+                                    id="phoneNumber"
+                                    name="phoneNumber"
+                                    placeholder="Enter Phone No."
+                                    value={Profileform.values.phoneNumber}
+                                />
                             </div>
                             <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
                                 {/* <FloatingInputLabel fieldName={`alternameNumber`} formikFrom={Profileform} labelText={`Alt. Phone No.`} /> */}
-                                <input 
-                                        type="text" 
-                                        class="form-control p-3" 
-                                        id="alternameNumber" 
-                                        name="alternameNumber" 
-                                        placeholder="Alt. Phone No."
-                                        value={Profileform.values.alternameNumber}
-                                    />
+                                <input
+                                    type="text"
+                                    class="form-control p-3"
+                                    id="alternameNumber"
+                                    name="alternameNumber"
+                                    placeholder="Alt. Phone No."
+                                    value={Profileform.values.alternameNumber}
+                                />
                             </div>
                             <div className="col-3 mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
                                 {/* <FloatingInputLabel fieldName={`emailId`} formikFrom={Profileform} labelText={`Enter Email ID`} /> */}
-                                 <input 
-                                        type="text" 
-                                        class="form-control p-3" 
-                                        id="emailId" 
-                                        name="emailId" 
-                                        placeholder="Enter Email ID"
-                                        value={Profileform.values.emailId}
-                                    />
+                                <input
+                                    type="text"
+                                    class="form-control p-3"
+                                    id="emailId"
+                                    name="emailId"
+                                    placeholder="Enter Email ID"
+                                    value={Profileform.values.emailId}
+                                />
                             </div>
                         </div>
-                        <h5 className="profileHeaders mt-xl-5 mt-lg-4 mt-md-3 mt-sm-2 mt-1">Company Details</h5>
-                       
+                        <p className="color-blue font-600 mt-xl-5 mt-lg-4 mt-md-3 mt-sm-2 mt-1">Company Details</p>
                         <div className="row">
-                           <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
-                              <input 
-                                        type="text" 
-                                        class="form-control p-3" 
-                                        id="companyName" 
-                                        name="companyName" 
-                                        placeholder="Enter Company Name"
-                                        value={Profileform.values.companyName}
-                                    />
+                            <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
+                                <input
+                                    type="text"
+                                    class="form-control p-3"
+                                    id="companyName"
+                                    name="companyName"
+                                    placeholder="Enter Company Name"
+                                    value={Profileform.values.companyName}
+                                />
                                 {/* <FloatingInputLabel fieldName={`companyName`} formikFrom={Profileform} labelText={`Enter Company Name`} /> */}
                             </div>
-                           <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
+                            <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
                                 {/* <FloatingInputLabel fieldName={`officeEmailId`} formikFrom={Profileform} labelText={`Enter Company Mail ID`} /> */}
-                                  <input 
-                                        type="text" 
-                                        class="form-control p-3" 
-                                        id="officeEmailId" 
-                                        name="officeEmailId" 
-                                        placeholder="Enter Company Name"
-                                        value={Profileform.values.officeEmailId}
-                                    />
+                                <input
+                                    type="text"
+                                    class="form-control p-3"
+                                    id="officeEmailId"
+                                    name="officeEmailId"
+                                    placeholder="Enter Company Name"
+                                    value={Profileform.values.officeEmailId}
+                                />
                             </div>
-                           <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
-                            <input 
-                                        type="text" 
-                                        class="form-control p-3" 
-                                        id="officePhoneNumber" 
-                                        name="officePhoneNumber" 
-                                        placeholder="Enter Official Phone No."
-                                        value={Profileform.values.officePhoneNumber}
-                                    />
+                            <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
+                                <input
+                                    type="text"
+                                    class="form-control p-3"
+                                    id="officePhoneNumber"
+                                    name="officePhoneNumber"
+                                    placeholder="Enter Official Phone No."
+                                    value={Profileform.values.officePhoneNumber}
+                                />
                                 {/* <FloatingInputLabel fieldName={`officePhoneNumber`} formikFrom={Profileform} labelText={`Enter Official Phone No.`} /> */}
                             </div>
-                           <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
+                            <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
                                 {/* <FloatingInputLabel fieldName={`altOfficePhoneNumber`} formikFrom={Profileform} labelText={`Alt. Official Phone No.`} /> */}
-                                  <input 
-                                        type="text" 
-                                        class="form-control p-3" 
-                                        id="altOfficePhoneNumber" 
-                                        name="altOfficePhoneNumber" 
-                                        placeholder="Alt. Official Phone No."
-                                        value={Profileform.values.altOfficePhoneNumber}
-                                    />
+                                <input
+                                    type="text"
+                                    class="form-control p-3"
+                                    id="altOfficePhoneNumber"
+                                    name="altOfficePhoneNumber"
+                                    placeholder="Alt. Official Phone No."
+                                    value={Profileform.values.altOfficePhoneNumber}
+                                />
                             </div>
-                           <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
+                            <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
                                 {/* <FloatingInputLabel inputType={`textarea`} fieldName={`companyAddress`} formikFrom={Profileform} labelText={`Company Address`} /> */}
-                                  <input 
-                                        type="text" 
-                                    className="form-control p-3" 
-                                        id="companyAddress" 
-                                        name="companyAddress" 
-                                        placeholder="Enter Company Address"
-                                        value={Profileform.values.companyAddress} />
+                                <input
+                                    type="text"
+                                    className="form-control p-3"
+                                    id="companyAddress"
+                                    name="companyAddress"
+                                    placeholder="Enter Company Address"
+                                    value={Profileform.values.companyAddress} />
 
                             </div>
                         </div>
-                        <h5 className="profileHeaders mt-xl-5 mt-lg-4 mt-md-3 mt-sm-2 mt-1">Credentials</h5>
-                    
+                        <h5 className="font-600 mt-xl-5 mt-lg-4 mt-md-3 mt-sm-2 mt-1">Credentials</h5>
+
                         <div className="row">
-                           <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
-                              <input 
-                                        type="text" 
-                                    className="form-control p-3" 
-                                        id="clientId" 
-                                        name="clientId" 
-                                        placeholder="Client ID"
-                                        value={Profileform.values.clientId} />
+                            <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
+                                <input
+                                    type="text"
+                                    className="form-control p-3"
+                                    id="clientId"
+                                    name="clientId"
+                                    placeholder="Client ID"
+                                    value={Profileform.values.clientId} />
 
                                 {/* <FloatingInputLabel fieldName={`clientId`} formikFrom={Profileform} labelText={`Client ID`} /> */}
                             </div>
-                           <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
-                               <input 
-                                        type="text" 
-                                    className="form-control p-3" 
-                                        id="clientSecret" 
-                                        name="clientSecret" 
-                                        placeholder="Client Secret"
-                                        value={Profileform.values.clientSecret} />
+                            <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
+                                <input
+                                    type="text"
+                                    className="form-control p-3"
+                                    id="clientSecret"
+                                    name="clientSecret"
+                                    placeholder="Client Secret"
+                                    value={Profileform.values.clientSecret} />
                                 {/* <FloatingInputLabel fieldName={`clientSecret`} formikFrom={Profileform} labelText={`Client Secret`} /> */}
                             </div>
-                           <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
-                                <button className="btn btn-outline-primary profilePageButton">Generate Token <i class="fa-solid fa-arrow-right"></i></button>
+                            <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
+                                <button className="btn btn-outline-primary generate-token">Generate Token <i class="fa-solid fa-arrow-right"></i></button>
                             </div>
                         </div>
                         <div className="d-flex justify-content-end mt-3">
-                             <button className='btn btn-primary profilePageButton px-3'>Submit <i class="fa-solid fa-arrow-right"></i></button>
+                            <button className='btn btn-primary profilePageButton px-3'>Submit <i class="fa-solid fa-arrow-right"></i></button>
                         </div>
                     </Form>
                 </FormikProvider>
-               
-     
-        </div>
-       </>
+
+
+            </div>
+        </>
     )
 }
 

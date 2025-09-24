@@ -28,36 +28,53 @@ function Header() {
             <div className='adminHeader'>
                 <nav className="navbar navbar-expand-lg px-4">
                     <div className="container-fluid bg-white">
-                        <button className="btn btn-primary toggle" type="button">
+                        {/* <button className="btn btn-primary toggle" type="button">
                             <i className="fa-solid fa-bars"></i>
                         </button>
-                        {/* Toggle Button for mobile */}
+                        
                         <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarCenterContent" aria-controls="navbarCenterContent"
                             aria-expanded="false" aria-label="Toggle navigation">
                             <span className="navbar-toggler-icon"></span>
-                        </button>
+                        </button> */}
 
                         {/* Collapsible Content */}
                         <div className="collapse navbar-collapse justify-content-end" id="navbarCenterContent">
                             {/* Center: Links */}
                             <ul className="navbar-nav mb-2 mb-lg-0">
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="/api/0">Explore API</Link>
-                                </li>
-                                <li className="nav-item mx-3">
-                                    <Link className="nav-link" to="/faq">FAQ</Link>
-                                </li>
-                                <li className="nav-item" style={{ borderRadius: "22px", border: "1px solid gray" }}>
-                                    <Dropdown style={{ bordeRadius: "22px" }}>
-                                        <Dropdown.Toggle className="span-btn pb-0 pt-2" style={{ color: "rgba(0, 0, 0, 0.8)", borderRadius: "22px" }} id="dropdown-basic">
-                                            {fullName} <i className="fa fa-user headerUserIcon"></i>
+
+                                    <Dropdown className="p-0">
+                                        <Dropdown.Toggle
+                                            className="d-flex justify-content-center align-items-center btn-white p-0"
+                                        >
+                                            <div className="circle-profile">
+                                                <i className="fa fa-user"></i>
+                                            </div>
+                                            <div className="ms-2 text-start color-blue">
+                                                Welcome <br></br>
+                                                {fullName}
+                                            </div>
+
                                         </Dropdown.Toggle>
+
                                         <Dropdown.Menu>
-                                            <Dropdown.Item >Profile</Dropdown.Item>
-                                            <Dropdown.Item onClick={logout}>Logout</Dropdown.Item>
+                                            <Link
+                                                style={{ textDecoration: "none", color: "#212529" }}
+                                            // to={"/user/profile"}
+                                            >
+                                                <Dropdown.Item as={"span"}>Profile</Dropdown.Item>
+                                            </Link>
+                                            <Dropdown.Item
+                                                as={"button"}
+                                                className="span-btn"
+                                                onClick={logout}
+                                            >
+                                                Logout
+                                            </Dropdown.Item>
                                         </Dropdown.Menu>
                                     </Dropdown>
+
                                 </li>
                             </ul>
                         </div>
