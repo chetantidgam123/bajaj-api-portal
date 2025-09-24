@@ -189,8 +189,9 @@ body {
 }
 
 .accordion-button:not(.collapsed) {
-    background: #5278F2 !important;
+    background: #0682fa !important;
     color: white !important;
+    border-radius: 10px !important;
 }
 
 .accordion-button:not(.collapsed)::after {
@@ -680,7 +681,7 @@ h6 {
     height: 100%;
     width: 250px;
     background-color: white;
-    box-shadow: 2px 4px 8px 0px #0000000f;
+    /* box-shadow: 2px 4px 8px 0px #0000000f; */
     transition: var(--tran-04);
     z-index: 100;
 }
@@ -737,7 +738,7 @@ select.form-select {
 
 .admin-sidebar-ul a {
     text-decoration: none;
-    color: #000;
+    color: #fff;
 }
 
 .h-60 {
@@ -833,7 +834,7 @@ select.form-select {
     font-size: 16px;
     line-height: 100%;
     letter-spacing: 0%;
-    color: #384D6C;
+    color: #ffffff;
 }
 
 .profilePageButton {
@@ -983,3 +984,7 @@ select.form-select {
 .adminHeader .dropdown{
     border-bottom: 2px solid #0052a4;
 }
+.min-height{
+ min-height: 100vh;
+}
+   

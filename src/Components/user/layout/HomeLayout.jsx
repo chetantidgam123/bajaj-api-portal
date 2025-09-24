@@ -23,7 +23,7 @@ function HomeLayout() {
     return (
         <div className="home-layout pt-2">
             <Header />
-            <div className="container-fluid col-12 mt-2 main-layout">
+            <div className="container-fluid col-12 main-layout py-3">
                 {showsidebar && <div className="DashboardLayout">
                     {/* <div className={`sidebar_entity ${isClosed ? "close" : ""}`}> */}
                         {/* <Sidebar setPageData={setPageData} /> */}
