@@ -3,12 +3,15 @@ import { useState } from "react"
 function GetinTouch() {
     const[getintouchList, setgetintouchList]= useState([])
     return (
-        <div className="mx-2">
-            <div className="d-flex justify-content-between my-2">
-                <h1 className="">Get in Touch List</h1>
+        <div className="mx-2 card-admin-main">
+            <div className="card-body card-bg">
+ <div className="d-flex justify-content-between my-2">
+                <h4 className="">Get in Touch List</h4>
 
             </div>
-            <table className="table table-bordered ">
+            </div>
+           
+            <table className="table table-bordered custom-table table-striped mt-3 ">
                 <thead>
                     <tr>
                         <th>Sr. No</th>
