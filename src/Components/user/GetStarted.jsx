@@ -17,10 +17,10 @@ function GetStarted() {
                     <div className="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12">
                         <div className="row">
                             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <img src="/assets/img/createaccount.png" alt="NA" className='w-100' />
+                                <img src="/assets/img/image 1.png" alt="NA" className='w-100 height-250' />
                             </div>
                             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <img src="/assets/img/login.JPG" alt="NA" className='w-100 border-round-bold' />
+                                <img src="/assets/img/image 2.png" alt="NA" className='w-100 height-250' />
                             </div>
                         </div>
                     </div>
@@ -38,10 +38,10 @@ function GetStarted() {
                     <div className="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12">
                         <div className="row">
                             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <img src="/assets/img/sidebar.png" alt="NA" className='w-100' />
+                                <img src="/assets/img/image 3.png" alt="NA" className='w-100 height-250'  />
                             </div>
                             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <img src="/assets/img/explore.JPG" alt="NA" className='w-100 border-round-bold' />
+                                <img src="/assets/img/image 4.png" alt="NA" className='w-100 height-250' />
                             </div>
                         </div>
                     </div>
@@ -57,13 +57,15 @@ function GetStarted() {
                             </ul>
                         </div>
                         <div className="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12">
-                            <div className="row justify-content-center">
-                                <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                                    <img src="/assets/img/commingsoon.png" alt="NA" className='w-100' />
-                                </div>
-                              
+                        <div className="row">
+                            <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                <img src="/assets/img/image 5.png" alt="NA" className='w-100 height-250' />
+                            </div>
+                            <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                <img src="/assets/img/image 6.png" alt="NA" className='w-100 height-250' />
                             </div>
                         </div>
+                    </div>
                     </div>
                 </div>
            

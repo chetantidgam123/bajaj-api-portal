@@ -49,7 +49,7 @@ function Sidebar() {
       </header>
 
       <div className="pt-2 px-2 linear min-height">
-        <div className="row align-items-center">
+        <div className="row align-items-center px-3 mt-3">
           {/* ✅ React toggle button (no querySelector) */}
           <div className="col-xl-9 col-lg-9 col-md-9 col-sm-10 col-10">
          <h4 class="heading-hide heading-display mb-0">
