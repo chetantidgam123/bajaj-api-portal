@@ -147,3 +147,19 @@ export const subCategoryFormSchema = yup.object().shape({
 export const termscondFormSchema = yup.object().shape({
   text: yup.string().required("Content is required"),
 });
+
+export const faqSchema = yup.object().shape({
+  fullname: yup.string().trim().required("Full name is required"),
+  companyname: yup.string().trim().required("Company name is required"),
+  emailid: yup
+    .string()
+    .email("Enter a valid email")
+    .required("Email is required"),
+  mobileno: yup
+    .string()
+    .matches(/^[0-9]{10}$/, "Enter a valid 10-digit phone number")
+    .required("Phone number is required"),
+  category_name: yup.string().trim().required("Category is required"),
+  que: yup.string().trim().required("Please enter your question"),
+  ans: yup.string().trim(), // optional
+});
