@@ -40,12 +40,17 @@ function GetinTouch() {
   //   }, []);
 
   return (
-    <div className="mx-2">
-      <div className="d-flex justify-content-between my-2">
-        <h1 className="">Get in Touch List</h1>
+         <div className="mx-2 card-admin-main">
+      <div className="card-body card-bg">
+        <div className="row justify-content-between align-items-center">
+          <div className="col-4">
+            <h4 className="">Get in Touch List</h4>
+          </div>
+        </div>
       </div>
       {loader.pageloader && <PageLoaderBackdrop />}
-      <table className="table table-bordered ">
+    <div className="table-responsive mt-2">
+        <table className="table table-bordered custom-table table-striped mt-3">
         <thead>
           <tr>
             <th>Sr. No</th>
@@ -104,6 +109,7 @@ function GetinTouch() {
           )}
         </tbody>
       </table>
+    </div>
     </div>
   );
 }

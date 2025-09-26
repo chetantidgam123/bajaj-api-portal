@@ -782,6 +782,6 @@ background-color: #F5F6FA !important;
 .border-radius-10px{
     border-radius: 10px;
 }
-.popup-request {
-    
+.admin-sidebar .accordion-button:not(.collapsed){
+      box-shadow: none !important;
 }

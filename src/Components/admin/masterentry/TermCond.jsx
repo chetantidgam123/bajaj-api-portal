@@ -81,16 +81,15 @@ function TermCond() {
                         title="Edit Content"
                         onClick={() => setOpenModalTC(true)}
                     >
-                        Add &nbsp;<i className="fa fa-pencil"></i>
+                        Edit &nbsp;<i className="fa fa-pencil"></i>
                     </button>
                 </div>
 
                </div>
 
                 <div className="mt-4">
-                    <h5>Page Content</h5>
                     <div
-                        className="border p-2"
+                        className=" p-2"
                         dangerouslySetInnerHTML={{ __html: exportedHTML }}
                     />
                 </div>

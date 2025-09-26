@@ -75,7 +75,7 @@ function GetStarted() {
                 </div>
                 <div className="card-body card-bg mt-3">
  <div className="card-body card-bg">
-                <h4 className="mb-2">Get Started bb</h4>
+                <h4 className="mb-2">Get Started</h4>
             </div>
             <h5>API Playground History</h5>
             <div className="bg-dark-blur">

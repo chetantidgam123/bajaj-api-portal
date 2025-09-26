@@ -363,6 +363,15 @@ function CreateApi() {
                                     </select>
                                     <ErrorMessage name={"apimethod"} component="small" className='text-danger' />
                                 </div>
+                                    <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-3">
+                                    <label htmlFor="apiurl" className="form-label" >Api Endpoint</label>
+                                    <input type="text" className='form-control' name='apiurl'
+                                        // onChange={apiForm.handleChange}
+                                        //  onBlur={apiForm.handleBlur}
+                                        // value={apiForm.values.apiurl} 
+                                        />
+                                    <ErrorMessage name="apiurl" component="small" className='text-danger' />
+                                </div>
                             </div>
                         </div>
                     </div>
