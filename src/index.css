@@ -982,7 +982,7 @@ select.form-select {
     padding-bottom: 4px;
 }
 .adminHeader .dropdown{
-    border-bottom: 2px solid #0052a4;
+    /* border-bottom: 2px solid #0052a4; */
 }
 .min-height{
  min-height: 100vh;

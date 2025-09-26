@@ -156,12 +156,34 @@ function CategoryList() {
             </div>
 
 
-           
+     <div className="mt-4">
+  
+    <label className="form-label" htmlFor="categoryid">Filters</label>
+     <div className="row align-items-center">
+                <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-3">
+                    <select className="form-select" id="categoryid" name="categoryid"
+                        // value={categoryId}
+                        // onChange={(e) => { setCategoryId(e.target.value) }}>
+                        // <option value="">Select Category</option>
+                        // {
+                        //     categoryList.map((m, i) => (
+                        //         <option key={arrayIndex('category', i)} value={m?.id}>{m.categoryname}</option>
+                        //     ))
+                        // }
+                  > 
+                  <option value="">Select Category </option> </select>
+                </div>
+                 <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-3">
+                <button className="btn btn-primary profilePageButton px-3 search-btn">Search </button>
+                </div>
+                </div>
+                </div>
+                 <div className="table-responsive">
             <table className="table table-bordered custom-table table-striped mt-3">
                 <thead>
                     <tr>
                         <th>Sr. No</th>
-                        <th>Catrgory Name</th>
+                        <th>Category  Name</th>
                         <th>Created Date</th>
                         <th>Action</th>
                     </tr>
@@ -194,6 +216,7 @@ function CategoryList() {
                     }
                 </tbody>
             </table>
+            </div>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>{isEdit ? 'Update' : 'Add'} Category</Modal.Title>
