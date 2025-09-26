@@ -1,7 +1,10 @@
 import { useState } from "react"
+import { PageLoaderBackdrop } from "../../../Loader"
 
 function SuggestApi(){
     const[suggApiList, setSuggApiList]= useState([])
+    const [loader, setLoader] = useState({ pageloader: false })
+
     return(
  <div className="mx-2 card-admin-main">
     <div className="card-body card-bg">
@@ -110,7 +113,7 @@ function SuggestApi(){
                     </Button>
                 </Modal.Footer>
             </Modal> */}
-            {/* {loader.pageloader && <PageLoaderBackdrop />} */}
+            {loader.pageloader && <PageLoaderBackdrop />}
         </div>
     )
 }

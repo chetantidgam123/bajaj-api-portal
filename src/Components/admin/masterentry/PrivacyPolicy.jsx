@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { PageLoaderBackdrop } from "../../../Loader";
 function PrivacyPolicy() {
     const [openModalTC, setOpenModalTC] = useState(false);
+    const [loader, setLoader] = useState({ pageloader: false })
 useEffect(()=>{
     console.log(ClassicEditor.builtinPlugins.map(p => p.pluginName),'editor');
 
@@ -155,6 +157,7 @@ useEffect(()=>{
                 </Modal.Footer>
             </Modal>
         </div>
+        {loader.pageloader && <PageLoaderBackdrop />}
     </>
      
     );

@@ -27,6 +27,7 @@ function HomePageContent() {
     const [tryitLoader, setTryitLoader] = useState(false);
     const [tryitModalDesc, setTryitModalDesc] = useState('')
     const [bodyRequestSample, setBodyRequestSample] = useState('')
+    const [hasTriedApi, setHasTriedApi] = useState(false);
     const location = useLocation();
     useEffect(() => {
         chekParamParameter()
@@ -96,7 +97,7 @@ function HomePageContent() {
             }).catch((error) => {
                 setLoader(false);
                 console.log(error)
-                error_swal_toast(error.message)
+                // error_swal_toast(error.message)
 
             })
     }
@@ -119,6 +120,7 @@ function HomePageContent() {
         post_auth_data("portal/private", convertToPayload('check-api-access', payload), {})
             .then(async (response) => {
                 setTryitLoader(false)
+                setHasTriedApi(true) 
                 // navigate(`/try-api/${collection_id}/${category_id}/${api_id}`)
                 if (response.data.status) {
                     navigate(`/try-api/${collection_id}/${category_id}/${api_id}`)
@@ -138,7 +140,11 @@ function HomePageContent() {
             }).catch((error) => {
                 setTryitLoader(false)
                 console.log(error)
-                error_swal_toast(error.message)
+                setHasTriedApi(true)
+                if(!api_id) {
+                    navigate('/')
+                }
+                // error_swal_toast(error.message)
 
             })
     }
@@ -179,14 +185,41 @@ function HomePageContent() {
                                         <h5 className='mb-0'>{title || 'Get Started'}</h5>
                                         <ReactMarkdown remarkPlugins={[remarkGfm]}>{description}</ReactMarkdown>
                                     </div>
-                                    <div className='col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12 d-flex justify-content-end'>
+                                    {/* <div className='col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12 d-flex justify-content-end'>
                                         <button className="btn btn-outline-primary profilePageButton px-4" onClick={checkAccess}>Try it {tryitLoader && <Loader />}</button>
+                                    </div> */}
+                                    <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
+  <div className="d-flex justify-content-end">
+    {!hasTriedApi ? (
+      // Case 1: before try -> only Try it aligned right
+      <button
+        className="btn btn-outline-primary px-3"
+        onClick={checkAccess}
+        disabled={tryitLoader}
+      >
+        {tryitLoader ? "Loading..." : "Try it"}
+      </button>
+    ) : (
+      // Case 2: after try -> show both
+      <>
+        <button
+          className="btn btn-outline-primary me-2 px-3"
+          onClick={checkAccess}
+          disabled={tryitLoader}
+        >
+          {tryitLoader ? "Loading..." : "Try it"}
+        </button>
+        <button className="btn btn-primary px-3" onClick={() => navigate('/api-playground-history')}>
+          API Playground History
+        </button>
+      </>
+    )}
+  </div>
+</div>
 
-                                    </div>
-                                    <div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-end'>
+                                    {/* {hasTriedApi && (<div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-end'>
                                         <button className="btn btn-primary profilePageButton px-3">API Playground History </button>
-
-                                    </div>
+                                    </div>)} */}
                                 </div>
 
                                 {/* {(collection_id == 0 && getTokenData()?.role != 1) && <GetStarted />} */}

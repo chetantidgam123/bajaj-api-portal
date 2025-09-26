@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-
+import { PageLoaderBackdrop } from "../../../Loader";
 function TermCond() {
     const [openModalTC, setOpenModalTC] = useState(false);
-
+    const [loader, setLoader] = useState({ pageloader: false })
 
     const apiHtml = `<div>
   <h2>Terms and Conditions</h2>
@@ -161,6 +161,7 @@ function TermCond() {
                     </Modal.Footer>
                 </Modal>
             </div>
+            {loader.pageloader && <PageLoaderBackdrop />}
         </>
 
     );
