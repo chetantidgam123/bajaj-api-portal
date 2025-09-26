@@ -35,7 +35,7 @@ export const loginFormSchema = yup.object().shape({
 export const profileFormSchema = yup.object().shape({
   fullname: yup
     .string()
-    .min(5, "Invalid fullName")
+    .min(2, "Invalid fullName")
     .required("Mandatory field*"),
   mobileno: yup
     .string()
@@ -48,7 +48,7 @@ export const profileFormSchema = yup.object().shape({
   emailid: yup.string().email("Invalid email").required("Mandatory field*"),
   company_name: yup
     .string()
-    .min(5, "Invalid company name")
+    .min(2, "Invalid company name")
     .required("Mandatory field*"),
   company_email: yup
     .string()
@@ -61,7 +61,7 @@ export const profileFormSchema = yup.object().shape({
   company_office_mobile: yup
     .string()
     .matches(/^\d{10}$/, "Alt. office phone number must be exactly 10 digits")
-    .notRequired(),
+    .required("Mandatory field*"),
   company_address: yup
     .string()
     .min(5, "Invalid company address")
@@ -70,7 +70,7 @@ export const profileFormSchema = yup.object().shape({
   clientSecret: yup.string().min(5, "Invalid clientSecret").notRequired(),
   profile_img: yup
     .string()
-    .required("Profile image is required")
+    .notRequired("Profile image is required")
     .matches(
       /^data:image\/(png|jpg|jpeg);base64,[A-Za-z0-9+/=]+$/,
       "Invalid image format, must be base64 PNG/JPG"

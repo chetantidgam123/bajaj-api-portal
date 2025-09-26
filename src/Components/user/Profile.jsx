@@ -21,14 +21,14 @@ function Profile() {
   const Profileform = useFormik({
     initialValues: {
       fullname: "",
-      phoneNumber: "",
-      alternameNumber: "",
-      emailId: "",
-      companyName: "",
-      officeEmailId: "",
-      officePhoneNumber: "",
-      altOfficePhoneNumber: "",
-      companyAddress: "",
+      mobileno: "",
+      mobileno2: "",
+      emailid: "",
+      company_name: "",
+      company_email: "",
+      company_mobile: "",
+      company_office_mobile: "",
+      company_address: "",
       clientId: "",
       clientSecret: "",
       profile_img: "",
@@ -48,26 +48,22 @@ function Profile() {
   console.log("Formik isSubmitting →", Profileform.isSubmitting);
 
   const handleSubmit = (values) => {
-    // let payload = {
-    //   fullName: Profileform.values.fullName,
-    //   phoneNumber: Profileform.values.phoneNumber,
-    //   alternameNumber: Profileform.values.alternameNumber,
-    //   emailId: Profileform.values.emailId,
-    //   companyName: Profileform.values.companyName,
-    //   officeEmailId: Profileform.values.officeEmailId,
-    //   officePhoneNumber: Profileform.values.officePhoneNumber,
-    //   altOfficePhoneNumber: Profileform.values.altOfficePhoneNumber,
-    //   companyAddress: Profileform.values.companyAddress,
-    //   clientId: Profileform.values.clientId,
-    //   clientSecret: Profileform.values.clientSecret,
-    // };
-
-    const payload = { ...values };
+    const payload = {
+      ...values,
+      mobileno: values.mobileno?.toString() || "",
+      mobileno2: values.mobileno2?.toString() || "",
+      company_mobile: values.company_mobile?.toString() || "",
+      company_office_mobile: values.company_office_mobile?.toString() || "",
+    };
 
     console.log("Payload for profile update:", payload);
 
     setLoader(true);
-    post_data("portal/private", convertToPayload("profileDetails", payload), {})
+    post_auth_data(
+      "portal/private",
+      convertToPayload("update-profile", payload),
+      {}
+    )
       .then((response) => {
         setLoader(false);
         if (response.data.status) {
@@ -85,6 +81,32 @@ function Profile() {
       });
   };
 
+  const uploadProfileImage = (file) => {
+    if (!file) return;
+
+    const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+    const maxSize = 240 * 1024; // 240 KB in bytes
+
+    // ✅ Check file type
+    if (!allowedTypes.includes(file.type)) {
+      error_swal_toast("Only JPG, JPEG, and PNG files are allowed.");
+      return;
+    }
+
+    if (file.size > maxSize) {
+      error_swal_toast("File size must be less than 240 KB.");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64String = reader.result;
+      setProfileImage(base64String);
+      Profileform.setFieldValue("profile_img", base64String);
+    };
+    reader.readAsDataURL(file);
+  };
+
   const getUserData = () => {
     post_auth_data(
       "portal/private",
@@ -93,23 +115,24 @@ function Profile() {
     )
       .then((response) => {
         if (response.data.status) {
-          // console.log(response.data.data[0]);
+          console.log(response.data.data[0]);
           setFullName(response.data.data[0].fullname || "");
           setEmailId(response.data.data[0].emailid || "");
           setProfileImage(response.data.data[0].profileImage || "");
           Profileform.setValues({
-            fullName: response.data.data[0].fullname || "",
-            phoneNumber: response.data.data[0].mobileno || "",
-            alternameNumber: response.data.data[0].alternameNumber || "",
-            emailId: response.data.data[0].emailid || "",
-            companyName: response.data.data[0].companyName || "",
-            officeEmailId: response.data.data[0].officeEmailId || "",
-            officePhoneNumber: response.data.data[0].officePhoneNumber || "",
-            altOfficePhoneNumber:
-              response.data.data[0].altOfficePhoneNumber || "",
-            companyAddress: response.data.data[0].companyAddress || "",
+            fullname: response.data.data[0].fullname || "",
+            mobileno: response.data.data[0].mobileno || "",
+            mobileno2: response.data.data[0].mobileno2 || "",
+            emailid: response.data.data[0].emailid || "",
+            company_name: response.data.data[0].company_name || "",
+            company_email: response.data.data[0].company_email || "",
+            company_mobile: response.data.data[0].company_mobile || "",
+            company_office_mobile:
+              response.data.data[0].company_office_mobile || "",
+            company_address: response.data.data[0].company_address || "",
             clientId: response.data.data[0].clientId || "",
             clientSecret: response.data.data[0].clientSecret || "",
+            profile_img: response.data.data[0].profile_img || "",
           });
         } else {
           error_swal_toast(response.data.message || "something went wrong");
@@ -120,65 +143,9 @@ function Profile() {
       });
   };
 
-  const uploadProfileImage2 = (fileInput = {}) => {
-    console.log("File input:", fileInput);
-    localStorage.setItem("profileImage", JSON.stringify(fileInput));
-    // const formData = new FormData();
-    // formData.append('profileImage', fileInput);
-    // post_data("portal/private/upload-profile-image", formData, {})
-    //     .then((response) => {
-    //         if (response.data.status) {
-    //             success_swal_toast("Profile image uploaded successfully");
-    //         } else {
-    //             error_swal_toast(response.data.message || "Failed to upload profile image");
-    //         }
-    //     }).catch((error) => {
-    //         error_swal_toast(error.message || "something went wrong");
-    //         console.error("Error during profile image upload:", error);
-    //     });
-    // return () => {
-    //     console.log("Profile image upload function called");
-    // }
-  };
-
-  const uploadProfileImage = (fileInput = {}) => {
-    if (!fileInput) return;
-
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
-      const base64String = reader.result;
-
-      localStorage.setItem("profileImage", base64String);
-
-      const payload = {
-        profileImage: base64String,
-      };
-
-      console.log("PAYLOAD", payload);
-
-      post_data("portal/private/upload-profile-image", payload, {})
-        .then((response) => {
-          if (response.data.status) {
-            success_swal_toast("Profile image uploaded successfully");
-          } else {
-            error_swal_toast(
-              response.data.message || "Failed to upload profile image"
-            );
-          }
-        })
-        .catch((error) => {
-          error_swal_toast(error.message || "Something went wrong");
-          console.error("Error during profile image upload:", error);
-        });
-    };
-
-    reader.readAsDataURL(fileInput);
-  };
-
   const handlePhoneInput = (field, value) => {
     const digitsOnly = value.replace(/\D/g, "").slice(0, 10);
-    Profileform.setFieldValue(field, digitsOnly);
+    Profileform.setFieldValue(field, digitsOnly.toString());
   };
 
   useEffect(() => {
@@ -195,7 +162,11 @@ function Profile() {
                 <div className="col-6 p-3 d-flex">
                   <img
                     className="profileImage"
-                    src="/assets/img/userImage.png"
+                    src={
+                      profileImage ||
+                      Profileform.values.profile_img ||
+                      "/assets/img/userImage.png"
+                    }
                   />
                   <div className="d-flex flex-column justify-content-center ms-3">
                     <h5 className="profileHeaders">{fullName}</h5>
@@ -249,19 +220,20 @@ function Profile() {
                   <input
                     type="text"
                     class="form-control p-3"
-                    id="phoneNumber"
-                    name="phoneNumber"
+                    id="mobileno"
+                    name="mobileno"
                     placeholder="Enter Phone No."
-                    value={Profileform.values.phoneNumber}
+                    value={Profileform.values.mobileno}
                     onChange={(e) =>
-                      handlePhoneInput("phoneNumber", e.target.value)
+                      handlePhoneInput("mobileno", e.target.value)
                     }
                     onBlur={Profileform.handleBlur}
+                    disabled={true}
                   />
-                  {Profileform.touched.phoneNumber &&
-                    Profileform.errors.phoneNumber && (
+                  {Profileform.touched.mobileno &&
+                    Profileform.errors.mobileno && (
                       <div className="text-danger mt-1">
-                        {Profileform.errors.phoneNumber}
+                        {Profileform.errors.mobileno}
                       </div>
                     )}
                 </div>
@@ -269,19 +241,19 @@ function Profile() {
                   <input
                     type="text"
                     class="form-control p-3"
-                    id="alternameNumber"
-                    name="alternameNumber"
+                    id="mobileno2"
+                    name="mobileno2"
                     placeholder="Alt. Phone No."
-                    value={Profileform.values.alternameNumber}
+                    value={Profileform.values.mobileno2}
                     onChange={(e) =>
-                      handlePhoneInput("alternameNumber", e.target.value)
+                      handlePhoneInput("mobileno2", e.target.value)
                     }
                     onBlur={Profileform.handleBlur}
                   />
-                  {Profileform.touched.alternameNumber &&
-                    Profileform.errors.alternameNumber && (
+                  {Profileform.touched.mobileno2 &&
+                    Profileform.errors.mobileno2 && (
                       <div className="text-danger mt-1">
-                        {Profileform.errors.alternameNumber}
+                        {Profileform.errors.mobileno2}
                       </div>
                     )}
                 </div>
@@ -289,17 +261,18 @@ function Profile() {
                   <input
                     type="text"
                     class="form-control p-3"
-                    id="emailId"
-                    name="emailId"
+                    id="emailid"
+                    name="emailid"
                     placeholder="Enter Email ID"
-                    value={Profileform.values.emailId}
+                    value={Profileform.values.emailid}
                     onChange={Profileform.handleChange}
                     onBlur={Profileform.handleBlur}
+                    disabled={true}
                   />
-                  {Profileform.touched.emailId &&
-                    Profileform.errors.emailId && (
+                  {Profileform.touched.emailid &&
+                    Profileform.errors.emailid && (
                       <div className="text-danger mt-1">
-                        {Profileform.errors.emailId}
+                        {Profileform.errors.emailid}
                       </div>
                     )}
                 </div>
@@ -312,17 +285,17 @@ function Profile() {
                   <input
                     type="text"
                     class="form-control p-3"
-                    id="companyName"
-                    name="companyName"
+                    id="company_name"
+                    name="company_name"
                     placeholder="Enter Company Name"
-                    value={Profileform.values.companyName}
+                    value={Profileform.values.company_name}
                     onChange={Profileform.handleChange}
                     onBlur={Profileform.handleBlur}
                   />
-                  {Profileform.touched.companyName &&
-                    Profileform.errors.companyName && (
+                  {Profileform.touched.company_name &&
+                    Profileform.errors.company_name && (
                       <div className="text-danger mt-1">
-                        {Profileform.errors.companyName}
+                        {Profileform.errors.company_name}
                       </div>
                     )}
                 </div>
@@ -330,17 +303,17 @@ function Profile() {
                   <input
                     type="text"
                     class="form-control p-3"
-                    id="officeEmailId"
-                    name="officeEmailId"
-                    placeholder="Enter Company Name"
-                    value={Profileform.values.officeEmailId}
+                    id="company_email"
+                    name="company_email"
+                    placeholder="Enter Company Email"
+                    value={Profileform.values.company_email}
                     onChange={Profileform.handleChange}
                     onBlur={Profileform.handleBlur}
                   />
-                  {Profileform.touched.officeEmailId &&
-                    Profileform.errors.officeEmailId && (
+                  {Profileform.touched.company_email &&
+                    Profileform.errors.company_email && (
                       <div className="text-danger mt-1">
-                        {Profileform.errors.officeEmailId}
+                        {Profileform.errors.company_email}
                       </div>
                     )}
                 </div>
@@ -348,19 +321,19 @@ function Profile() {
                   <input
                     type="text"
                     class="form-control p-3"
-                    id="officePhoneNumber"
-                    name="officePhoneNumber"
+                    id="company_mobile"
+                    name="company_mobile"
                     placeholder="Enter Official Phone No."
-                    value={Profileform.values.officePhoneNumber}
+                    value={Profileform.values.company_mobile}
                     onChange={(e) =>
-                      handlePhoneInput("officePhoneNumber", e.target.value)
+                      handlePhoneInput("company_mobile", e.target.value)
                     }
                     onBlur={Profileform.handleBlur}
                   />
-                  {Profileform.touched.officePhoneNumber &&
-                    Profileform.errors.officePhoneNumber && (
+                  {Profileform.touched.company_mobile &&
+                    Profileform.errors.company_mobile && (
                       <div className="text-danger mt-1">
-                        {Profileform.errors.officePhoneNumber}
+                        {Profileform.errors.company_mobile}
                       </div>
                     )}
                 </div>
@@ -368,19 +341,19 @@ function Profile() {
                   <input
                     type="text"
                     class="form-control p-3"
-                    id="altOfficePhoneNumber"
-                    name="altOfficePhoneNumber"
+                    id="company_office_mobile"
+                    name="company_office_mobile"
                     placeholder="Alt. Official Phone No."
-                    value={Profileform.values.altOfficePhoneNumber}
+                    value={Profileform.values.company_office_mobile}
                     onChange={(e) =>
-                      handlePhoneInput("altOfficePhoneNumber", e.target.value)
+                      handlePhoneInput("company_office_mobile", e.target.value)
                     }
                     onBlur={Profileform.handleBlur}
                   />
-                  {Profileform.touched.altOfficePhoneNumber &&
-                    Profileform.errors.altOfficePhoneNumber && (
+                  {Profileform.touched.company_office_mobile &&
+                    Profileform.errors.company_office_mobile && (
                       <div className="text-danger mt-1">
-                        {Profileform.errors.altOfficePhoneNumber}
+                        {Profileform.errors.company_office_mobile}
                       </div>
                     )}
                 </div>
@@ -388,17 +361,17 @@ function Profile() {
                   <input
                     type="text"
                     className="form-control p-3"
-                    id="companyAddress"
-                    name="companyAddress"
+                    id="company_address"
+                    name="company_address"
                     placeholder="Enter Company Address"
-                    value={Profileform.values.companyAddress}
+                    value={Profileform.values.company_address}
                     onChange={Profileform.handleChange}
                     onBlur={Profileform.handleBlur}
                   />
-                  {Profileform.touched.companyAddress &&
-                    Profileform.errors.companyAddress && (
+                  {Profileform.touched.company_address &&
+                    Profileform.errors.company_address && (
                       <div className="text-danger mt-1">
-                        {Profileform.errors.companyAddress}
+                        {Profileform.errors.company_address}
                       </div>
                     )}
                 </div>
