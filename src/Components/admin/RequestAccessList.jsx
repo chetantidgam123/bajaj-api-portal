@@ -5,18 +5,17 @@ import { post_auth_data } from "../../ApiServices";
 
 function RequestAccessList() {
     const [reqAccList, setReqAccList] = useState([]);
-    const [loadingUserId, setLoadingUserId] = useState(null);
     const [loadingList, setLoadingList] = useState(false);
-    const [loadingRequestId, setLoadingRequestId] = useState(null);
-    const [loadingButtons, setLoadingButtons] = useState({});
+    const [loadingButtons, setLoadingButtons] = useState({}); // per-button loading
 
+    // 🔹 Approve Swal
     const approve_swal_call = (user) => {
         Swal.fire({
             title: "Approve Access",
             html: `
-        <input type="text" id="client_id" class="swal2-input" placeholder="Enter Client ID" />
-        <input type="text" id="client_secret" class="swal2-input" placeholder="Enter Client Secret" />
-      `,
+                <input type="text" id="client_id" class="swal2-input" placeholder="Enter Client ID" />
+                <input type="text" id="client_secret" class="swal2-input" placeholder="Enter Client Secret" />
+            `,
             focusConfirm: false,
             showCancelButton: true,
             confirmButtonText: "Approve",
@@ -37,6 +36,7 @@ function RequestAccessList() {
         });
     };
 
+    // 🔹 Reject Swal
     const reject_swal_call = (user) => {
         Swal.fire({
             title: "Reject Access",
@@ -52,17 +52,19 @@ function RequestAccessList() {
         });
     };
 
+    // 🔹 Toggle Status API
     const toggleStatus = async (user, status, client_id = "", client_secret = "") => {
-        const request_id = user?.request_id;
+        const request_id = user?.request_id || user?.id;
         if (!request_id) {
             return error_swal_toast("Request ID not found! Cannot process this request.");
         }
 
+        // 🔹 Set loading for clicked button only
         setLoadingButtons(prev => ({
             ...prev,
             [request_id]: {
-                approve: status === 1 ? true : false,
-                reject: status === 2 ? true : false
+                approve: status === 1,
+                reject: status === 2
             }
         }));
 
@@ -93,7 +95,7 @@ function RequestAccessList() {
 
                 setReqAccList(prevList =>
                     prevList.map(u =>
-                        u.request_id === request_id ? { ...u, approved_status: status } : u
+                        (u.request_id || u.id) === request_id ? { ...u, approved_status: status } : u
                     )
                 );
             } else {
@@ -102,6 +104,7 @@ function RequestAccessList() {
         } catch (error) {
             error_swal_toast(error.message || "API call failed");
         } finally {
+            // 🔹 Reset loading only for clicked button
             setLoadingButtons(prev => ({
                 ...prev,
                 [request_id]: { approve: false, reject: false }
@@ -109,15 +112,11 @@ function RequestAccessList() {
         }
     };
 
-
+    // 🔹 Fetch Request List
     const fetchRequestList = async (page = 1) => {
         const payload = {
             apiType: "get-all-api-request",
-            requestPayload: {
-                application_name: "",
-                limit: "20",
-                page: page.toString(),
-            },
+            requestPayload: { application_name: "", limit: "20", page: page.toString() },
             requestHeaders: {},
             uriParams: {},
             additionalParam: "",
@@ -127,9 +126,9 @@ function RequestAccessList() {
             setLoadingList(true);
             const response = await post_auth_data("portal/private", payload, {});
             if (response.data.status) {
-                const dataWithReqId = response.data.data.map((item) => ({
+                const dataWithReqId = response.data.data.map(item => ({
                     ...item,
-                    request_id: item.request_id || item.id || "",
+                    request_id: item.request_id || item.id || ""
                 }));
                 setReqAccList(dataWithReqId);
             } else {
@@ -142,13 +141,12 @@ function RequestAccessList() {
         }
     };
 
-
     useEffect(() => {
         fetchRequestList();
     }, []);
 
     return (
-        <div className="mx-2">
+        <div className="mx-2 card-admin-main">
             <div className="d-flex justify-content-between my-2">
                 <h1>Request Access List</h1>
             </div>
@@ -158,7 +156,7 @@ function RequestAccessList() {
                     <span className="spinner-border"></span> Loading...
                 </div>
             ) : (
-                <table className="table table-bordered">
+                <table className="table table-bordered custom-table table-striped mt-3">
                     <thead>
                         <tr>
                             <th>Sr. No</th>
@@ -170,59 +168,49 @@ function RequestAccessList() {
                         </tr>
                     </thead>
                     <tbody>
-                        {reqAccList.length > 0 ? (
-                            reqAccList.map((user, index) => (
-                                <tr key={user.request_id || index}>
-                                    <td>{index + 1}</td>
-                                    <td>{user.fullname}</td>
-                                    <td>{user.apiname}</td>
-                                    <td>{user.application_name}</td>
-                                    <td>
-                                        {user.approved_status === 0
-                                            ? "Pending"
-                                            : user.approved_status === 1
-                                                ? "Approved"
-                                                : "Rejected"}
-                                    </td>
-                                    <td>
-                                        <div className="d-flex">
-                                    
-                                            <button
-                                                className="btn btn-success btn-sm mx-2"
-                                                title="Approve User"
-                                                onClick={() => approve_swal_call(user)}
-                                                disabled={loadingButtons[user.request_id]?.approve || user.approved_status === 1}
-                                            >
-                                                {loadingButtons[user.request_id]?.approve ? (
-                                                    <span className="spinner-border spinner-border-sm"></span>
-                                                ) : (
-                                                    <i className="fa fa-check"></i>
-                                                )}
-                                            </button>
-
-                                            <button
-                                                className="btn btn-danger btn-sm"
-                                                title="Reject User"
-                                                onClick={() => reject_swal_call(user)}
-                                                disabled={loadingButtons[user.request_id]?.reject || user.approved_status === 2}
-                                            >
-                                                {loadingButtons[user.request_id]?.reject ? (
-                                                    <span className="spinner-border spinner-border-sm"></span>
-                                                ) : (
-                                                    <i className="fa fa-times"></i>
-                                                )}
-                                            </button>
-
-
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))
-                        ) : (
-                            <tr>
-                                <td colSpan={6} className="text-center">
-                                    No data found
+                        {reqAccList.length > 0 ? reqAccList.map((user, index) => (
+                            <tr key={user.request_id || index}>
+                                <td>{index + 1}</td>
+                                <td>{user.fullname}</td>
+                                <td>{user.apiname}</td>
+                                <td>{user.application_name}</td>
+                                <td>
+                                    {user.approved_status === 0 ? "Pending" :
+                                     user.approved_status === 1 ? "Approved" : "Rejected"}
                                 </td>
+                                <td>
+                                    <div className="d-flex">
+                                        <button
+                                            className="btn btn-success btn-sm mx-2"
+                                            title="Approve User"
+                                            onClick={() => approve_swal_call(user)}
+                                            disabled={loadingButtons[user.request_id]?.approve || user.approved_status === 1}
+                                        >
+                                            {loadingButtons[user.request_id]?.approve ? (
+                                                <span className="spinner-border spinner-border-sm"></span>
+                                            ) : (
+                                                <i className="fa fa-check"></i>
+                                            )}
+                                        </button>
+
+                                        <button
+                                            className="btn btn-danger btn-sm"
+                                            title="Reject User"
+                                            onClick={() => reject_swal_call(user)}
+                                            disabled={loadingButtons[user.request_id]?.reject || user.approved_status === 2}
+                                        >
+                                            {loadingButtons[user.request_id]?.reject ? (
+                                                <span className="spinner-border spinner-border-sm"></span>
+                                            ) : (
+                                                <i className="fa fa-times"></i>
+                                            )}
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        )) : (
+                            <tr>
+                                <td colSpan={6} className="text-center">No data found</td>
                             </tr>
                         )}
                     </tbody>

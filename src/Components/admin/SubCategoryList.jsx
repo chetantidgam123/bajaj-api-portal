@@ -166,12 +166,23 @@ function SubCategoryList() {
         getCategoryList();
     }, [])
     return (
-        <div className="mx-2">
-            <div className="d-flex justify-content-between my-2">
-                <h2 className="">Sub Category List</h2>
-                <button className="btn btn-primary py-1" onClick={handleShow}>Add Sub Category</button>
+        <div className="mx-2 card-admin-main">
+             <div className="card-body card-bg">
+ <div className="row justify-content-between">
+                    <div className="col-3">
+                        <h4 className="mb-2">Sub Category List</h4>
+                    </div>
+                    <div className="col-2 d-flex justify-content-end">
+                         <button className="btn btn-primary py-1" onClick={handleShow}>Add Sub Category</button>
+                    </div>
+                </div>
             </div>
-            <div className="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-xs-12">
+
+
+
+          <div className="">
+<div className="row mt-4 align-items-center">
+ <div className="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-xs-12">
                 <div className="mb-3">
                     <label className="form-label" htmlFor="category-drop-input">Category</label>
                     <select className="form-select" id="category-drop-input" name="category-drop-input"
@@ -186,7 +197,13 @@ function SubCategoryList() {
                     </select>
                 </div>
             </div>
-            <table className="table table-bordered ">
+            <div className="col-3">
+<button className="btn btn-primary profilePageButton px-3 search-btn mt-3">Submit </button>
+            </div>
+</div>
+          </div>
+           
+            <table className="table table-bordered custom-table table-striped ">
                 <thead>
                     <tr>
                         <th>Sr. No</th>

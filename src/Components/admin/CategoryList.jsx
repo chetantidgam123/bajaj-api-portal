@@ -143,12 +143,21 @@ function CategoryList() {
         getCategoryList();
     }, [])
     return (
-        <div className="mx-2">
-            <div className="d-flex justify-content-between my-2">
-                <h2 className="">Api Category List</h2>
-                <button className="btn btn-primary py-1" onClick={handleShow}>Add Category</button>
+        <div className="mx-2 card-admin-main">
+ <div className="card-body card-bg">
+ <div className="row justify-content-between">
+                    <div className="col-3">
+                        <h4 className="mb-2">Api Category List</h4>
+                    </div>
+                    <div className="col-2 d-flex justify-content-end">
+                      <button className="btn btn-primary py-1" onClick={handleShow}>Add Category</button>
+                    </div>
+                </div>
             </div>
-            <table className="table table-bordered ">
+
+
+           
+            <table className="table table-bordered custom-table table-striped mt-3">
                 <thead>
                     <tr>
                         <th>Sr. No</th>
