@@ -1,166 +1,223 @@
-import { useEffect, useState } from "react"
-import { confirm_swal_with_text, error_swal_toast } from "../../SwalServices";
+import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import { error_swal_toast } from "../../SwalServices";
 import { post_auth_data } from "../../ApiServices";
-import { arrayIndex, convertToPayload } from "../../Utils";
-import moment from "moment";
-import { Form } from "react-bootstrap";
 
 function RequestAccessList() {
     const [reqAccList, setReqAccList] = useState([]);
+    const [loadingList, setLoadingList] = useState(false);
+    const [loadingButtons, setLoadingButtons] = useState({}); // per-button loading
 
-    const confirm_swal_call = (user, status) => {
-        const callback = (resolve, reject) => {
-            toggleStatus(user, status, resolve, reject)
-        }
-        confirm_swal_with_text(callback, `Are you sure <br/> you want to ${status == 'approve' ? 'approve' : 'reject'} Access?`)
-    }
-    const toggleStatus = (user, status, resolve, reject) => {
-        // let payload = {
-        //     "record_uuid": user.record_uuid,
-        //     "approved_status": user.approved_status == 0 ? 1 : 0
-        // }
-        // post_data("portal/private", convertToPayload('approve-user', payload), { "jwt_token": getTokenData()?.jwt_token })
-        //     .then((response) => {
-        //         if (response.data.status) {
-        //             getUserList();
-        //             resolve();
-        //         } else {
-        //             reject();
-        //             error_swal_toast(response.data.message || "something went wrong");
-        //         }
-        //     }).catch((error) => {
-        //         reject();
-        //         console.error("Error during signup:", error);
-        //     })
-        console.log("Approved or Rejected", status, user)
-        resolve();
-    }
-    const getapilsit = (page = 1) => {
-        let payload = {
-            "application_name": "",
-            "limit": "20",
-            "page": page
-        }
-        post_auth_data("portal/private", convertToPayload('get-all-api-request', payload), {})
-            .then(async (response) => {
-                if (response.data.status) {
-                    setReqAccList(response.data.data);
+    // 🔹 Approve Swal
+    const approve_swal_call = (user) => {
+        Swal.fire({
+            title: "Approve Access",
+            html: `
+                <input type="text" id="client_id" class="swal2-input" placeholder="Enter Client ID" />
+                <input type="text" id="client_secret" class="swal2-input" placeholder="Enter Client Secret" />
+            `,
+            focusConfirm: false,
+            showCancelButton: true,
+            confirmButtonText: "Approve",
+            cancelButtonText: "Cancel",
+            preConfirm: () => {
+                const client_id = document.getElementById("client_id")?.value;
+                const client_secret = document.getElementById("client_secret")?.value;
+                if (!client_id || !client_secret) {
+                    Swal.showValidationMessage("Both Client ID and Secret ID are required");
+                    return false;
                 }
-                else {
-                    error_swal_toast(response.data.message);
-                }
-            }).catch((error) => {
-                error_swal_toast(error.message)
-            })
-    }
+                return { client_id, client_secret };
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+                toggleStatus(user, 1, result.value.client_id, result.value.client_secret);
+            }
+        });
+    };
+
+    // 🔹 Reject Swal
+    const reject_swal_call = (user) => {
+        Swal.fire({
+            title: "Reject Access",
+            text: "Are you sure you want to reject this request?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, Reject",
+            cancelButtonText: "Cancel",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                toggleStatus(user, 2);
+            }
+        });
+    };
+
+    // 🔹 Toggle Status API
+    const toggleStatus = async (user, status, client_id = "", client_secret = "") => {
+        const request_id = user?.request_id || user?.id;
+        if (!request_id) {
+            return error_swal_toast("Request ID not found! Cannot process this request.");
+        }
+
+        // 🔹 Set loading for clicked button only
+        setLoadingButtons(prev => ({
+            ...prev,
+            [request_id]: {
+                approve: status === 1,
+                reject: status === 2
+            }
+        }));
+
+        const payload = {
+            apiType: "toggle-api-access-request",
+            requestPayload: {
+                api_id: user?.api_id || "",
+                client_id: status === 1 ? client_id : undefined,
+                client_secret: status === 1 ? client_secret : undefined,
+                user_id: user?.user_id?.toString() || "",
+                status: status.toString(),
+                request_id: request_id.toString(),
+            },
+            requestHeaders: {},
+            uriParams: {},
+            additionalParam: "",
+        };
+
+        try {
+            const response = await post_auth_data("portal/private", payload, {});
+
+            if (response.data.status) {
+                Swal.fire(
+                    "Success",
+                    `User ${status === 1 ? "approved" : "rejected"} successfully ✅`,
+                    "success"
+                );
+
+                setReqAccList(prevList =>
+                    prevList.map(u =>
+                        (u.request_id || u.id) === request_id ? { ...u, approved_status: status } : u
+                    )
+                );
+            } else {
+                error_swal_toast(response.data.message || "Something went wrong");
+            }
+        } catch (error) {
+            error_swal_toast(error.message || "API call failed");
+        } finally {
+            // 🔹 Reset loading only for clicked button
+            setLoadingButtons(prev => ({
+                ...prev,
+                [request_id]: { approve: false, reject: false }
+            }));
+        }
+    };
+
+    // 🔹 Fetch Request List
+    const fetchRequestList = async (page = 1) => {
+        const payload = {
+            apiType: "get-all-api-request",
+            requestPayload: { application_name: "", limit: "20", page: page.toString() },
+            requestHeaders: {},
+            uriParams: {},
+            additionalParam: "",
+        };
+
+        try {
+            setLoadingList(true);
+            const response = await post_auth_data("portal/private", payload, {});
+            if (response.data.status) {
+                const dataWithReqId = response.data.data.map(item => ({
+                    ...item,
+                    request_id: item.request_id || item.id || ""
+                }));
+                setReqAccList(dataWithReqId);
+            } else {
+                error_swal_toast(response.data.message || "Failed to fetch list");
+            }
+        } catch (error) {
+            error_swal_toast(error.message || "API call failed");
+        } finally {
+            setLoadingList(false);
+        }
+    };
+
     useEffect(() => {
-        getapilsit()
-    }, [])
+        fetchRequestList();
+    }, []);
+
     return (
         <div className="mx-2 card-admin-main">
             <div className="d-flex justify-content-between my-2">
-                <h4 className="">Request Access List</h4>
-
+                <h1>Request Access List</h1>
             </div>
-            <table className="table table-bordered custom-table table-striped mt-3">
-                <thead>
-                    <tr>
-                        <th>Sr. No</th>
-                        <th>Username</th>
-                        <th>Api Name</th>
-                        <th>App Name</th>
 
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        reqAccList.length > 0 ? (reqAccList.map((user, index) => (
-                            <tr key={arrayIndex('user', index)}>
-                                <td>{user.sr_no || index + 1}</td>
+            {loadingList ? (
+                <div className="text-center my-5">
+                    <span className="spinner-border"></span> Loading...
+                </div>
+            ) : (
+                <table className="table table-bordered custom-table table-striped mt-3">
+                    <thead>
+                        <tr>
+                            <th>Sr. No</th>
+                            <th>Username</th>
+                            <th>Api Name</th>
+                            <th>App Name</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {reqAccList.length > 0 ? reqAccList.map((user, index) => (
+                            <tr key={user.request_id || index}>
+                                <td>{index + 1}</td>
                                 <td>{user.fullname}</td>
                                 <td>{user.apiname}</td>
                                 <td>{user.application_name}</td>
-                                <td>{user.approved_status}</td>
+                                <td>
+                                    {user.approved_status === 0 ? "Pending" :
+                                     user.approved_status === 1 ? "Approved" : "Rejected"}
+                                </td>
                                 <td>
                                     <div className="d-flex">
-                                        <Form.Check // prettier-ignore
-                                            type="switch"
-                                            id="custom-switch"
-                                            checked={user.approved_status == 1}
-                                            onChange={() => { confirm_swal_call(user) }}
-                                        />
-                                        <button className="btn btn-primary btn-sm mx-2" title="Edit User">
-                                            <i className="fa fa-pencil" ></i>
+                                        <button
+                                            className="btn btn-success btn-sm mx-2"
+                                            title="Approve User"
+                                            onClick={() => approve_swal_call(user)}
+                                            disabled={loadingButtons[user.request_id]?.approve || user.approved_status === 1}
+                                        >
+                                            {loadingButtons[user.request_id]?.approve ? (
+                                                <span className="spinner-border spinner-border-sm"></span>
+                                            ) : (
+                                                <i className="fa fa-check"></i>
+                                            )}
                                         </button>
-                                        <button className="btn btn-danger btn-sm" title="Delete User">
-                                            <i className="fa fa-trash"></i>
+
+                                        <button
+                                            className="btn btn-danger btn-sm"
+                                            title="Reject User"
+                                            onClick={() => reject_swal_call(user)}
+                                            disabled={loadingButtons[user.request_id]?.reject || user.approved_status === 2}
+                                        >
+                                            {loadingButtons[user.request_id]?.reject ? (
+                                                <span className="spinner-border spinner-border-sm"></span>
+                                            ) : (
+                                                <i className="fa fa-times"></i>
+                                            )}
                                         </button>
                                     </div>
                                 </td>
                             </tr>
-                        ))) : (<tr><td colSpan={6} className="text-center">No data found</td></tr>)
-                    }
-                </tbody>
-            </table>
-            {/* <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Add User</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <FormikProvider value={UserForm}>
-                        <Form className="login-form"  >
-                            <div className="form-group">
-                                <label htmlFor="fullName">Full Name</label>
-                                <input type="text" id="fullName" name="fullName" placeholder="Enter your full fullName"
-                                    value={UserForm.values.fullName} onChange={UserForm.handleChange} onBlur={UserForm.handleBlur} />
-                                <ErrorMessage name={`fullName`} component="small" className='text-danger' />
-                            </div>
-
-                            <div className="form-group">
-                                <label htmlFor="emailId">Email Address</label>
-                                <input
-                                    type="text" id="emailId" name="emailId" placeholder="Enter your email"
-                                    value={UserForm.values.emailId} onChange={UserForm.handleChange} onBlur={UserForm.handleBlur} />
-                                <ErrorMessage name={`emailId`} component="small" className='text-danger' />
-                            </div>
-
-                            <div className="form-group">
-                                <label htmlFor="mobileNo">Phone Number</label>
-                                <div style={{ display: "flex", alignItems: "center" }}>
-                                    <span style={{ paddingRight: "5px" }}>+91</span>
-                                    <input type="text" id="mobileNo" name="mobileNo" placeholder="Enter 10-digit number"
-                                        value={UserForm.values.mobileNo} onChange={UserForm.handleChange} onBlur={UserForm.handleBlur} />
-                                </div>
-                                <ErrorMessage name={`mobileNo`} component="small" className='text-danger' />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="userPassword">Password</label>
-                                <input type="password" id="userPassword" name="userPassword" placeholder="Enter your password"
-                                    value={UserForm.values.userPassword} onChange={UserForm.handleChange} onBlur={UserForm.handleBlur} />
-                                <ErrorMessage name={`userPassword`} component="small" className='text-danger' />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="confirmPassword">Confirm Password</label>
-                                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Enter your password"
-                                    value={UserForm.values.confirmPassword} onChange={UserForm.handleChange} onBlur={UserForm.handleBlur} />
-                                <ErrorMessage name={`confirmPassword`} component="small" className='text-danger' />
-                            </div>
-                        </Form>
-                    </FormikProvider>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" type="button" onClick={handleClose}>
-                        Cancel
-                    </Button>
-                    <Button variant="primary" type="button" onClick={UserForm.handleSubmit}>
-                        Add
-                    </Button>
-                </Modal.Footer>
-            </Modal> */}
-            {/* {loader.pageloader && <PageLoaderBackdrop />} */}
+                        )) : (
+                            <tr>
+                                <td colSpan={6} className="text-center">No data found</td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+            )}
         </div>
-    )
+    );
 }
-export default RequestAccessList
+
+export default RequestAccessList;
