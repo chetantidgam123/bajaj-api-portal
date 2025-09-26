@@ -72,18 +72,20 @@ function TermCond() {
         }
       `}
             </style>
-            <div className="mx-2">
-                <div className="d-flex justify-content-between my-2">
-                    <h1>Terms and Conditions</h1>
+            <div className="mx-2 card-admin-main">
+               <div className="card-body card-bg">
+                 <div className="d-flex justify-content-between my-2">
+                    <h4>Terms and Conditions</h4>
                     <button
                         className="btn btn-primary btn-sm mx-2"
                         title="Edit Content"
                         onClick={() => setOpenModalTC(true)}
                     >
-                        <i className="fa fa-pencil"></i>
+                        Add &nbsp;<i className="fa fa-pencil"></i>
                     </button>
                 </div>
 
+               </div>
 
                 <div className="mt-4">
                     <h5>Page Content</h5>

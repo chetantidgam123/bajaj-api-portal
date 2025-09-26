@@ -18,7 +18,8 @@ function Sidebar() {
       return "1";
     if (
       currentPath.startsWith("/master/term-and-condition") ||
-      currentPath.startsWith("/master/privacy-policy")
+      currentPath.startsWith("/master/privacy-policy") ||
+      currentPath.startsWith("/master/faq")
     )
       return "2";
     if (
@@ -37,7 +38,10 @@ function Sidebar() {
       <header className="border-bottom-dash logo-header">
         <div className="image-text">
           <span className="image">
-            <Link className="navbar-brand d-flex align-items-center justify-content-center" to="/">
+            <Link
+              className="navbar-brand d-flex align-items-center justify-content-center"
+              to="/"
+            >
               <img
                 src="/assets/img/logo.png"
                 alt="Logo"
@@ -52,18 +56,32 @@ function Sidebar() {
         <div className="row align-items-center px-3 mt-3">
           {/* ✅ React toggle button (no querySelector) */}
           <div className="col-xl-9 col-lg-9 col-md-9 col-sm-10 col-10">
-         <h4 class="heading-hide heading-display mb-0">
-            <Link className="text-white text-decoration-none" to="/api/0">Explore API</Link></h4>
-            </div>
-            <div  className={`${
+            <h4 class="heading-hide heading-display mb-0">
+              <Link className="text-white text-decoration-none" to="/api/0">
+                Explore API
+              </Link>
+            </h4>
+          </div>
+          <div
+            className={`${
               isClosed
                 ? "col-xl-12 col-lg-12 col-md-12 col-sm-2 col-2"
                 : "col-xl-3 col-lg-3 col-md-3 col-sm-2 col-2"
-            } d-flex justify-content-center`}>
-          <div class="circle-arrow toggle"   onClick={() => setIsClosed(!isClosed)} ><i class="fa-solid fa-arrow-left" role="button"></i></div></div>
+            } d-flex justify-content-center`}
+          >
+            <div
+              class="circle-arrow toggle"
+              onClick={() => setIsClosed(!isClosed)}
+            >
+              <i class="fa-solid fa-arrow-left" role="button"></i>
+            </div>
           </div>
+        </div>
 
-        <Accordion className="mt-3 admin-sidebar" defaultActiveKey={defaultActiveKey} >
+        <Accordion
+          className="mt-3 admin-sidebar"
+          defaultActiveKey={defaultActiveKey}
+        >
           {/* User Management */}
           <Accordion.Item eventKey="0" className="my-2 position-relative">
             <Accordion.Header>
@@ -92,7 +110,7 @@ function Sidebar() {
               <i className="fa-brands fa-microsoft"></i>
               <span className="link-name ms-2">Api Management</span>
             </Accordion.Header>
-              <Accordion.Body className="px-0 py-2">
+            <Accordion.Body className="px-0 py-2">
               <ul className="admin-sidebar-ul">
                 <li>
                   <Link
@@ -138,7 +156,7 @@ function Sidebar() {
               <i className="fa-brands fa-microsoft"></i>
               <span className="link-name ms-2">CMS</span>
             </Accordion.Header>
-             <Accordion.Body className="px-0 py-2">
+            <Accordion.Body className="px-0 py-2">
               <ul className="admin-sidebar-ul">
                 <li>
                   <Link
@@ -162,6 +180,16 @@ function Sidebar() {
                     to="/master/privacy-policy"
                   >
                     Privacy Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className={`admin-sidebar-li ${
+                      currentPath === "/master/faq" ? "active-tab" : ""
+                    }`}
+                    to="/master/faq"
+                  >
+                    FAQ
                   </Link>
                 </li>
               </ul>
@@ -191,9 +219,7 @@ function Sidebar() {
                 <li>
                   <Link
                     className={`admin-sidebar-li ${
-                      currentPath === "/master/get-in-touch"
-                        ? "active-tab"
-                        : ""
+                      currentPath === "/master/get-in-touch" ? "active-tab" : ""
                     }`}
                     to="/master/get-in-touch"
                   >
@@ -210,7 +236,7 @@ function Sidebar() {
               <i className="fa-brands fa-microsoft"></i>
               <span className="link-name ms-2">Request Access Management</span>
             </Accordion.Header>
-              <Accordion.Body className="px-0 py-2">
+            <Accordion.Body className="px-0 py-2">
               <ul className="admin-sidebar-ul">
                 <li>
                   <Link

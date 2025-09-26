@@ -6,12 +6,15 @@ function SuggestApi(){
     const [loader, setLoader] = useState({ pageloader: false })
 
     return(
- <div className="mx-2">
-            <div className="d-flex justify-content-between my-2">
-                <h1 className="">Suggested Api List</h1>
+ <div className="mx-2 card-admin-main">
+    <div className="card-body card-bg">
+ <div className="d-flex justify-content-between my-2">
+                <h4 className="">Suggested Api List</h4>
                 
             </div>
-            <table className="table table-bordered ">
+    </div>
+           
+            <table className="table table-bordered custom-table table-striped mt-3 ">
                 <thead>
                     <tr>
                         <th>Sr. No</th>

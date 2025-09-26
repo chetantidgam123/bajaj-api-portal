@@ -33,12 +33,12 @@ function Dashboard() {
           <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
             <div className="card-dash">
               <div className="row">
-                <div className="col-2">
+                <div className="col-4">
                   <div className="box-inner">
                     <img src="/assets/img/Profile.png" className="w-100" alt="" />
                   </div>
                 </div>
-                <div className="col-10">
+                <div className="col-8">
                  <h3>20</h3>
                  <h6>Total Users</h6>
                 </div>
@@ -49,12 +49,12 @@ function Dashboard() {
             <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
             <div className="card-dash">
               <div className="row">
-                <div className="col-2">
+                <div className="col-4">
                   <div className="box-inner">
                     <img src="/assets/img/api 1.png" className="w-100" alt="" />
                   </div>
                 </div>
-                <div className="col-10">
+                <div className="col-8">
                  <h3>103</h3>
                  <h6>Total APIs</h6>
                 </div>
@@ -65,12 +65,12 @@ function Dashboard() {
            <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
          <div className="card-dash">
               <div className="row">
-                <div className="col-2">
+                <div className="col-4">
                   <div className="box-inner">
                     <img src="/assets/img/api 2.png" className="w-100" alt="" />
                   </div>
                 </div>
-                <div className="col-10">
+                <div className="col-8">
                  <h3>17</h3>
                  <h6>Total Reports</h6>
                 </div>
