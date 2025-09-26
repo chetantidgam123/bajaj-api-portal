@@ -116,8 +116,9 @@ function UserList() {
             </div>
 
             <div className="mt-4">
-                <div className="row">
+              
                      <label for="exampleInputEmail1">Filters</label>
+                       <div className="row align-items-center">
                       <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
                           <div class="form-group mt-2">
                             <input type="email" class="form-control p-3" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email/Phone Number" />
@@ -134,6 +135,9 @@ function UserList() {
                             </select>
                         </div>
                     </div>
+                       <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <button className="btn btn-primary profilePageButton px-3 search-btn">Search </button>
+                </div>
                 </div>
             </div>
            <div className="table-responsive mt-4">

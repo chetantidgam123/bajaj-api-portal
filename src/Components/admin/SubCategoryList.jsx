@@ -181,10 +181,12 @@ function SubCategoryList() {
 
 
           <div className="">
-<div className="row mt-4 align-items-center">
- <div className="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-xs-12">
+             <label className="form-label mt-4" htmlFor="category-drop-input">Filters</label>
+<div className="row  align-items-start">
+    
+                   
+                <div className="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-xs-12">
                 <div className="mb-3">
-                    <label className="form-label" htmlFor="category-drop-input">Category</label>
                     <select className="form-select" id="category-drop-input" name="category-drop-input"
                         value={dropCatInput}
                         onChange={(e) => { setDropCatInput(e.target.value) }}>
@@ -198,11 +200,11 @@ function SubCategoryList() {
                 </div>
             </div>
             <div className="col-3">
-<button className="btn btn-primary profilePageButton px-3 search-btn mt-3">Submit </button>
+<button className="btn btn-primary profilePageButton px-3 search-btn">Search  </button>
             </div>
 </div>
           </div>
-           
+           <div className="table-responsive">
             <table className="table table-bordered custom-table table-striped ">
                 <thead>
                     <tr>
@@ -242,6 +244,7 @@ function SubCategoryList() {
                     }
                 </tbody>
             </table>
+            </div>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>{isEdit ? 'Update' : 'Add'} Sub Category</Modal.Title>

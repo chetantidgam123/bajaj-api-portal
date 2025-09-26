@@ -97,8 +97,8 @@ function ApiList() {
             
          <div className="mt-4">
    <div className="row align-items-center">
+    <label className="form-label" htmlFor="categoryid">Filters</label>
                 <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-3">
-                    <label className="form-label" htmlFor="categoryid">Category</label>
                     <select className="form-select" id="categoryid" name="categoryid"
                         value={categoryId}
                         onChange={(e) => { setCategoryId(e.target.value) }}>
@@ -111,7 +111,6 @@ function ApiList() {
                     </select>
                 </div>
                 <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-3">
-                    <label className="form-label" htmlFor="subcategoryid">Sub Category</label>
                     <select className="form-select" id="subcategoryid" name="subcategoryid"
                         value={subCategoryId}
                         onChange={(e) => { setSubCategoryId(e.target.value) }}>
@@ -124,12 +123,11 @@ function ApiList() {
                     </select>
                 </div>
                 <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-3">
-
-<button className="btn btn-primary profilePageButton px-3 search-btn mt-4">Submit </button>
-
+                <button className="btn btn-primary profilePageButton px-3 search-btn">Search </button>
                 </div>
             </div>
          </div>
+          <div className="table-responsive">
             <table className="table table-bordered custom-table table-striped ">
                 <thead>
                     <tr>
@@ -169,6 +167,7 @@ function ApiList() {
                     }
                 </tbody>
             </table>
+            </div>
             {loader.pageloder && <PageLoaderBackdrop />}
         </div>
     )
