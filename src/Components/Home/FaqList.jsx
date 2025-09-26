@@ -2,8 +2,8 @@ import { Accordion, Form, Modal } from "react-bootstrap";
 import Header from "../user/layout/Header";
 import FooterHome from "./FooterHome";
 import { arrayIndex, convertToPayload } from "../../Utils";
-import { useState } from "react";
-import { LoaderWight } from "../../Loader";
+import { useEffect, useState } from "react";
+import { LoaderWight, PageLoaderBackdrop } from "../../Loader";
 import FloatingInputLabel from "../user/UtilComponent/FloatingInputLabel";
 import { FormikProvider, useFormik } from "formik";
 import { error_swal_toast, success_swal_toast } from "../../SwalServices";
@@ -11,8 +11,9 @@ import { post_data } from "../../ApiServices";
 import { faqSchema } from "../../Schema";
 
 function FaqList() {
-  const [loader, setLoader] = useState(false);
+  const [loader, setLoader] = useState({ pageloader: false });
   const [showModal, setShowModal] = useState(false);
+  const [faqList, setFaqList] = useState([]);
 
   const faqForm = useFormik({
     initialValues: {
@@ -59,6 +60,33 @@ function FaqList() {
     },
   });
 
+  const getFAQList = (page = 1) => {
+    let payload = {
+      limit: String(20),
+      page: String(page),
+      category_name: "",
+    };
+    setLoader({ ...loader, pageloader: true });
+    post_data("portal/public", convertToPayload("get-faq-list", payload), {})
+      .then((response) => {
+        setLoader({ ...loader, pageloader: false });
+        console.log("FAQ List Response:", response);
+        if (response.data.status) {
+          setFaqList(response.data.data);
+        } else {
+          error_swal_toast(response.data.message || "something went wrong");
+        }
+      })
+      .catch((error) => {
+        setLoader({ ...loader, pageloader: false });
+        console.error("Error during signup:", error);
+      });
+  };
+
+  useEffect(() => {
+    getFAQList();
+  }, []);
+
   const faq = [
     {
       que: "How do I get an API key?",
@@ -98,18 +126,23 @@ function FaqList() {
       </div>
       <div className="card-bg faq">
         <div className="container">
+          {loader.pageloader && <PageLoaderBackdrop />}
           <div className="card-Works margin-top-100px">
             <Accordion>
-              {faq.map((faq, fi) => (
-                <Accordion.Item
-                  key={arrayIndex("faq", fi)}
-                  className="mb-3"
-                  eventKey={fi}
-                >
-                  <Accordion.Header>{faq.que}</Accordion.Header>
-                  <Accordion.Body>{faq.ans}</Accordion.Body>
-                </Accordion.Item>
-              ))}
+              {faqList.length > 0 ? (
+                faqList.map((faqItem, fi) => (
+                  <Accordion.Item
+                    key={arrayIndex("faq", fi)}
+                    className="mb-3"
+                    eventKey={String(fi)}
+                  >
+                    <Accordion.Header>{faqItem.que}</Accordion.Header>
+                    <Accordion.Body>{faqItem.ans}</Accordion.Body>
+                  </Accordion.Item>
+                ))
+              ) : (
+                <div className="text-center text-muted py-5">No FAQ found!</div>
+              )}
             </Accordion>
 
             <div className="addFaq">
