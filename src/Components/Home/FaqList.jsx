@@ -170,18 +170,19 @@ function FaqList() {
               <FloatingInputLabel
                 fieldName="category_name"
                 formikFrom={faqForm}
-                labelText="Select Category"
+                inputType="select"
+                options={["General", "Service", "Sales", "O Auth"]}
               />
               <FloatingInputLabel
                 fieldName="que"
                 formikFrom={faqForm}
                 labelText="Enter Question"
               />
-              <FloatingInputLabel
+              {/* <FloatingInputLabel
                 fieldName="ans"
                 formikFrom={faqForm}
                 labelText="Answer"
-              />
+              /> */}
 
               <div className="text-center mt-3">
                 <button

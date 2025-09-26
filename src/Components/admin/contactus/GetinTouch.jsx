@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { error_swal_toast } from "../../../SwalServices";
 import { post_auth_data } from "../../../ApiServices";
 import { arrayIndex, convertToPayload } from "../../../Utils";
-import moment from "moment";
-import { Form } from "react-bootstrap";
+
 import { PageLoaderBackdrop } from "../../../Loader";
 
 function GetinTouch() {
@@ -36,9 +35,9 @@ function GetinTouch() {
       });
   };
 
-  useEffect(() => {
-    getFAQList();
-  }, []);
+  //   useEffect(() => {
+  //     getFAQList();
+  //   }, []);
 
   return (
     <div className="mx-2">
