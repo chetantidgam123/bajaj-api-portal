@@ -163,9 +163,48 @@ function Faq() {
             )}
           </tbody>
         </table>
-
-
       </div>
+      <PaginateComponent
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={(page) => getFAQList(page, category)}
+      />
+
+      <Modal show={showModal} onHide={handleCloseModal} size="lg" centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Write Answer</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3">
+              <Form.Label>Question</Form.Label>
+              <Form.Control
+                type="text"
+                value={selectedFaq?.que || ""}
+                readOnly
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Answer</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={4}
+                value={answer}
+                onChange={(e) => setAnswer(e.target.value)}
+                placeholder="Write your answer here..."
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleSubmitAnswer}>
+            Submit Answer
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }
