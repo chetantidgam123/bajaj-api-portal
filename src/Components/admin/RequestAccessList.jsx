@@ -146,16 +146,21 @@ function RequestAccessList() {
     }, []);
 
     return (
-        <div className="mx-2 card-admin-main">
-            <div className="d-flex justify-content-between my-2">
-                <h1>Request Access List</h1>
-            </div>
+          <div className="mx-2 card-admin-main">
+      <div className="card-body card-bg">
+        <div className="row justify-content-between align-items-center">
+          <div className="col-4">
+            <h4 className="">Request Access List</h4>
+          </div>
+        </div>
+      </div>
 
             {loadingList ? (
                 <div className="text-center my-5">
                     <span className="spinner-border"></span> Loading...
                 </div>
             ) : (
+                 <div className="table-responsive mt-2">
                 <table className="table table-bordered custom-table table-striped mt-3">
                     <thead>
                         <tr>
@@ -215,6 +220,7 @@ function RequestAccessList() {
                         )}
                     </tbody>
                 </table>
+                </div>
             )}
         </div>
     );
