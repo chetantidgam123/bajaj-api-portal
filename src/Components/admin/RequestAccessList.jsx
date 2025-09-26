@@ -57,12 +57,12 @@ function RequestAccessList() {
         getapilsit()
     }, [])
     return (
-        <div className="mx-2">
+        <div className="mx-2 card-admin-main">
             <div className="d-flex justify-content-between my-2">
-                <h1 className="">Request Access List</h1>
+                <h4 className="">Request Access List</h4>
 
             </div>
-            <table className="table table-bordered ">
+            <table className="table table-bordered custom-table table-striped mt-3">
                 <thead>
                     <tr>
                         <th>Sr. No</th>

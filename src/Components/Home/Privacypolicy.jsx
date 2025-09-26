@@ -7,7 +7,7 @@ function Privacypolicy() {
   <div>
           <Header />
           <div className="privacy">
-            <h1 className='mt-3'>Privacy Policy</h1>
+            <h4 className='mt-3'>Privacy Policy</h4>
           </div>
                  <div className='card-bg '>
                 <div className='container'>

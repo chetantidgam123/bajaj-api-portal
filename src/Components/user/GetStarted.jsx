@@ -3,7 +3,7 @@ function GetStarted() {
     return (
         <>
             <div className="card-body card-bg">
-                <h4 className="mb-2">Get Started</h4>
+                <h4 className="mb-2">Get Started bb</h4>
             </div>
             <div className="card-body card-bg mt-3">
                 <h5 >Step 1</h5>
@@ -67,6 +67,30 @@ function GetStarted() {
                         </div>
                     </div>
                     </div>
+                </div>
+                <div className="card-body card-bg mt-3">
+ <div className="card-body card-bg">
+                <h4 className="mb-2">Get Started bb</h4>
+            </div>
+            <h5>API Playground History</h5>
+            <div className="bg-dark-blur">
+<div className="row p-2">
+<div className="col-2">
+<h5 className="text-white">Method</h5>
+</div>
+<div className="col-4">
+<h5 className="text-white">Method</h5>
+</div>
+<div className="col-3">
+<h5 className="text-white">Method</h5>
+</div>
+<div className="col-3">
+<h5 className="text-white">Method</h5>
+</div>
+</div>
+
+
+            </div>
                 </div>
            
         </>
