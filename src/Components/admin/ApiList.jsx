@@ -81,12 +81,22 @@ function ApiList() {
         }
     }, [categoryId])
     return (
-        <div className="mx-2">
-            <div className="d-flex justify-content-between my-2">
-                <h3 className="">Api List</h3>
-                <button className="btn btn-primary py-1" onClick={() => { navigate(`/${import.meta.env.VITE_ADMIN_BASE_PATH}/create-api`) }} >Add Api</button>
+        <div className="mx-2 card-admin-main">
+            <div className="card-body card-bg">
+ <div className="row justify-content-between">
+                    <div className="col-3">
+                        <h4 className="mb-2">Api List</h4>
+                    </div>
+                    <div className="col-2 d-flex justify-content-end">
+                         <button className="btn btn-primary py-1" onClick={() => { navigate(`/${import.meta.env.VITE_ADMIN_BASE_PATH}/create-api`) }} >Add Api</button>
+                    </div>
+                </div>
             </div>
-            <div className="row">
+                 
+          
+            
+         <div className="mt-4">
+   <div className="row align-items-center">
                 <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-3">
                     <label className="form-label" htmlFor="categoryid">Category</label>
                     <select className="form-select" id="categoryid" name="categoryid"
@@ -113,8 +123,14 @@ function ApiList() {
                         }
                     </select>
                 </div>
+                <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-3">
+
+<button className="btn btn-primary profilePageButton px-3 search-btn mt-4">Submit </button>
+
+                </div>
             </div>
-            <table className="table table-bordered ">
+         </div>
+            <table className="table table-bordered custom-table table-striped ">
                 <thead>
                     <tr>
                         <th>Sr. No</th>

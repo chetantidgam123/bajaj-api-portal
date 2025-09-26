@@ -724,3 +724,58 @@ background-color: #F5F6FA !important;
 .custom-table tbody tr:nth-child(odd) {
   background-color: #ebf3fb;
 }
+
+.circle-profile {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+}
+
+.color-blue {
+  color: #0052a4;
+  font-weight: 500;
+}
+
+.custom-dropdown-menu {
+  border-radius: 10px;
+  min-width: 160px;
+}
+
+.custom-dropdown-menu .dropdown-item.active {
+  background: #006ad0 !important;
+  color: #fff !important;
+    border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.bg-dark-blur{
+    background-color: #006ad0 ;
+      border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.with-caret {
+  position: relative;
+  margin-top: 8px; /* so triangle doesn't overlap */
+}
+
+.with-caret::before {
+  content: "";
+  position: absolute;
+  top: -8px; /* adjust spacing above dropdown */
+  left: 20px; /* position horizontally */
+  border-width: 0 8px 8px 8px;
+  border-style: solid;
+  border-color: transparent transparent #006AD0 transparent; /* match dropdown bg */
+  filter: drop-shadow(0 -1px 1px rgba(0,0,0,0.1)); /* small shadow for depth */
+}
+.search-btn{
+    padding: 13px 20px  !important;
+}
