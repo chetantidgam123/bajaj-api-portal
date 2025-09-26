@@ -4,9 +4,11 @@ import { post_auth_data } from "../../ApiServices";
 import { arrayIndex, convertToPayload } from "../../Utils";
 import moment from "moment";
 import { Form } from "react-bootstrap";
+import { PageLoaderBackdrop } from "../../Loader";
 
 function RequestAccessList() {
     const [reqAccList, setReqAccList] = useState([]);
+    const [loader, setLoader] = useState({ pageloader: false })
 
     const confirm_swal_call = (user, status) => {
         const callback = (resolve, reject) => {
@@ -41,8 +43,10 @@ function RequestAccessList() {
             "limit": "20",
             "page": page
         }
+        setLoader({ ...loader, pageloader: true })
         post_auth_data("portal/private", convertToPayload('get-all-api-request', payload), {})
             .then(async (response) => {
+                setLoader({ ...loader, pageloader: false })
                 if (response.data.status) {
                     setReqAccList(response.data.data);
                 }
@@ -50,6 +54,7 @@ function RequestAccessList() {
                     error_swal_toast(response.data.message);
                 }
             }).catch((error) => {
+                setLoader({ ...loader, pageloader: false })
                 error_swal_toast(error.message)
             })
     }
@@ -159,7 +164,7 @@ function RequestAccessList() {
                     </Button>
                 </Modal.Footer>
             </Modal> */}
-            {/* {loader.pageloader && <PageLoaderBackdrop />} */}
+            {loader.pageloader && <PageLoaderBackdrop />}
         </div>
     )
 }

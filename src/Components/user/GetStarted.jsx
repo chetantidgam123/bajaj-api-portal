@@ -1,10 +1,15 @@
+import { useLocation } from "react-router-dom"
 
 function GetStarted() {
+    const location = useLocation();
     return (
         <>
-            <div className="card-body card-bg">
+            {/* Only show this when URL is /get-started */}
+            {location.pathname === "/get-started" && (
+                <div className="card-body card-bg">
                 <h4 className="mb-2">Get Started</h4>
-            </div>
+                </div>
+            )}
             <div className="card-body card-bg mt-3">
                 <h5 >Step 1</h5>
                 <div className="row">
