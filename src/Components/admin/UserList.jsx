@@ -4,11 +4,14 @@ import { Button, Form } from "react-bootstrap";
 import Modal from 'react-bootstrap/Modal';
 import { createUserSchema } from "../../Schema";
 import { post_auth_data, post_data } from "../../ApiServices";
-import { arrayIndex, convertToPayload, getTokenData, offsetPagination } from "../../Utils";
+import { arrayIndex, convertToPayload, getTokenData, offsetPagination, statusValue } from "../../Utils";
 import { ErrorMessage, FormikProvider, useFormik } from "formik";
 import { confirm_swal_with_text, error_swal_toast, success_swal_toast } from "../../SwalServices";
 import { PageLoaderBackdrop } from "../../Loader";
+import Dropdown from 'react-bootstrap/Dropdown';
 function UserList() {
+    const [searchText, setSearchText] = useState("");
+    const [statusFilter, setStatusFilter] = useState("");
     const [show, setShow] = useState(false);
     const [loader, setLoader] = useState({ pageloader: false })
     const [userList, setUserList] = useState([]);
@@ -33,7 +36,10 @@ function UserList() {
     const getUserList = (page = 1) => {
         let payload = {
             offSet: ((page - 1) * offsetPagination),
-            limit: offsetPagination
+            limit: offsetPagination,
+            status: statusFilter || undefined,
+            email: searchText.includes("@") ? searchText : undefined,
+            phone: !searchText.includes("@") && searchText ? searchText : undefined,
         }
         setLoader({ ...loader, pageloader: true })
         post_auth_data("portal/private", convertToPayload('get-all-users', payload), {})
@@ -120,23 +126,34 @@ function UserList() {
                      <label for="exampleInputEmail1">Filters</label>
                        <div className="row align-items-center">
                       <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
-                          <div class="form-group mt-2">
+                          {/* <div class="form-group mt-2">
                             <input type="email" class="form-control p-3" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email/Phone Number" />
-                        </div>
+                        </div> */}
+                        <input
+                            type="text"
+                            className="form-control p-3"
+                            placeholder="Enter email/Phone Number"
+                            value={searchText}
+                            onChange={(e) => setSearchText(e.target.value)}
+                        />
                     </div>
                     <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
                           <div class="form-group mt-2">
-                          <select class="form-control p-3" id="exampleFormControlSelect1">
-                            <option>Status</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
+                            <select
+                                className="form-control p-3"
+                                id="statusFilter"
+                                value={statusFilter}
+                                onChange={(e) => setStatusFilter(e.target.value)}
+                            >
+                                <option value="">All Status</option>
+                                <option value="0">Pending</option>
+                                <option value="1">Approved</option>
+                                <option value="2">Rejected</option>
                             </select>
                         </div>
                     </div>
                        <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                <button className="btn btn-primary profilePageButton px-3 search-btn">Search </button>
+                <button className="btn btn-primary profilePageButton px-3 search-btn" onClick={() => getUserList(1)}>Search </button>
                 </div>
                 </div>
             </div>
@@ -148,8 +165,8 @@ function UserList() {
         <th>Full Name</th>
         <th>Email Id</th>
         <th>Mobile Number</th>
-        <th>Approved Status</th>
-        <th>dummy</th>
+        <th>Status</th>
+        {/* <th>dummy</th> */}
         <th>Created Date</th>
         <th>Action</th>
       </tr>
@@ -162,27 +179,37 @@ function UserList() {
             <td>{user.fullname}</td>
             <td>{user.emailid}</td>
             <td>{user.mobileno}</td>
-            <td><i class="fa-solid fa-circle-exclamation text-warning"></i> Pending{user.approved_status}</td>
-            <td><i class="fa-solid fa-circle-check text-success"></i> Approved{user.approved_status}</td>
+            <td><i class="fa-solid fa-circle-exclamation text-warning"></i> {statusValue(user.approved_status)}</td>
+            {/* <td><i class="fa-solid fa-circle-check text-success"></i> Approved{user.approved_status}</td> */}
             <td>{moment().format("DD-MMM-yyyy")}</td>
             <td>
                 <div className="d-flex justify-content-center">
-                     <div className="dropdown">
-            <button
-                className="btn btn-secondary "
-                type="button"
-                id="dropdownMenuButton"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-            >
-                <i className="fa-solid fa-ellipsis-vertical"></i>
-            </button>
-            <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li><a className="dropdown-item" href="#">Action</a></li>
-                <li><a className="dropdown-item" href="#">Another action</a></li>
-                <li><a className="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-            </div>
+                    <div className="dropdown">
+                    {/* <button
+                        className="btn btn-secondary "
+                        type="button"
+                        id="dropdownMenuButton"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                    >
+                        <i className="fa-solid fa-ellipsis-vertical"></i>
+                    </button> */}
+                    {/* <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><a className="dropdown-item" href="#">Action</a></li>
+                        <li><a className="dropdown-item" href="#">Another action</a></li>
+                        <li><a className="dropdown-item" href="#">Something else here</a></li>
+                    </ul> */}
+                    <Dropdown>
+                        <Dropdown.Toggle as="button" variant="link" id="dropdown-basic" bsPrefix="p-0 border-0 bg-transparent">
+                            <i className="fa-solid fa-ellipsis-vertical"></i>
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                            <Dropdown.Item href="#"><i class="fa-regular fa-thumbs-up"></i> Approve User</Dropdown.Item>
+                            <Dropdown.Item href="#"><i class="fa-solid fa-pen"></i> Edit User</Dropdown.Item>
+                            <Dropdown.Item href="#"><i class="fa-solid fa-trash"></i> Delete User</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                    </div>
                 </div>
                
 
