@@ -132,6 +132,16 @@ const convertToPayload = (api_name = "", body = {}, header = {}, uriparam = {}, 
     return payload
 }
 
+const statusValue = (val) => {
+    if(val === 0) {
+        return "Pending";
+    } else if(val === 1) {
+        return "Approved";
+    } else if(val === 2) {
+        return "Rejected"
+    }
+}
+
 const apiMethods = [
     { id: 'GET', name: "GET" },
     { id: 'POST', name: "POST" },
@@ -337,5 +347,6 @@ export {
     offsetPagination,
     getJwtData,
     statusCodes,
-    copyToClipboard
+    copyToClipboard,
+    statusValue
 }
