@@ -33,48 +33,18 @@ export const loginFormSchema = yup.object().shape({
 });
 
 export const profileFormSchema = yup.object().shape({
-  fullname: yup
-    .string()
-    .min(2, "Invalid fullName")
-    .required("Mandatory field*"),
-  mobileno: yup
-    .string()
-    .matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
-    .required("Mandatory field*"),
-  mobileno2: yup
-    .string()
-    .matches(/^\d{10}$/, "Alt. phone number must be exactly 10 digits")
-    .required("Mandatory field*"),
+  fullname: yup.string().min(3, "minimum length should be 3 characters").required("Mandatory field*"),
+  mobileno: yup.string().matches(/^\d{10}$/, "Phone number must be exactly 10 digits").required("Mandatory field*"),
+  mobileno2: yup.string().matches(/^\d{10}$/, "Alt. phone number must be exactly 10 digits"),
   emailid: yup.string().email("Invalid email").required("Mandatory field*"),
-  company_name: yup
-    .string()
-    .min(2, "Invalid company name")
-    .required("Mandatory field*"),
-  company_email: yup
-    .string()
-    .email("Invalid office email")
-    .required("Mandatory field*"),
-  company_mobile: yup
-    .string()
-    .matches(/^\d{10}$/, "Office phone number must be exactly 10 digits")
-    .required("Mandatory field*"),
-  company_office_mobile: yup
-    .string()
-    .matches(/^\d{10}$/, "Alt. office phone number must be exactly 10 digits")
-    .required("Mandatory field*"),
-  company_address: yup
-    .string()
-    .min(5, "Invalid company address")
-    .required("Mandatory field*"),
-  clientId: yup.string().min(5, "Invalid clientId").notRequired(),
-  clientSecret: yup.string().min(5, "Invalid clientSecret").notRequired(),
-  profile_img: yup
-    .string()
-    .notRequired("Profile image is required")
-    .matches(
-      /^data:image\/(png|jpg|jpeg);base64,[A-Za-z0-9+/=]+$/,
-      "Invalid image format, must be base64 PNG/JPG"
-    ),
+  company_name: yup.string().min(3, "minimum length should be 3 characters").required("Mandatory field*"),
+  company_email: yup.string().email("Invalid office email").required("Mandatory field*"),
+  company_mobile: yup.string().matches(/^\d{10}$/, "Office phone number must be exactly 10 digits").required("Mandatory field*"),
+  company_office_mobile: yup.string().matches(/^\d{10}$/, "Alt. office phone number must be exactly 10 digits"),
+  company_address: yup.string().min(3, "minimum length should be 3 characters").required("Mandatory field*"),
+  clientId: yup.string(),
+  clientSecret: yup.string(),
+  profile_img: yup.string(),
 });
 
 export const resetPassSchema = yup.object().shape({

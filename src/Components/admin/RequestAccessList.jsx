@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { error_swal_toast } from "../../SwalServices";
+import { error_swal_toast, success_swal_toast } from "../../SwalServices";
 import { post_auth_data } from "../../ApiServices";
 
 function RequestAccessList() {
@@ -51,6 +51,13 @@ function RequestAccessList() {
             }
         });
     };
+    const checkClientId = (user) => {
+        if (user?.client_credentials_id > 0) {
+            toggleStatus(user, 1);
+        } else {
+            approve_swal_call(user)
+        }
+    }
 
     // 🔹 Toggle Status API
     const toggleStatus = async (user, status, client_id = "", client_secret = "") => {
@@ -72,8 +79,8 @@ function RequestAccessList() {
             apiType: "toggle-api-access-request",
             requestPayload: {
                 api_id: user?.api_id || "",
-                client_id: status === 1 ? client_id : undefined,
-                client_secret: status === 1 ? client_secret : undefined,
+                client_id: user.client_credentials_id > 0 ? client_id : "",
+                client_secret: user.client_credentials_id > 0 ? client_secret : "",
                 user_id: user?.user_id?.toString() || "",
                 status: status.toString(),
                 request_id: request_id.toString(),
@@ -85,19 +92,9 @@ function RequestAccessList() {
 
         try {
             const response = await post_auth_data("portal/private", payload, {});
-
             if (response.data.status) {
-                Swal.fire(
-                    "Success",
-                    `User ${status === 1 ? "approved" : "rejected"} successfully ✅`,
-                    "success"
-                );
-
-                setReqAccList(prevList =>
-                    prevList.map(u =>
-                        (u.request_id || u.id) === request_id ? { ...u, approved_status: status } : u
-                    )
-                );
+                success_swal_toast(response.data.message)
+                fetchRequestList();
             } else {
                 error_swal_toast(response.data.message || "Something went wrong");
             }
@@ -187,8 +184,8 @@ function RequestAccessList() {
                                         <div className="d-flex">
                                             <button
                                                 className="btn btn-success btn-sm mx-2"
-                                                title="Approve User"
-                                                onClick={() => approve_swal_call(user)}
+                                                title="Approve request"
+                                                onClick={() => { checkClientId(user) }}
                                                 disabled={loadingButtons[user.request_id]?.approve || user.approved_status === 1}
                                             >
                                                 {loadingButtons[user.request_id]?.approve ? (
@@ -200,7 +197,7 @@ function RequestAccessList() {
 
                                             <button
                                                 className="btn btn-danger btn-sm"
-                                                title="Reject User"
+                                                title="Reject request"
                                                 onClick={() => reject_swal_call(user)}
                                                 disabled={loadingButtons[user.request_id]?.reject || user.approved_status === 2}
                                             >

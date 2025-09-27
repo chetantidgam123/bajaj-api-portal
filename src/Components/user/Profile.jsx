@@ -67,9 +67,7 @@ function Profile() {
       .then((response) => {
         setLoader(false);
         if (response.data.status) {
-          setTokenData(response.data.userdata);
           success_swal_toast(response.data.message || "Updated successfully");
-          navigate("/user/profile");
         } else {
           error_swal_toast(response.data.message || "Something went wrong");
         }
