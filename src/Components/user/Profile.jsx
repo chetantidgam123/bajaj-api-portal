@@ -130,8 +130,8 @@ function Profile() {
             company_office_mobile:
               response.data.data[0].company_office_mobile || "",
             company_address: response.data.data[0].company_address || "",
-            clientId: response.data.data[0].clientId || "",
-            clientSecret: response.data.data[0].clientSecret || "",
+            clientId: response.data.data[0].client_id || "",
+            clientSecret: response.data.data[0].client_secret || "",
             profile_img: response.data.data[0].profile_img || "",
           });
         } else {
@@ -160,14 +160,7 @@ function Profile() {
             <div className="card-bg card-gradient">
               <div className="row d-flex justify-content-between">
                 <div className="col-6 p-3 d-flex">
-                  <img
-                    className="profileImage"
-                    src={
-                      profileImage ||
-                      Profileform.values.profile_img ||
-                      "/assets/img/userImage.png"
-                    }
-                  />
+                  <img className="profileImage" src={Profileform.values.profile_img || "/assets/img/userImage.png"} />
                   <div className="d-flex flex-column justify-content-center ms-3">
                     <h5 className="profileHeaders">{fullName}</h5>
                     <span className="text-white">{emailId}</span>

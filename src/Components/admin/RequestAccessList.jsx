@@ -146,80 +146,80 @@ function RequestAccessList() {
     }, []);
 
     return (
-          <div className="mx-2 card-admin-main">
-      <div className="card-body card-bg">
-        <div className="row justify-content-between align-items-center">
-          <div className="col-4">
-            <h4 className="">Request Access List</h4>
-          </div>
-        </div>
-      </div>
+        <div className="mx-2 card-admin-main">
+            <div className="card-body card-bg">
+                <div className="row justify-content-between align-items-center">
+                    <div className="col-4">
+                        <h4 className="">Request Access List</h4>
+                    </div>
+                </div>
+            </div>
 
             {loadingList ? (
                 <div className="text-center my-5">
                     <span className="spinner-border"></span> Loading...
                 </div>
             ) : (
-                 <div className="table-responsive mt-2">
-                <table className="table table-bordered custom-table table-striped mt-3">
-                    <thead>
-                        <tr>
-                            <th>Sr. No</th>
-                            <th>Username</th>
-                            <th>Api Name</th>
-                            <th>App Name</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {reqAccList.length > 0 ? reqAccList.map((user, index) => (
-                            <tr key={user.request_id || index}>
-                                <td>{index + 1}</td>
-                                <td>{user.fullname}</td>
-                                <td>{user.apiname}</td>
-                                <td>{user.application_name}</td>
-                                <td>
-                                    {user.approved_status === 0 ? "Pending" :
-                                     user.approved_status === 1 ? "Approved" : "Rejected"}
-                                </td>
-                                <td>
-                                    <div className="d-flex">
-                                        <button
-                                            className="btn btn-success btn-sm mx-2"
-                                            title="Approve User"
-                                            onClick={() => approve_swal_call(user)}
-                                            disabled={loadingButtons[user.request_id]?.approve || user.approved_status === 1}
-                                        >
-                                            {loadingButtons[user.request_id]?.approve ? (
-                                                <span className="spinner-border spinner-border-sm"></span>
-                                            ) : (
-                                                <i className="fa fa-check"></i>
-                                            )}
-                                        </button>
-
-                                        <button
-                                            className="btn btn-danger btn-sm"
-                                            title="Reject User"
-                                            onClick={() => reject_swal_call(user)}
-                                            disabled={loadingButtons[user.request_id]?.reject || user.approved_status === 2}
-                                        >
-                                            {loadingButtons[user.request_id]?.reject ? (
-                                                <span className="spinner-border spinner-border-sm"></span>
-                                            ) : (
-                                                <i className="fa fa-times"></i>
-                                            )}
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        )) : (
+                <div className="table-responsive mt-2">
+                    <table className="table table-bordered custom-table table-striped mt-3">
+                        <thead>
                             <tr>
-                                <td colSpan={6} className="text-center">No data found</td>
+                                <th>Sr. No</th>
+                                <th>Username</th>
+                                <th>Api Name</th>
+                                <th>App Name</th>
+                                <th>Status</th>
+                                <th>Action</th>
                             </tr>
-                        )}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {reqAccList.length > 0 ? reqAccList.map((user, index) => (
+                                <tr key={user.request_id || index}>
+                                    <td>{index + 1}</td>
+                                    <td>{user.fullname}</td>
+                                    <td>{user.apiname}</td>
+                                    <td>{user.application_name}</td>
+                                    <td>
+                                        {user.approved_status === 0 ? "Pending" :
+                                            user.approved_status === 1 ? "Approved" : "Rejected"}
+                                    </td>
+                                    <td>
+                                        <div className="d-flex">
+                                            <button
+                                                className="btn btn-success btn-sm mx-2"
+                                                title="Approve User"
+                                                onClick={() => approve_swal_call(user)}
+                                                disabled={loadingButtons[user.request_id]?.approve || user.approved_status === 1}
+                                            >
+                                                {loadingButtons[user.request_id]?.approve ? (
+                                                    <span className="spinner-border spinner-border-sm"></span>
+                                                ) : (
+                                                    <i className="fa fa-check"></i>
+                                                )}
+                                            </button>
+
+                                            <button
+                                                className="btn btn-danger btn-sm"
+                                                title="Reject User"
+                                                onClick={() => reject_swal_call(user)}
+                                                disabled={loadingButtons[user.request_id]?.reject || user.approved_status === 2}
+                                            >
+                                                {loadingButtons[user.request_id]?.reject ? (
+                                                    <span className="spinner-border spinner-border-sm"></span>
+                                                ) : (
+                                                    <i className="fa fa-times"></i>
+                                                )}
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            )) : (
+                                <tr>
+                                    <td colSpan={6} className="text-center">No data found</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
                 </div>
             )}
         </div>

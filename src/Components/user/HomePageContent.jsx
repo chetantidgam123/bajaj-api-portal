@@ -9,7 +9,7 @@ import { arrayIndex, convertToPayload, copyToClipboard, getTokenData, trucateStr
 import GetStarted from './GetStarted';
 import { error_swal_toast, success_swal_toast } from '../../SwalServices';
 import { post_auth_data, post_data } from '../../ApiServices';
-import { PageLoaderBackdrop, Loader } from '../../Loader';
+import { PageLoaderBackdrop, Loader, LoaderWight } from '../../Loader';
 function HomePageContent() {
     const navigate = useNavigate();
     const { collection_id, category_id, api_id } = useParams();
@@ -22,6 +22,7 @@ function HomePageContent() {
     const [statusCode, setStatusCode] = useState(0);
     const [modalData, setModalData] = useState({ header: [], body: {}, resbody: {} })
     const [loader, setLoader] = useState(false);
+    const [requestLoader, setRequestLoader] = useState(false);
     const [openTryitModal, setOpenTryitModal] = useState(false)
     const [tryitButton, setTryitButton] = useState('')
     const [tryitLoader, setTryitLoader] = useState(false);
@@ -153,8 +154,10 @@ function HomePageContent() {
             api_id: api_id,
             application_name: apiData.application_name
         }
+        setRequestLoader(true);
         post_auth_data("portal/private", convertToPayload('send-api-access-request', payload), {})
             .then(async (response) => {
+                setRequestLoader(false);
                 if (response.data.status) {
                     setOpenTryitModal(false);
                     success_swal_toast(response.data.message);
@@ -163,6 +166,7 @@ function HomePageContent() {
                     error_swal_toast(response.data.message);
                 }
             }).catch((error) => {
+                setRequestLoader(false);
                 error_swal_toast(error.message)
             })
     }
@@ -497,8 +501,8 @@ function HomePageContent() {
                     <div>
                         <div style={{ fontSize: '1.25rem' }}>{tryitModalDesc}</div> {/* Slightly larger font */}
                         <div className="d-flex justify-content-end mt-3">
-                            <Button variant="primary" type="button" onClick={sendRequest}>
-                                {tryitButton} <i className="fa fa-arrow-right"></i>
+                            <Button variant="primary" type="button" onClick={sendRequest} disabled={requestLoader}>
+                                {tryitButton} <i className="fa fa-arrow-right"></i> {requestLoader && <LoaderWight />}
                             </Button>
                         </div>
                     </div>
