@@ -111,7 +111,7 @@ function UserList() {
                     <div className="col-3">
                         <h4 className="mb-2">Users</h4>
                     </div>
-                    <div className="col-2 d-flex justify-content-end">
+                    <div className="col-2 d-flex justify-content-end d-none">
                         <button className="btn btn-primary px-3 py-2" onClick={handleShow}>
                             Add User</button>
                     </div>
@@ -123,15 +123,15 @@ function UserList() {
                 <div className="row align-items-center">
                     <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
                         <div class="form-group mt-2">
-                            <input type="email" class="form-control p-3" id="exampleInputEmail1"
+                            <input type="email" name="email" class="form-control p-3" id="exampleInputEmail1"
                                 aria-describedby="emailHelp" placeholder="Enter email/Phone Number"
                                 onChange={(e) => { SetSearch({ ...search, input: (e.target.value).trim() }) }} />
                         </div>
                     </div>
                     <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
                         <div class="form-group mt-2">
-                            <select class="form-control p-3" id="exampleFormControlSelect1"
-                                onChange={(e) => { SetSearch({ ...search, input: e.target.value }) }}>
+                            <select class="form-control p-3" name="status" id="exampleFormControlSelect1"
+                                onChange={(e) => { SetSearch({ ...search, status: e.target.value }) }}>
                                 <option value={""}>Status</option>
                                 <option value={0}>Pending</option>
                                 <option value={1}>Approved</option>
@@ -167,7 +167,7 @@ function UserList() {
                                     <td>{user.mobileno}</td>
                                     <td>
                                         {user.approved_status == 0 && <span><i class="fa-solid fa-circle-exclamation text-warning"></i> Pending</span>}
-                                        {user.approved_status == 1 && <span><i class="fa-solid fa-circle-check text-success"></i>  Appproved</span>}
+                                        {user.approved_status == 1 && <span><i class="fa-solid fa-circle-check text-success"></i>  Approved</span>}
                                         {user.approved_status == 2 && <span><i class="fas fa-times-circle text-danger"></i> Rejected</span>}
                                     </td>
                                     <td>{moment(user.createddate).format("DD-MMM-yyyy")}</td>
@@ -179,7 +179,7 @@ function UserList() {
                                                         <i className="fa-solid fa-ellipsis-vertical"></i>
                                                     </Dropdown.Toggle>
                                                     <Dropdown.Menu className="with-action">
-                                                        <Dropdown.Item href="#"><i class="fa-regular fa-thumbs-up"></i> Approve User</Dropdown.Item>
+                                                        <Dropdown.Item href="#" onClick={() => { confirm_swal_call(user) }}><i class="fa-regular fa-thumbs-up"></i> {user.approved_status == 1 ? 'Reject' : 'Approve'} User</Dropdown.Item>
                                                         <Dropdown.Item href="#"><i class="fa-solid fa-pen"></i> Edit User</Dropdown.Item>
                                                         <Dropdown.Item href="#"><i class="fa-solid fa-trash"></i> Delete User</Dropdown.Item>
                                                     </Dropdown.Menu>
