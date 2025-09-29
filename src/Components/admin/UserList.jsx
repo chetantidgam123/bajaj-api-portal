@@ -174,11 +174,11 @@ function UserList() {
                                     <td>
                                         <div className="d-flex justify-content-center">
                                             <div className="dropdown">
-                                                <Dropdown>
+                                                <Dropdown className="drop" >
                                                     <Dropdown.Toggle as="button" variant="link" id="dropdown-basic" bsPrefix="p-0 border-0 bg-transparent">
                                                         <i className="fa-solid fa-ellipsis-vertical"></i>
                                                     </Dropdown.Toggle>
-                                                    <Dropdown.Menu>
+                                                    <Dropdown.Menu className="with-action">
                                                         <Dropdown.Item href="#"><i class="fa-regular fa-thumbs-up"></i> Approve User</Dropdown.Item>
                                                         <Dropdown.Item href="#"><i class="fa-solid fa-pen"></i> Edit User</Dropdown.Item>
                                                         <Dropdown.Item href="#"><i class="fa-solid fa-trash"></i> Delete User</Dropdown.Item>

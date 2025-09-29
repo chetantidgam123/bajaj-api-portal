@@ -209,8 +209,8 @@ function SubCategoryList() {
                 <thead>
                     <tr>
                         <th>Sr. No</th>
-                        <th>Catrgory Name</th>
-                        <th>Sub Catrgory Name</th>
+                        <th>Category Name</th>
+                        <th>Sub Category Name</th>
                         <th>Created Date</th>
                         <th>Action</th>
                     </tr>

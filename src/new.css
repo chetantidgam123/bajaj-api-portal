@@ -785,3 +785,32 @@ background-color: #F5F6FA !important;
 .admin-sidebar .accordion-button:not(.collapsed){
       box-shadow: none !important;
 }
+
+.with-action {
+  position: relative;
+  margin-top: 8px; /* so triangle doesn't overlap */
+}
+
+.with-action::before {
+  content: "";
+  position: absolute;
+  top: -8px; /* adjust spacing above dropdown */
+  right: 20px; /* position horizontally */
+  border-width: 0 8px 8px 8px;
+  border-style: solid;
+  border-color: transparent transparent #006AD0 transparent; /* match dropdown bg */
+  filter: drop-shadow(0 -1px 1px rgba(0,0,0,0.1)); /* small shadow for depth */
+}
+
+.drop .dropdown-menu{
+        transform: translate3d(27px, 25.4px, 0px) !important;
+        padding: 0px;
+}
+.drop .dropdown-item{
+      padding: 10px;
+}
+
+.drop .dropdown-item:hover {
+    color: #ffffff;
+    background-color: #006ad0;
+}
