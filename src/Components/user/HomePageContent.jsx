@@ -335,7 +335,7 @@ function HomePageContent() {
                                     <button onClick={() => { copyToClipboard(responsData.resbody || '{}') }} className='span-btn'><img src="/assets/img/copy.png" alt="copy" /></button>
                                 </div>
                             </div>
-                            <SyntaxHighLighter jsonString={responsData.resbody || '{}'} />
+                            <SyntaxHighLighter wrapLongLines={true} lineProps={{ style: { wordBreak: 'break-all', whiteSpace: 'pre-wrap' } }} jsonString={responsData.resbody || '{}'} />
                         </div>
                     </div>}
                     {api_id && apiData && <div className="card mb-3">
