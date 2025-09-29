@@ -2,17 +2,16 @@ import { useEffect } from "react";
 import { post_auth_data } from "../../ApiServices";
 import { getJwtData } from "../../Utils";
 import { useNavigate } from "react-router-dom";
-import { post_data } from "../../ApiServices";
 import { convertToPayload, setTokenData } from "../../Utils";
 import { FormikProvider, useFormik } from "formik";
 import { profileFormSchema } from "../../Schema";
 import { Form } from "react-bootstrap";
-import FloatingInputLabel from "../user/UtilComponent/FloatingInputLabel";
 import { error_swal_toast, success_swal_toast } from "../../SwalServices";
 import { useState } from "react";
+import { LoaderWight, PageLoaderBackdrop } from "../../Loader";
 
 function Profile() {
-  const [loader, setLoader] = useState(false);
+  const [loader, setLoader] = useState({ page: false, submit: false });
   const [fullName, setFullName] = useState("");
   const [emailId, setEmailId] = useState("");
   const [profileImage, setProfileImage] = useState("");
@@ -35,17 +34,11 @@ function Profile() {
     },
     validationSchema: profileFormSchema,
     onSubmit: (values, { setSubmitting }) => {
-      console.log("VALLLL", values);
-
       setSubmitting(true);
       handleSubmit(values);
       setSubmitting(false);
     },
   });
-  console.log("Formik errors →", Profileform.errors);
-  console.log("Formik values →", Profileform.values);
-  console.log("Formik isValid →", Profileform.isValid);
-  console.log("Formik isSubmitting →", Profileform.isSubmitting);
 
   const handleSubmit = (values) => {
     const payload = {
@@ -56,16 +49,10 @@ function Profile() {
       company_office_mobile: values.company_office_mobile?.toString() || "",
     };
 
-    console.log("Payload for profile update:", payload);
-
-    setLoader(true);
-    post_auth_data(
-      "portal/private",
-      convertToPayload("update-profile", payload),
-      {}
-    )
+    setLoader({ ...loader, submit: true });
+    post_auth_data("portal/private", convertToPayload("update-profile", payload), {})
       .then((response) => {
-        setLoader(false);
+        setLoader({ ...loader, submit: false });
         if (response.data.status) {
           success_swal_toast(response.data.message || "Updated successfully");
         } else {
@@ -73,7 +60,7 @@ function Profile() {
         }
       })
       .catch((error) => {
-        setLoader(false);
+        setLoader({ ...loader, submit: false });
         error_swal_toast(error.message || "Something went wrong");
         console.error("Error during profile update:", error);
       });
@@ -106,12 +93,10 @@ function Profile() {
   };
 
   const getUserData = () => {
-    post_auth_data(
-      "portal/private",
-      convertToPayload("get-user-by-id", { user_id: getJwtData().sub }),
-      {}
-    )
+    setLoader({ ...loader, page: true });
+    post_auth_data("portal/private", convertToPayload("get-user-by-id", { user_id: getJwtData().sub }), {})
       .then((response) => {
+        setLoader({ ...loader, page: false });
         if (response.data.status) {
           console.log(response.data.data[0]);
           setFullName(response.data.data[0].fullname || "");
@@ -137,6 +122,7 @@ function Profile() {
         }
       })
       .catch((error) => {
+        setLoader({ ...loader, page: false });
         console.error("Error during signup:", error);
       });
   };
@@ -373,16 +359,9 @@ function Profile() {
 
               <div className="row">
                 <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
-                  <input
-                    type="text"
-                    className="form-control p-3"
-                    id="clientId"
-                    name="clientId"
-                    placeholder="Client ID"
-                    value={Profileform.values.clientId}
-                    onChange={Profileform.handleChange}
-                    onBlur={Profileform.handleBlur}
-                  />
+                  <input type="text" className="form-control p-3" id="clientId"
+                    name="clientId" placeholder="Client ID" value={Profileform.values.clientId}
+                    onChange={Profileform.handleChange} onBlur={Profileform.handleBlur} disabled />
                   {Profileform.touched.clientId &&
                     Profileform.errors.clientId && (
                       <div className="text-danger mt-1">
@@ -399,8 +378,7 @@ function Profile() {
                     placeholder="Client Secret"
                     value={Profileform.values.clientSecret}
                     onChange={Profileform.handleChange}
-                    onBlur={Profileform.handleBlur}
-                  />
+                    onBlur={Profileform.handleBlur} disabled />
                   {Profileform.touched.clientSecret &&
                     Profileform.errors.clientSecret && (
                       <div className="text-danger mt-1">
@@ -408,23 +386,16 @@ function Profile() {
                       </div>
                     )}
                 </div>
-                <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
-                  <button className="btn btn-outline-primary generate-token">
-                    Generate Token <i class="fa-solid fa-arrow-right"></i>
-                  </button>
-                </div>
               </div>
               <div className="d-flex justify-content-end mt-3">
-                <button
-                  className="btn btn-primary profilePageButton px-3"
-                  type="submit"
-                >
-                  Submit <i class="fa-solid fa-arrow-right"></i>
+                <button className="btn btn-primary profilePageButton px-3" type="submit" disabled={loader.submit}>
+                  Submit {loader.submit && <LoaderWight />}
                 </button>
               </div>
             </div>
           </Form>
         </FormikProvider>
+        {loader.page && <PageLoaderBackdrop />}
       </div>
     </>
   );

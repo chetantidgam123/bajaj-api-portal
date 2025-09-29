@@ -82,6 +82,8 @@ function Sidebard() {
     setSubActiveKey(null); // collapse sub accordion
   };
 
+
+
   return (
     <div className={`sidebar_entity-user ${isClosed ? "close" : ""}`}>
       <div className="sidebar-user ">
@@ -90,11 +92,10 @@ function Sidebard() {
             <h4 className="heading-hide heading-display text-white">Explore Api</h4>
           </div>
           <div
-            className={`${
-              isClosed
-                ? "col-xl-12 col-lg-12 col-md-12 col-sm-2 col-2"
-                : "col-xl-3 col-lg-3 col-md-3 col-sm-2 col-2"
-            } d-flex justify-content-center`}
+            className={`${isClosed
+              ? "col-xl-12 col-lg-12 col-md-12 col-sm-2 col-2"
+              : "col-xl-3 col-lg-3 col-md-3 col-sm-2 col-2"
+              } d-flex justify-content-center`}
           >
             <div className="circle-arrow toggle" onClick={toggleSidebar}>
               <i className="fa-solid fa-arrow-left" role="button"></i>
@@ -117,7 +118,7 @@ function Sidebard() {
                 <Accordion.Header
                   className={
                     item.subcategories.length <= 0 &&
-                    item.apis_category.length <= 0
+                      item.apis_category.length <= 0
                       ? "disabled"
                       : ""
                   }
@@ -126,9 +127,8 @@ function Sidebard() {
                   }}
                 >
                   <img
-                    src={`/assets/img/${
-                      i == activeKey ? "visualization.png" : "visualization-2.png"
-                    }`}
+                    src={`/assets/img/${i == activeKey ? "visualization.png" : "visualization-2.png"
+                      }`}
                     alt="NA"
                     style={{ height: "15px", width: "15px" }}
                   />
@@ -270,17 +270,18 @@ function Sidebard() {
 
 function ApiList({ si, cItem, item, sItem, returnClass }) {
   const { api_id } = useParams();
+  const navigate = useNavigate()
+  const checkPermission = (record_uuid, crecord_uuid, uniqueid) => {
+    if (getTokenData()?.jwt_token) {
+      navigate(`/api/${record_uuid}/${crecord_uuid}/${uniqueid}`)
+    } else {
+      error_swal_toast('Please login to access this page')
+    }
+  }
   return (
-    <div
-      className={returnClass(
-        cItem.apis.length - 1 == si,
-        api_id && sItem.uniqueid == api_id
-      )}
-    >
-      <Link
-        style={{ textDecoration: "none" }}
-        to={`/api/${item.record_uuid}/${cItem.record_uuid}/${sItem.uniqueid}`}
-      >
+    <div className={returnClass(cItem.apis.length - 1 == si, api_id && sItem.uniqueid == api_id)} >
+      <button className="span-btn w-100 border-0 bg-none"
+        style={{ background: 'none' }} onClick={() => { checkPermission(item.record_uuid, cItem.record_uuid, sItem.uniqueid) }}>
         <div className="d-flex align-items-center">
           <Badge
             pill
@@ -291,7 +292,7 @@ function ApiList({ si, cItem, item, sItem, returnClass }) {
           </Badge>
           <small className="text-white">{sItem.apiname}</small>
         </div>
-      </Link>
+      </button>
     </div>
   );
 }

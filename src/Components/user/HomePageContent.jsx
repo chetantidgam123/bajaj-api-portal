@@ -117,6 +117,10 @@ function HomePageContent() {
 
     const checkAccess = () => {
         const payload = { api_id: api_id }
+        if (!getTokenData()?.company_name) {
+            error_swal_toast('Company details required Please Update the Profile.')
+            return
+        }
         setTryitLoader(true)
         post_auth_data("portal/private", convertToPayload('check-api-access', payload), {})
             .then(async (response) => {
@@ -130,9 +134,7 @@ function HomePageContent() {
                     setOpenTryitModal(true)
                     setTryitModalDesc(response.data.message)
                     if (response.data.error_code == 'CLIENT_CRED_UNAVAILABLE') {
-
                         setTryitButton('Generate Credentials')
-
                     }
                     else {
                         setTryitButton('Request Access')
