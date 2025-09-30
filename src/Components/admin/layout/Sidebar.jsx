@@ -93,12 +93,12 @@ function Sidebar() {
               <i className="fa-brands fa-microsoft"></i>
               <span className="link-name ms-2">User Management</span>
             </Accordion.Header>
-            <Accordion.Body className="px-0 py-2">
+            <Accordion.Body className="px-4 py-2">
               <ul className="admin-sidebar-ul mb-0 px-3 py-1">
                 <li className="list-style-none">
                   <Link
                     className={`admin-sidebar-li ${
-                      currentPath === "/master/user-list" ? "" : ""
+                      currentPath === "/master/user-list" ? "active-tab" : ""
                     }`}
                     to="/master/user-list"
                   >
@@ -115,7 +115,7 @@ function Sidebar() {
               <i className="fa-brands fa-microsoft"></i>
               <span className="link-name ms-2">Api Management</span>
             </Accordion.Header>
-            <Accordion.Body className="px-0 py-2">
+            <Accordion.Body className="px-4 py-2">
               <ul className="admin-sidebar-ul mb-0 px-3 py-1">
                <li className="list-style-none">
                   <Link
@@ -161,7 +161,7 @@ function Sidebar() {
               <i className="fa-brands fa-microsoft"></i>
               <span className="link-name ms-2">CMS</span>
             </Accordion.Header>
-            <Accordion.Body className="px-0 py-2">
+            <Accordion.Body className="px-3 py-2">
               <ul className="admin-sidebar-ul mb-0 px-3 py-1">
                 <li className="list-style-none">
                   <Link
@@ -207,7 +207,7 @@ function Sidebar() {
               <i className="fa-brands fa-microsoft"></i>
               <span className="link-name ms-2">Contact Us</span>
             </Accordion.Header>
-            <Accordion.Body className="px-0 py-2">
+            <Accordion.Body className="px-4 py-2">
               <ul className="admin-sidebar-ul mb-0 px-3 py-1">
                 <li className="list-style-none">
                   <Link
@@ -241,7 +241,7 @@ function Sidebar() {
               <i className="fa-brands fa-microsoft"></i>
               <span className="link-name ms-2">Request Access Management</span>
             </Accordion.Header>
-            <Accordion.Body className="px-0 py-2">
+            <Accordion.Body className="px-4 py-2">
              <ul className="admin-sidebar-ul mb-0 px-3 py-1">
                 <li className="list-style-none">
                   <Link
@@ -265,12 +265,12 @@ function Sidebar() {
               <i className="fa-brands fa-microsoft"></i>
               <span className="link-name ms-2">Reports</span>
             </Accordion.Header>
-            <Accordion.Body className="px-0 py-2">
+            <Accordion.Body className="px-2 py-2">
               <ul className="admin-sidebar-ul">
                 <li className="list-style-none">
                   <Link
                     className={`admin-sidebar-li ${
-                      currentPath === "/master/reports" ? "" : ""
+                      currentPath === "/master/reports" ? "active-tab" : ""
                     }`}
                     to="/master/reports"
                   >

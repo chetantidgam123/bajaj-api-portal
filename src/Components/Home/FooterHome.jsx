@@ -69,7 +69,7 @@ function FooterHome() {
                 <div className="container">
                     <div className="row align-items-center justify-content-center">
                         <div className="col-2 d-flex justify-content-center mb-3">
-                            <img src="/assets/img/white_logo.png" alt="" />
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG4lo39vSLS1FaLIpr1XKrjiebmWX-3fRErA&s" alt="" />
                         </div>
                     </div>
 
@@ -80,8 +80,8 @@ function FooterHome() {
                             {/* <li><Link to={"/user/profile"}>Documentation</Link></li> */}
                             <li><Link to={"/api/0"}>Documentation</Link></li>
                             <li><Link to={"/Contactus"} data-bs-toggle="modal" data-bs-target="#exampleModal">Contact Us</Link></li>
-                            <li><Link to={"/user/profile"}>Support Center</Link></li>
-                            <li><Link to={"/user/profile"}>About Us</Link></li>
+                            <li><Link to={""}>Support Center</Link></li>
+                            <li><Link to={""}>About Us</Link></li>
                             {/* <li><Link to={"/user/profile"}>Careers</Link></li> */}
                             <li><Link to={"/TermsofServices"}>Terms of Service</Link></li>
                             <li><Link to={"/Privacypolicy"}>Privacy Policy</Link></li>

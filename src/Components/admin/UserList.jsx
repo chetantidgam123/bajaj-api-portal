@@ -232,7 +232,7 @@ function UserList() {
                                                             <i className="fa-regular fa-thumbs-up"></i>{" "}
                                                             {user.approved_status === 1 ? "Reject" : "Approve"} User
                                                         </Dropdown.Item>
-                                                        <Dropdown.Item><i className="fa-solid fa-pen"></i> Edit User</Dropdown.Item>
+                                                        {/* <Dropdown.Item><i className="fa-solid fa-pen"></i> Edit User</Dropdown.Item> */}
                                                         <Dropdown.Item><i className="fa-solid fa-trash"></i> Delete User</Dropdown.Item>
                                                         <Dropdown.Item as={Link} to={`/master/user-list/details/${user.id}`} state={{ userData: user }}><i class="fa-solid fa-eye"></i> View Details</Dropdown.Item>
                                                     </Dropdown.Menu>

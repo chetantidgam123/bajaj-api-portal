@@ -10,9 +10,10 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import '../../../src/new.css'
-
-import { arrayIndex, availableApi, getTokenData } from '../../Utils';
-import { useNavigate } from 'react-router-dom';
+import { post_data } from '../../ApiServices';
+import { arrayIndex, availableApi, convertToPayload } from '../../Utils';
+import { useNavigate, Link } from 'react-router-dom';
+import { error_swal_toast } from '../../SwalServices';
 
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -45,6 +46,7 @@ function LandingPage() {
   const navigate = useNavigate();
   const [current, setCurrent] = useState(0);
   const slidesToShow = 3;
+  const [sidebarItem, setSidebarItem] = useState([])
 
   useEffect(() => {
     AOS.init({ duration: 1000, once: true }); // initialize AOS
@@ -77,6 +79,23 @@ useEffect(() => {
 
   AOS.refresh(); 
 }, []);
+
+const getURLIds = async() => {
+    try {
+        const res = await post_data("portal/public", convertToPayload("get-sidebar-list", {}), {})
+        if(res.data.status) {
+           setSidebarItem(res.data.data)
+           console.log(res.data.data)
+        }
+    } catch(error) {
+        error_swal_toast(response.data.message);
+    }
+
+}
+
+useEffect(() => {
+    getURLIds()
+}, [])
 
     return (
         <div className='all'>
@@ -245,7 +264,7 @@ useEffect(() => {
                     </div>
                 </div>
              
-      <Slider {...settings}>
+      {/* <Slider {...settings}>
         {availableApi.map((card, index) => (
           <div key={arrayIndex("card", index)} className="p-3" data-aos="zoom-in">
             <div className='card-ava'>
@@ -265,10 +284,61 @@ useEffect(() => {
             </div>
           </div>
         ))}
-      </Slider>
+      </Slider> */}
+      <Slider {...settings}>
+  {availableApi.map((card, index) => {
+    // Map "Authentication" to "OAuth 2.0" for matching
+    const categoryNameToMatch =
+      card.title === "Authentication" ? "OAuth 2.0" : card.title;
+
+    // Find the sidebarItem with matching categoryname
+    const matchedItem = sidebarItem.find(
+      (item) => item.categoryname === categoryNameToMatch
+    );
+
+    return (
+      <div
+        key={arrayIndex("card", index)}
+        className="p-3"
+        data-aos="zoom-in"
+      >
+        {matchedItem ? (
+          <Link
+            to={`/app/${matchedItem.record_uuid}`}
+            className="text-decoration-none"
+          >
+            <div className="card-ava">
+              <div className="circle-ava">
+                <img
+                  src="/assets/img/bullet.png"
+                  alt="NA"
+                  className="w-100 d-flex justify-content-start align-items-center"
+                />
+              </div>
+              <div className="content-title my-3">{card.title}</div>
+              <div className="content-details four-lines">{card.details}</div>
+            </div>
+          </Link>
+        ) : (
+          <div className="card-ava">
+            <div className="circle-ava">
+              <img
+                src="/assets/img/bullet.png"
+                alt="NA"
+                className="w-100 d-flex justify-content-start align-items-center"
+              />
+            </div>
+            <div className="content-title my-3">{card.title}</div>
+            <div className="content-details four-lines">{card.details}</div>
+          </div>
+        )}
+      </div>
+    );
+  })}
+</Slider>
 
       <div className='d-flex justify-content-center mt-4'>
-        <button className='btn btn-blue p-3'>
+        <button className='btn btn-blue p-3' onClick={() => navigate("/get-started")}>
           View All APIs
         </button>
       </div>
