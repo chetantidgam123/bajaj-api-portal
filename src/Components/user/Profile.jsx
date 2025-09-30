@@ -60,6 +60,7 @@ function Profile() {
         setLoader({ ...loader, submit: false });
         if (response.data.status) {
           success_swal_toast(response.data.message || "Updated successfully");
+          setIsEditable(false);
         } else {
           error_swal_toast(response.data.message || "Something went wrong");
         }
