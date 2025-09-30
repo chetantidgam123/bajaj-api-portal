@@ -334,7 +334,7 @@ function HomePageContent() {
                                     <h5 className="mb-0">Response Sample :</h5>
                                 </div>
                                 <div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-end'>
-                                    <button onClick={() => { copyToClipboard(responsData.resbody || '{}') }} className='span-btn'><img src="/assets/img/copy.png" alt="copy" /></button>
+                                    <button onClick={() => { copyToClipboard(responsData.resbody || '{}') }} className='span-btn-cirlce-btn'><img src="/assets/img/copy.png" alt="copy" /></button>
                                 </div>
                             </div>
                             <SyntaxHighLighter wrapLongLines={true} lineProps={{ style: { wordBreak: 'break-all', whiteSpace: 'pre-wrap' } }} jsonString={responsData.resbody || '{}'} />

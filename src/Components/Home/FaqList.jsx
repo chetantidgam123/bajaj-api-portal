@@ -158,7 +158,8 @@ function FaqList() {
                   className="btn btn-blue"
                   onClick={() => setShowModal(true)}
                 >
-                  Get in Touch <i className="fa-solid fa-arrow-right"></i>
+                 Post a Question
+                 {/* <i className="fa-solid fa-arrow-right"></i> */}
                 </button>
               </div>
             </div>
@@ -175,7 +176,7 @@ function FaqList() {
         centered
       >
         <Modal.Header closeButton className="border-bottom-0">
-          <h4>Your Question</h4>
+          <h4>Post a Question</h4>
         </Modal.Header>
         <Modal.Body className="pt-0">
           <FormikProvider value={faqForm}>
