@@ -85,7 +85,7 @@ function Sidebard() {
 
 
   return (
-    <div className={`sidebar_entity-user ${isClosed ? "close" : ""}`}>
+    <div className={`sidebar_entity-user main-layout ${isClosed ? "close" : ""}`}>
       <div className="sidebar-user ">
         <div className="row">
           <div className="col-xl-9 col-lg-9 col-md-9 col-sm-10 col-10">
