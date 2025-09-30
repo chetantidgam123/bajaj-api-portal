@@ -11,7 +11,7 @@ import { post_data } from "../../ApiServices";
 import { faqSchema } from "../../Schema";
 
 function FaqList() {
-  const [loader, setLoader] = useState({ pageloader: false });
+  const [loader, setLoader] = useState({ pageloader: false, addfaq: false });
   const [showModal, setShowModal] = useState(false);
   const [faqList, setFaqList] = useState([]);
 
@@ -27,17 +27,12 @@ function FaqList() {
     },
     validationSchema: faqSchema,
     onSubmit: async (values, { resetForm }) => {
-      console.log("Form submitted:", values);
-      setLoader(true);
       try {
         const payload = { ...values };
-
-        console.log("Payload for profile update:", payload);
-
-        setLoader(true);
+        setLoader({ ...loader, addfaq: true });
         post_data("portal/public", convertToPayload("addfaq", payload), {})
           .then((response) => {
-            setLoader(false);
+            setLoader({ ...loader, addfaq: false });
             if (response.data.status) {
               success_swal_toast(response.data.message);
               resetForm();
@@ -47,15 +42,12 @@ function FaqList() {
             }
           })
           .catch((error) => {
-            setLoader(false);
+            setLoader({ ...loader, addfaq: false });
             error_swal_toast(error.message || "Something went wrong");
             console.error("Error during profile update:", error);
           });
       } catch (err) {
         console.error("Error:", err);
-        alert("Something went wrong!");
-      } finally {
-        setLoader(false);
       }
     },
   });
@@ -86,37 +78,6 @@ function FaqList() {
   useEffect(() => {
     getFAQList();
   }, []);
-
-  const faq = [
-    {
-      que: "How do I get an API key?",
-      ans: "You can sign up or log in to your account on the developer portal and generate an API key from the dashboard.",
-    },
-    {
-      que: "How do I authenticate my API requests?",
-      ans: "Include your API key in the request header as 'Authorization: Bearer {{YOUR_API_KEY}}'.",
-    },
-    {
-      que: "What formats does the API support?",
-      ans: "Our API returns responses in JSON format by default.",
-    },
-    {
-      que: "Can I use the API in a commercial project?",
-      ans: "Yes, but you need to subscribe to a commercial or enterprise plan depending on your usage.",
-    },
-    {
-      que: "How do I handle errors from the API?",
-      ans: "The API returns appropriate HTTP status codes (like 400, 401, 404, 500) with descriptive error messages.",
-    },
-    {
-      que: "Is there documentation for each endpoint?",
-      ans: "Yes, each API endpoint is fully documented in the API reference section with example requests and responses.",
-    },
-    {
-      que: "Can I request a new feature or endpoint?",
-      ans: "Absolutely! You can send feature requests through the support form or email us directly.",
-    },
-  ];
 
   return (
     <div className="bg-white">
@@ -158,8 +119,8 @@ function FaqList() {
                   className="btn btn-blue"
                   onClick={() => setShowModal(true)}
                 >
-                 Post a Question
-                 {/* <i className="fa-solid fa-arrow-right"></i> */}
+                  Post a Question
+                  {/* <i className="fa-solid fa-arrow-right"></i> */}
                 </button>
               </div>
             </div>
@@ -222,10 +183,10 @@ function FaqList() {
                 <button
                   type="submit"
                   className="btn btn-primary"
-                  disabled={loader}
+                  disabled={loader.addfaq}
                 >
                   Submit{" "}
-                  {loader ? (
+                  {loader.addfaq ? (
                     <LoaderWight />
                   ) : (
                     <i className="fa-solid fa-arrow-right"></i>

@@ -7,7 +7,7 @@ function GetStarted() {
             {/* Only show this when URL is /get-started */}
             {location.pathname === "/get-started" && (
                 <div className="card-body card-bg">
-                <h4 className="mb-2">Get Started</h4>
+                    <h4 className="mb-2">Get Started</h4>
                 </div>
             )}
             <div className="card-body card-bg mt-3">
@@ -43,7 +43,7 @@ function GetStarted() {
                     <div className="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12">
                         <div className="row">
                             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <img src="/assets/img/image 3.png" alt="NA" className='w-100 height-250'  />
+                                <img src="/assets/img/image 3.png" alt="NA" className='w-100 height-250' />
                             </div>
                             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
                                 <img src="/assets/img/image 4.png" alt="NA" className='w-100 height-250' />
@@ -51,17 +51,17 @@ function GetStarted() {
                         </div>
                     </div>
                 </div>
-                 </div>
-                <div className="card-body card-bg mt-3">
-                    <h5>Step 3</h5>
-                    <div className="row">
-                        <div className="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
-                            <ul>
-                                <li> <p className="mb-0">Clicking the Test API button opens a pop-up with a sample request and content type selection.</p></li>
-                                <li> <p>Once the sample request packet is loaded, on clicking Test button at the bottom right of the pop-up, the response packet is returned as shown in the image.</p></li>
-                            </ul>
-                        </div>
-                        <div className="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12">
+            </div>
+            <div className="card-body card-bg mt-3">
+                <h5>Step 3</h5>
+                <div className="row">
+                    <div className="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
+                        <ul>
+                            <li> <p className="mb-0">Clicking the Test API button opens a pop-up with a sample request and content type selection.</p></li>
+                            <li> <p>Once the sample request packet is loaded, on clicking Test button at the bottom right of the pop-up, the response packet is returned as shown in the image.</p></li>
+                        </ul>
+                    </div>
+                    <div className="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12">
                         <div className="row">
                             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
                                 <img src="/assets/img/image 5.png" alt="NA" className='w-100 height-250' />
@@ -71,33 +71,31 @@ function GetStarted() {
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div className="card-body card-bg mt-3 d-none">
+                <div className="card-body card-bg">
+                    <h4 className="mb-2">Get Started</h4>
+                </div>
+                <h5>API Playground History</h5>
+                <div className="bg-dark-blur">
+                    <div className="row p-2">
+                        <div className="col-2">
+                            <h5 className="text-white">Method</h5>
+                        </div>
+                        <div className="col-4">
+                            <h5 className="text-white">Method</h5>
+                        </div>
+                        <div className="col-3">
+                            <h5 className="text-white">Method</h5>
+                        </div>
+                        <div className="col-3">
+                            <h5 className="text-white">Method</h5>
+                        </div>
                     </div>
                 </div>
-                <div className="card-body card-bg mt-3">
- <div className="card-body card-bg">
-                <h4 className="mb-2">Get Started</h4>
             </div>
-            <h5>API Playground History</h5>
-            <div className="bg-dark-blur">
-<div className="row p-2">
-<div className="col-2">
-<h5 className="text-white">Method</h5>
-</div>
-<div className="col-4">
-<h5 className="text-white">Method</h5>
-</div>
-<div className="col-3">
-<h5 className="text-white">Method</h5>
-</div>
-<div className="col-3">
-<h5 className="text-white">Method</h5>
-</div>
-</div>
 
-
-            </div>
-                </div>
-           
         </>
     )
 }
