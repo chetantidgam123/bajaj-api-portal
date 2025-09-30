@@ -14,7 +14,7 @@ function FooterHome() {
                             <button type="button" className="btn-close close-absolute" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body contactus">
-                            <p className="text-center">We’re here to help you get the most out of our APIs. Whether you need technical support, have questions about integration, or want to explore partnership opportunities, feel free to reach out.</p>
+                            <p className="text-center">We're here to help you get the most out of our APIs. Whether you need technical support, have questions about integration, or want to explore partnership opportunities, feel free to reach out.</p>
                             <ul className="nav nav-pills mb-3 d-flex justify-content-center" id="pills-tab" role="tablist">
                                 <li className="nav-item" role="presentation">
                                     <button className="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Get In Touch</button>
@@ -58,7 +58,7 @@ function FooterHome() {
                                 </div>
                             </div>
                         </div>
-                        <div className="d-flex justify-content-end">
+                        <div className="d-flex justify-content-center">
                             {/* <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button> */}
                             <button type="button" className="btn btn-blue">Submit <i class="fa-solid fa-arrow-right"></i></button>
                         </div>
@@ -90,7 +90,7 @@ function FooterHome() {
                     </div>
                 </div>
                 <div className="container">
-                    <p className="text-center text-white mt-3 mb-0">Copyright © 2025.  All rights reserved</p>
+                    <p className="text-center text-white mt-3 mb-0">Copyright © 2025. All rights reserved</p>
                 </div>
             </div>
 
