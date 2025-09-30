@@ -13,8 +13,8 @@ function RequestAccessList() {
         Swal.fire({
             title: "Approve Access",
             html: `
-                <input type="text" id="client_id" class="swal2-input" placeholder="Enter Client ID" />
-                <input type="text" id="client_secret" class="swal2-input" placeholder="Enter Client Secret" />
+                <input type="text" id="client_id" className="swal2-input" placeholder="Enter Client ID" />
+                <input type="text" id="client_secret" className="swal2-input" placeholder="Enter Client Secret" />
             `,
             focusConfirm: false,
             showCancelButton: true,
@@ -179,30 +179,30 @@ function RequestAccessList() {
                                     <td>{user.apiname}</td>
                                     <td>{user.application_name}</td>
                                     <td>{user.client_id}</td>
-                                    <td>{user.client_secret}</td>  
+                                    <td>{user.client_secret}</td>
                                     {/* <td>
                                         {user.approved_status === 0 ? "Pending" :
                                             user.approved_status === 1 ? "Approved" : "Rejected"}
                                     </td> */}
                                     <td>
-                                    {user.approved_status === 0 && (
-                                        <div className="d-flex align-items-center">
-                                        <i className="fa-solid fa-circle-exclamation text-warning me-2"></i>
-                                        <span>Pending</span>
-                                        </div>
-                                    )}
-                                    {user.approved_status === 1 && (
-                                        <div className="d-flex align-items-center">
-                                        <i className="fa-solid fa-circle-check text-success me-2"></i>
-                                        <span>Approved</span>
-                                        </div>
-                                    )}
-                                    {user.approved_status === 2 && (
-                                        <div className="d-flex align-items-center">
-                                        <i className="fas fa-times-circle text-danger me-2"></i>
-                                        <span>Rejected</span>
-                                        </div>
-                                    )}
+                                        {user.approved_status === 0 && (
+                                            <div className="d-flex align-items-center">
+                                                <i className="fa-solid fa-circle-exclamation text-warning me-2"></i>
+                                                <span>Pending</span>
+                                            </div>
+                                        )}
+                                        {user.approved_status === 1 && (
+                                            <div className="d-flex align-items-center">
+                                                <i className="fa-solid fa-circle-check text-success me-2"></i>
+                                                <span>Approved</span>
+                                            </div>
+                                        )}
+                                        {user.approved_status === 2 && (
+                                            <div className="d-flex align-items-center">
+                                                <i className="fas fa-times-circle text-danger me-2"></i>
+                                                <span>Rejected</span>
+                                            </div>
+                                        )}
                                     </td>
                                     <td className="text-center">
                                         <div className="d-flex justify-content-center">

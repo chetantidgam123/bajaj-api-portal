@@ -60,7 +60,7 @@ function FooterHome() {
                         </div>
                         <div className="d-flex justify-content-end">
                             {/* <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button> */}
-                            <button type="button" className="btn btn-blue">Submit <i class="fa-solid fa-arrow-right"></i></button>
+                            <button type="button" className="btn btn-blue">Submit <i className="fa-solid fa-arrow-right"></i></button>
                         </div>
                     </div>
                 </div>

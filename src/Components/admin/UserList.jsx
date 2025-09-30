@@ -134,17 +134,17 @@ function UserList() {
                 <label for="exampleInputEmail1">Filters</label>
                 <div className="row align-items-center">
                     <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
-                        <div class="form-group mt-2">
-                            <input type="email" name="email" class="form-control p-3" id="exampleInputEmail1"
+                        <div className="form-group mt-2">
+                            <input type="email" name="email" className="form-control p-3" id="exampleInputEmail1"
                                 aria-describedby="emailHelp" placeholder="Enter email/Phone Number"
                                 onChange={(e) => { SetSearch({ ...search, input: (e.target.value).trim() }) }} />
                         </div>
                     </div>
                     <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
-                        <div class="form-group mt-2">
-                            <select 
-                                class="form-control p-3" 
-                                name="status" 
+                        <div className="form-group mt-2">
+                            <select
+                                className="form-control p-3"
+                                name="status"
                                 id="exampleFormControlSelect1"
                                 value={search.status}
                                 onChange={(e) => {
@@ -162,7 +162,7 @@ function UserList() {
                     </div>
                     <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12">
                         <button className="btn btn-primary profilePageButton px-3 search-btn" onClick={() => { getUserList(1) }}>Search </button>
-                        <button className="btn btn-outline-primary ms-2 profilePageButton px-3 search-btn" onClick={() => refresh()}><i class="fas fa-sync-alt"></i> </button>
+                        <button className="btn btn-outline-primary ms-2 profilePageButton px-3 search-btn" onClick={() => refresh()}><i className="fas fa-sync-alt"></i> </button>
                     </div>
                 </div>
             </div>
@@ -188,9 +188,9 @@ function UserList() {
                                     <td>{user.emailid}</td>
                                     <td>{user.mobileno}</td>
                                     <td>
-                                        {user.approved_status == 0 && <span><i class="fa-solid fa-circle-exclamation text-warning"></i> Pending</span>}
-                                        {user.approved_status == 1 && <span><i class="fa-solid fa-circle-check text-success"></i>  Approved</span>}
-                                        {user.approved_status == 2 && <span><i class="fas fa-times-circle text-danger"></i> Rejected</span>}
+                                        {user.approved_status == 0 && <span><i className="fa-solid fa-circle-exclamation text-warning"></i> Pending</span>}
+                                        {user.approved_status == 1 && <span><i className="fa-solid fa-circle-check text-success"></i>  Approved</span>}
+                                        {user.approved_status == 2 && <span><i className="fas fa-times-circle text-danger"></i> Rejected</span>}
                                     </td>
                                     <td>{moment(user.createddate).format("DD-MMM-yyyy")}</td>
                                     <td>
@@ -201,9 +201,9 @@ function UserList() {
                                                         <i className="fa-solid fa-ellipsis-vertical"></i>
                                                     </Dropdown.Toggle>
                                                     <Dropdown.Menu className="with-action">
-                                                        <Dropdown.Item href="#" onClick={() => { confirm_swal_call(user) }}><i class="fa-regular fa-thumbs-up"></i> {user.approved_status == 1 ? 'Reject' : 'Approve'} User</Dropdown.Item>
-                                                        <Dropdown.Item href="#"><i class="fa-solid fa-pen"></i> Edit User</Dropdown.Item>
-                                                        <Dropdown.Item href="#"><i class="fa-solid fa-trash"></i> Delete User</Dropdown.Item>
+                                                        <Dropdown.Item href="#" onClick={() => { confirm_swal_call(user) }}><i className="fa-regular fa-thumbs-up"></i> {user.approved_status == 1 ? 'Reject' : 'Approve'} User</Dropdown.Item>
+                                                        <Dropdown.Item href="#"><i className="fa-solid fa-pen"></i> Edit User</Dropdown.Item>
+                                                        <Dropdown.Item href="#"><i className="fa-solid fa-trash"></i> Delete User</Dropdown.Item>
                                                     </Dropdown.Menu>
                                                 </Dropdown> */}
                                                 <Dropdown
@@ -211,11 +211,11 @@ function UserList() {
                                                     popperConfig={{
                                                         strategy: 'fixed',
                                                         modifiers: [
-                                                        { name: 'flip', options: { fallbackPlacements: ['top', 'bottom'] } },
-                                                        { name: 'arrow', options: { element: '[data-popper-arrow]' } }
+                                                            { name: 'flip', options: { fallbackPlacements: ['top', 'bottom'] } },
+                                                            { name: 'arrow', options: { element: '[data-popper-arrow]' } }
                                                         ]
                                                     }}
-                                                    >
+                                                >
                                                     <Dropdown.Toggle
                                                         as="button"
                                                         variant="link"
@@ -234,7 +234,7 @@ function UserList() {
                                                         </Dropdown.Item>
                                                         <Dropdown.Item><i className="fa-solid fa-pen"></i> Edit User</Dropdown.Item>
                                                         <Dropdown.Item><i className="fa-solid fa-trash"></i> Delete User</Dropdown.Item>
-                                                        <Dropdown.Item as={Link} to={`/master/user-list/details/${user.id}`} state={{ userData: user }}><i class="fa-solid fa-eye"></i> View Details</Dropdown.Item>
+                                                        <Dropdown.Item as={Link} to={`/master/user-list/details/${user.id}`} state={{ userData: user }}><i className="fa-solid fa-eye"></i> View Details</Dropdown.Item>
                                                     </Dropdown.Menu>
                                                 </Dropdown>
                                             </div>
@@ -266,7 +266,7 @@ function UserList() {
                             ))}
                     </tbody>
                 </table>
-                <PaginateComponent 
+                <PaginateComponent
                     currentPage={currentPage}
                     totalPages={totalPages}
                     onPageChange={(page) => getUserList(page)}

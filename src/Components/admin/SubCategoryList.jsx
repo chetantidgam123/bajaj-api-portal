@@ -98,7 +98,7 @@ function SubCategoryList() {
         let payload = {
             subcategoryname: data.subcategoryname,
             categoryid: data.categoryid,
-            sub_categoryid: data.id,
+            sub_categoryid: data.sub_categoryid,
             description: data.description,
             isenabled: data.isenabled,
         }
@@ -107,7 +107,7 @@ function SubCategoryList() {
             .then((response) => {
                 setLoader({ ...loader, submit: false });
                 if (response.data.status) {
-                    getUserList();
+                    getSubCategoryList();
                     handleClose();
                     success_swal_toast(response.data.message);
                 } else {

@@ -7,7 +7,7 @@ import ForgotPassword from '../auth/ForgotPassword';
 import ResetPassword from '../auth/ResetPasswrd';
 import { useEffect, useState } from 'react';
 import Slider from "react-slick";
-import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import '../../../src/new.css'
 
@@ -18,81 +18,81 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 
 function NextArrow({ onClick, isActive }) {
-  return (
-    <div
-      className={`custom-arrow next ${isActive ? "active" : "disabled"}`}
-      onClick={isActive ? onClick : null}
-    >
-      <i className="fa-solid fa-arrow-right"></i>
-    </div>
-  );
+    return (
+        <div
+            className={`custom-arrow next ${isActive ? "active" : "disabled"}`}
+            onClick={isActive ? onClick : null}
+        >
+            <i className="fa-solid fa-arrow-right"></i>
+        </div>
+    );
 }
 
 function PrevArrow({ onClick, isActive }) {
-  return (
-    <div
-      className={`custom-arrow prev ${isActive ? "active" : "disabled"}`}
-      onClick={isActive ? onClick : null}
-    >
-      <i className="fa-solid fa-arrow-left"></i>
-    </div>
-  );
+    return (
+        <div
+            className={`custom-arrow prev ${isActive ? "active" : "disabled"}`}
+            onClick={isActive ? onClick : null}
+        >
+            <i className="fa-solid fa-arrow-left"></i>
+        </div>
+    );
 }
 
 function LandingPage() {
-  const [show, setShow] = useState(false);
-  const [modalName, setModalName] = useState("");
-  const navigate = useNavigate();
-  const [current, setCurrent] = useState(0);
-  const slidesToShow = 3;
+    const [show, setShow] = useState(false);
+    const [modalName, setModalName] = useState("");
+    const navigate = useNavigate();
+    const [current, setCurrent] = useState(0);
+    const slidesToShow = 3;
 
-  useEffect(() => {
-    AOS.init({ duration: 1000, once: true }); // initialize AOS
-  }, []);
+    useEffect(() => {
+        AOS.init({ duration: 1000, once: true }); // initialize AOS
+    }, []);
 
-  const settings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow,
-    slidesToScroll: 1,
-    initialSlide: 0,
-    onInit: () => setCurrent(0),
-    beforeChange: (_, next) => setCurrent(next),
-    nextArrow: (
-      <NextArrow isActive={current < availableApi.length - slidesToShow} />
-    ),
-    prevArrow: <PrevArrow isActive={current > 0} />,
-    responsive: [
-      { breakpoint: 1024, settings: { slidesToShow: 2 } },
-      { breakpoint: 768, settings: { slidesToShow: 1 } }
-    ]
-  };
-useEffect(() => {
-  AOS.init({
-    duration: 1000,
-    once: false,   
-    mirror: true  
-  });
+    const settings = {
+        dots: false,
+        infinite: false,
+        speed: 500,
+        slidesToShow,
+        slidesToScroll: 1,
+        initialSlide: 0,
+        onInit: () => setCurrent(0),
+        beforeChange: (_, next) => setCurrent(next),
+        nextArrow: (
+            <NextArrow isActive={current < availableApi.length - slidesToShow} />
+        ),
+        prevArrow: <PrevArrow isActive={current > 0} />,
+        responsive: [
+            { breakpoint: 1024, settings: { slidesToShow: 2 } },
+            { breakpoint: 768, settings: { slidesToShow: 1 } }
+        ]
+    };
+    useEffect(() => {
+        AOS.init({
+            duration: 1000,
+            once: false,
+            mirror: true
+        });
 
-  AOS.refresh(); 
-}, []);
+        AOS.refresh();
+    }, []);
 
     return (
         <div className='all'>
             <Header />
-           <div className='banner' data-aos="fade-up">
+            <div className='banner' data-aos="fade-up">
                 <div className='container'>
                     <div className='row align-items-center'>
                         <div className='col-xl-7 col-lg-8 col-md-12 col-sm-12 col-12' data-aos="fade-right">
                             <p className='text-start welcome'>Welcome to</p>
                             <h1 className='text-start mt-3'>Bajaj API Developer Portal</h1>
                             <div className='row d-flex justify-content-start mt-3'>
-                                 <div className='col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12'>
+                                <div className='col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12'>
                                     <p className='text-start text-white'>— your one-stop destination for accessing, integrating, and managing powerful APIs that drive seamless digital experiences. Whether you're building customer journeys, or partner integrations, our APIs offer secure, scalable, and easy-to-use solutions to accelerate your development.</p>
                                 </div>
                                 <div className='d-flex justify-content-start mt-3'>
-                                     <button className='btn btn-blue p-3' onClick={() => { navigate('/get-started') }}>Get Started </button>
+                                    <button className='btn btn-blue p-3' onClick={() => { navigate('/get-started') }}>Get Started </button>
                                 </div>
                             </div>
                         </div>
@@ -113,7 +113,7 @@ useEffect(() => {
                         </div>
                     </div>
 
-                    <div className='row mt-4 border-relative'  data-aos="fade-up">
+                    <div className='row mt-4 border-relative' data-aos="fade-up">
                         <div className='col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 d-flex justify-content-center'>
                             <button className='btn btn-outline-primary px-3 bg-white'>Step 1</button>
                         </div>
@@ -179,23 +179,23 @@ useEffect(() => {
                     </div>
                 </div>
             </div>
-             <div className='Golive ' data-aos="fade-up">
-                   <div className='container'>
-                <h1 className='text-center text-white'>Go Live With Us</h1>
-                <div className="bar-white"></div>
-                <div className='row justify-content-center'>
-                    <div className='col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12'>
-                        <p className='text-center text-white'>Onboard your developers effortlessly. Discover how easy it is to integrate Bajaj APIs in just a few simple steps.</p>
+            <div className='Golive ' data-aos="fade-up">
+                <div className='container'>
+                    <h1 className='text-center text-white'>Go Live With Us</h1>
+                    <div className="bar-white"></div>
+                    <div className='row justify-content-center'>
+                        <div className='col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12'>
+                            <p className='text-center text-white'>Onboard your developers effortlessly. Discover how easy it is to integrate Bajaj APIs in just a few simple steps.</p>
+                        </div>
                     </div>
-                </div>
-             
+
                     <div className='row d-flex justify-content-center my-5'>
                         <div className='col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 mb-3' data-aos="flip-left">
                             <div className='position-relative mt-3'>
                                 <h1 className='step-1'>01</h1>
                                 <h3 className='text-white position-go-subheading mb-0'>Development</h3>
                             </div>
-                              <div className='row'>
+                            <div className='row'>
                                 <div className='col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12'>
                                     <p className='mt-4 text-white'>Build and test APIs in a controlled developer environment.</p>
                                 </div>
@@ -208,7 +208,7 @@ useEffect(() => {
                             </div>
                             <div className='row'>
                                 <div className='col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12'>
-                                 <p className='mt-4 text-white'>Validate APIs in a staging environment before going live.</p>
+                                    <p className='mt-4 text-white'>Validate APIs in a staging environment before going live.</p>
                                 </div>
                             </div>
                         </div>
@@ -217,13 +217,13 @@ useEffect(() => {
                                 <h1 className='step-1'>03</h1>
                                 <h3 className='text-white position-go-subheading mb-0'>Production</h3>
                             </div>
-                             <div className='row'>
+                            <div className='row'>
                                 <div className='col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12'>
-                                   <p className='mt-4 text-white'>Access live, secure, and fully
-                                operational APIs.</p>
+                                    <p className='mt-4 text-white'>Access live, secure, and fully
+                                        operational APIs.</p>
                                 </div>
                             </div>
-                            
+
                         </div>
 
 
@@ -231,48 +231,48 @@ useEffect(() => {
                 </div>
             </div>
             <div className='container'>
-            <div className='img-up '>
-                <img src="/assets/img/Go-live-with-us.png" alt="" className='w-100' />
-            </div>
+                <div className='img-up '>
+                    <img src="/assets/img/Go-live-with-us.png" alt="" className='w-100' />
+                </div>
             </div>
             <div className='availableApi' data-aos="fade-up">
-                 <div className='container'>
-                <h1>Available API</h1>
-                <div className="bar"></div>
-                <div className='row justify-content-center'>
-                    <div className='col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12'>
-                        <p className='text-center'>Onboard your developers effortlessly. Discover how easy it is to integrate Bajaj APIs in just a few simple steps.</p>
+                <div className='container'>
+                    <h1>Available API</h1>
+                    <div className="bar"></div>
+                    <div className='row justify-content-center'>
+                        <div className='col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12'>
+                            <p className='text-center'>Onboard your developers effortlessly. Discover how easy it is to integrate Bajaj APIs in just a few simple steps.</p>
+                        </div>
+                    </div>
+
+                    <Slider {...settings}>
+                        {availableApi.map((card, index) => (
+                            <div role='button' onClick={() => { navigate(card.routePath) }} key={arrayIndex("card", index)} className="p-3" data-aos="zoom-in">
+                                <div className='card-ava'>
+                                    <div className="circle-ava">
+                                        <img
+                                            src="/assets/img/bullet.png"
+                                            alt="NA"
+                                            className='w-100 d-flex justify-content-start align-items-center'
+                                        />
+                                    </div>
+                                    <div className="content-title my-3">
+                                        {card.title}
+                                    </div>
+                                    <div className="content-details four-lines">
+                                        {card.details}
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </Slider>
+
+                    <div className='d-flex justify-content-center mt-4'>
+                        <button className='btn btn-blue p-3' onClick={() => { navigate('api/f054d44c-65cf-49d5-9a68-eef138cd5453') }}>
+                            View All APIs
+                        </button>
                     </div>
                 </div>
-             
-      <Slider {...settings}>
-        {availableApi.map((card, index) => (
-          <div key={arrayIndex("card", index)} className="p-3" data-aos="zoom-in">
-            <div className='card-ava'>
-              <div className="circle-ava">
-                <img 
-                  src="/assets/img/bullet.png" 
-                  alt="NA" 
-                  className='w-100 d-flex justify-content-start align-items-center' 
-                />
-              </div>
-              <div className="content-title my-3">
-                {card.title}
-              </div>
-              <div className="content-details four-lines">
-                {card.details}
-              </div>
-            </div>
-          </div>
-        ))}
-      </Slider>
-
-      <div className='d-flex justify-content-center mt-4'>
-        <button className='btn btn-blue p-3'>
-          View All APIs
-        </button>
-      </div>
-    </div>
             </div>
             <FooterHome />
 
