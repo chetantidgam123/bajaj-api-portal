@@ -176,7 +176,7 @@ function FaqList() {
         centered
       >
         <Modal.Header closeButton className="border-bottom-0">
-          <h4>Post a Question</h4>
+          <h4 className="mb-0">Post a Question</h4>
         </Modal.Header>
         <Modal.Body className="pt-0">
           <FormikProvider value={faqForm}>
