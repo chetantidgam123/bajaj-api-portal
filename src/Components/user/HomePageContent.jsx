@@ -194,27 +194,27 @@ function HomePageContent() {
                                     {/* <div className='col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12 d-flex justify-content-end'>
                                         <button className="btn btn-outline-primary profilePageButton px-4" onClick={checkAccess}>Try it {tryitLoader && <Loader />}</button>
                                     </div> */}
-                                    <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                                    <div className='col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12'>
                                         <div className="d-flex justify-content-end">
                                             {!hasTriedApi ? (
                                                 // Case 1: before try -> only Try it aligned right
-                                                <button
+                                                api_id && (<button
                                                     className="btn btn-outline-primary px-3"
                                                     onClick={checkAccess}
                                                     disabled={tryitLoader}
                                                 >
                                                     {tryitLoader ? "Loading..." : "Try it"}
-                                                </button>
+                                                </button>)
                                             ) : (
                                                 // Case 2: after try -> show both
                                                 <>
-                                                    <button
+                                                    {api_id && <button
                                                         className="btn btn-outline-primary me-2 px-3"
                                                         onClick={checkAccess}
                                                         disabled={tryitLoader}
                                                     >
                                                         {tryitLoader ? "Loading..." : "Try it"}
-                                                    </button>
+                                                    </button>}
                                                     <button className="btn btn-primary px-3" onClick={() => navigate('/api-playground-history')}>
                                                         API Playground History
                                                     </button>
@@ -246,7 +246,8 @@ function HomePageContent() {
                             <SyntaxHighLighter jsonString={JSON.parse(apiData.reqsample) || '{}'} />
                         </div>
                     </div>}
-                    {api_id && apiData && <div className="card mb-3">
+                    {api_id && apiData && JSON.parse(apiData?.reqbody?.value || '[]').length > 0 &&
+                    (<div className="card mb-3">
                         <div className="card-body card-bg">
                             <div className="row d-flex justify-content-between align-items-start mb-3">
                                 <div className='col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12'>
@@ -286,8 +287,9 @@ function HomePageContent() {
                                 </Table>
                             </div>
                         </div>
-                    </div>}
-                    {api_id && apiData && <div className="card  mb-3">
+                    </div>)}
+                    {api_id && apiData && JSON.parse(apiData?.reqheader?.value || '[]').length > 0 &&
+                    (<div className="card  mb-3">
                         <div className="card-body card-bg">
                             <div className="row d-flex justify-content-between align-items-start mb-3">
                                 <div className='col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12'>
@@ -326,7 +328,7 @@ function HomePageContent() {
                                 </Table>
                             </div>
                         </div>
-                    </div>}
+                    </div>)}
                     {api_id && apiData && <div className="card  mb-3">
                         <div className="card-body card-bg">
                             <div className="row d-flex justify-content-between align-items-start mb-3">
@@ -340,7 +342,8 @@ function HomePageContent() {
                             <SyntaxHighLighter wrapLongLines={true} lineProps={{ style: { wordBreak: 'break-all', whiteSpace: 'pre-wrap' } }} jsonString={responsData.resbody || '{}'} />
                         </div>
                     </div>}
-                    {api_id && apiData && <div className="card mb-3">
+                    {api_id && apiData && Object.keys(responsData.resschema.properties || {}).length > 0 && 
+                    (<div className="card mb-3">
                         <div className="card-body card-bg">
                             <div className="row d-flex justify-content-between align-items-start mb-3">
                                 <div className='col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12'>
@@ -380,8 +383,9 @@ function HomePageContent() {
                                 </Table>
                             </div>
                         </div>
-                    </div>}
-                    {api_id && apiData && <div className="card  mb-3">
+                    </div>)}
+                    {api_id && apiData && JSON.parse(apiData?.resheader?.value || '[]').length > 0 && 
+                    (<div className="card  mb-3">
                         <div className="card-body card-bg">
                             <div className="row d-flex justify-content-between align-items-start mb-3">
                                 <div className='col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12'>
@@ -421,7 +425,7 @@ function HomePageContent() {
                                 </Table>
                             </div>
                         </div>
-                    </div>}
+                    </div>)}
                 </div>
                 {api_id && apiData && <div className="right-content">
                     <LangCurlExecuteComp apiData={apiData} setStatusCode={setStatusCode} bodyReqSample={bodyRequestSample} />

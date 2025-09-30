@@ -16,6 +16,8 @@ const ApiList = lazy(() => import("../Components/admin/ApiList"));
 const CreateApi = lazy(() => import("../Components/admin/CreateApi"));
 const UserList = lazy(() => import("../Components/admin/UserList"));
 const PageNotFound = lazy(() => import("../Components/admin/PageNotFound"));
+const UserListDetails = lazy(() => import("../Components/admin/UserListDetails"))
+const Reports = lazy(() => import("../Components/admin/Reports"))
 
 /***  Master Entry Start ***/
 const SuggestApi = lazy(() =>
@@ -121,6 +123,14 @@ const routes = [
           </PrivateRoute>
         ),
       },
+      {
+        path: "/user-list/details/:id",
+        element: (
+          <PrivateRoute>
+            <UserListDetails />
+          </PrivateRoute>
+        ),
+      },
 
       /***  Master Entry Start ***/
       {
@@ -169,6 +179,14 @@ const routes = [
         element: (
           <PrivateRoute>
             <Faq />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/reports",
+        element: (
+          <PrivateRoute>
+            <Reports />
           </PrivateRoute>
         ),
       },

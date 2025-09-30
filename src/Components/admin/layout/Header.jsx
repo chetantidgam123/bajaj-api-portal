@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Dropdown } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import { useState } from "react";
-import { getTokenData } from "../../../Utils";
+import { getTokenData,getInitials } from "../../../Utils";
 const Sidebar = React.lazy(() => import('./Sidebar'));
 
 function Header() {
@@ -60,8 +60,8 @@ function Header() {
                                     <Dropdown.Toggle
                                         className="d-flex justify-content-center align-items-center btn-white p-0"
                                     >
-                                        <div className="circle-profile">
-                                            <i className="fa fa-user"></i>
+                                        <div className="circle-profile" style={{ backgroundColor: '#007bff', color: '#ffeb3b' }}>
+                                            {fullName ? getInitials(fullName) : <i className="fa fa-user"></i>}
                                         </div>
                                         <div className="ms-2 text-start color-blue">
                                             Welcome <br></br>
