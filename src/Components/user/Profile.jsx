@@ -166,24 +166,7 @@ function Profile() {
                   </div>
                 </div>
                 <div className="col-3 d-flex justify-content-end align-items-center">
-                  {/* {isEditable && (
-                    <>
-                      <input
-                        type="file"
-                        className="d-none"
-                        id="profileImageInput"
-                        onChange={(e) => uploadProfileImage(e.target.files[0])}
-                      />
-                      <label
-                        htmlFor="profileImageInput"
-                        className="btn btn-upload"
-                      >
-                        <i className="fa fa-upload"></i> Upload New Photo
-                      </label>
-                    </>
-                  )} */}
                   {!isEditable ? (
-                    // Show Edit Profile when not editing
                     <button
                       type="button"
                       className="btn  btn-upload"
@@ -192,7 +175,6 @@ function Profile() {
                       <i className="fa fa-edit me-2"></i> Edit Profile
                     </button>
                   ) : (
-                    // Show Upload New Photo only in edit mode
                     <>
                       <input
                         type="file"
