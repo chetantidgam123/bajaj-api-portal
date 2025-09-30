@@ -15,6 +15,7 @@ function Profile() {
   const [fullName, setFullName] = useState("");
   const [emailId, setEmailId] = useState("");
   const [profileImage, setProfileImage] = useState("");
+  const [isEditable, setIsEditable] = useState(false);
   const navigate = useNavigate();
 
   const Profileform = useFormik({
@@ -50,7 +51,11 @@ function Profile() {
     };
 
     setLoader({ ...loader, submit: true });
-    post_auth_data("portal/private", convertToPayload("update-profile", payload), {})
+    post_auth_data(
+      "portal/private",
+      convertToPayload("update-profile", payload),
+      {}
+    )
       .then((response) => {
         setLoader({ ...loader, submit: false });
         if (response.data.status) {
@@ -94,7 +99,11 @@ function Profile() {
 
   const getUserData = () => {
     setLoader({ ...loader, page: true });
-    post_auth_data("portal/private", convertToPayload("get-user-by-id", { user_id: getJwtData().sub }), {})
+    post_auth_data(
+      "portal/private",
+      convertToPayload("get-user-by-id", { user_id: getJwtData().sub }),
+      {}
+    )
       .then((response) => {
         setLoader({ ...loader, page: false });
         if (response.data.status) {
@@ -144,25 +153,61 @@ function Profile() {
             <div className="card-bg card-gradient">
               <div className="row d-flex justify-content-between">
                 <div className="col-6 p-3 d-flex">
-                  <img className="profileImage" src={Profileform.values.profile_img || "/assets/img/userImage.png"} />
+                  <img
+                    className="profileImage"
+                    src={
+                      Profileform.values.profile_img ||
+                      "/assets/img/userImage.png"
+                    }
+                  />
                   <div className="d-flex flex-column justify-content-center ms-3">
                     <h5 className="profileHeaders">{fullName}</h5>
                     <span className="text-white">{emailId}</span>
                   </div>
                 </div>
                 <div className="col-3 d-flex justify-content-end align-items-center">
-                  <input
-                    type="file"
-                    className="d-none"
-                    id="profileImageInput"
-                    onChange={(e) => uploadProfileImage(e.target.files[0])}
-                  />
-                  <label
-                    htmlFor="profileImageInput"
-                    className="btn btn-upload "
-                  >
-                    <i className="fa fa-upload"></i> Upload New Photo
-                  </label>
+                  {/* {isEditable && (
+                    <>
+                      <input
+                        type="file"
+                        className="d-none"
+                        id="profileImageInput"
+                        onChange={(e) => uploadProfileImage(e.target.files[0])}
+                      />
+                      <label
+                        htmlFor="profileImageInput"
+                        className="btn btn-upload"
+                      >
+                        <i className="fa fa-upload"></i> Upload New Photo
+                      </label>
+                    </>
+                  )} */}
+                  {!isEditable ? (
+                    // Show Edit Profile when not editing
+                    <button
+                      type="button"
+                      className="btn  btn-upload"
+                      onClick={() => setIsEditable(true)}
+                    >
+                      <i className="fa fa-edit me-2"></i> Edit Profile
+                    </button>
+                  ) : (
+                    // Show Upload New Photo only in edit mode
+                    <>
+                      <input
+                        type="file"
+                        className="d-none"
+                        id="profileImageInput"
+                        onChange={(e) => uploadProfileImage(e.target.files[0])}
+                      />
+                      <label
+                        htmlFor="profileImageInput"
+                        className="btn btn-upload"
+                      >
+                        <i className="fa fa-upload"></i> Upload New Photo
+                      </label>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
@@ -184,6 +229,7 @@ function Profile() {
                     value={Profileform.values.fullname}
                     onChange={Profileform.handleChange}
                     onBlur={Profileform.handleBlur}
+                    disabled={!isEditable}
                   />
                   {Profileform.touched.fullname &&
                     Profileform.errors.fullname && (
@@ -226,6 +272,7 @@ function Profile() {
                       handlePhoneInput("mobileno2", e.target.value)
                     }
                     onBlur={Profileform.handleBlur}
+                    disabled={!isEditable}
                   />
                   {Profileform.touched.mobileno2 &&
                     Profileform.errors.mobileno2 && (
@@ -268,6 +315,7 @@ function Profile() {
                     value={Profileform.values.company_name}
                     onChange={Profileform.handleChange}
                     onBlur={Profileform.handleBlur}
+                    disabled={!isEditable}
                   />
                   {Profileform.touched.company_name &&
                     Profileform.errors.company_name && (
@@ -286,6 +334,7 @@ function Profile() {
                     value={Profileform.values.company_email}
                     onChange={Profileform.handleChange}
                     onBlur={Profileform.handleBlur}
+                    disabled={!isEditable}
                   />
                   {Profileform.touched.company_email &&
                     Profileform.errors.company_email && (
@@ -306,6 +355,7 @@ function Profile() {
                       handlePhoneInput("company_mobile", e.target.value)
                     }
                     onBlur={Profileform.handleBlur}
+                    disabled={!isEditable}
                   />
                   {Profileform.touched.company_mobile &&
                     Profileform.errors.company_mobile && (
@@ -326,6 +376,7 @@ function Profile() {
                       handlePhoneInput("company_office_mobile", e.target.value)
                     }
                     onBlur={Profileform.handleBlur}
+                    disabled={!isEditable}
                   />
                   {Profileform.touched.company_office_mobile &&
                     Profileform.errors.company_office_mobile && (
@@ -344,6 +395,7 @@ function Profile() {
                     value={Profileform.values.company_address}
                     onChange={Profileform.handleChange}
                     onBlur={Profileform.handleBlur}
+                    disabled={!isEditable}
                   />
                   {Profileform.touched.company_address &&
                     Profileform.errors.company_address && (
@@ -359,9 +411,17 @@ function Profile() {
 
               <div className="row">
                 <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
-                  <input type="text" className="form-control p-3" id="clientId"
-                    name="clientId" placeholder="Client ID" value={Profileform.values.clientId}
-                    onChange={Profileform.handleChange} onBlur={Profileform.handleBlur} disabled />
+                  <input
+                    type="text"
+                    className="form-control p-3"
+                    id="clientId"
+                    name="clientId"
+                    placeholder="Client ID"
+                    value={Profileform.values.clientId}
+                    onChange={Profileform.handleChange}
+                    onBlur={Profileform.handleBlur}
+                    disabled
+                  />
                   {Profileform.touched.clientId &&
                     Profileform.errors.clientId && (
                       <div className="text-danger mt-1">
@@ -378,7 +438,9 @@ function Profile() {
                     placeholder="Client Secret"
                     value={Profileform.values.clientSecret}
                     onChange={Profileform.handleChange}
-                    onBlur={Profileform.handleBlur} disabled />
+                    onBlur={Profileform.handleBlur}
+                    disabled
+                  />
                   {Profileform.touched.clientSecret &&
                     Profileform.errors.clientSecret && (
                       <div className="text-danger mt-1">
@@ -387,10 +449,54 @@ function Profile() {
                     )}
                 </div>
               </div>
+
+              {/* <div className="d-flex justify-content-end mt-3">
+                {!isEditable ? (
+                  <button
+                    type="button"
+                    className="btn btn-upload me-2"
+                    onClick={() => setIsEditable(true)}
+                  >
+                    Edit
+                  </button>
+                ) : (
+                  <>
+                    <button
+                      type="button"
+                      className="btn btn-light me-2"
+                      onClick={() => setIsEditable(false)}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      className="btn btn-primary profilePageButton px-3"
+                      type="submit"
+                      disabled={loader.submit}
+                    >
+                      Submit {loader.submit && <LoaderWight />}
+                    </button>
+                  </>
+                )}
+              </div> */}
               <div className="d-flex justify-content-end mt-3">
-                <button className="btn btn-primary profilePageButton px-3" type="submit" disabled={loader.submit}>
-                  Submit {loader.submit && <LoaderWight />}
-                </button>
+                {isEditable && (
+                  <>
+                    <button
+                      type="button"
+                      className="btn btn-light me-2"
+                      onClick={() => setIsEditable(false)} // Cancel edit
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      className="btn btn-primary profilePageButton px-3"
+                      type="submit"
+                      disabled={loader.submit}
+                    >
+                      Submit {loader.submit && <LoaderWight />}
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           </Form>
