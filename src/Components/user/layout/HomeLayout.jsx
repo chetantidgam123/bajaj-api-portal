@@ -21,15 +21,15 @@ function HomeLayout() {
  
 
     return (
-        <div className="home-layout pt-2">
+        <div className="home-layout">
             <Header />
-            <div className="container-fluid col-12 main-layout py-3">
+            <div className="container-fluid col-12  py-3">
                 {showsidebar && <div className="DashboardLayout">
                     {/* <div className={`sidebar_entity ${isClosed ? "close" : ""}`}> */}
                         {/* <Sidebar setPageData={setPageData} /> */}
                         <Sidebard />
                     {/* </div> */}
-                    <div className="entity_mainSection_user">
+                    <div className="entity_mainSection_user ">
                         <Outlet context={{ pageData }} />
                     </div>
                 </div>}

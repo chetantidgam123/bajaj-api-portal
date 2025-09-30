@@ -39,13 +39,13 @@ function Sidebar() {
         <div className="image-text">
           <span className="image">
             <Link
-              className="navbar-brand d-flex align-items-center justify-content-center"
+              className="navbar-brand d-flex align-items-center justify-content-start"
               to="/"
             >
               <img
                 src="/assets/img/logo.png"
                 alt="Logo"
-                className="logo-img me-2"
+                className="logo-img ms-4"
               />
             </Link>
           </span>
@@ -57,25 +57,30 @@ function Sidebar() {
           {/* ✅ React toggle button (no querySelector) */}
           <div className="col-xl-9 col-lg-9 col-md-9 col-sm-10 col-10">
             <h4 class="heading-hide heading-display mb-0">
-              <Link className="text-white text-decoration-none" to="/api/0">
-                Explore API
+              <Link className="text-white text-decoration-none" to="/master">
+                Dashboard 
               </Link>
             </h4>
           </div>
-          <div
-            className={`${
-              isClosed
-                ? "col-xl-12 col-lg-12 col-md-12 col-sm-2 col-2"
-                : "col-xl-3 col-lg-3 col-md-3 col-sm-2 col-2"
-            } d-flex justify-content-center`}
-          >
-            <div
-              class="circle-arrow toggle"
-              onClick={() => setIsClosed(!isClosed)}
-            >
-              <i class="fa-solid fa-arrow-left" role="button"></i>
-            </div>
-          </div>
+         <div
+  className={`${
+    isClosed
+      ? "col-xl-12 col-lg-12 col-md-12 col-sm-2 col-2"
+      : "col-xl-3 col-lg-3 col-md-3 col-sm-2 col-2"
+  } d-flex justify-content-center`}
+>
+  <div
+    className="circle-arrow toggle"
+    onClick={() => setIsClosed(!isClosed)}
+  >
+    {isClosed ? (
+      <i className="fa-solid fa-arrow-right" role="button"></i>
+    ) : (
+      <i className="fa-solid fa-arrow-left" role="button"></i>
+    )}
+  </div>
+</div>
+
         </div>
 
         <Accordion
@@ -90,7 +95,7 @@ function Sidebar() {
             </Accordion.Header>
             <Accordion.Body className="px-0 py-2">
               <ul className="admin-sidebar-ul">
-                <li>
+                <li className="list-style-none">
                   <Link
                     className={`admin-sidebar-li ${
                       currentPath === "/master/user-list" ? "" : ""
@@ -112,7 +117,7 @@ function Sidebar() {
             </Accordion.Header>
             <Accordion.Body className="px-0 py-2">
               <ul className="admin-sidebar-ul">
-                <li>
+               <li className="list-style-none">
                   <Link
                     className={`admin-sidebar-li ${
                       currentPath === "/master/api-list" ? "active-tab" : ""
@@ -122,7 +127,7 @@ function Sidebar() {
                     Api List
                   </Link>
                 </li>
-                <li>
+               <li className="list-style-none">
                   <Link
                     className={`admin-sidebar-li ${
                       currentPath === "/master/category-list"
@@ -134,7 +139,7 @@ function Sidebar() {
                     Category List
                   </Link>
                 </li>
-                <li>
+                <li className="list-style-none">
                   <Link
                     className={`admin-sidebar-li ${
                       currentPath === "/master/sub-category-list"

@@ -814,3 +814,25 @@ background-color: #F5F6FA !important;
     color: #ffffff;
     background-color: #006ad0;
 }
+.center-content-new{
+        background-color: white;
+    border-radius: 1em;
+    padding: 1em;
+}
+.height-70px{
+    height: 70px;
+}
+.home-layout .header{
+       height: 70px;
+}
+.border-bottom-dash{
+       height: 70px !important;
+}
+.list-style-none{
+    list-style-type: none;
+}
+
+.accr-user button{
+    padding-left: 0px;
+    padding-right: 0px;
+}
