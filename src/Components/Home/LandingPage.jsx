@@ -10,9 +10,10 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import '../../../src/new.css'
-
-import { arrayIndex, availableApi, getTokenData } from '../../Utils';
-import { useNavigate } from 'react-router-dom';
+import { post_data } from '../../ApiServices';
+import { arrayIndex, availableApi, convertToPayload } from '../../Utils';
+import { useNavigate, Link } from 'react-router-dom';
+import { error_swal_toast } from '../../SwalServices';
 
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -40,11 +41,12 @@ function PrevArrow({ onClick, isActive }) {
 }
 
 function LandingPage() {
-    const [show, setShow] = useState(false);
-    const [modalName, setModalName] = useState("");
-    const navigate = useNavigate();
-    const [current, setCurrent] = useState(0);
-    const slidesToShow = 3;
+  const [show, setShow] = useState(false);
+  const [modalName, setModalName] = useState("");
+  const navigate = useNavigate();
+  const [current, setCurrent] = useState(0);
+  const slidesToShow = 3;
+  const [sidebarItem, setSidebarItem] = useState([])
 
     useEffect(() => {
         AOS.init({ duration: 1000, once: true }); // initialize AOS
@@ -77,6 +79,23 @@ function LandingPage() {
 
         AOS.refresh();
     }, []);
+
+const getURLIds = async() => {
+    try {
+        const res = await post_data("portal/public", convertToPayload("get-sidebar-list", {}), {})
+        if(res.data.status) {
+           setSidebarItem(res.data.data)
+           console.log(res.data.data)
+        }
+    } catch(error) {
+        error_swal_toast(response.data.message);
+    }
+
+}
+
+useEffect(() => {
+    getURLIds()
+}, [])
 
     return (
         <div className='all'>
