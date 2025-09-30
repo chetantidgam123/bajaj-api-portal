@@ -41,7 +41,7 @@ function Header() {
                         {/* Collapsible Content */}
                         <div className="collapse navbar-collapse justify-content-center" id="navbarCenterContent">
                             {/* Center: Links */}
-                            <ul className="navbar-nav mb-2 mb-lg-0 d-flex justify-content-center">
+                            {/* <ul className="navbar-nav mb-2 mb-lg-0 d-flex justify-content-center">
 
                                 <li className="nav-item">
                                     <Link className="nav-link" to="/api/0">
@@ -53,7 +53,7 @@ function Header() {
                                         FAQ
                                     </Link>
                                 </li>
-                                 </ul>
+                                 </ul> */}
                             </div>
                                        <div className="d-flex justify-content-center align-items-center">
    <Dropdown className="p-0">
