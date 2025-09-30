@@ -47,13 +47,13 @@ function RequestAccessList() {
             cancelButtonText: "Cancel",
         }).then((result) => {
             if (result.isConfirmed) {
-                toggleStatus(user, 2);
+                toggleStatus(user, 2, user.client_id, user.client_secret);
             }
         });
     };
     const checkClientId = (user) => {
         if (user?.client_credentials_id > 0) {
-            toggleStatus(user, 1);
+            toggleStatus(user, 1, user.client_id, user.client_secret);
         } else {
             approve_swal_call(user)
         }
@@ -79,8 +79,8 @@ function RequestAccessList() {
             apiType: "toggle-api-access-request",
             requestPayload: {
                 api_id: user?.api_id || "",
-                client_id: user.client_credentials_id > 0 ? client_id : "",
-                client_secret: user.client_credentials_id > 0 ? client_secret : "",
+                client_id: client_id || "",
+                client_secret: client_secret || "",
                 user_id: user?.user_id?.toString() || "",
                 status: status.toString(),
                 request_id: request_id.toString(),
