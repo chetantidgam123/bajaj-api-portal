@@ -18,8 +18,8 @@ function Header() {
       setShow(true);
       setModalName("reset-pass");
     }
-     const token = getTokenData();
-     setFullName(token?.fullname || "");
+    const token = getTokenData();
+    setFullName(token?.fullname || "");
   }, [location]);
 
   const logout = () => {
@@ -72,7 +72,7 @@ function Header() {
                   Explore API
                 </Link>
               </li>
-              <li className="nav-item mx-3">
+              <li className="nav-item">
                 <Link className="nav-link" to="/faq">
                   FAQ
                 </Link>
@@ -140,7 +140,7 @@ function Header() {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu className="custom-dropdown-menu py-0 with-caret">
-                  {getTokenData()?.role == 1 && (
+                  {/* {getTokenData()?.role == 1 && (
                     <Link
                       style={{ textDecoration: "none", color: "#212529" }}
                       to="/master"
@@ -149,7 +149,7 @@ function Header() {
                         Dashboard
                       </Dropdown.Item>
                     </Link>
-                  )}
+                  )} */}
 
                   <Link
                     style={{ textDecoration: "none", color: "#212529" }}

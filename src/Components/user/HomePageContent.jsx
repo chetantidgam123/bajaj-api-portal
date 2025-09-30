@@ -187,48 +187,24 @@ function HomePageContent() {
                         <div className="card-new mb-3">
                             <div className="card-body card-bg">
                                 <div className='row align-items-center'>
-                                    <div className='col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12'>
+                                    <div className={api_id?'col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12':'col-12'}>
                                         <h5 className='mb-0'>{title || 'Get Started'}</h5>
                                         <ReactMarkdown remarkPlugins={[remarkGfm]}>{description}</ReactMarkdown>
                                     </div>
-                                    {/* <div className='col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12 d-flex justify-content-end'>
-                                        <button className="btn btn-outline-primary profilePageButton px-4" onClick={checkAccess}>Try it {tryitLoader && <Loader />}</button>
-                                    </div> */}
-                                    <div className='col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12'>
+                                    <div className={api_id?'col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12':''}>
                                         <div className="d-flex justify-content-end">
-                                            {!hasTriedApi ? (
+                                            {
                                                 // Case 1: before try -> only Try it aligned right
                                                 api_id && (<button
                                                     className="btn btn-outline-primary px-3"
                                                     onClick={checkAccess}
-                                                    disabled={tryitLoader}
-                                                >
+                                                    disabled={tryitLoader}>
                                                     {tryitLoader ? "Loading..." : "Try it"}
                                                 </button>)
-                                            ) : (
-                                                // Case 2: after try -> show both
-                                                <>
-                                                    {api_id && <button
-                                                        className="btn btn-outline-primary me-2 px-3"
-                                                        onClick={checkAccess}
-                                                        disabled={tryitLoader}
-                                                    >
-                                                        {tryitLoader ? "Loading..." : "Try it"}
-                                                    </button>}
-                                                    <button className="btn btn-primary px-3" onClick={() => navigate('/api-playground-history')}>
-                                                        API Playground History
-                                                    </button>
-                                                </>
-                                            )}
+                                            }
                                         </div>
                                     </div>
-
-                                    {/* {hasTriedApi && (<div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-end'>
-                                        <button className="btn btn-primary profilePageButton px-3">API Playground History </button>
-                                    </div>)} */}
                                 </div>
-
-                                {/* {(collection_id == 0 && getTokenData()?.role != 1) && <GetStarted />} */}
                             </div>
                         </div>}
                     {(collection_id == 0 || location.pathname.includes('get-started')) && <GetStarted />}
@@ -247,88 +223,88 @@ function HomePageContent() {
                         </div>
                     </div>}
                     {api_id && apiData && JSON.parse(apiData?.reqbody?.value || '[]').length > 0 &&
-                    (<div className="card mb-3">
-                        <div className="card-body card-bg">
-                            <div className="row d-flex justify-content-between align-items-start mb-3">
-                                <div className='col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12'>
-                                    <h5>Request Parameters Details :</h5>
-                                </div>
-                                <div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-end'>
-                                    <button type="button" className="btn btn-outline-primary" onClick={() => { setModalData({ header: [], body: JSON.parse(apiData?.reqbody?.value || '[]') }); setShow(true) }}>View in detail</button>
-                                </div>
+                        (<div className="card mb-3">
+                            <div className="card-body card-bg">
+                                <div className="row d-flex justify-content-between align-items-start mb-3">
+                                    <div className='col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12'>
+                                        <h5>Request Parameters Details :</h5>
+                                    </div>
+                                    <div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-end'>
+                                        <button type="button" className="btn btn-outline-primary" onClick={() => { setModalData({ header: [], body: JSON.parse(apiData?.reqbody?.value || '[]') }); setShow(true) }}>View in detail</button>
+                                    </div>
 
-                            </div>
-                            <div className="table-responsive-custom">
-                                <Table bordered responsive='lg'>
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Data Type</th>
-                                            <th>Required/Optional</th>
-                                            <th>Description</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {
-                                            JSON.parse(apiData?.reqbody?.value || '[]').length > 0 ?
-                                                JSON.parse(apiData?.reqbody?.value || '[]').map((li, i) => (
-                                                    <tr key={arrayIndex('reqli', i)}>
-                                                        <td>{li.key}</td>
-                                                        <td>{typeof (li.value || '')}</td>
-                                                        <td>{li.isrequired ? "Required" : "Optional"}</td>
-                                                        <td>{trucateString(li.description, 25)}</td>
+                                </div>
+                                <div className="table-responsive-custom">
+                                    <Table bordered responsive='lg'>
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Data Type</th>
+                                                <th>Required/Optional</th>
+                                                <th>Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                JSON.parse(apiData?.reqbody?.value || '[]').length > 0 ?
+                                                    JSON.parse(apiData?.reqbody?.value || '[]').map((li, i) => (
+                                                        <tr key={arrayIndex('reqli', i)}>
+                                                            <td>{li.key}</td>
+                                                            <td>{typeof (li.value || '')}</td>
+                                                            <td>{li.isrequired ? "Required" : "Optional"}</td>
+                                                            <td>{trucateString(li.description, 25)}</td>
+                                                        </tr>
+                                                    )) :
+                                                    <tr>
+                                                        <td className='text-center' colSpan={4}>No Parameter available</td>
                                                     </tr>
-                                                )) :
-                                                <tr>
-                                                    <td className='text-center' colSpan={4}>No Parameter available</td>
-                                                </tr>
-                                        }
-                                    </tbody>
-                                </Table>
+                                            }
+                                        </tbody>
+                                    </Table>
+                                </div>
                             </div>
-                        </div>
-                    </div>)}
+                        </div>)}
                     {api_id && apiData && JSON.parse(apiData?.reqheader?.value || '[]').length > 0 &&
-                    (<div className="card  mb-3">
-                        <div className="card-body card-bg">
-                            <div className="row d-flex justify-content-between align-items-start mb-3">
-                                <div className='col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12'>
-                                    <h5>Request Headers :</h5>
+                        (<div className="card  mb-3">
+                            <div className="card-body card-bg">
+                                <div className="row d-flex justify-content-between align-items-start mb-3">
+                                    <div className='col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12'>
+                                        <h5>Request Headers :</h5>
+                                    </div>
+                                    <div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-end'>
+                                        <button type="button" className="btn btn-outline-primary" onClick={() => { setModalData({ header: [], body: JSON.parse(apiData?.reqheader?.value || '[]') }); setShow(true) }}>View in detail</button>
+                                    </div>
                                 </div>
-                                <div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-end'>
-                                    <button type="button" className="btn btn-outline-primary" onClick={() => { setModalData({ header: [], body: JSON.parse(apiData?.reqheader?.value || '[]') }); setShow(true) }}>View in detail</button>
-                                </div>
-                            </div>
-                            <div className="table-responsive-custom">
-                                <Table bordered responsive='lg'>
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Data Type</th>
-                                            <th>Required/Optional</th>
-                                            <th>Description</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {
-                                            JSON.parse(apiData?.reqheader?.value || '[]').length > 0 ?
-                                                JSON.parse(apiData?.reqheader?.value || '[]').map((li, i) => (
-                                                    <tr key={arrayIndex('reqliheader', i)}>
-                                                        <td>{li.key}</td>
-                                                        <td>{typeof (li.value || '')}</td>
-                                                        <td>{li.isrequired ? "Required" : "Optional"}</td>
-                                                        <td>{trucateString(li.description, 25)}</td>
+                                <div className="table-responsive-custom">
+                                    <Table bordered responsive='lg'>
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Data Type</th>
+                                                <th>Required/Optional</th>
+                                                <th>Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                JSON.parse(apiData?.reqheader?.value || '[]').length > 0 ?
+                                                    JSON.parse(apiData?.reqheader?.value || '[]').map((li, i) => (
+                                                        <tr key={arrayIndex('reqliheader', i)}>
+                                                            <td>{li.key}</td>
+                                                            <td>{typeof (li.value || '')}</td>
+                                                            <td>{li.isrequired ? "Required" : "Optional"}</td>
+                                                            <td>{trucateString(li.description, 25)}</td>
+                                                        </tr>
+                                                    )) :
+                                                    <tr>
+                                                        <td className='text-center' colSpan={4}>No header available</td>
                                                     </tr>
-                                                )) :
-                                                <tr>
-                                                    <td className='text-center' colSpan={4}>No header available</td>
-                                                </tr>
-                                        }
-                                    </tbody>
-                                </Table>
+                                            }
+                                        </tbody>
+                                    </Table>
+                                </div>
                             </div>
-                        </div>
-                    </div>)}
+                        </div>)}
                     {api_id && apiData && <div className="card  mb-3">
                         <div className="card-body card-bg">
                             <div className="row d-flex justify-content-between align-items-start mb-3">
@@ -342,90 +318,90 @@ function HomePageContent() {
                             <SyntaxHighLighter wrapLongLines={true} lineProps={{ style: { wordBreak: 'break-all', whiteSpace: 'pre-wrap' } }} jsonString={responsData.resbody || '{}'} />
                         </div>
                     </div>}
-                    {api_id && apiData && Object.keys(responsData.resschema.properties || {}).length > 0 && 
-                    (<div className="card mb-3">
-                        <div className="card-body card-bg">
-                            <div className="row d-flex justify-content-between align-items-start mb-3">
-                                <div className='col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12'>
-                                    <h5 className="mb-0">Response Parameters Details :</h5>
+                    {api_id && apiData && Object.keys(responsData.resschema.properties || {}).length > 0 &&
+                        (<div className="card mb-3">
+                            <div className="card-body card-bg">
+                                <div className="row d-flex justify-content-between align-items-start mb-3">
+                                    <div className='col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12'>
+                                        <h5 className="mb-0">Response Parameters Details :</h5>
+                                    </div>
+                                    <div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-end'>
+                                        <button type="button" className="btn btn-outline-primary" onClick={() => { setShow1(true) }}>View in detail</button>
+                                    </div>
                                 </div>
-                                <div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-end'>
-                                    <button type="button" className="btn btn-outline-primary" onClick={() => { setShow1(true) }}>View in detail</button>
-                                </div>
-                            </div>
 
-                            <div className="table-responsive-custom">
-                                <Table bordered responsive='lg'>
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Data Type</th>
-                                            <th>Required/Optional</th>
-                                            <th>Description</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {
-                                            Object.keys(responsData.resschema.properties || {}).length > 0 ?
-                                                Object.keys(responsData.resschema?.properties || {}).map((li, i) => (
-                                                    <tr key={arrayIndex('reqli', i)}>
-                                                        <td>{li}</td>
-                                                        <td>{responsData.resschema?.properties[li]?.type || "string"}</td>
-                                                        <td>{responsData.resschema?.required?.includes(li) ? "Required" : "Optional"}</td>
-                                                        <td>{trucateString(li?.description, 25)}</td>
+                                <div className="table-responsive-custom">
+                                    <Table bordered responsive='lg'>
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Data Type</th>
+                                                <th>Required/Optional</th>
+                                                <th>Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                Object.keys(responsData.resschema.properties || {}).length > 0 ?
+                                                    Object.keys(responsData.resschema?.properties || {}).map((li, i) => (
+                                                        <tr key={arrayIndex('reqli', i)}>
+                                                            <td>{li}</td>
+                                                            <td>{responsData.resschema?.properties[li]?.type || "string"}</td>
+                                                            <td>{responsData.resschema?.required?.includes(li) ? "Required" : "Optional"}</td>
+                                                            <td>{trucateString(li?.description, 25)}</td>
+                                                        </tr>
+                                                    )) :
+                                                    <tr>
+                                                        <td colSpan={4} className='text-center'>No Parameter available</td>
                                                     </tr>
-                                                )) :
-                                                <tr>
-                                                    <td colSpan={4} className='text-center'>No Parameter available</td>
-                                                </tr>
-                                        }
-                                    </tbody>
-                                </Table>
-                            </div>
-                        </div>
-                    </div>)}
-                    {api_id && apiData && JSON.parse(apiData?.resheader?.value || '[]').length > 0 && 
-                    (<div className="card  mb-3">
-                        <div className="card-body card-bg">
-                            <div className="row d-flex justify-content-between align-items-start mb-3">
-                                <div className='col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12'>
-                                    <h5 className="mb-0">Response Headers :</h5>
-                                </div>
-                                <div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-end'>
-                                    <button type="button" className="btn btn-outline-primary" onClick={() => { setModalData({ header: [], body: JSON.parse(apiData?.resheader?.value || '[]') }); setShow(true) }}>View in detail</button>
+                                            }
+                                        </tbody>
+                                    </Table>
                                 </div>
                             </div>
+                        </div>)}
+                    {api_id && apiData && JSON.parse(apiData?.resheader?.value || '[]').length > 0 &&
+                        (<div className="card  mb-3">
+                            <div className="card-body card-bg">
+                                <div className="row d-flex justify-content-between align-items-start mb-3">
+                                    <div className='col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12'>
+                                        <h5 className="mb-0">Response Headers :</h5>
+                                    </div>
+                                    <div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-end'>
+                                        <button type="button" className="btn btn-outline-primary" onClick={() => { setModalData({ header: [], body: JSON.parse(apiData?.resheader?.value || '[]') }); setShow(true) }}>View in detail</button>
+                                    </div>
+                                </div>
 
-                            <div className="table-responsive-custom">
-                                <Table bordered responsive='lg'>
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Data Type</th>
-                                            <th>Required/Optional</th>
-                                            <th>Description</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {
-                                            JSON.parse(apiData?.resheader?.value || '[]').length > 0 ?
-                                                JSON.parse(apiData?.resheader?.value || '[]').map((li, i) => (
-                                                    <tr key={arrayIndex('reqliheader', i)}>
-                                                        <td>{li.key}</td>
-                                                        <td>{li.type || "string"}</td>
-                                                        <td>{"Required"}</td>
-                                                        <td>{trucateString(li.description, 25)}</td>
+                                <div className="table-responsive-custom">
+                                    <Table bordered responsive='lg'>
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Data Type</th>
+                                                <th>Required/Optional</th>
+                                                <th>Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                JSON.parse(apiData?.resheader?.value || '[]').length > 0 ?
+                                                    JSON.parse(apiData?.resheader?.value || '[]').map((li, i) => (
+                                                        <tr key={arrayIndex('reqliheader', i)}>
+                                                            <td>{li.key}</td>
+                                                            <td>{li.type || "string"}</td>
+                                                            <td>{"Required"}</td>
+                                                            <td>{trucateString(li.description, 25)}</td>
+                                                        </tr>
+                                                    )) :
+                                                    <tr>
+                                                        <td colSpan={4} className='text-center'>No header available</td>
                                                     </tr>
-                                                )) :
-                                                <tr>
-                                                    <td colSpan={4} className='text-center'>No header available</td>
-                                                </tr>
-                                        }
-                                    </tbody>
-                                </Table>
+                                            }
+                                        </tbody>
+                                    </Table>
+                                </div>
                             </div>
-                        </div>
-                    </div>)}
+                        </div>)}
                 </div>
                 {api_id && apiData && <div className="right-content">
                     <LangCurlExecuteComp apiData={apiData} setStatusCode={setStatusCode} bodyReqSample={bodyRequestSample} />

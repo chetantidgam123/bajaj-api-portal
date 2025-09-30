@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Dropdown } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import { useState } from "react";
-import { getTokenData,getInitials } from "../../../Utils";
+import { getTokenData, getInitials } from "../../../Utils";
 const Sidebar = React.lazy(() => import('./Sidebar'));
 
 function Header() {
@@ -54,45 +54,45 @@ function Header() {
                                     </Link>
                                 </li>
                                  </ul> */}
-                            </div>
-                                       <div className="d-flex justify-content-center align-items-center">
-   <Dropdown className="p-0">
-                                    <Dropdown.Toggle
-                                        className="d-flex justify-content-center align-items-center btn-white p-0"
+                        </div>
+                        <div className="d-flex justify-content-center align-items-center">
+                            <Dropdown className="p-0">
+                                <Dropdown.Toggle
+                                    className="d-flex justify-content-center align-items-center btn-white p-0"
+                                >
+                                    <div className="circle-profile" style={{ backgroundColor: '#007bff', color: '#ffeb3b' }}>
+                                        {fullName ? getInitials(fullName) : <i className="fa fa-user"></i>}
+                                    </div>
+                                    <div className="ms-2 text-start color-blue">
+                                        Welcome <br></br>
+                                        {fullName}
+                                    </div>
+
+                                </Dropdown.Toggle>
+
+                                <Dropdown.Menu>
+                                    <Link
+                                        style={{ textDecoration: "none", color: "#212529" }}
+                                        to={"/user/profile"}
                                     >
-                                        <div className="circle-profile" style={{ backgroundColor: '#007bff', color: '#ffeb3b' }}>
-                                            {fullName ? getInitials(fullName) : <i className="fa fa-user"></i>}
-                                        </div>
-                                        <div className="ms-2 text-start color-blue">
-                                            Welcome <br></br>
-                                            {fullName}
-                                        </div>
-
-                                    </Dropdown.Toggle>
-
-                                    <Dropdown.Menu>
-                                        <Link
-                                            style={{ textDecoration: "none", color: "#212529" }}
-                                        // to={"/user/profile"}
-                                        >
-                                            <Dropdown.Item as={"span"}>Profile</Dropdown.Item>
-                                        </Link>
-                                        <Dropdown.Item
-                                            as={"button"}
-                                            // className="span-btn"
-                                            onClick={logout}
-                                        >
-                                            Logout
-                                        </Dropdown.Item>
-                                    </Dropdown.Menu>
-                                </Dropdown>
-                                       </div>
-
-                             
+                                        <Dropdown.Item as={"span"}>Profile</Dropdown.Item>
+                                    </Link>
+                                    <Dropdown.Item
+                                        as={"button"}
+                                        // className="span-btn"
+                                        onClick={logout}
+                                    >
+                                        Logout
+                                    </Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        </div>
 
 
-                          
-                        
+
+
+
+
                     </div>
                 </nav>
             </div>

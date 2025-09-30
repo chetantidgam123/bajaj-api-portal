@@ -144,24 +144,23 @@ function CategoryList() {
     }, [])
     return (
         <div className="mx-2 card-admin-main">
- <div className="card-body card-bg">
- <div className="row justify-content-between">
+            <div className="card-body card-bg">
+                <div className="row justify-content-between">
                     <div className="col-3">
                         <h4 className="mb-2">Api Category List</h4>
                     </div>
                     <div className="col-2 d-flex justify-content-end">
-                      <button className="btn btn-primary py-1" onClick={handleShow}>Add Category</button>
+                        <button className="btn btn-primary py-1" onClick={handleShow}>Add Category</button>
                     </div>
                 </div>
             </div>
 
 
-     <div className="mt-4">
-  
-    <label className="form-label" htmlFor="categoryid">Filters</label>
-     <div className="row align-items-center">
-                <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-3">
-                    <select className="form-select" id="categoryid" name="categoryid"
+            <div className="mt-4 d-none">
+                <label className="form-label" htmlFor="categoryid">Filters</label>
+                <div className="row align-items-center">
+                    <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-3 ">
+                        <select className="form-select" id="categoryid" name="categoryid"
                         // value={categoryId}
                         // onChange={(e) => { setCategoryId(e.target.value) }}>
                         // <option value="">Select Category</option>
@@ -170,52 +169,52 @@ function CategoryList() {
                         //         <option key={arrayIndex('category', i)} value={m?.id}>{m.categoryname}</option>
                         //     ))
                         // }
-                  > 
-                  <option value="">Select Category </option> </select>
+                        >
+                            <option value="">Select Category </option> </select>
+                    </div>
+                    <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-3">
+                        <button className="btn btn-primary profilePageButton px-3 search-btn">Search </button>
+                    </div>
                 </div>
-                 <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-3">
-                <button className="btn btn-primary profilePageButton px-3 search-btn">Search </button>
-                </div>
-                </div>
-                </div>
-                 <div className="table-responsive">
-            <table className="table table-bordered custom-table table-striped mt-3">
-                <thead>
-                    <tr>
-                        <th>Sr. No</th>
-                        <th>Category  Name</th>
-                        <th>Created Date</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        categoryList.length > 0 && categoryList.map((cat, index) => (
-                            <tr key={arrayIndex('usecatr', index)}>
-                                <td>{cat.sr_no || index + 1}</td>
-                                <td>{cat.categoryname}</td>
-                                <td>{moment(cat.createddate).format('DD-MMM-yyyy')}</td>
-                                <td>
-                                    <div className="d-flex">
-                                        <Form.Check // prettier-ignore
-                                            type="switch"
-                                            id="custom-switch"
-                                            checked={cat.isenabled}
-                                            onChange={() => { confirm_swal_call(cat) }}
-                                        />
-                                        <button className="btn btn-primary btn-sm mx-2" title="Edit User" onClick={() => { openEditModal(cat); }}>
-                                            <i className="fa fa-pencil" ></i>
-                                        </button>
-                                        <button className="btn btn-danger btn-sm" title="Delete User">
-                                            <i className="fa fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        ))
-                    }
-                </tbody>
-            </table>
+            </div>
+            <div className="table-responsive">
+                <table className="table table-bordered custom-table table-striped mt-3">
+                    <thead>
+                        <tr>
+                            <th>Sr. No</th>
+                            <th>Category  Name</th>
+                            <th>Created Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            categoryList.length > 0 && categoryList.map((cat, index) => (
+                                <tr key={arrayIndex('usecatr', index)}>
+                                    <td>{cat.sr_no || index + 1}</td>
+                                    <td>{cat.categoryname}</td>
+                                    <td>{moment(cat.createddate).format('DD-MMM-yyyy')}</td>
+                                    <td>
+                                        <div className="d-flex">
+                                            <Form.Check // prettier-ignore
+                                                type="switch"
+                                                id="custom-switch"
+                                                checked={cat.isenabled}
+                                                onChange={() => { confirm_swal_call(cat) }}
+                                            />
+                                            <button className="btn btn-primary btn-sm mx-2" title="Edit User" onClick={() => { openEditModal(cat); }}>
+                                                <i className="fa fa-pencil" ></i>
+                                            </button>
+                                            <button className="btn btn-danger btn-sm" title="Delete User">
+                                                <i className="fa fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </table>
             </div>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
