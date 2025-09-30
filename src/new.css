@@ -138,7 +138,7 @@
 .footer {
       
       background: linear-gradient(180deg, #0087FF 0%, #0052A4 100%);
-      padding: 40px 0px;
+      padding: 40px 0px 10px 0px;
 
 }
 
@@ -650,6 +650,12 @@ background-color: #F5F6FA !important;
     font-size: 17px;
         font-weight: 600;
 }
+.btn-upload:hover{
+    background-color: #006AD0;
+    color: white;
+    border: 1px solid #ffffff;
+
+}
 .font-600{
         font-weight: 600;
 }
@@ -717,10 +723,13 @@ background-color: #F5F6FA !important;
 .custom-table thead th {
   background-color: #006ad0;
   color: #fff;
-  text-align: center;
+  text-align: left;
   vertical-align: middle;
+  padding: 15px;
 }
-
+.custom-table tbody td {
+     padding: 15px;
+}
 .custom-table tbody tr:nth-child(odd) {
   background-color: #ebf3fb;
 }

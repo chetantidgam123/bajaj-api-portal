@@ -141,6 +141,7 @@ function UserList() {
                     </div>
                     <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12">
                         <button className="btn btn-primary profilePageButton px-3 search-btn" onClick={() => { getUserList(1) }}>Search </button>
+                        <button className="btn btn-outline-primary ms-2 profilePageButton px-3 search-btn" onClick={() => { getUserList(1) }}><i class="fas fa-sync-alt"></i> </button>
                     </div>
                 </div>
             </div>
@@ -152,7 +153,7 @@ function UserList() {
                             <th>Full Name</th>
                             <th>Email Id</th>
                             <th>Mobile Number</th>
-                            <th>Approved Status</th>
+                            <th> Status</th>
                             <th>Created Date</th>
                             <th>Action</th>
                         </tr>

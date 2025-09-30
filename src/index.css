@@ -730,11 +730,11 @@ select.form-select {
 .apiSidebar {
     border: none;
     border-bottom: 1px solid #dee2e6;
-    padding: 12px 10px;
+    /* padding: 12px 10px; */
 }
 
 .apiSidebar1 {
-    padding: 12px 10px;
+    /* padding: 12px 10px; */
     border: none;
 }
 
@@ -787,7 +787,7 @@ select.form-select {
     position: absolute;
     top: 0px;
     left: 85px;
-    background: rgb(237, 237, 237);
+    background: #0085fc ;
     border-radius: 10px;
     width: max-content;
 }
@@ -997,3 +997,6 @@ select.form-select {
  min-height: 100vh;
 }
    
+.list-style-none{
+    list-style-type: none;
+}
