@@ -836,3 +836,7 @@ background-color: #F5F6FA !important;
     padding-left: 0px;
     padding-right: 0px;
 }
+.explore  .accordion-header .accordion-button{
+    padding-left: 0px;
+    padding-right: 10px;
+}
