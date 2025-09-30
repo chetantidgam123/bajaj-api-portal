@@ -70,7 +70,7 @@ function FloatingInputLabel({
       {fieldType === "password" && inputType !== "select" && (
         <button
           type="button"
-          className="span-btn eyeBtn"
+          className="span-btn-cirlce-btn eyeBtn"
           onClick={() => setShowPassword(!showPassword)}
         >
           {showPassword ? (
