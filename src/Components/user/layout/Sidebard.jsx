@@ -189,7 +189,7 @@ function Sidebard() {
                         )}
                       >
                         <button
-                          className="span-btn"
+                          className="span-btn-cirlce-btn"
                           onClick={() => {
                             checkLogin(item.record_uuid, 0, api.uniqueid);
                           }}
