@@ -165,6 +165,8 @@ function RequestAccessList() {
                                 <th>Username</th>
                                 <th>Api Name</th>
                                 <th>App Name</th>
+                                <th>Client Id</th>
+                                <th>Client Secret</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -176,12 +178,34 @@ function RequestAccessList() {
                                     <td>{user.fullname}</td>
                                     <td>{user.apiname}</td>
                                     <td>{user.application_name}</td>
-                                    <td>
+                                    <td>{user.client_id}</td>
+                                    <td>{user.client_secret}</td>  
+                                    {/* <td>
                                         {user.approved_status === 0 ? "Pending" :
                                             user.approved_status === 1 ? "Approved" : "Rejected"}
-                                    </td>
+                                    </td> */}
                                     <td>
-                                        <div className="d-flex">
+                                    {user.approved_status === 0 && (
+                                        <div className="d-flex align-items-center">
+                                        <i className="fa-solid fa-circle-exclamation text-warning me-2"></i>
+                                        <span>Pending</span>
+                                        </div>
+                                    )}
+                                    {user.approved_status === 1 && (
+                                        <div className="d-flex align-items-center">
+                                        <i className="fa-solid fa-circle-check text-success me-2"></i>
+                                        <span>Approved</span>
+                                        </div>
+                                    )}
+                                    {user.approved_status === 2 && (
+                                        <div className="d-flex align-items-center">
+                                        <i className="fas fa-times-circle text-danger me-2"></i>
+                                        <span>Rejected</span>
+                                        </div>
+                                    )}
+                                    </td>
+                                    <td className="text-center">
+                                        <div className="d-flex justify-content-center">
                                             <button
                                                 className="btn btn-success btn-sm mx-2"
                                                 title="Approve request"

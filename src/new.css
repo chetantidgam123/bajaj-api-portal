@@ -613,6 +613,9 @@ border: none;
         font-size: 17px;
     font-weight: 500;
 }
+.accordion-button::after {
+  filter: invert(0) brightness(0) saturate(100%) !important; /* makes it black */
+}
 .faq .accordion-button:not(.collapsed){
     background-color: #F5F6FA !important;
     color: black !important;

@@ -163,7 +163,7 @@ function Sidebar() {
             </Accordion.Header>
             <Accordion.Body className="px-0 py-2">
               <ul className="admin-sidebar-ul mb-0 px-3 py-1">
-                <li>
+                <li className="list-style-none">
                   <Link
                     className={`admin-sidebar-li ${
                       currentPath === "/master/term-and-condition"
@@ -175,7 +175,7 @@ function Sidebar() {
                     Terms and Conditions
                   </Link>
                 </li>
-                <li>
+                <li className="list-style-none">
                   <Link
                     className={`admin-sidebar-li ${
                       currentPath === "/master/privacy-policy"
@@ -187,7 +187,7 @@ function Sidebar() {
                     Privacy Policy
                   </Link>
                 </li>
-                <li>
+                <li className="list-style-none">
                   <Link
                     className={`admin-sidebar-li ${
                       currentPath === "/master/faq" ? "active-tab" : ""
@@ -209,7 +209,7 @@ function Sidebar() {
             </Accordion.Header>
             <Accordion.Body className="px-0 py-2">
               <ul className="admin-sidebar-ul mb-0 px-3 py-1">
-                <li>
+                <li className="list-style-none">
                   <Link
                     className={`admin-sidebar-li ${
                       currentPath === "/master/suggest-an-api"
@@ -221,7 +221,7 @@ function Sidebar() {
                     Suggest an API
                   </Link>
                 </li>
-                <li>
+                <li className="list-style-none">
                   <Link
                     className={`admin-sidebar-li ${
                       currentPath === "/master/get-in-touch" ? "active-tab" : ""
@@ -243,7 +243,7 @@ function Sidebar() {
             </Accordion.Header>
             <Accordion.Body className="px-0 py-2">
              <ul className="admin-sidebar-ul mb-0 px-3 py-1">
-                <li>
+                <li className="list-style-none">
                   <Link
                     className={`admin-sidebar-li ${
                       currentPath === "/master/request-access-list"
@@ -253,6 +253,28 @@ function Sidebar() {
                     to="/master/request-access-list"
                   >
                     Request Access List
+                  </Link>
+                </li>
+              </ul>
+            </Accordion.Body>
+          </Accordion.Item>
+
+          {/* Reports */}
+          <Accordion.Item eventKey="5" className="my-2 position-relative">
+            <Accordion.Header>
+              <i className="fa-brands fa-microsoft"></i>
+              <span className="link-name ms-2">Reports</span>
+            </Accordion.Header>
+            <Accordion.Body className="px-0 py-2">
+              <ul className="admin-sidebar-ul">
+                <li className="list-style-none">
+                  <Link
+                    className={`admin-sidebar-li ${
+                      currentPath === "/master/reports" ? "" : ""
+                    }`}
+                    to="/master/reports"
+                  >
+                    Reports
                   </Link>
                 </li>
               </ul>

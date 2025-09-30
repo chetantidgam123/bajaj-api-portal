@@ -8,10 +8,15 @@ import { arrayIndex, convertToPayload, getTokenData, offsetPagination } from "..
 import { ErrorMessage, FormikProvider, useFormik } from "formik";
 import { confirm_swal_with_text, error_swal_toast, success_swal_toast } from "../../SwalServices";
 import { PageLoaderBackdrop } from "../../Loader";
+import PaginateComponent from "../common/Pagination";
+import { Link } from "react-router-dom";
+
 function UserList() {
     const [show, setShow] = useState(false);
     const [loader, setLoader] = useState({ pageloader: false })
     const [userList, setUserList] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
     const [search, SetSearch] = useState({ status: '', input: '' });
     const handleClose = () => { setShow(false); categoryForm.resetForm(); };
     const handleShow = () => setShow(true);
@@ -31,14 +36,15 @@ function UserList() {
 
     })
 
-    const getUserList = (page = 1) => {
+    const getUserList = (page = 1, filters = search) => {
+        setCurrentPage(page);
+        setLoader({ ...loader, pageloader: true });
         let payload = {
             page: page,
             limit: offsetPagination,
-            emailOrMobile: search.input,
-            status: search.status,
+            emailOrMobile: filters.input,
+            status: filters.status,
         }
-        setLoader({ ...loader, pageloader: true })
         post_auth_data("portal/private", convertToPayload('get-all-users', payload), {})
             .then((response) => {
                 setLoader({ ...loader, pageloader: false })
@@ -101,6 +107,12 @@ function UserList() {
             })
     };
 
+    const refresh = () => {
+        const resetSearch = { input: "", status: "" };
+        SetSearch(resetSearch)
+        getUserList(1, resetSearch);
+    }
+
     useEffect(() => {
         getUserList();
     }, [])
@@ -130,9 +142,18 @@ function UserList() {
                     </div>
                     <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
                         <div class="form-group mt-2">
-                            <select class="form-control p-3" name="status" id="exampleFormControlSelect1"
-                                onChange={(e) => { SetSearch({ ...search, status: e.target.value }) }}>
-                                <option value={""}>Status</option>
+                            <select 
+                                class="form-control p-3" 
+                                name="status" 
+                                id="exampleFormControlSelect1"
+                                value={search.status}
+                                onChange={(e) => {
+                                    // SetSearch({ ...search, status: e.target.value }) }
+                                    const value = e.target.value === "" ? "" : Number(e.target.value);
+                                    SetSearch({ ...search, status: value })
+                                }}
+                            >
+                                <option value="" disabled hidden>Select Status</option>
                                 <option value={0}>Pending</option>
                                 <option value={1}>Approved</option>
                                 <option value={2}>Rejected</option>
@@ -141,7 +162,7 @@ function UserList() {
                     </div>
                     <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12">
                         <button className="btn btn-primary profilePageButton px-3 search-btn" onClick={() => { getUserList(1) }}>Search </button>
-                        <button className="btn btn-outline-primary ms-2 profilePageButton px-3 search-btn" onClick={() => { getUserList(1) }}><i class="fas fa-sync-alt"></i> </button>
+                        <button className="btn btn-outline-primary ms-2 profilePageButton px-3 search-btn" onClick={() => refresh()}><i class="fas fa-sync-alt"></i> </button>
                     </div>
                 </div>
             </div>
@@ -175,7 +196,7 @@ function UserList() {
                                     <td>
                                         <div className="d-flex justify-content-center">
                                             <div className="dropdown">
-                                                <Dropdown className="drop" >
+                                                {/* <Dropdown className="drop" >
                                                     <Dropdown.Toggle as="button" variant="link" id="dropdown-basic" bsPrefix="p-0 border-0 bg-transparent">
                                                         <i className="fa-solid fa-ellipsis-vertical"></i>
                                                     </Dropdown.Toggle>
@@ -183,6 +204,37 @@ function UserList() {
                                                         <Dropdown.Item href="#" onClick={() => { confirm_swal_call(user) }}><i class="fa-regular fa-thumbs-up"></i> {user.approved_status == 1 ? 'Reject' : 'Approve'} User</Dropdown.Item>
                                                         <Dropdown.Item href="#"><i class="fa-solid fa-pen"></i> Edit User</Dropdown.Item>
                                                         <Dropdown.Item href="#"><i class="fa-solid fa-trash"></i> Delete User</Dropdown.Item>
+                                                    </Dropdown.Menu>
+                                                </Dropdown> */}
+                                                <Dropdown
+                                                    align="end"
+                                                    popperConfig={{
+                                                        strategy: 'fixed',
+                                                        modifiers: [
+                                                        { name: 'flip', options: { fallbackPlacements: ['top', 'bottom'] } },
+                                                        { name: 'arrow', options: { element: '[data-popper-arrow]' } }
+                                                        ]
+                                                    }}
+                                                    >
+                                                    <Dropdown.Toggle
+                                                        as="button"
+                                                        variant="link"
+                                                        bsPrefix="p-0 border-0 bg-transparent"
+                                                        id="dropdown-basic"
+                                                    >
+                                                        <i className="fa-solid fa-ellipsis-vertical"></i>
+                                                    </Dropdown.Toggle>
+
+                                                    <Dropdown.Menu className="dropdown-menu-end">
+                                                        {/* Bootstrap’s built-in Popper arrow */}
+                                                        <div data-popper-arrow className="dropdown-arrow"></div>
+                                                        <Dropdown.Item onClick={() => confirm_swal_call(user)}>
+                                                            <i className="fa-regular fa-thumbs-up"></i>{" "}
+                                                            {user.approved_status === 1 ? "Reject" : "Approve"} User
+                                                        </Dropdown.Item>
+                                                        <Dropdown.Item><i className="fa-solid fa-pen"></i> Edit User</Dropdown.Item>
+                                                        <Dropdown.Item><i className="fa-solid fa-trash"></i> Delete User</Dropdown.Item>
+                                                        <Dropdown.Item as={Link} to={`/master/user-list/details/${user.id}`} state={{ userData: user }}><i class="fa-solid fa-eye"></i> View Details</Dropdown.Item>
                                                     </Dropdown.Menu>
                                                 </Dropdown>
                                             </div>
@@ -214,6 +266,11 @@ function UserList() {
                             ))}
                     </tbody>
                 </table>
+                <PaginateComponent 
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(page) => getUserList(page)}
+                />
             </div>
 
             <Modal show={show} onHide={handleClose}>
