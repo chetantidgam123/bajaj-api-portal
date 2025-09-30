@@ -11,7 +11,7 @@ function HomeLayout() {
                 <Sidebar />
                 <div className='entity_mainSection'>
                     <Header />
-                    <div style={{ padding: "10px" }} className='linear'>
+                    <div style={{ padding: "10px" }} >
                         <Outlet />
                     </div>
                     {/* <Footer /> */}

@@ -39,7 +39,7 @@ function LangCurlExecuteComp({ apiData, setStatusCode,bodyReqSample,tryit=false 
         <div>
             <div className="card mb-3">
                 <div className="card-body card-bg d-flex align-items-center p-2">
-                    <div className="row">
+                    <div className="row align-items-center">
                         <div className="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
                             <Badge pill bg="" className={`me-2 badge-${apiData.apimethod.toLowerCase()}`}> {apiData.apimethod}</Badge>
                         </div>
@@ -49,7 +49,7 @@ function LangCurlExecuteComp({ apiData, setStatusCode,bodyReqSample,tryit=false 
                         <div className="col-xl-2 col-lg-2 col-md-6 col-sm-12 col-12 d-flex justify-content-center">
                             <button
                                 //  onClick={() => { copyToClipboard(JSON.parse(apiData.reqsample) || '{}') }}
-                                className='span-btn-cirlce'><img src="/assets/img/copy.png" alt="copy" /></button>
+                                className='span-btn-cirlce-btn'><img src="/assets/img/copy.png" alt="copy" /></button>
                         </div>
                     </div>
 
@@ -76,7 +76,7 @@ function LangCurlExecuteComp({ apiData, setStatusCode,bodyReqSample,tryit=false 
                             <h5 className=" mb-0">Request Sample</h5>
                         </div>
                         <div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-end'>
-                            <button onClick={() => { copyToClipboard(sampleReq) }} className='span-btn'><img src="/assets/img/copy.png" alt="copy" /></button>
+                            <button onClick={() => { copyToClipboard(sampleReq) }} className='span-btn-cirlce-btn'><img src="/assets/img/copy.png" alt="copy" /></button>
                         </div>
 
                     </div>
@@ -107,7 +107,7 @@ function LangCurlExecuteComp({ apiData, setStatusCode,bodyReqSample,tryit=false 
                            <h5 className="mb-0">Response Sample</h5>
                         </div>
                         <div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-end'>
-                          <button onClick={() => { copyToClipboard(JSON.stringify(sampleRes || {}, null, 2)) }} className='span-btn'><img src="/assets/img/copy.png" alt="copy" /></button>
+                          <button onClick={() => { copyToClipboard(JSON.stringify(sampleRes || {}, null, 2)) }} className='span-btn-cirlce-btn'><img src="/assets/img/copy.png" alt="copy" /></button>
                         </div>
 
                     </div>

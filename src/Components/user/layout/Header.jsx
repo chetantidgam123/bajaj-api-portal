@@ -26,14 +26,14 @@ function Header() {
 
   return (
     <div className="header">
-      <nav className="navbar navbar-expand-lg">
+      <nav className="navbar navbar-expand-lg py-0">
         <div className="container-fluid bg-white">
           {/* Logo */}
           <Link className="navbar-brand d-flex align-items-center" to="/">
             <img
               src="/assets/img/logo.png"
               alt="Logo"
-              className="logo-img me-2"
+              className="logo-img me-4 mt-2"
             />
           </Link>
 
