@@ -69,7 +69,8 @@ function FooterHome() {
                 <div className="container">
                     <div className="row align-items-center justify-content-center">
                         <div className="col-2 d-flex justify-content-center mb-3">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG4lo39vSLS1FaLIpr1XKrjiebmWX-3fRErA&s" alt="" />
+                            {/* <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG4lo39vSLS1FaLIpr1XKrjiebmWX-3fRErA&s" alt="" /> */}
+                            <img src="/assets/img/Bajaj-new-campaign.png" alt="" width={'300px'} />
                         </div>
                     </div>
 
