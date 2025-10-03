@@ -137,14 +137,16 @@ function FaqList() {
         size="md"
         show={showModal}
         onHide={() => setShowModal(false)}
-        centered
+        centered 
+        className="modal-faq"
+      
       >
-        <Modal.Header closeButton className="border-bottom-0">
+        <Modal.Header closeButton className="border-bottom-0 px-5 pt-4">
           <h4 className="mb-0">Post a Question</h4>
         </Modal.Header>
-        <Modal.Body className="pt-0">
+        <Modal.Body className="pt-0 px-5">
           <FormikProvider value={faqForm}>
-            <Form autoComplete="off" onSubmit={faqForm.handleSubmit}>
+            <Form autoComplete="off" className="mt-2" onSubmit={faqForm.handleSubmit}>
               <FloatingInputLabel
                 fieldName="fullname"
                 formikFrom={faqForm}
@@ -185,15 +187,15 @@ function FaqList() {
               <div className="text-center mt-3">
                 <button
                   type="submit"
-                  className="btn btn-primary"
+                  className="btn btn-primary px-4"
                   disabled={loader.addfaq}
                 >
                   Submit{" "}
-                  {loader.addfaq ? (
+                  {/* {loader.addfaq ? (
                     <LoaderWight />
                   ) : (
                     <i className="fa-solid fa-arrow-right"></i>
-                  )}
+                  )} */}
                 </button>
               </div>
             </Form>
