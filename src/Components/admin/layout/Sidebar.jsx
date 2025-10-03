@@ -138,6 +138,17 @@ function Sidebar() {
                 </li>
                 <li className="list-style-none">
                   <Link
+                    className={`admin-sidebar-li ${currentPath === "/master/category-description"
+                        ? "active-tab"
+                        : ""
+                      }`}
+                    to="/master/category-description"
+                  >
+                    Category Description 
+                  </Link>
+                </li>
+                <li className="list-style-none">
+                  <Link
                     className={`admin-sidebar-li ${currentPath === "/master/sub-category-list"
                         ? "active-tab"
                         : ""

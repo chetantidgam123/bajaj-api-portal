@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Modal,Form } from "react-bootstrap";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { PageLoaderBackdrop } from "../../../Loader";
@@ -73,7 +73,20 @@ function TermCond() {
       `}
             </style>
             <div className="mx-2 card-admin-main">
-               <div className="card-body card-bg">
+                  <div className="card-body card-bg">
+          <div className="row justify-content-between">
+            <div className="col-3">
+              <h4 className="mb-2">Terms And Condition</h4>
+            </div>
+            <div className="col-2 d-flex justify-content-end">
+              <button  className="btn btn-primary btn-sm mx-2 px-4">
+                Add
+              </button>
+            </div>
+          </div>
+        </div>
+
+               {/* <div className="card-body card-bg">
                  <div className="d-flex justify-content-between my-2">
                     <h4>Terms and Conditions</h4>
                     <button
@@ -85,14 +98,58 @@ function TermCond() {
                     </button>
                 </div>
 
-               </div>
+               </div> */}
 
-                <div className="mt-4">
-                    <div
-                        className=" p-2"
+   <div className="table-responsive">
+          <table className="table table-bordered custom-table table-striped mt-3">
+            <thead className="text-truncate">
+              <tr>
+                <th style={{ width: "10%" }}>Sr. No</th>
+                <th style={{ width: "60%" }}> Description</th>
+                <th style={{ width: "10%" }}>Created Date</th>
+                <th style={{ width: "20%" }} className="text-center">
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1.</td>
+                <td>
+                   <div
+                        className=" p-2 height-box-term"
                         dangerouslySetInnerHTML={{ __html: exportedHTML }}
                     />
-                </div>
+                </td>
+                <td>07 Sep 2029</td>
+                <td>
+                  <div className="d-flex justify-content-center">
+                    <Form.Check
+                      type="switch"
+                      id="custom-switch"
+                      // checked={cat.isenabled}
+                      // onChange={() => confirm_swal_call(cat)}
+                    />
+                    <button
+                      className="btn btn-primary btn-sm mx-2"
+                      title="Edit User"
+                      onClick={() => setOpenModalTC(true)}
+                    >
+                      <i className="fa fa-pencil"></i>
+                    </button>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      title="Delete User"
+                    >
+                      <i className="fa fa-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
 
                 {/* <div className="mt-4">
                 <h5>JSON Stringified HTML</h5>
