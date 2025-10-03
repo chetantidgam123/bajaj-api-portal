@@ -17,6 +17,7 @@ import ApiPlaygroundHistory from '../Components/user/ApiPlaygroundHistory';
 const HomePageContent = lazy(() => import('../Components/user/HomePageContent'));
 const PageNotFound = lazy(() => import('../Components/user/PageNotFound'));
 const TryApiPage = lazy(()=>import('../Components/user/TryApiPage'))
+const ApiPlayGround = lazy(()=>import('../Components/user/ApiPlayGround'))
 
 function PrivateRoute({ children }) {
     const tokenData = getTokenData();
@@ -53,7 +54,8 @@ const routes = [
             { path: "/page", element: <PrivateRoute><PageNotFound /></PrivateRoute> },
             { path: "/api-playground-history", element: <ApiPlaygroundHistory /> },
 
-             { path: "/try-api/:collection_id/:category_id/:api_id", element: <PrivateRoute><TryApiPage /></PrivateRoute>},
+            //  { path: "/try-api/:collection_id/:category_id/:api_id", element: <PrivateRoute><TryApiPage /></PrivateRoute>},
+             { path: "/try-api/:collection_id/:category_id/:api_id", element: <PrivateRoute><ApiPlayGround /></PrivateRoute>},
         ]
     }
 
