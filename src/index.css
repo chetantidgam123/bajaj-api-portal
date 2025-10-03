@@ -384,7 +384,7 @@ body {
 
 .howItWorks .content-title {
     /* font-family: Roboto Serif; */
-    font-family: Roboto;
+   font-family:Poppins-Regular;
     font-weight: 500;
     font-style: Medium;
     font-size: 20px;
@@ -394,7 +394,7 @@ body {
 }
 
 .howItWorks .content-data {
-    font-family: Roboto;
+   font-family:Poppins-Regular;
     font-weight: 400;
     font-style: Regular;
     font-size: 16px;
@@ -416,7 +416,7 @@ body {
 .howItWorks>p {
     color: #545454;
     text-align: center;
-    font-family: Roboto;
+   font-family:Poppins-Regular;
     font-size: 20px;
     font-style: normal;
     font-weight: 400;
@@ -440,7 +440,7 @@ body {
 
 .goLiveSection>.titleDiv {
     /* font-family: Roboto Serif; */
-    font-family: Roboto;
+   font-family:Poppins-Regular;
     font-weight: 400;
     font-style: Regular;
     font-size: 56px;
@@ -454,7 +454,7 @@ body {
 .goLiveSection .section-details {
     width: 672px;
     margin: auto;
-    font-family: Roboto;
+   font-family:Poppins-Regular;
     font-weight: 400;
     font-style: Regular;
     font-size: 20px;
@@ -467,7 +467,7 @@ body {
 
 .goLiveSection .content-title {
     /* font-family: Roboto Serif; */
-    font-family: Roboto;
+   font-family:Poppins-Regular;
     font-weight: 400;
     font-style: Regular;
     font-size: 32px;
@@ -478,7 +478,7 @@ body {
 }
 
 .goLiveSection .content-details {
-    font-family: Roboto;
+   font-family:Poppins-Regular;
     font-weight: 400;
     font-style: Regular;
     font-size: 18px;
@@ -511,7 +511,7 @@ body {
 
 .availableApi>.titleDiv {
     /* font-family: Roboto Serif; */
-    font-family: Roboto;
+   font-family:Poppins-Regular;
     font-weight: 400;
     font-style: Regular;
     font-size: 56px;
@@ -522,7 +522,7 @@ body {
 }
 
 .availableApi .section-details {
-    font-family: Roboto;
+   font-family:Poppins-Regular;
     font-weight: 400;
     font-style: Regular;
     font-size: 20px;
@@ -533,7 +533,7 @@ body {
 }
 
 .availableApi .content-title {
-    font-family: Roboto;
+   font-family:Poppins-Regular;
     font-weight: 500;
     font-style: Medium;
     font-size: 20px;
@@ -544,7 +544,7 @@ body {
 }
 
 .availableApi .content-details {
-    font-family: Roboto;
+   font-family:Poppins-Regular;
     font-weight: 400;
     font-style: Regular;
     font-size: 16px;
@@ -830,7 +830,7 @@ select.form-select {
 }
 
 .profileHeaders {
-    font-family: Roboto;
+   font-family:Poppins-Regular;
     font-weight: 700;
     font-style: Bold;
     font-size: 16px;
@@ -990,13 +990,19 @@ select.form-select {
     border-bottom: 1px solid #dddddd;
     padding-bottom: 4px;
 }
-.adminHeader .dropdown{
-    /* border-bottom: 2px solid #0052a4; */
-}
+
 .min-height{
  min-height: 100vh;
 }
    
 .list-style-none{
     list-style-type: none;
+}
+.modal-faq .modal-content{
+border-radius: 20px !important;
+}
+.height-box-term{
+        height: 300px;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }

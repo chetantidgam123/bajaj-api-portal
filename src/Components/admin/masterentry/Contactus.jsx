@@ -1,8 +1,8 @@
 import React from 'react'
 
-function Contactus() {
+const Contactus = () => {
   return (
-    <div>Contactugdrytrys</div>
+    <div>Contactuddddds</div>
   )
 }
 

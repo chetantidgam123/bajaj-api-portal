@@ -5,7 +5,25 @@
     z-index: 99;
 }
 
-
+@font-face {
+    src: url('../src/Components/admin/Fonts/Poppins/Poppins-SemiBold.ttf');
+    font-family:Poppins-Bold;
+}
+@font-face {
+    src: url('../src/Components/admin/Fonts/Poppins/Poppins-Medium.ttf');
+    font-family:Poppins-Medium;
+}
+@font-face {
+    src: url('../src/Components/admin/Fonts/Poppins/Poppins-Regular.ttf');
+    font-family:Poppins-Regular;
+}
+h1, h2, h3, h4, h5{
+      font-family:Poppins-Bold; 
+}
+p{
+    font-family:Poppins-Regular;
+    font-size: 16px;
+}
 .banner{
      /* background-image: url("/assets/img/banner.png"); */
      background-image: url("/assets/img/banner-img.png");
@@ -19,24 +37,30 @@
     color: #ffffff;
     font-size: 30px;
     font-style: normal;
-    font-weight: 400;
+    font-weight:lighter;
     line-height: 25px;
+     font-family:Poppins-Medium;
+   
 }
 .banner h1 {
     color: #FFF;
-    font-size: 80px;
+        font-size: 80px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: bold;
     text-align: center;
+   font-family:Poppins-Bold;
+    
 }
 .btn-blue{
     background-color: #006AD0;
     color: white;
+    font-family:Poppins-Regular;
 }
 .btn-blue:hover{
     background-color: white;
     color: #006AD0;
     border:1px solid #006AD0;
+     font-family:Poppins-Regular;
 }
 
 .card-Works{
@@ -162,6 +186,7 @@
       text-decoration: none;
       font-size: 20px;
       transition: color 0.3s;
+      
     }
 
     .footer ul li a:hover {

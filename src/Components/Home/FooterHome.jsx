@@ -78,7 +78,8 @@ function FooterHome() {
                     <div className="container my-3">
                         <ul className="">
                             <li><Link to={"/user/profile"}>Documentation</Link></li>
-                            <li><Link to={"/Contactus"} data-bs-toggle="modal" data-bs-target="#exampleModal">Contact Us</Link></li>
+                            {/* <li><Link to={"/Contactus"} data-bs-toggle="modal" data-bs-target="#exampleModal">Contact Us</Link></li> */}
+                            <li><Link to={"/Contactus"} >Contact Us</Link></li>
                             <li><Link to={"/user/profile"}>Support Center</Link></li>
                             <li><Link to={"/user/profile"}>About Us</Link></li>
                             {/* <li><Link to={"/user/profile"}>Careers</Link></li> */}
