@@ -5,11 +5,37 @@
     z-index: 99;
 }
 
+<<<<<<< HEAD
+@font-face {
+    src: url('../src/Components/admin/Fonts/Poppins/Poppins-SemiBold.ttf');
+    font-family:Poppins-Bold;
+}
+@font-face {
+    src: url('../src/Components/admin/Fonts/Poppins/Poppins-Medium.ttf');
+    font-family:Poppins-Medium;
+}
+@font-face {
+    src: url('../src/Components/admin/Fonts/Poppins/Poppins-Regular.ttf');
+    font-family:Poppins-Regular;
+}
+h1, h2, h3, h4, h5{
+      font-family:Poppins-Bold; 
+}
+p{
+    font-family:Poppins-Regular;
+    font-size: 16px;
+}
+.banner{
+     /* background-image: url("/assets/img/banner.png"); */
+     background-image: url("/assets/img/banner-img.png");
+      background-position: center;
+=======
 
 .banner {
     /* background-image: url("/assets/img/banner.png"); */
     background-image: url("/assets/img/banner-img.png");
     background-position: center;
+>>>>>>> bae5e3f43b5d64ea815df61a48438b01172ed1d5
     background-repeat: no-repeat;
     background-size: cover;
     padding: 50px 0px;
@@ -19,27 +45,37 @@
     color: #ffffff;
     font-size: 30px;
     font-style: normal;
-    font-weight: 400;
+    font-weight:lighter;
     line-height: 25px;
+     font-family:Poppins-Medium;
+   
 }
 
 .banner h1 {
     color: #FFF;
-    font-size: 80px;
+        font-size: 80px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: bold;
     text-align: center;
+   font-family:Poppins-Bold;
+    
 }
 
 .btn-blue {
     background-color: #006AD0;
     color: white;
+    font-family:Poppins-Regular;
 }
 
 .btn-blue:hover {
     background-color: white;
     color: #006AD0;
+<<<<<<< HEAD
+    border:1px solid #006AD0;
+     font-family:Poppins-Regular;
+=======
     border: 1px solid #006AD0;
+>>>>>>> bae5e3f43b5d64ea815df61a48438b01172ed1d5
 }
 
 .card-Works {
@@ -173,12 +209,22 @@
     position: relative;
 }
 
+<<<<<<< HEAD
+    .footer ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 20px;
+      transition: color 0.3s;
+      
+    }
+=======
 .footer ul li a {
     color: #fff;
     text-decoration: none;
     font-size: 20px;
     transition: color 0.3s;
 }
+>>>>>>> bae5e3f43b5d64ea815df61a48438b01172ed1d5
 
 .footer ul li a:hover {
     color: #ddd;
