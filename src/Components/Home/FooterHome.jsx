@@ -1,7 +1,6 @@
-import { Link, useLocation } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 function FooterHome() {
-    const location = useLocation();
     return (
 
         <>
@@ -14,7 +13,7 @@ function FooterHome() {
                             <button type="button" className="btn-close close-absolute" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body contactus">
-                            <p className="text-center">We're here to help you get the most out of our APIs. Whether you need technical support, have questions about integration, or want to explore partnership opportunities, feel free to reach out.</p>
+                            <p className="text-center">We re here to help you get the most out of our APIs. Whether you need technical support, have questions about integration, or want to explore partnership opportunities, feel free to reach out.</p>
                             <ul className="nav nav-pills mb-3 d-flex justify-content-center" id="pills-tab" role="tablist">
                                 <li className="nav-item" role="presentation">
                                     <button className="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Get In Touch</button>
@@ -95,47 +94,7 @@ function FooterHome() {
                 </div>
             </div>
 
-            {/* <div className={`${location.pathname == '/' ? 'footerDiv' : 'otherFooterDiv'}  col-12 m4-5`}>
-            <div className="row g-0 mb-5 pt-5" style={{ borderTop: "1px solid white" }}>
-                <div className="col-1"></div>
-                <div className="col-5">
-                    <img src="/assets/img/white_logo.png" alt="" />
-                </div>
-                <div className="col-6">
-                    <div className="row g-0">
-                        <div className="col-3"></div>
-                        <div className="col-3">
-                            <h6>Get Started</h6>
-                            <Link to={'/get-started'} style={{ textDecoration: 'none' }}>
-                                <p>Documentation</p>
-                            </Link>
-                        </div>
-                        <div className="col-3">
-                            <h6>Support</h6>
-                          <li><Link  to={"/Contactus"} data-bs-toggle="modal" data-bs-target="#exampleModal">Contact Us</Link></li>
-                            <p>Support Center</p>
-                        </div>
-                        <div className="col-3">
-                            <h6>Company</h6>
-                            <p>About Us</p>
-                            <p>Careers</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="row g-0">
-                <div className="col-1"></div>
-                <div className="col-5"><p>Copyright © 2025.  All rights reserved</p></div>
-                <div className="col-6">
-                    <div className="row g-0">
-                        <div className="col-3"></div>
-                        <div className="col-3"></div>
-                        <div className="col-3"><p>Terms of Service</p></div>
-                        <div className="col-3"><p>Privacy Policy</p></div>
-                    </div>
-                </div>
-            </div>
-        </div> */}
+     
         </>
     )
 }
