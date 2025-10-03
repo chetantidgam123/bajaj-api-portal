@@ -2,19 +2,21 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { error_swal_toast, success_swal_toast } from "../../SwalServices";
 import { post_auth_data } from "../../ApiServices";
+import { PageLoaderBackdrop } from "../../Loader";
 
 function RequestAccessList() {
     const [reqAccList, setReqAccList] = useState([]);
-    const [loadingList, setLoadingList] = useState(false);
+    // const [loadingList, setLoadingList] = useState(false);
     const [loadingButtons, setLoadingButtons] = useState({}); // per-button loading
-
+    const [search, SetSearch] = useState({ status: '', input: '' });
+    const [loader, setLoader] = useState({ pageloader: false })
     // 🔹 Approve Swal
     const approve_swal_call = (user) => {
         Swal.fire({
             title: "Approve Access",
             html: `
-                <input type="text" id="client_id" class="swal2-input" placeholder="Enter Client ID" />
-                <input type="text" id="client_secret" class="swal2-input" placeholder="Enter Client Secret" />
+                <input type="text" id="client_id" className="swal2-input" placeholder="Enter Client ID" />
+                <input type="text" id="client_secret" className="swal2-input" placeholder="Enter Client Secret" />
             `,
             focusConfirm: false,
             showCancelButton: true,
@@ -110,18 +112,19 @@ function RequestAccessList() {
     };
 
     // 🔹 Fetch Request List
-    const fetchRequestList = async (page = 1) => {
+    const fetchRequestList = async (page = 1, filters = search) => {
+        setLoader({ ...loader, pageloader: true });
         const payload = {
             apiType: "get-all-api-request",
-            requestPayload: { application_name: "", limit: "20", page: page.toString() },
+            requestPayload: { application_name: "", limit: "20", page: page.toString(), status: filters.status, searchtxt: filters.input },
             requestHeaders: {},
             uriParams: {},
             additionalParam: "",
         };
-
         try {
-            setLoadingList(true);
+            // setLoadingList(true);
             const response = await post_auth_data("portal/private", payload, {});
+            setLoader({ ...loader, pageloader: false })
             if (response.data.status) {
                 const dataWithReqId = response.data.data.map(item => ({
                     ...item,
@@ -132,11 +135,19 @@ function RequestAccessList() {
                 error_swal_toast(response.data.message || "Failed to fetch list");
             }
         } catch (error) {
+            setLoader({ ...loader, pageloader: false })
             error_swal_toast(error.message || "API call failed");
         } finally {
-            setLoadingList(false);
+            setLoader({ ...loader, pageloader: false })
+            // setLoadingList(false);
         }
     };
+
+    const refresh = () => {
+        const resetSearch = { input: "", status: "" };
+        SetSearch(resetSearch)
+        fetchRequestList(1, resetSearch);
+    }
 
     useEffect(() => {
         fetchRequestList();
@@ -151,12 +162,48 @@ function RequestAccessList() {
                     </div>
                 </div>
             </div>
+            <div className="mt-4">
+                <label for="exampleInputEmail1">Filters</label>
+                <div className="row align-items-center">
+                    <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+                        <div class="form-group mt-2">
+                            <input type="email" name="email" class="form-control p-3" id="exampleInputEmail1"
+                                aria-describedby="emailHelp" placeholder="Search" value={search.input}
+                                onChange={(e) => { SetSearch({ ...search, input: (e.target.value).trim() }) }} />
+                        </div>
+                    </div>
+                    <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+                        <div class="form-group mt-2">
+                            <select 
+                                class="form-control p-3" 
+                                name="status" 
+                                id="exampleFormControlSelect1"
+                                value={search.status}
+                                onChange={(e) => {
+                                    // SetSearch({ ...search, status: e.target.value }) }
+                                    const value = e.target.value === "" ? "" : Number(e.target.value);
+                                    SetSearch({ ...search, status: value })
+                                }}
+                            >
+                                <option value="" disabled hidden>Select Status</option>
+                                <option value={0}>Pending</option>
+                                <option value={1}>Approved</option>
+                                <option value={2}>Rejected</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <button className="btn btn-primary profilePageButton px-3 search-btn" onClick={() => { fetchRequestList(1) }}>Search </button>
+                        <button className="btn btn-outline-primary ms-2 profilePageButton px-3 search-btn" onClick={() => refresh()}><i class="fas fa-sync-alt"></i> </button>
+                    </div>
+                </div>
+            </div>
 
-            {loadingList ? (
+            {/* {loadingList ? (
                 <div className="text-center my-5">
                     <span className="spinner-border"></span> Loading...
                 </div>
-            ) : (
+            ) : ( */}
                 <div className="table-responsive mt-2">
                     <table className="table table-bordered custom-table table-striped mt-3">
                         <thead>
@@ -165,23 +212,47 @@ function RequestAccessList() {
                                 <th>Username</th>
                                 <th>Api Name</th>
                                 <th>App Name</th>
+                                <th>Client Id</th>
+                                <th>Client Secret</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {reqAccList.length > 0 ? reqAccList.map((user, index) => (
+                            {reqAccList.length > 0 && reqAccList.map((user, index) => (
                                 <tr key={user.request_id || index}>
                                     <td>{index + 1}</td>
                                     <td>{user.fullname}</td>
                                     <td>{user.apiname}</td>
                                     <td>{user.application_name}</td>
-                                    <td>
+                                    <td>{user.client_id}</td>
+                                    <td>{user.client_secret}</td>
+                                    {/* <td>
                                         {user.approved_status === 0 ? "Pending" :
                                             user.approved_status === 1 ? "Approved" : "Rejected"}
-                                    </td>
+                                    </td> */}
                                     <td>
-                                        <div className="d-flex">
+                                        {user.approved_status === 0 && (
+                                            <div className="d-flex align-items-center">
+                                                <i className="fa-solid fa-circle-exclamation text-warning me-2"></i>
+                                                <span>Pending</span>
+                                            </div>
+                                        )}
+                                        {user.approved_status === 1 && (
+                                            <div className="d-flex align-items-center">
+                                                <i className="fa-solid fa-circle-check text-success me-2"></i>
+                                                <span>Approved</span>
+                                            </div>
+                                        )}
+                                        {user.approved_status === 2 && (
+                                            <div className="d-flex align-items-center">
+                                                <i className="fas fa-times-circle text-danger me-2"></i>
+                                                <span>Rejected</span>
+                                            </div>
+                                        )}
+                                    </td>
+                                    <td className="text-center">
+                                        <div className="d-flex justify-content-center">
                                             <button
                                                 className="btn btn-success btn-sm mx-2"
                                                 title="Approve request"
@@ -210,15 +281,18 @@ function RequestAccessList() {
                                         </div>
                                     </td>
                                 </tr>
-                            )) : (
-                                <tr>
-                                    <td colSpan={6} className="text-center">No data found</td>
-                                </tr>
-                            )}
+                            )) 
+                            // : (
+                            //     <tr>
+                            //         <td colSpan={6} className="text-center">No data found</td>
+                            //     </tr>
+                            // )
+                            }
                         </tbody>
                     </table>
                 </div>
-            )}
+            {/* )} */}
+            {loader.pageloader && <PageLoaderBackdrop />}
         </div>
     );
 }

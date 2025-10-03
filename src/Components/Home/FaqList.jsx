@@ -89,6 +89,9 @@ function FaqList() {
         <div className="container">
           {loader.pageloader && <PageLoaderBackdrop />}
           <div className="card-Works margin-top-100px">
+            <div>
+              <h4 className="mb-4">Find answers to your most common questions and get quick solutions to help you get started.</h4>
+            </div>
             <Accordion>
               {faqList.length > 0 ? (
                 faqList.map((faqItem, fi) => (

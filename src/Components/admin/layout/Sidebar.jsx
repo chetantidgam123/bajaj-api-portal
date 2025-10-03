@@ -56,30 +56,29 @@ function Sidebar() {
         <div className="row align-items-center px-3 mt-3">
           {/* ✅ React toggle button (no querySelector) */}
           <div className="col-xl-9 col-lg-9 col-md-9 col-sm-10 col-10">
-            <h4 class="heading-hide heading-display mb-0">
+            <h4 className="heading-hide heading-display mb-0">
               <Link className="text-white text-decoration-none" to="/master">
-                Dashboard 
+                Dashboard
               </Link>
             </h4>
           </div>
-         <div
-  className={`${
-    isClosed
-      ? "col-xl-12 col-lg-12 col-md-12 col-sm-2 col-2"
-      : "col-xl-3 col-lg-3 col-md-3 col-sm-2 col-2"
-  } d-flex justify-content-center`}
->
-  <div
-    className="circle-arrow toggle"
-    onClick={() => setIsClosed(!isClosed)}
-  >
-    {isClosed ? (
-      <i className="fa-solid fa-arrow-right" role="button"></i>
-    ) : (
-      <i className="fa-solid fa-arrow-left" role="button"></i>
-    )}
-  </div>
-</div>
+          <div
+            className={`${isClosed
+                ? "col-xl-12 col-lg-12 col-md-12 col-sm-2 col-2"
+                : "col-xl-3 col-lg-3 col-md-3 col-sm-2 col-2"
+              } d-flex justify-content-center`}
+          >
+            <div
+              className="circle-arrow toggle"
+              onClick={() => setIsClosed(!isClosed)}
+            >
+              {isClosed ? (
+                <i className="fa-solid fa-arrow-right" role="button"></i>
+              ) : (
+                <i className="fa-solid fa-arrow-left" role="button"></i>
+              )}
+            </div>
+          </div>
 
         </div>
 
@@ -93,12 +92,12 @@ function Sidebar() {
               <i className="fa-brands fa-microsoft"></i>
               <span className="link-name ms-2">User Management</span>
             </Accordion.Header>
-            <Accordion.Body className="px-0 py-2">
+            <Accordion.Body className="px-4 py-2">
               <ul className="admin-sidebar-ul mb-0 px-3 py-1">
                 <li className="list-style-none">
                   <Link
                     className={`admin-sidebar-li ${
-                      currentPath === "/master/user-list" ? "" : ""
+                      currentPath === "/master/user-list" ? "active-tab" : ""
                     }`}
                     to="/master/user-list"
                   >
@@ -115,25 +114,23 @@ function Sidebar() {
               <i className="fa-brands fa-microsoft"></i>
               <span className="link-name ms-2">Api Management</span>
             </Accordion.Header>
-            <Accordion.Body className="px-0 py-2">
+            <Accordion.Body className="px-4 py-2">
               <ul className="admin-sidebar-ul mb-0 px-3 py-1">
-               <li className="list-style-none">
+                <li className="list-style-none">
                   <Link
-                    className={`admin-sidebar-li ${
-                      currentPath === "/master/api-list" ? "active-tab" : ""
-                    }`}
+                    className={`admin-sidebar-li ${currentPath === "/master/api-list" ? "active-tab" : ""
+                      }`}
                     to="/master/api-list"
                   >
                     Api List
                   </Link>
                 </li>
-               <li className="list-style-none">
+                <li className="list-style-none">
                   <Link
-                    className={`admin-sidebar-li ${
-                      currentPath === "/master/category-list"
+                    className={`admin-sidebar-li ${currentPath === "/master/category-list"
                         ? "active-tab"
                         : ""
-                    }`}
+                      }`}
                     to="/master/category-list"
                   >
                     Category List
@@ -141,11 +138,10 @@ function Sidebar() {
                 </li>
                 <li className="list-style-none">
                   <Link
-                    className={`admin-sidebar-li ${
-                      currentPath === "/master/sub-category-list"
+                    className={`admin-sidebar-li ${currentPath === "/master/sub-category-list"
                         ? "active-tab"
                         : ""
-                    }`}
+                      }`}
                     to="/master/sub-category-list"
                   >
                     Subcategory List
@@ -161,37 +157,34 @@ function Sidebar() {
               <i className="fa-brands fa-microsoft"></i>
               <span className="link-name ms-2">CMS</span>
             </Accordion.Header>
-            <Accordion.Body className="px-0 py-2">
+            <Accordion.Body className="px-3 py-2">
               <ul className="admin-sidebar-ul mb-0 px-3 py-1">
-                <li>
+                <li className="list-style-none">
                   <Link
-                    className={`admin-sidebar-li ${
-                      currentPath === "/master/term-and-condition"
+                    className={`admin-sidebar-li ${currentPath === "/master/term-and-condition"
                         ? "active-tab"
                         : ""
-                    }`}
+                      }`}
                     to="/master/term-and-condition"
                   >
                     Terms and Conditions
                   </Link>
                 </li>
-                <li>
+                <li className="list-style-none">
                   <Link
-                    className={`admin-sidebar-li ${
-                      currentPath === "/master/privacy-policy"
+                    className={`admin-sidebar-li ${currentPath === "/master/privacy-policy"
                         ? "active-tab"
                         : ""
-                    }`}
+                      }`}
                     to="/master/privacy-policy"
                   >
                     Privacy Policy
                   </Link>
                 </li>
-                <li>
+                <li className="list-style-none">
                   <Link
-                    className={`admin-sidebar-li ${
-                      currentPath === "/master/faq" ? "active-tab" : ""
-                    }`}
+                    className={`admin-sidebar-li ${currentPath === "/master/faq" ? "active-tab" : ""
+                      }`}
                     to="/master/faq"
                   >
                     FAQ
@@ -207,25 +200,23 @@ function Sidebar() {
               <i className="fa-brands fa-microsoft"></i>
               <span className="link-name ms-2">Contact Us</span>
             </Accordion.Header>
-            <Accordion.Body className="px-0 py-2">
+            <Accordion.Body className="px-4 py-2">
               <ul className="admin-sidebar-ul mb-0 px-3 py-1">
-                <li>
+                <li className="list-style-none">
                   <Link
-                    className={`admin-sidebar-li ${
-                      currentPath === "/master/suggest-an-api"
+                    className={`admin-sidebar-li ${currentPath === "/master/suggest-an-api"
                         ? "active-tab"
                         : ""
-                    }`}
+                      }`}
                     to="/master/suggest-an-api"
                   >
                     Suggest an API
                   </Link>
                 </li>
-                <li>
+                <li className="list-style-none">
                   <Link
-                    className={`admin-sidebar-li ${
-                      currentPath === "/master/get-in-touch" ? "active-tab" : ""
-                    }`}
+                    className={`admin-sidebar-li ${currentPath === "/master/get-in-touch" ? "active-tab" : ""
+                      }`}
                     to="/master/get-in-touch"
                   >
                     Get in Touch
@@ -241,18 +232,39 @@ function Sidebar() {
               <i className="fa-brands fa-microsoft"></i>
               <span className="link-name ms-2">Request Access Management</span>
             </Accordion.Header>
-            <Accordion.Body className="px-0 py-2">
+            <Accordion.Body className="px-4 py-2">
              <ul className="admin-sidebar-ul mb-0 px-3 py-1">
-                <li>
+                <li className="list-style-none">
                   <Link
-                    className={`admin-sidebar-li ${
-                      currentPath === "/master/request-access-list"
+                    className={`admin-sidebar-li ${currentPath === "/master/request-access-list"
                         ? "active-tab"
                         : ""
-                    }`}
+                      }`}
                     to="/master/request-access-list"
                   >
                     Request Access List
+                  </Link>
+                </li>
+              </ul>
+            </Accordion.Body>
+          </Accordion.Item>
+
+          {/* Reports */}
+          <Accordion.Item eventKey="5" className="my-2 position-relative">
+            <Accordion.Header>
+              <i className="fa-brands fa-microsoft"></i>
+              <span className="link-name ms-2">Reports</span>
+            </Accordion.Header>
+            <Accordion.Body className="px-2 py-2">
+              <ul className="admin-sidebar-ul">
+                <li className="list-style-none">
+                  <Link
+                    className={`admin-sidebar-li ${
+                      currentPath === "/master/reports" ? "active-tab" : ""
+                    }`}
+                    to="/master/reports"
+                  >
+                    Reports
                   </Link>
                 </li>
               </ul>

@@ -5,9 +5,10 @@ import SignupPage from "../../auth/SignupPage";
 import Login from "../../auth/Login";
 import ForgotPassword from "../../auth/ForgotPassword";
 import ResetPassword from "../../auth/ResetPasswrd";
-import { getTokenData } from "../../../Utils";
+import { getTokenData, getInitials } from "../../../Utils";
 
 function Header() {
+  const [fullName, setFullName] = useState('');
   const [show, setShow] = useState(false);
   const [modalName, setModalName] = useState("");
   const navigate = useNavigate();
@@ -17,6 +18,8 @@ function Header() {
       setShow(true);
       setModalName("reset-pass");
     }
+    const token = getTokenData();
+    setFullName(token?.fullname || "");
   }, [location]);
 
   const logout = () => {
@@ -69,7 +72,7 @@ function Header() {
                   Explore API
                 </Link>
               </li>
-              <li className="nav-item mx-3">
+              <li className="nav-item">
                 <Link className="nav-link" to="/faq">
                   FAQ
                 </Link>
@@ -125,8 +128,8 @@ function Header() {
                   className="d-flex justify-content-center align-items-center btn-white p-0 border-0"
                   style={{ background: "transparent" }}
                 >
-                  <div className="circle-profile">
-                    <i className="fa fa-user"></i>
+                  <div className="circle-profile" style={{ backgroundColor: '#007bff', color: '#ffeb3b' }}>
+                    {fullName ? getInitials(getTokenData().fullname.split(" ")[0]) : <i className="fa fa-user"></i>}
                   </div>
                   <div className="ms-2 text-start color-blue">
                     Welcome <br />
@@ -137,7 +140,7 @@ function Header() {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu className="custom-dropdown-menu py-0 with-caret">
-                  {getTokenData()?.role == 1 && (
+                  {/* {getTokenData()?.role == 1 && (
                     <Link
                       style={{ textDecoration: "none", color: "#212529" }}
                       to="/master"
@@ -146,7 +149,7 @@ function Header() {
                         Dashboard
                       </Dropdown.Item>
                     </Link>
-                  )}
+                  )} */}
 
                   <Link
                     style={{ textDecoration: "none", color: "#212529" }}

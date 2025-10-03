@@ -62,11 +62,11 @@ function Login({ setModalName, setShow }) {
                         <FloatingInputLabel fieldName={`userPassword`} formikFrom={Loginform} labelText={`Password`} fieldType={`password`} />
                     </div>
                     <div className="d-flex justify-content-between mb-2">
-                        <label className="form-label mb-1" htmlFor="keppSign">
+                        {/* <label className="form-label mb-1" htmlFor="keppSign">
                             <input style={{ height: "15px", width: "15px", margin: "5px 5px 8px 5px" }} className="form-check-input"
                                 type="checkbox" id="keppSign" name="terms" />
                             <small className="w-100" style={{ fontSize: '0.95em' }} >Keep me signed in </small>
-                        </label>
+                        </label> */}
                         <small><Link className="text-primary" onClick={() => { setModalName('forget-pass') }}>Forgot Password?</Link></small>
                     </div>
                     <div className="text-center">

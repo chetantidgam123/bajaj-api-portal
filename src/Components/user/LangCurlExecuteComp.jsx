@@ -34,11 +34,15 @@ function LangCurlExecuteComp({ apiData, setStatusCode,bodyReqSample,tryit=false 
     useEffect(() => {
         console.log(apiData)
         generateLangReq('curl')
+        const firstCode = JSON.parse(apiData.responses?.value || '[]')[0]?.code;
+        if (firstCode) {
+            genrateCodeRes(firstCode);
+        }
     }, [apiData.uniqueid,bodyReqSample])
     return (
         <div>
             <div className="card mb-3">
-                <div className="card-body card-bg d-flex align-items-center p-2">
+                {/* <div className="card-body card-bg d-flex align-items-center p-2">
                     <div className="row align-items-center">
                         <div className="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
                             <Badge pill bg="" className={`me-2 badge-${apiData.apimethod.toLowerCase()}`}> {apiData.apimethod}</Badge>
@@ -52,8 +56,25 @@ function LangCurlExecuteComp({ apiData, setStatusCode,bodyReqSample,tryit=false 
                                 className='span-btn-cirlce-btn'><img src="/assets/img/copy.png" alt="copy" /></button>
                         </div>
                     </div>
-
-
+                </div> */}
+                 <div className="card-body card-bg d-flex align-items-center p-2">
+                <div className="d-flex align-items-center w-100">
+                    <div className="d-flex align-items-center me-1">
+                        <Badge pill bg="" className={`badge-${apiData.apimethod.toLowerCase()}`}>
+                        {apiData.apimethod}
+                        </Badge>
+                    </div>
+                    <div className="flex-grow-1 text-truncate">
+                        <small className="word-break" title={apiData.apiurl}>
+                        {apiData.apiurl?.replace(/^https?:\/\/[^/]+/, "{baseurl}")}
+                        </small>
+                    </div>
+                    <div>
+                        <button className='span-btn-cirlce p-0'>
+                        <img src="/assets/img/copy.png" alt="copy"/>
+                        </button>
+                    </div>
+                </div>
                 </div>
             </div>
             <div className="card mb-3">
@@ -89,16 +110,19 @@ function LangCurlExecuteComp({ apiData, setStatusCode,bodyReqSample,tryit=false 
             {!tryit && <div className="card mb-3">
              <div className="card-bg">
                     <h5 className="border-bottom pb-2">Status Code</h5>
-              
-                    <select className="form-select" onChange={(e) => { genrateCodeRes(e.target.value) }}>
-                        <option value="">Select status Code</option>
+                    <select 
+                        className="form-select" 
+                        defaultValue={JSON.parse(apiData.responses?.value || '[]')[0]?.code || ''}
+                        onChange={(e) => { genrateCodeRes(e.target.value) }}
+                    >
+                        {/* <option value="">Select status Code</option> */}
                         {
                             JSON.parse(apiData.responses?.value || '[]').map((code, i) => (
                                 <option key={arrayIndex('code', i)} value={code.code}>{code.code}</option>
                             ))
                         }
                     </select>
-                </div>
+             </div>
             </div>}
             <div className="card mb-3">
                  <div className="card-bg">

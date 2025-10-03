@@ -177,7 +177,7 @@ function Profile() {
                 <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
                   <input
                     type="text"
-                    class="form-control p-3"
+                    className="form-control p-3"
                     id="fullname"
                     name="fullname"
                     placeholder="Enter Full Name"
@@ -196,7 +196,7 @@ function Profile() {
                 <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
                   <input
                     type="text"
-                    class="form-control p-3"
+                    className="form-control p-3"
                     id="mobileno"
                     name="mobileno"
                     placeholder="Enter Phone No."
@@ -217,7 +217,7 @@ function Profile() {
                 <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
                   <input
                     type="text"
-                    class="form-control p-3"
+                    className="form-control p-3"
                     id="mobileno2"
                     name="mobileno2"
                     placeholder="Alt. Phone No."
@@ -237,7 +237,7 @@ function Profile() {
                 <div className="col-3 mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
                   <input
                     type="text"
-                    class="form-control p-3"
+                    className="form-control p-3"
                     id="emailid"
                     name="emailid"
                     placeholder="Enter Email ID"
@@ -261,7 +261,7 @@ function Profile() {
                 <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
                   <input
                     type="text"
-                    class="form-control p-3"
+                    className="form-control p-3"
                     id="company_name"
                     name="company_name"
                     placeholder="Enter Company Name"
@@ -279,7 +279,7 @@ function Profile() {
                 <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
                   <input
                     type="text"
-                    class="form-control p-3"
+                    className="form-control p-3"
                     id="company_email"
                     name="company_email"
                     placeholder="Enter Company Email"
@@ -297,7 +297,7 @@ function Profile() {
                 <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
                   <input
                     type="text"
-                    class="form-control p-3"
+                    className="form-control p-3"
                     id="company_mobile"
                     name="company_mobile"
                     placeholder="Enter Official Phone No."
@@ -317,7 +317,7 @@ function Profile() {
                 <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
                   <input
                     type="text"
-                    class="form-control p-3"
+                    className="form-control p-3"
                     id="company_office_mobile"
                     name="company_office_mobile"
                     placeholder="Alt. Official Phone No."

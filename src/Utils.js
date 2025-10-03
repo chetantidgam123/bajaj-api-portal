@@ -133,11 +133,11 @@ const convertToPayload = (api_name = "", body = {}, header = {}, uriparam = {}, 
 }
 
 const statusValue = (val) => {
-    if(val === 0) {
+    if (val === 0) {
         return "Pending";
-    } else if(val === 1) {
+    } else if (val === 1) {
         return "Approved";
-    } else if(val === 2) {
+    } else if (val === 2) {
         return "Rejected"
     }
 }
@@ -203,9 +203,21 @@ async function sendEmail({ subject, body, toRecepients, ccRecepients = [], bccRe
 
 const availableApi = [
     // { title: "Encryption & Decryption", details: "Secure your data with industry-standard encryption and decryption mechanisms." },
-    { title: "Authentication", details: "Enable safe, token-based authentication and authorization for your applications." },
-    { title: "Sales API", details: "Access real-time data on bike models, availability, pricing, and dealer information." },
-    { title: "Service API", details: "Integrate service booking, maintenance history, and service center locators seamlessly." }
+    {
+        title: "Authentication",
+        details: "Enable safe, token-based authentication and authorization for your applications.",
+        routePath: "api/f701587c-9cd4-4c82-a9ff-f5ed178cc4a6"
+    },
+    {
+        title: "Sales API",
+        details: "Access real-time data on bike models, availability, pricing, and dealer information.",
+        routePath: "api/1c0986b4-adb6-4e75-ab24-4e799c73eb80"
+    },
+    {
+        title: "Service API",
+        details: "Integrate service booking, maintenance history, and service center locators seamlessly.",
+        routePath: "api/cca13314-14c1-481d-a537-ec646f84ca30"
+    }
 ]
 
 const lang = [
@@ -324,6 +336,14 @@ function copyToClipboard(text) {
         });
 }
 
+const getInitials = (name) => {
+    if (!name) return "";
+    const words = name.split(" ");
+    return words.length === 1
+        ? words[0][0].toUpperCase()
+        : (words[0][0] + words[words.length - 1][0]).toUpperCase();
+};
+
 
 export {
     availableApi,
@@ -348,5 +368,6 @@ export {
     getJwtData,
     statusCodes,
     copyToClipboard,
-    statusValue
+    statusValue,
+    getInitials
 }

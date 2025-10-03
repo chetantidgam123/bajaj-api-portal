@@ -14,7 +14,7 @@ function FooterHome() {
                             <button type="button" className="btn-close close-absolute" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body contactus">
-                            <p className="text-center">We’re here to help you get the most out of our APIs. Whether you need technical support, have questions about integration, or want to explore partnership opportunities, feel free to reach out.</p>
+                            <p className="text-center">We're here to help you get the most out of our APIs. Whether you need technical support, have questions about integration, or want to explore partnership opportunities, feel free to reach out.</p>
                             <ul className="nav nav-pills mb-3 d-flex justify-content-center" id="pills-tab" role="tablist">
                                 <li className="nav-item" role="presentation">
                                     <button className="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Get In Touch</button>
@@ -58,9 +58,9 @@ function FooterHome() {
                                 </div>
                             </div>
                         </div>
-                        <div className="d-flex justify-content-end">
+                        <div className="d-flex justify-content-center">
                             {/* <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button> */}
-                            <button type="button" className="btn btn-blue">Submit <i class="fa-solid fa-arrow-right"></i></button>
+                            <button type="button" className="btn btn-blue">Submit <i className="fa-solid fa-arrow-right"></i></button>
                         </div>
                     </div>
                 </div>
@@ -69,7 +69,8 @@ function FooterHome() {
                 <div className="container">
                     <div className="row align-items-center justify-content-center">
                         <div className="col-2 d-flex justify-content-center mb-3">
-                            <img src="/assets/img/white_logo.png" alt="" />
+                            {/* <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG4lo39vSLS1FaLIpr1XKrjiebmWX-3fRErA&s" alt="" /> */}
+                            <img src="/assets/img/Bajaj-new-campaign.png" alt="" width={'300px'} />
                         </div>
                     </div>
 
@@ -77,11 +78,11 @@ function FooterHome() {
                 <div className="border-top border-bottom">
                     <div className="container my-3">
                         <ul className="">
-                            <li><Link to={"/user/profile"}>Documentation</Link></li>
-                            {/* <li><Link to={"/Contactus"} data-bs-toggle="modal" data-bs-target="#exampleModal">Contact Us</Link></li> */}
-                            <li><Link to={"/Contactus"} >Contact Us</Link></li>
-                            <li><Link to={"/user/profile"}>Support Center</Link></li>
-                            <li><Link to={"/user/profile"}>About Us</Link></li>
+                            {/* <li><Link to={"/user/profile"}>Documentation</Link></li> */}
+                            <li><Link to={"/api/0"}>Documentation</Link></li>
+                            <li><Link to={"/Contactus"} data-bs-toggle="modal" data-bs-target="#exampleModal">Contact Us</Link></li>
+                            <li><Link to={""}>Support Center</Link></li>
+                            <li><Link to={""}>About Us</Link></li>
                             {/* <li><Link to={"/user/profile"}>Careers</Link></li> */}
                             <li><Link to={"/TermsofServices"}>Terms of Service</Link></li>
                             <li><Link to={"/Privacypolicy"}>Privacy Policy</Link></li>
@@ -90,7 +91,7 @@ function FooterHome() {
                     </div>
                 </div>
                 <div className="container">
-                    <p className="text-center text-white mt-3 mb-0">Copyright © 2025.  All rights reserved</p>
+                    <p className="text-center text-white mt-3 mb-0">Copyright © 2025. All rights reserved</p>
                 </div>
             </div>
 
