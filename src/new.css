@@ -5,7 +5,6 @@
     z-index: 99;
 }
 
-<<<<<<< HEAD
 @font-face {
     src: url('../src/Components/admin/Fonts/Poppins/Poppins-SemiBold.ttf');
     font-family:Poppins-Bold;
@@ -29,13 +28,11 @@ p{
      /* background-image: url("/assets/img/banner.png"); */
      background-image: url("/assets/img/banner-img.png");
       background-position: center;
-=======
-
+}
 .banner {
     /* background-image: url("/assets/img/banner.png"); */
     background-image: url("/assets/img/banner-img.png");
     background-position: center;
->>>>>>> bae5e3f43b5d64ea815df61a48438b01172ed1d5
     background-repeat: no-repeat;
     background-size: cover;
     padding: 50px 0px;
@@ -70,12 +67,9 @@ p{
 .btn-blue:hover {
     background-color: white;
     color: #006AD0;
-<<<<<<< HEAD
     border:1px solid #006AD0;
      font-family:Poppins-Regular;
-=======
     border: 1px solid #006AD0;
->>>>>>> bae5e3f43b5d64ea815df61a48438b01172ed1d5
 }
 
 .card-Works {
@@ -209,7 +203,6 @@ p{
     position: relative;
 }
 
-<<<<<<< HEAD
     .footer ul li a {
       color: #fff;
       text-decoration: none;
@@ -217,14 +210,12 @@ p{
       transition: color 0.3s;
       
     }
-=======
 .footer ul li a {
     color: #fff;
     text-decoration: none;
     font-size: 20px;
     transition: color 0.3s;
 }
->>>>>>> bae5e3f43b5d64ea815df61a48438b01172ed1d5
 
 .footer ul li a:hover {
     color: #ddd;
