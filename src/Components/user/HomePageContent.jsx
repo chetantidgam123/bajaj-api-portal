@@ -128,7 +128,9 @@ function HomePageContent() {
                 setHasTriedApi(true)
                 // navigate(`/try-api/${collection_id}/${category_id}/${api_id}`)
                 if (response.data.status) {
-                    navigate(`/try-api/${collection_id}/${category_id}/${api_id}`)
+                    // navigate(`/try-api/${collection_id}/${category_id}/${api_id}`)
+                    window.open(`/try-api/${collection_id}/${category_id}/${api_id}`, "_blank");
+
                 }
                 else {
                     setOpenTryitModal(true)
@@ -187,11 +189,11 @@ function HomePageContent() {
                         <div className="card-new mb-3">
                             <div className="card-body card-bg">
                                 <div className='row align-items-center'>
-                                    <div className={api_id?'col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12':'col-12'}>
+                                    <div className={api_id ? 'col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12' : 'col-12'}>
                                         <h5 className='mb-0'>{title || 'Get Started'}</h5>
                                         <ReactMarkdown remarkPlugins={[remarkGfm]}>{description}</ReactMarkdown>
                                     </div>
-                                    <div className={api_id?'col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12':''}>
+                                    <div className={api_id ? 'col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12' : ''}>
                                         <div className="d-flex justify-content-end">
                                             {
                                                 // Case 1: before try -> only Try it aligned right
