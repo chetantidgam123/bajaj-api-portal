@@ -1,18 +1,20 @@
 import * as yup from "yup";
 
 export const signupFormSchema = yup.object().shape({
-  fullName: yup.string().required("mandatory field*"),
+  fullName: yup.string().trim().min(3, "Full name must be at least 3 characters").required("mandatory field*"),
   emailId: yup
     .string()
+    .trim()
     .email("Invalid email format")
     .required("mandatory field*"),
   mobileNo: yup
     .string()
-    .matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
+    .matches(/^[7-9]\d{9}$/, "Phone number must be exactly 10 digits and correct")
     .required("mandatory field*"),
   userPassword: yup
     .string()
-    .min(6, "Password must be at least 6 characters long")
+    .min(8, "Password must be at least 8 characters long")
+    .matches(/^[A-Z][A-Za-z0-9]*$/, "Password first cahracter should be capital")
     .required("mandatory field*"),
   // confirmPassword: yup.string()
   //     .oneOf([yup.ref('userPassword'), null], 'Passwords must match')
