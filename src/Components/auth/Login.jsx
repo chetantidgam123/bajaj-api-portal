@@ -55,10 +55,10 @@ function Login({ setModalName, setShow }) {
                 localStorage.setItem("loginOtp", JSON.stringify({ otp, expiry }));
 
                 const firstName =
-                res?.data?.userdata?.fullName?.split(" ")[0] ||
-                Loginform.values.emailId.split("@")[0] ||
-                "User";
-const emailBody = `
+                    res?.data?.userdata?.fullName?.split(" ")[0] ||
+                    Loginform.values.emailId.split("@")[0] ||
+                    "User";
+                const emailBody = `
 <p>Dear ${firstName},</p>
 
 <p>We received a sign-in request for your account on the <b>Bajaj API Developer Portal</b></p>
@@ -138,7 +138,7 @@ Digital & Analytics | Bajaj Auto Limited</p>
                     </div>
                     <div className="text-center">
                         <button type="button" className="btn btn-blue w-100" onClick={Loginform.handleSubmit} disabled={loader}>
-                            Send OTP {loader ? <LoaderWight /> : <i className="fa-solid fa-arrow-right"></i>}
+                            Sign In {loader && <LoaderWight />}
                         </button>
                         <div className="mt-3">
                             New to our product? <Link className="text-primary" onClick={() => { setModalName('signup'); Loginform.resetForm(); }}>Sign Up</Link>

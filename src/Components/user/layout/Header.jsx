@@ -117,7 +117,7 @@ function Header() {
                   color: "#ffffff",
                 }}
               >
-                Sign In <i className="fa-solid fa-arrow-right"></i>
+                Sign In 
               </button>
             )}
 
@@ -128,7 +128,7 @@ function Header() {
                   className="d-flex justify-content-center align-items-center btn-white p-0 border-0"
                   style={{ background: "transparent" }}
                 >
-                  <div className="circle-profile" style={{ backgroundColor: '#007bff', color: '#ffeb3b' }}>
+                  <div className="circle-profile" style={{ backgroundColor: '#007bff', color: '#ffffff' }}>
                     {fullName ? getInitials(getTokenData().fullname.split(" ")[0]) : <i className="fa fa-user"></i>}
                   </div>
                   <div className="ms-2 text-start color-blue">
