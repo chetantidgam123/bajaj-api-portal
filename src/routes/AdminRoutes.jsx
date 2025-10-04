@@ -9,6 +9,7 @@ const AdminLayout = lazy(() =>
 );
 const AdminDashboard = lazy(() => import("../Components/admin/Dashboard"));
 const CategoryList = lazy(() => import("../Components/admin/CategoryList"));
+const CategoryDescription = lazy(() => import("../Components/admin/CategoryDescription"));
 const SubCategoryList = lazy(() =>
   import("../Components/admin/SubCategoryList")
 );
@@ -80,6 +81,14 @@ const routes = [
         element: (
           <PrivateRoute>
             <CategoryList />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/category-description",
+        element: (
+          <PrivateRoute>
+            <CategoryDescription />
           </PrivateRoute>
         ),
       },
