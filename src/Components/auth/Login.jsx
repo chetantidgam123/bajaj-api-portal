@@ -71,7 +71,7 @@ function Login({ setModalName, setShow }) {
                     </div>
                     <div className="text-center">
                         <button type="button" className="btn btn-blue w-100" onClick={Loginform.handleSubmit} disabled={loader}>
-                            Sign In {loader ? <LoaderWight /> : <i className="fa-solid fa-arrow-right"></i>}
+                            Sign In {loader ? <LoaderWight /> : <i className="fa-solid fa-arrow-right d-none"></i>}
                         </button>
                         <div className="mt-3">
                             New to Our Product ?&nbsp; &nbsp;<Link className="text-primary" onClick={() => { setModalName('signup'); Loginform.resetForm() }}>Sign Up</Link>

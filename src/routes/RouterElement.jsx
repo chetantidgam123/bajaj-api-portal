@@ -11,6 +11,7 @@ import Profile from '../Components/user/Profile';
 import Email from '../Components/Home/Email';
 import { error_swal_toast } from '../SwalServices';
 import TermsofServices from '../Components/Home/TermsofServices';
+import SupportCenter from '../Components/Home/SupportCenter';
 import Privacypolicy from '../Components/Home/Privacypolicy';
 import Contactus from '../Components/Home/Contactus';
 import ApiPlaygroundHistory from '../Components/user/ApiPlaygroundHistory';
@@ -37,6 +38,7 @@ const routes = [
     { path: '/email/:token', element: <Email /> },
     { path: '/faq', element: <FaqList /> },
      { path: "/TermsofServices", element: <TermsofServices /> },
+     { path: "/SupportCenter", element: <SupportCenter /> },
      { path: "/Privacypolicy", element: <Privacypolicy /> },
      { path: "/Contactus", element: <Contactus /> },
     {

@@ -60,7 +60,7 @@ function Header() {
                                 <Dropdown.Toggle
                                     className="d-flex justify-content-center align-items-center btn-white p-0"
                                 >
-                                    <div className="circle-profile" style={{ backgroundColor: '#007bff', color: '#ffeb3b' }}>
+                                    <div className="circle-profile" style={{ backgroundColor: '#007bff', color: '#ffffff' }}>
                                         {fullName ? getInitials(fullName) : <i className="fa fa-user"></i>}
                                     </div>
                                     <div className="ms-2 text-start color-blue">
