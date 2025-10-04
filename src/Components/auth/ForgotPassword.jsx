@@ -59,7 +59,7 @@ function ForgotPassword({ setModalName, setShowLogin }) {
                         </div>
                         <div className="text-center">
                             <button type="button" className="btn btn-primary w-100" disabled={loader.emailSend} onClick={forgotPasswordForm.handleSubmit}>
-                                Send Link {loader.emailSend ? <LoaderWight /> : <i className="fa-solid fa-arrow-right mx-1"></i>}
+                                Send Link {loader.emailSend ? <LoaderWight /> : <i className="fa-solid fa-arrow-right mx-1 d-none"></i>}
                             </button>
                             <div className="mt-2 mb-1">
                                 <Link className="text-primary" onClick={() => { setModalName('login'); forgotPasswordForm.resetForm() }}>Back to Sign In</Link>

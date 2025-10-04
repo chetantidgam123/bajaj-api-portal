@@ -41,25 +41,8 @@ function SignupPage({ setModalName, setShow }) {
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const expiry = Date.now() + 5 * 60 * 1000; // 5 minutes
     localStorage.setItem("signupOtp", JSON.stringify({ otp, expiry }));
-
-    const firstName = signupForm.values.fullName.split(" ")[0] || "User"; // extract first name
-    const emailBody = `
-    <p>Dear ${firstName},</p>
-
-    <p>Thank you for registering on the <b>Bajaj API Developer Portal</b>.</p>
-
-    <p>To verify your email address and activate your account, please use the One-Time Password (OTP) below:</p>
-
-    <b>${otp}</b>
-
-    <br/>
-    <p>Thanks & Regards,<br/>
-    <b>Mulesoft Support</b><br/>
-    Digital & Analytics | Bajaj Auto Limited</p>
-    `;
-
     try {
-      await sendEmail({ body: emailBody, toRecepients: [email], subject: String("Your OTP for Email Verification"), contentType: String('application/json') });
+      await sendEmail({ body: String(`Your OTP is: ${otp}`), toRecepients: [email], subject: String("check OTP"), contentType: String('application/json') });
       success_swal_toast("OTP has been sent to your email!");
       setShowOtpModal(true);
     } catch(err){
@@ -73,7 +56,7 @@ function SignupPage({ setModalName, setShow }) {
      console.log(values.fullName, values.mobileNo, values.emailId, values.userPassword)
      if (!stored) {
       error_swal_toast("OTP not generated or expired.");
-      // verifyOtpAndRegister(false);
+      verifyOtpAndRegister(false);
       return;
     }
 
@@ -128,7 +111,7 @@ function SignupPage({ setModalName, setShow }) {
   }, [location])
 
   return (
-    <div>
+       <div style={{ height: "30.5em" }}>
       <h3>Sign Up</h3>
       <p>Create an account to get started</p>
       <FormikProvider value={signupForm}>

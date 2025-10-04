@@ -124,7 +124,7 @@ function Faq() {
       <div className="table-responsive mt-2">
         <table className="table table-bordered custom-table table-striped mt-3">
           <thead>
-            <tr>
+            <tr className="text-truncate">
               <th>Sr. No</th>
               <th>Full Name</th>
               <th>Email Id</th>

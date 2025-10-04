@@ -106,7 +106,7 @@ body {
 
 .authContent .title {
     color: #FFF;
-    font-size: 28px;
+    font-size: 26px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
@@ -741,6 +741,7 @@ select.form-select {
 .admin-sidebar-ul a {
     text-decoration: none;
     color: #fff;
+        padding: 6px 12px;
 }
 
 .h-60 {
@@ -767,7 +768,7 @@ select.form-select {
 }
 
 .activeApi {
-    background-color: #5278F2;
+    background-color: #0478e852;
 }
 
 .activeApi .text-dark {
@@ -972,10 +973,12 @@ select.form-select {
     width: 35px;
     height: 35px;
 }
-
+.admin-sidebar-ul li{
+        margin-bottom: 6px;
+}
   .active-tab {
-   background-color: #5278F2;
-  color: #fff !important;
+   background-color: #ffffff;
+  color: #0052A4  !important;
    border-radius: 4px; 
   /* padding: 6px 12px; */
   display: inline-block;

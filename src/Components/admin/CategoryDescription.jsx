@@ -30,7 +30,7 @@ const CategoryDescription = () => {
       <div className="mx-2 card-admin-main">
         <div className="card-body card-bg">
           <div className="row justify-content-between">
-            <div className="col-3">
+            <div className="col-6">
               <h4 className="mb-2">API Category Description</h4>
             </div>
             <div className="col-2 d-flex justify-content-end">
