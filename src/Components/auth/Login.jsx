@@ -54,11 +54,30 @@ function Login({ setModalName, setShow }) {
                 const expiry = Date.now() + 5 * 60 * 1000; // 5 minutes
                 localStorage.setItem("loginOtp", JSON.stringify({ otp, expiry }));
 
+                const firstName =
+                res?.data?.userdata?.fullName?.split(" ")[0] ||
+                Loginform.values.emailId.split("@")[0] ||
+                "User";
+const emailBody = `
+<p>Dear ${firstName},</p>
+
+<p>We received a sign-in request for your account on the <b>Bajaj API Developer Portal</b></p>
+
+<p>To verify your credentials and complete the login, please use the One-Time Password (OTP) below :</p>
+
+<b>${otp}</b>
+
+<br/>
+<p>Thanks & Regards,<br/>
+<b>Mulesoft Support</b><br/>
+Digital & Analytics | Bajaj Auto Limited</p>
+`;
+
                 // Send OTP via email
                 await sendEmail({
-                    body: `Your OTP is: ${otp}`,
+                    body: emailBody,
                     toRecepients: [Loginform.values.emailId],
-                    subject: "Your OTP Code",
+                    subject: "In OTP for Bajaj Developer Portal",
                     contentType: "application/json"
                 });
 
