@@ -93,10 +93,10 @@ function Sidebar() {
               <span className="link-name ms-2">User Management</span>
             </Accordion.Header>
             <Accordion.Body className="px-4 py-2">
-              <ul className="admin-sidebar-ul mb-0 px-3 py-1">
+              <ul className="admin-sidebar-ul mb-0 px-0 py-1">
                 <li className="list-style-none">
                   <Link
-                    className={`admin-sidebar-li ${
+                    className={`admin-sidebar-li mb-2 ${
                       currentPath === "/master/user-list" ? "active-tab" : ""
                     }`}
                     to="/master/user-list"
@@ -115,10 +115,10 @@ function Sidebar() {
               <span className="link-name ms-2">Api Management</span>
             </Accordion.Header>
             <Accordion.Body className="px-4 py-2">
-              <ul className="admin-sidebar-ul mb-0 px-3 py-1">
+              <ul className="admin-sidebar-ul mb-0 px-0 py-1">
                 <li className="list-style-none">
                   <Link
-                    className={`admin-sidebar-li ${currentPath === "/master/api-list" ? "active-tab" : ""
+                    className={`admin-sidebar-li mb-2 ${currentPath === "/master/api-list" ? "active-tab" : ""
                       }`}
                     to="/master/api-list"
                   >
@@ -127,7 +127,7 @@ function Sidebar() {
                 </li>
                 <li className="list-style-none">
                   <Link
-                    className={`admin-sidebar-li ${currentPath === "/master/category-list"
+                    className={`admin-sidebar-li mb-2 ${currentPath === "/master/category-list"
                         ? "active-tab"
                         : ""
                       }`}
@@ -138,7 +138,7 @@ function Sidebar() {
                 </li>
                 <li className="list-style-none">
                   <Link
-                    className={`admin-sidebar-li ${currentPath === "/master/category-description"
+                    className={`admin-sidebar-li mb-2 text-truncate ${currentPath === "/master/category-description"
                         ? "active-tab"
                         : ""
                       }`}
@@ -149,7 +149,7 @@ function Sidebar() {
                 </li>
                 <li className="list-style-none">
                   <Link
-                    className={`admin-sidebar-li ${currentPath === "/master/sub-category-list"
+                    className={`admin-sidebar-li mb-2 ${currentPath === "/master/sub-category-list"
                         ? "active-tab"
                         : ""
                       }`}
@@ -169,10 +169,10 @@ function Sidebar() {
               <span className="link-name ms-2">CMS</span>
             </Accordion.Header>
             <Accordion.Body className="px-3 py-2">
-              <ul className="admin-sidebar-ul mb-0 px-3 py-1">
+              <ul className="admin-sidebar-ul mb-0 px-0 py-1">
                 <li className="list-style-none">
                   <Link
-                    className={`admin-sidebar-li ${currentPath === "/master/term-and-condition"
+                    className={`admin-sidebar-li mb-2 ${currentPath === "/master/term-and-condition"
                         ? "active-tab"
                         : ""
                       }`}
@@ -183,7 +183,7 @@ function Sidebar() {
                 </li>
                 <li className="list-style-none">
                   <Link
-                    className={`admin-sidebar-li ${currentPath === "/master/privacy-policy"
+                    className={`admin-sidebar-li mb-2 ${currentPath === "/master/privacy-policy"
                         ? "active-tab"
                         : ""
                       }`}
@@ -194,7 +194,7 @@ function Sidebar() {
                 </li>
                 <li className="list-style-none">
                   <Link
-                    className={`admin-sidebar-li ${currentPath === "/master/faq" ? "active-tab" : ""
+                    className={`admin-sidebar-li mb-2 ${currentPath === "/master/faq" ? "active-tab" : ""
                       }`}
                     to="/master/faq"
                   >
@@ -212,10 +212,10 @@ function Sidebar() {
               <span className="link-name ms-2">Contact Us</span>
             </Accordion.Header>
             <Accordion.Body className="px-4 py-2">
-              <ul className="admin-sidebar-ul mb-0 px-3 py-1">
+              <ul className="admin-sidebar-ul mb-0 px-0 py-1">
                 <li className="list-style-none">
                   <Link
-                    className={`admin-sidebar-li ${currentPath === "/master/suggest-an-api"
+                    className={`admin-sidebar-li mb-2 ${currentPath === "/master/suggest-an-api"
                         ? "active-tab"
                         : ""
                       }`}
@@ -226,7 +226,7 @@ function Sidebar() {
                 </li>
                 <li className="list-style-none">
                   <Link
-                    className={`admin-sidebar-li ${currentPath === "/master/get-in-touch" ? "active-tab" : ""
+                    className={`admin-sidebar-li mb-2 ${currentPath === "/master/get-in-touch" ? "active-tab" : ""
                       }`}
                     to="/master/get-in-touch"
                   >
@@ -244,10 +244,10 @@ function Sidebar() {
               <span className="link-name ms-2">Request Access Management</span>
             </Accordion.Header>
             <Accordion.Body className="px-4 py-2">
-             <ul className="admin-sidebar-ul mb-0 px-3 py-1">
+             <ul className="admin-sidebar-ul mb-0 px-0 py-1">
                 <li className="list-style-none">
                   <Link
-                    className={`admin-sidebar-li ${currentPath === "/master/request-access-list"
+                    className={`admin-sidebar-li mb-2 ${currentPath === "/master/request-access-list"
                         ? "active-tab"
                         : ""
                       }`}
@@ -270,7 +270,7 @@ function Sidebar() {
               <ul className="admin-sidebar-ul">
                 <li className="list-style-none">
                   <Link
-                    className={`admin-sidebar-li ${
+                    className={`admin-sidebar-li mb-2 ${
                       currentPath === "/master/reports" ? "active-tab" : ""
                     }`}
                     to="/master/reports"

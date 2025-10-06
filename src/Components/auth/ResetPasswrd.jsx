@@ -68,7 +68,7 @@ function ResetPassword({ setModalName, setShow }) {
                     </div>
                     <div className="text-center my-4">
                         <button type="button" className="btn btn-primary w-100" onClick={resetPassForm.handleSubmit} disabled={loader}>
-                            Update Password <i className="fa-solid fa-arrow-right"></i>{loader && <LoaderWight />}
+                            Update Password {loader && <LoaderWight />}
                         </button>
                     </div>
                     <div className="" style={{ opacity: '0', height: '82px' }}>
@@ -87,7 +87,7 @@ function ResetPassword({ setModalName, setShow }) {
                             Your password has been successfully updated!
                         </small>
                         <div className="text-center mt-3">
-                            <button type="button" className="btn btn-primary w-100" onClick={() => { setModalName('login'); navigate('/') }}>Sign In <i className="fa-solid fa-arrow-right"></i></button>
+                            <button type="button" className="btn btn-primary w-100" onClick={() => { setModalName('login'); navigate('/') }}>Sign In </button>
                         </div>
                     </div>
                 </div>

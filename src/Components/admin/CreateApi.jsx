@@ -377,7 +377,7 @@ function CreateApi() {
                     </div>
                     <div className="card my-3">
                         <div className=" card-header d-flex justify-content-between">
-                            <h3 className="">Request Parameter</h3>
+                            <h5 className="my-2">Request Parameter</h5>
                             <button className='btn btn-primary' type='button' onClick={() => { handleModal('reqbody') }}>Add Parameter</button>
                         </div>
                         <div className="card-body">
@@ -409,7 +409,8 @@ function CreateApi() {
                     </div>
                     <div className="card my-3">
                         <div className=" card-header d-flex justify-content-between">
-                            <h3 className="">Request Headers</h3>
+                    
+                             <h5 className="my-2">Request Headers</h5>
                             <button className='btn btn-primary' type='button' onClick={() => { handleModal('reqheader') }}>Add Parameter</button>
                         </div>
                         <div className="card-body">
@@ -441,7 +442,7 @@ function CreateApi() {
                     </div>
                     <div className="card my-3">
                         <div className=" card-header d-flex justify-content-between">
-                            <h3 className="">Response Headers</h3>
+                             <h5 className="my-2">Request Headers</h5>
                             <button className='btn btn-primary' type='button' onClick={() => { handleModal('resheader') }}>Add Parameter</button>
                         </div>
                         <div className="card-body">
@@ -473,7 +474,7 @@ function CreateApi() {
                     </div>
                     <div className="card my-3">
                         <div className=" card-header d-flex justify-content-between">
-                            <h3 className="">Response Sample</h3>
+                             <h5 className="my-2">Request Sample</h5>
                             <button className='btn btn-primary' type='button' onClick={handleAddSampleModal}>Add Parameter</button>
                         </div>
                         <div className="card-body">

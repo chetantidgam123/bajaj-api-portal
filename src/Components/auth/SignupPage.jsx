@@ -61,7 +61,7 @@ function SignupPage({ setModalName, setShow }) {
     console.log(values.fullName, values.mobileNo, values.emailId, values.userPassword)
     if (!stored) {
       error_swal_toast("OTP not generated or expired.");
-      // verifyOtpAndRegister(false);
+      verifyOtpAndRegister(false);
       return;
     }
 
@@ -116,7 +116,7 @@ function SignupPage({ setModalName, setShow }) {
   }, [location])
 
   return (
-    <div>
+       <div style={{ height: "30.5em" }}>
       <h3>Sign Up</h3>
       <p>Create an account to get started</p>
       <FormikProvider value={signupForm}>

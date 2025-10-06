@@ -116,6 +116,100 @@ function ApiPlayGround() {
                 <button className='btn btn-primary ms-2 px-3'>Send</button>
             </div>
 
+            <ul class="nav nav-pills mb-3 mt-3" id="pills-tab" role="tablist">
+                <li class="nav-item pe-3" role="presentation">
+                    <button class="nav-link  try-api-tab active" id="pills-one-tab" data-bs-toggle="pill" data-bs-target="#pills-one" type="button" role="tab" aria-controls="pills-one" aria-selected="true">Params</button>
+                </li>
+                <li class="nav-item px-3" role="presentation">
+                    <button class="nav-link try-api-tab " id="pills-two-tab" data-bs-toggle="pill" data-bs-target="#pills-two" type="button" role="tab" aria-controls="pills-two" aria-selected="false">Authorization</button>
+                </li>
+                <li class="nav-item px-3" role="presentation">
+                    <button class="nav-link try-api-tab " id="pills-three-tab" data-bs-toggle="pill" data-bs-target="#pills-three" type="button" role="tab" aria-controls="pills-three" aria-selected="false"> Headers (8)</button>
+                </li>
+                <li class="nav-item px-3" role="presentation">
+                    <button class="nav-link try-api-tab body-dot" id="pills-four-tab" data-bs-toggle="pill" data-bs-target="#pills-four" type="button" role="tab" aria-controls="pills-four" aria-selected="false">
+                        Body
+                    </button>
+                </li>
+
+
+                <li class="nav-item px-3" role="presentation">
+                    <button class="nav-link try-api-tab body-dot" id="pills-five-tab" data-bs-toggle="pill" data-bs-target="#pills-five" type="button" role="tab" aria-controls="pills-five" aria-selected="false">Scripts </button>
+                </li>
+                <li class="nav-item px-3" role="presentation">
+                    <button class="nav-link try-api-tab " id="pills-six-tab" data-bs-toggle="pill" data-bs-target="#pills-six" type="button" role="tab" aria-controls="pills-six" aria-selected="false"> Settings</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-one" role="tabpanel" aria-labelledby="pills-one-tab">
+
+                </div>
+                <div class="tab-pane fade" id="pills-two" role="tabpanel" aria-labelledby="pills-two-tab">.2..</div>
+                <div class="tab-pane fade" id="pills-three" role="tabpanel" aria-labelledby="pills-three-tab">.3..</div>
+                <div class="tab-pane fade" id="pills-four" role="tabpanel" aria-labelledby="pills-four-tab">.4.</div>
+                <div class="tab-pane fade" id="pills-five" role="tabpanel" aria-labelledby="pills-five-tab">.5..</div>
+                <div class="tab-pane fade" id="pills-six" role="tabpanel" aria-labelledby="pills-six-tab">.5..</div>
+            </div>
+            <div className='d-flex'>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
+                    <label class="form-check-label" for="flexRadioDefault1">
+                        form-data
+                    </label>
+                </div>
+                <div class="form-check ms-4">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked />
+                    <label class="form-check-label" for="flexRadioDefault2">
+                        x-www-form-urlencoded
+                    </label>
+                </div>
+                <div class="form-check ms-4">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked />
+                    <label class="form-check-label" for="flexRadioDefault2">
+                        raw
+                    </label>
+                </div>
+            </div>
+            <div className='box-apiplay'>
+        <p className='text-center'>This request does not have a body</p>
+            </div>
+            <div className='border-top'></div>
+            <div className='d-flex mt-4'>
+                <p className='me-4'><b>Responce</b></p>
+                <p><i class="fa-solid fa-clock me-2"></i>History <i class="fa-solid fa-angle-down"></i></p>
+            </div>
+            <p className='text-muted'>Error: connect ECONNREFUSED 127.0.0.1:8080 <br></br>
+                Request Headers <br></br>
+                Content-Type: application/json <br></br>
+                User-Agent: PostmanRuntime/7.45.0 <br></br>
+                Accept: */* <br></br>
+                Cache-Control: no-cache <br></br>
+                Postman-Token: 6fa9e43a-e8ee-45dc-8ab5-15075fe756c6 <br></br>
+                Host: localhost:8080<br></br>
+                Accept-Encoding: gzip, deflate, br<br></br>
+                Connection: keep-alive</p>
+                <div className='row'>
+                    <div className='col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 d-flex'>
+                    <p><i class="fa-solid fa-magnifying-glass me-2"></i>Find & replace</p>
+                    <p className='ms-3'><i class="fa-solid fa-code me-2"></i>Console</p>
+                    </div>
+                   <div className='col-xl-9 col-lg-9 col-md-6 col-sm-12 col-12 d-flex justify-content-end'>
+                    <p>
+                         <i className="fa-solid fa-terminal me-2"></i> Runner
+                    </p>
+                  <p className='ms-3'>
+                    <i className="fa-regular fa-circle-play me-2"></i> Start Proxy
+                    </p>
+                    <p className='ms-3'>
+                    <i className="fa-regular fa-cookie me-2"></i> Cookies
+                    </p>
+                    <p className='ms-3'>
+                    <i className="fa-regular fa-trash-can me-2"></i> Trash
+                    </p>
+
+                    </div>
+
+                </div>
             {
                 loader && <PageLoaderBackdrop />
             }
