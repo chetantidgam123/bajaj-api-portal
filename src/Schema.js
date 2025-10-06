@@ -13,15 +13,10 @@ export const signupFormSchema = yup.object().shape({
     .required("mandatory field*"),
   userPassword: yup
     .string()
-    .min(8, "Password must be at least 8 characters long")
-    .matches(/^[A-Z][A-Za-z0-9]*$/, "Password first cahracter should be capital")
+    .min(6, "Password must be at least 6 characters long")
+    .matches(/^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{6,}$/, "Invalid password pattern must contain Uppercase letter,special charachter & number")
     .required("mandatory field*"),
-  // confirmPassword: yup.string()
-  //     .oneOf([yup.ref('userPassword'), null], 'Passwords must match')
-  //     .required('mandatory field*'),
-  terms: yup
-    .boolean()
-    .oneOf([true], "You must agree to the terms and conditions"),
+  terms: yup.boolean().oneOf([true], "You must agree to the terms and conditions"),
 });
 export const loginFormSchema = yup.object().shape({
   emailId: yup

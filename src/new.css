@@ -7,29 +7,38 @@
 
 @font-face {
     src: url('../src/Components/admin/Fonts/Poppins/Poppins-SemiBold.ttf');
-    font-family:Poppins-Bold;
+    font-family: Poppins-Bold;
 }
+
 @font-face {
     src: url('../src/Components/admin/Fonts/Poppins/Poppins-Medium.ttf');
-    font-family:Poppins-Medium;
+    font-family: Poppins-Medium;
 }
+
 @font-face {
     src: url('../src/Components/admin/Fonts/Poppins/Poppins-Regular.ttf');
-    font-family:Poppins-Regular;
+    font-family: Poppins-Regular;
 }
-h1, h2, h3, h4, h5{
-      font-family:Poppins-Bold; 
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-family: Poppins-Bold;
 }
-p{
-    font-family:Poppins-Regular;
+
+p {
+    font-family: Poppins-Regular;
     font-size: 16px;
 }
 
-.banner{
-     /* background-image: url("/assets/img/banner.png"); */
-     background-image: url("/assets/img/banner-img.png");
-      background-position: center;
+.banner {
+    /* background-image: url("/assets/img/banner.png"); */
+    background-image: url("/assets/img/banner-img.png");
+    background-position: center;
 }
+
 .banner {
     /* background-image: url("/assets/img/banner.png"); */
     background-image: url("/assets/img/banner-img.png");
@@ -43,33 +52,33 @@ p{
     color: #ffffff;
     font-size: 30px;
     font-style: normal;
-    font-weight:lighter;
+    font-weight: lighter;
     line-height: 25px;
-     font-family:Poppins-Medium;
-   
+    font-family: Poppins-Medium;
+
 }
 
 .banner h1 {
     color: #FFF;
-        font-size: 80px;
+    font-size: 80px;
     font-style: normal;
     font-weight: bold;
     text-align: center;
-   font-family:Poppins-Bold;
-    
+    font-family: Poppins-Bold;
+
 }
 
 .btn-blue {
     background-color: #006AD0;
     color: white;
-    font-family:Poppins-Regular;
+    font-family: Poppins-Regular;
 }
 
 .btn-blue:hover {
     background-color: white;
     color: #006AD0;
-    border:1px solid #006AD0;
-     font-family:Poppins-Regular;
+    border: 1px solid #006AD0;
+    font-family: Poppins-Regular;
     border: 1px solid #006AD0;
 }
 
@@ -204,13 +213,14 @@ p{
     position: relative;
 }
 
-    .footer ul li a {
-      color: #fff;
-      text-decoration: none;
-      font-size: 20px;
-      transition: color 0.3s;
-      
-    }
+.footer ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 20px;
+    transition: color 0.3s;
+
+}
+
 .footer ul li a {
     color: #fff;
     text-decoration: none;
@@ -1018,23 +1028,28 @@ p{
     padding-left: 0px;
     padding-right: 10px;
 }
-.contact-tabs-border{
+
+.contact-tabs-border {
     border: 1px solid #006AD0;
 }
+
 .close-absolute {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 1056; /* Bootstrap modal z-index fix */
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1056;
+    /* Bootstrap modal z-index fix */
 }
+
 .support-bg {
-  
-    background-image: url("/public/assets/img/support-banner.png");
+
+    background-image: url("/assets/img/support-banner.png");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     padding: 60px 0px 80px 0px;
 }
+
 .support-center h1 {
     color: #FFF;
     font-size: 70px;
@@ -1043,106 +1058,108 @@ p{
     text-align: center;
     margin-bottom: 50px;
 }
+
 /* chatbat code start */
-  .chat-container {
-      /* width: 900px;
+.chat-container {
+    /* width: 900px;
       height: 500px; */
-      background: #fff;
-      border-radius: 15px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      overflow: hidden;
-    }
+    background: #fff;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
 
-    .chat-box {
-      padding: 30px;
-      flex: 1;
-      overflow-y: auto;
-    }
+.chat-box {
+    padding: 30px;
+    flex: 1;
+    overflow-y: auto;
+}
 
-    .message {
-      margin-bottom: 25px;
-    }
+.message {
+    margin-bottom: 25px;
+}
 
-    .bot {
-      text-align: left;
-    }
+.bot {
+    text-align: left;
+}
 
-    .user {
-      text-align: right;
-    }
+.user {
+    text-align: right;
+}
 
-    .bot .bubble {
-      background: #f1f2f6;
-      color: #333;
-      border-radius: 12px 12px 12px 0;
-      padding: 12px 16px;
-      display: inline-block;
-      max-width: 70%;
-    }
+.bot .bubble {
+    background: #f1f2f6;
+    color: #333;
+    border-radius: 12px 12px 12px 0;
+    padding: 12px 16px;
+    display: inline-block;
+    max-width: 70%;
+}
 
-    .user .bubble {
-      background: #0078ff;
-      color: white;
-      border-radius: 12px 12px 0 12px;
-      padding: 12px 16px;
-      display: inline-block;
-      max-width: 70%;
-    }
+.user .bubble {
+    background: #0078ff;
+    color: white;
+    border-radius: 12px 12px 0 12px;
+    padding: 12px 16px;
+    display: inline-block;
+    max-width: 70%;
+}
 
-    .timestamp {
-      font-size: 12px;
-      color: #888;
-      margin-top: 4px;
-    }
+.timestamp {
+    font-size: 12px;
+    color: #888;
+    margin-top: 4px;
+}
 
-    .input-area {
-      border-top: 1px solid #ddd;
-      padding: 10px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+.input-area {
+    border-top: 1px solid #ddd;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
-    .input-area input {
-      flex: 1;
-      padding: 10px 15px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      outline: none;
-    }
+.input-area input {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    outline: none;
+}
 
-    .input-area button {
-      background: #0078ff;
-      border: none;
-      color: white;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      cursor: pointer;
-      font-size: 18px;
-    }
+.input-area button {
+    background: #0078ff;
+    border: none;
+    color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    font-size: 18px;
+}
 
-    .input-area button:hover {
-      background: #005fcc;
-    }
+.input-area button:hover {
+    background: #005fcc;
+}
 
-    .avatar {
-      width: 25px;
-      height: 25px;
-      border-radius: 50%;
-      vertical-align: middle;
-      margin-right: 6px;
-    }
+.avatar {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    vertical-align: middle;
+    margin-right: 6px;
+}
 
-    .assistant-label {
-      font-weight: bold;
-      color: #555;
-      font-size: 14px;
-    }
-.user-img{
+.assistant-label {
+    font-weight: bold;
+    color: #555;
+    font-size: 14px;
+}
+
+.user-img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -1152,105 +1169,116 @@ p{
 
 
 
-    .chat-input-container {
-      display: flex;
-      align-items: center;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 5px 10px;
+.chat-input-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 5px 10px;
 
-      margin: 10px ;
-      background: #fff;
-    }
-
-    .chat-input-container input[type="text"] {
-      flex: 1;
-      border: none;
-      outline: none;
-      padding: 10px;
-      font-size: 14px;
-    }
-
-    .chat-input-container input[type="file"] {
-      display: none;
-    }
-
-    .upload-label {
-      cursor: pointer;
-      margin-right: 10px;
-      display: flex;
-      align-items: center;
-      color: #555;
-      font-size: 18px;
-    }
-
-    .send-btn {
-      background-color: #007bff;
-      border: none;
-      border-radius: 6px;
-      width: 36px;
-      height: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .send-btn:hover {
-      background-color: #005dc1;
-    }
-
-    .send-btn i {
-      color: #fff;
-      font-size: 16px;
-    }
-    a{
-     font-family:Poppins-Regular;
+    margin: 10px;
+    background: #fff;
 }
-th{
-     font-family:Poppins-Regular;
 
+.chat-input-container input[type="text"] {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 10px;
+    font-size: 14px;
 }
-td{
-     font-family:Poppins-Regular;
+
+.chat-input-container input[type="file"] {
+    display: none;
+}
+
+.upload-label {
+    cursor: pointer;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    color: #555;
+    font-size: 18px;
+}
+
+.send-btn {
+    background-color: #007bff;
+    border: none;
+    border-radius: 6px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.send-btn:hover {
+    background-color: #005dc1;
+}
+
+.send-btn i {
+    color: #fff;
+    font-size: 16px;
+}
+
+a {
+    font-family: Poppins-Regular;
+}
+
+th {
+    font-family: Poppins-Regular;
 
 }
-button{
-     font-family:Poppins-Regular;
+
+td {
+    font-family: Poppins-Regular;
 
 }
-::placeholder{
-     font-family:Poppins-Regular;
+
+button {
+    font-family: Poppins-Regular;
 
 }
+
+::placeholder {
+    font-family: Poppins-Regular;
+
+}
+
 /* try api css tabs  */
-.try-api-tab{
+.try-api-tab {
     background-color: none;
     color: gray;
-     border-radius: 0px;
-     padding: 6px 0px;
+    border-radius: 0px;
+    padding: 6px 0px;
 }
-.nav-pills .try-api-tab.active, .nav-pills .show>.nav-link {
-  color: gray;
+
+.nav-pills .try-api-tab.active,
+.nav-pills .show>.nav-link {
+    color: gray;
     background-color: white;
-    border-bottom: 1px solid  #006ad0;
+    border-bottom: 1px solid #006ad0;
     border-radius: 0px;
 }
+
 .body-dot::after {
-  content: "●";          
-  color: #0d6efd;        
-  margin-left: 6px;      
-  font-size: 17px;     
+    content: "●";
+    color: #0d6efd;
+    margin-left: 6px;
+    font-size: 17px;
 }
-.box-apiplay{
+
+.box-apiplay {
     height: 200px;
     width: 100%;
-        display: flex;
+    display: flex;
     justify-content: center;
     align-items: center;
 }
-.border-top{
+
+.border-top {
     border-top: 1px solid #C1C1C1;
 
 }

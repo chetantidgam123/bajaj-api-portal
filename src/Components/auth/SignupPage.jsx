@@ -1,6 +1,6 @@
 
 import { post_data } from "../../ApiServices";
-import { convertToPayload,sendEmail } from "../../Utils";
+import { convertToPayload, sendEmail } from "../../Utils";
 import { ErrorMessage, FormikProvider, useFormik } from "formik";
 import { signupFormSchema } from "../../Schema";
 import { Form, Modal, Button } from "react-bootstrap";
@@ -10,6 +10,7 @@ import { Link, useLocation } from "react-router-dom";
 import { error_swal_toast, success_swal_toast } from "../../SwalServices";
 import { useEffect, useState } from "react";
 import { LoaderWight } from "../../Loader";
+import { signUpOtpEmail } from "../../emailTemplate";
 
 function SignupPage({ setModalName, setShow }) {
   const [loader, setLoader] = useState(false)
@@ -36,33 +37,20 @@ function SignupPage({ setModalName, setShow }) {
 
   })
 
-    // Step 1: Generate OTP and save in localStorage
-  const sendOtp = async(email) => {
+  // Step 1: Generate OTP and save in localStorage
+  const sendOtp = async (email) => {
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const expiry = Date.now() + 5 * 60 * 1000; // 5 minutes
     localStorage.setItem("signupOtp", JSON.stringify({ otp, expiry }));
 
     const firstName = signupForm.values.fullName.split(" ")[0] || "User"; // extract first name
-    const emailBody = `
-    <p>Dear ${firstName},</p>
-
-    <p>Thank you for registering on the <b>Bajaj API Developer Portal</b>.</p>
-
-    <p>To verify your email address and activate your account, please use the One-Time Password (OTP) below:</p>
-
-    <b>${otp}</b>
-
-    <br/>
-    <p>Thanks & Regards,<br/>
-    <b>Mulesoft Support</b><br/>
-    Digital & Analytics | Bajaj Auto Limited</p>
-    `;
+    const emailBody = signUpOtpEmail({ firstName: firstName, otp: otp });
 
     try {
-      await sendEmail({ body: emailBody, toRecepients: [email], subject: String("Your OTP for Email Verification"), contentType: String('application/json') });
+      await sendEmail({ body: emailBody, toRecepients: [email], subject: String("Your OTP for Email Verification"), contentType: String('text/html') });
       success_swal_toast("OTP has been sent to your email!");
       setShowOtpModal(true);
-    } catch(err){
+    } catch (err) {
       error_swal_toast("Failed to send OTP email.");
     }
     console.log("Generated OTP:", otp); // debug
@@ -70,8 +58,8 @@ function SignupPage({ setModalName, setShow }) {
 
   const verifyOtpAndRegister = async (values) => {
     const stored = JSON.parse(localStorage.getItem("signupOtp"));
-     console.log(values.fullName, values.mobileNo, values.emailId, values.userPassword)
-     if (!stored) {
+    console.log(values.fullName, values.mobileNo, values.emailId, values.userPassword)
+    if (!stored) {
       error_swal_toast("OTP not generated or expired.");
       // verifyOtpAndRegister(false);
       return;
@@ -108,13 +96,13 @@ function SignupPage({ setModalName, setShow }) {
         setModalName("login");
         setShowOtpModal(false);
         signupForm.resetForm();
-      } else if(res?.data?.errors){
+      } else if (res?.data?.errors) {
         const message = res?.data?.errors?.shortDescription?.[0]?.message || "Invalid data or password format";
         error_swal_toast(message);
         signupForm.resetForm();
         setShowOtpModal(false);
       }
-    } catch(error) {
+    } catch (error) {
       setLoader(false);
       setShowOtpModal(false)
       error_swal_toast(error.message || "Failed to send email or register user");
@@ -164,17 +152,17 @@ function SignupPage({ setModalName, setShow }) {
           </div> */}
           <div className="text-center">
             {/* <button type="button" className="btn btn-primary w-100" onClick={signupForm.handleSubmit} disabled={loader}>Sign Up {loader ? <LoaderWight /> : <i className="fa-solid fa-arrow-right"></i>}</button> */}
-              <button
-                type="button"
-                className="btn btn-primary w-100"
-                onClick={() => {
-                  sendOtp(signupForm.values.emailId);
-                  setOtpEmail(signupForm.values.emailId);
-                  // setShowOtpModal(true); // show OTP popup
-                }}
-              >
-                Send OTP
-              </button>
+            <button
+              type="button"
+              className="btn btn-primary w-100"
+              onClick={() => {
+                sendOtp(signupForm.values.emailId);
+                setOtpEmail(signupForm.values.emailId);
+                // setShowOtpModal(true); // show OTP popup
+              }}
+            >
+              Send OTP
+            </button>
             <div className="mt-3">
               Have an account?&nbsp; &nbsp;<Link className="text-primary" onClick={() => { setModalName('login'); signupForm.resetForm(); }}>Sign In</Link>
             </div>

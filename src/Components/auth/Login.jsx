@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import { error_swal_toast, success_swal_toast } from "../../SwalServices";
 import { useState } from "react";
 import { LoaderWight } from "../../Loader";
+import { loginOtpEmail } from "../../emailTemplate";
 
 // Generate 6-digit OTP
 const generateOtp = () => Math.floor(100000 + Math.random() * 900000).toString();
@@ -55,30 +56,15 @@ function Login({ setModalName, setShow }) {
                 localStorage.setItem("loginOtp", JSON.stringify({ otp, expiry }));
 
                 const firstName =
-                    res?.data?.userdata?.fullName?.split(" ")[0] ||
-                    Loginform.values.emailId.split("@")[0] ||
-                    "User";
-                const emailBody = `
-<p>Dear ${firstName},</p>
-
-<p>We received a sign-in request for your account on the <b>Bajaj API Developer Portal</b></p>
-
-<p>To verify your credentials and complete the login, please use the One-Time Password (OTP) below :</p>
-
-<b>${otp}</b>
-
-<br/>
-<p>Thanks & Regards,<br/>
-<b>Mulesoft Support</b><br/>
-Digital & Analytics | Bajaj Auto Limited</p>
-`;
+                    res?.data?.userdata?.fullname || "User";
+                const emailBody = loginOtpEmail({ firstName: firstName, otp: otp });
 
                 // Send OTP via email
                 await sendEmail({
                     body: emailBody,
                     toRecepients: [Loginform.values.emailId],
                     subject: "In OTP for Bajaj Developer Portal",
-                    contentType: "application/json"
+                    contentType: "text/html"
                 });
 
                 success_swal_toast("OTP sent to your email!");
