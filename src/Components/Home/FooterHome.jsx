@@ -18,7 +18,7 @@ function FooterHome() {
                                 <div className="col-xl-5 col-lg-6 col-md-6 col-12 signUpsideBanner">
                                     <div className="">
                                         <img
-                                            src="../../../public/assets/img/Bajaj Logo.png"
+                                            src="/assets/img/Bajaj Logo.png"
                                             alt="Bajaj Logo"
                                             className="mt-2"
                                         />

@@ -1,25 +1,22 @@
 import * as yup from "yup";
 
 export const signupFormSchema = yup.object().shape({
-  fullName: yup.string().required("mandatory field*"),
+  fullName: yup.string().trim().min(3, "Full name must be at least 3 characters").required("mandatory field*"),
   emailId: yup
     .string()
+    .trim()
     .email("Invalid email format")
     .required("mandatory field*"),
   mobileNo: yup
     .string()
-    .matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
+    .matches(/^[7-9]\d{9}$/, "Phone number must be exactly 10 digits and correct")
     .required("mandatory field*"),
   userPassword: yup
     .string()
     .min(6, "Password must be at least 6 characters long")
+    .matches(/^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{6,}$/, "Invalid password pattern must contain Uppercase letter,special charachter & number")
     .required("mandatory field*"),
-  // confirmPassword: yup.string()
-  //     .oneOf([yup.ref('userPassword'), null], 'Passwords must match')
-  //     .required('mandatory field*'),
-  terms: yup
-    .boolean()
-    .oneOf([true], "You must agree to the terms and conditions"),
+  terms: yup.boolean().oneOf([true], "You must agree to the terms and conditions"),
 });
 export const loginFormSchema = yup.object().shape({
   emailId: yup
