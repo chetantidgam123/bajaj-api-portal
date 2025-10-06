@@ -1,7 +1,14 @@
+import { useEffect } from "react"
 import Header from "../user/layout/Header"
 import FooterHome from "./FooterHome"
+import { scrollToTop } from "../../Utils"
 
 function TermsofServices() {
+
+  useEffect(() => {
+    scrollToTop()
+  }, [])
+
   return (
     <div>
           <Header />

@@ -1,8 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Header from "../user/layout/Header"
 import FooterHome from "./FooterHome"
+import { scrollToTop } from '../../Utils'
 
 const SupportCenter = () => {
+
+useEffect(() => {
+  scrollToTop()
+}, [])
+
   return (
     <div>
            <Header />

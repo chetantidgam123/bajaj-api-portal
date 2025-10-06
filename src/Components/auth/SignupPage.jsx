@@ -14,9 +14,15 @@ import { signUpOtpEmail } from "../../emailTemplate";
 
 function SignupPage({ setModalName, setShow }) {
   const [loader, setLoader] = useState(false)
-  // const [otpSent, setOtpSent] = useState(false);
-  const [showOtpModal, setShowOtpModal] = useState(false);
+  const [otpSent, setOtpSent] = useState(false);
+  // const [showOtpModal, setShowOtpModal] = useState(false);
   const [otpEmail, setOtpEmail] = useState("");
+
+  const [otpCountdown, setOtpCountdown] = useState(600); // 10 minutes in seconds
+  const [resendCountdown, setResendCountdown] = useState(30);
+  const [canResendOtp, setCanResendOtp] = useState(false);
+
+
   const location = useLocation();
   const signupForm = useFormik({
     initialValues: {
@@ -39,6 +45,11 @@ function SignupPage({ setModalName, setShow }) {
 
   // Step 1: Generate OTP and save in localStorage
   const sendOtp = async (email) => {
+
+    if (!signupForm.values.fullName || !signupForm.values.emailId || !signupForm.values.mobileNo || !signupForm.values.userPassword) {
+      return error_swal_toast("Please fill all required fields correctly.");
+    }
+
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const expiry = Date.now() + 5 * 60 * 1000; // 5 minutes
     localStorage.setItem("signupOtp", JSON.stringify({ otp, expiry }));
@@ -49,7 +60,8 @@ function SignupPage({ setModalName, setShow }) {
     try {
       await sendEmail({ body: emailBody, toRecepients: [email], subject: String("Your OTP for Email Verification"), contentType: String('text/html') });
       success_swal_toast("OTP has been sent to your email!");
-      setShowOtpModal(true);
+      // setShowOtpModal(true);
+      setOtpSent(true);
     } catch (err) {
       error_swal_toast("Failed to send OTP email.");
     }
@@ -58,17 +70,19 @@ function SignupPage({ setModalName, setShow }) {
 
   const verifyOtpAndRegister = async (values) => {
     const stored = JSON.parse(localStorage.getItem("signupOtp"));
-    console.log(values.fullName, values.mobileNo, values.emailId, values.userPassword)
-    if (!stored) {
-      error_swal_toast("OTP not generated or expired.");
-      verifyOtpAndRegister(false);
-      return;
-    }
+    // console.log(values.fullName, values.mobileNo, values.emailId, values.userPassword)
+    if (!stored) return error_swal_toast("OTP not generated or expired.");
+    // if (!stored) {
+    //   error_swal_toast("OTP not generated or expired.");
+    //   verifyOtpAndRegister(false);
+    //   return;
+    // }
 
     if (Date.now() > stored.expiry) {
       error_swal_toast("OTP expired. Please request again.");
       localStorage.removeItem("signupOtp");
-      setShowOtpModal(false);
+      // setShowOtpModal(false);
+      setOtpSent(false);
       return;
     }
 
@@ -94,17 +108,23 @@ function SignupPage({ setModalName, setShow }) {
       if (res?.data?.status) {
         success_swal_toast(res.data.message || "User registered successfully");
         setModalName("login");
-        setShowOtpModal(false);
+        // setShowOtpModal(false);
+        setOtpSent(false)
         signupForm.resetForm();
       } else if (res?.data?.errors) {
         const message = res?.data?.errors?.shortDescription?.[0]?.message || "Invalid data or password format";
         error_swal_toast(message);
         signupForm.resetForm();
-        setShowOtpModal(false);
+        // setShowOtpModal(false);
+        setOtpSent(false)
+      } else if(!res?.data?.status) {
+          error_swal_toast(res.data.message)
       }
+
     } catch (error) {
       setLoader(false);
-      setShowOtpModal(false)
+      // setShowOtpModal(false)
+      setOtpSent(false)
       error_swal_toast(error.message || "Failed to send email or register user");
     }
   };
@@ -115,9 +135,50 @@ function SignupPage({ setModalName, setShow }) {
     }
   }, [location])
 
+   useEffect(() => {
+  let timer;
+  if (otpSent && otpCountdown > 0) {
+    timer = setInterval(() => {
+      setOtpCountdown((prev) => prev - 1);
+    }, 1000);
+  } 
+  // else if (otpCountdown === 0) {
+  //   setCanResendOtp(true); // allow resend when timer finishes
+  // }
+  return () => clearInterval(timer);
+}, [otpSent, otpCountdown]);
+
+useEffect(() => {
+  let timer;
+  if (otpSent && resendCountdown > 0) {
+    timer = setInterval(() => {
+      setResendCountdown((prev) => prev - 1);
+    }, 1000);
+  } else if (resendCountdown === 0) {
+    setCanResendOtp(true); // enable resend after 30 seconds
+  }
+  return () => clearInterval(timer);
+}, [otpSent, resendCountdown]);
+
+const formatTime = (seconds) => {
+  const min = Math.floor(seconds / 60);
+  const sec = seconds % 60;
+  return `${min.toString().padStart(2,"0")}:${sec.toString().padStart(2,"0")}`;
+};
+
+const handleResendOtp = () => {
+  sendOtp(otpEmail);
+  setResendCountdown(30); // reset 30 sec timer for resend
+  setCanResendOtp(false);
+  setOtpCountdown(600); // reset full OTP validity countdown if needed
+};
+
   return (
        <div style={{ height: "30.5em" }}>
-      <h3>Sign Up</h3>
+
+      {!otpSent ? (
+        <>
+        <h3>Sign Up</h3>
       <p>Create an account to get started</p>
       <FormikProvider value={signupForm}>
         <Form className="" autoComplete="off">
@@ -169,30 +230,53 @@ function SignupPage({ setModalName, setShow }) {
           </div>
 
         </Form>
-      </FormikProvider>
+      </FormikProvider> </> 
+      ): (
+        <div className="p-3">
+          <h4>Enter OTP</h4>
+          <p>OTP sent on <b>{otpEmail}</b></p>
+          <input
+            type="text"
+            name="enteredOtp"
+            className="form-control my-3"
+            placeholder="Enter OTP"
+            value={signupForm.values.enteredOtp}
+            onChange={(e) => signupForm.setFieldValue("enteredOtp", e.target.value)}
+          />
+          <div className="d-flex justify-content-between pb-3">
+            <div><b>{formatTime(otpCountdown)}</b></div>
+            <div>
+              <button 
+                className="btn btn-link p-0"
+                disabled={!canResendOtp}
+                onClick={handleResendOtp}
+              >
+                Resend OTP
+              </button>
+            </div>
+          </div>
+          <button
+            className="btn btn-primary w-100"
+            onClick={() => verifyOtpAndRegister(signupForm.values)}
+            disabled={loader}
+          >
+            {loader ? <LoaderWight /> : "Verify & Login"}
+          </button>
 
+          <div className="mt-3 text-center">
+            <Link
+              className="text-primary"
+              onClick={() => {
+                setOtpSent(false);
+                signupForm.setFieldValue("enteredOtp", "");
+              }}
+            >
+              Back to Sign Up
+            </Link>
+          </div>
+        </div>
+      )}  
 
-      <div>
-        {/* OTP Modal */}
-        <Modal show={showOtpModal} onHide={() => setShowOtpModal(false)}>
-          <Modal.Header closeButton>
-            <Modal.Title>Enter OTP</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <input
-              type="text"
-              value={signupForm.values.enteredOtp || ""}
-              onChange={(e) => signupForm.setFieldValue("enteredOtp", e.target.value)}
-              placeholder="Enter OTP"
-              className="form-control"
-            />
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowOtpModal(false)}>Cancel</Button>
-            <Button variant="primary" onClick={() => verifyOtpAndRegister(signupForm.values)}>Verify & Submit</Button>
-          </Modal.Footer>
-        </Modal>
-      </div>
     </div>
   );
 }

@@ -7,7 +7,7 @@ import { Form, Modal, Button } from "react-bootstrap";
 import FloatingInputLabel from "../user/UtilComponent/FloatingInputLabel";
 import PropTypes from 'prop-types';
 import { error_swal_toast, success_swal_toast } from "../../SwalServices";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { LoaderWight } from "../../Loader";
 import { loginOtpEmail } from "../../emailTemplate";
 
@@ -16,8 +16,12 @@ const generateOtp = () => Math.floor(100000 + Math.random() * 900000).toString()
 
 function Login({ setModalName, setShow }) {
     const [loader, setLoader] = useState(false);
-    const [showOtpModal, setShowOtpModal] = useState(false);
     const [otpEmail, setOtpEmail] = useState("");
+    const [otpSent, setOtpSent] = useState(false);
+
+    const [otpCountdown, setOtpCountdown] = useState(600); // 10 minutes in seconds
+    const [resendCountdown, setResendCountdown] = useState(30);
+    const [canResendOtp, setCanResendOtp] = useState(false);
     const [backendTokenData, setBackendTokenData] = useState(null); // store token data temporarily
     const navigate = useNavigate();
 
@@ -32,6 +36,31 @@ function Login({ setModalName, setShow }) {
             handleLoginCheck();
         },
     });
+
+    useEffect(() => {
+        let timer;
+        if (otpSent && otpCountdown > 0) {
+            timer = setInterval(() => setOtpCountdown(prev => prev - 1), 1000);
+        }
+        return () => clearInterval(timer);
+    }, [otpSent, otpCountdown]);
+
+        // Resend button countdown (30 sec)
+    useEffect(() => {
+        let timer;
+        if (otpSent && resendCountdown > 0) {
+            timer = setInterval(() => setResendCountdown(prev => prev - 1), 1000);
+        } else if (resendCountdown === 0) {
+            setCanResendOtp(true);
+        }
+        return () => clearInterval(timer);
+    }, [otpSent, resendCountdown]);
+
+    const formatTime = (seconds) => {
+        const min = Math.floor(seconds / 60);
+        const sec = seconds % 60;
+        return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+    };
 
     // Step 1: Verify credentials with backend
     const handleLoginCheck = async () => {
@@ -68,7 +97,10 @@ function Login({ setModalName, setShow }) {
                 });
 
                 success_swal_toast("OTP sent to your email!");
-                setShowOtpModal(true);
+                setOtpSent(true);
+                setOtpCountdown(600);
+                setResendCountdown(30);
+                setCanResendOtp(false);
                 console.log("Generated OTP:", otp);
             } else {
                 error_swal_toast(res.data.message || "Invalid credentials");
@@ -89,7 +121,7 @@ function Login({ setModalName, setShow }) {
         if (Date.now() > stored.expiry) {
             error_swal_toast("OTP expired. Please request again");
             localStorage.removeItem("loginOtp");
-            setShowOtpModal(false);
+            setOtpSent(false);
             return;
         }
         if (Loginform.values.enteredOtp !== stored.otp) {
@@ -101,7 +133,6 @@ function Login({ setModalName, setShow }) {
         setTokenData(backendTokenData);
 
         localStorage.removeItem("loginOtp");
-        setShowOtpModal(false);
         setShow(false);
         Loginform.resetForm();
 
@@ -109,8 +140,31 @@ function Login({ setModalName, setShow }) {
         navigate('/get-started');
     };
 
+    const handleResendOtp = async () => {
+        const otp = generateOtp();
+        const expiry = Date.now() + 5 * 60 * 1000;
+        localStorage.setItem("loginOtp", JSON.stringify({ otp, expiry }));
+        
+
+        const firstName = otpEmail.split("@")[0] || "User";
+        const emailBody = `<p>Dear ${firstName},</p><p>Your OTP is <b>${otp}</b></p>`;
+
+        try {
+            await sendEmail({ body: emailBody, toRecepients: [otpEmail], subject: "Your OTP for login", contentType: "application/json" });
+            success_swal_toast("OTP resent to your email!");
+            setResendCountdown(30);
+            setCanResendOtp(false);
+            setOtpCountdown(600); // optional: reset OTP timer
+            console.log("Generated OTP (resend):", otp);
+        } catch (err) {
+            error_swal_toast("Failed to resend OTP");
+        }
+    };
+
+
     return (
         <div style={{ height: "30.5em", display: 'flex', alignItems: 'center' }}>
+           {!otpSent ? ( 
             <FormikProvider value={Loginform}>
                 <Form className="w-100">
                     <h3>Sign In</h3>
@@ -131,27 +185,51 @@ function Login({ setModalName, setShow }) {
                         </div>
                     </div>
                 </Form>
-            </FormikProvider>
-
-            {/* OTP Modal */}
-            <Modal show={showOtpModal} onHide={() => setShowOtpModal(false)}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Enter OTP</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
+            </FormikProvider>) : (
+                <div className="p-3">
+                    <h4>Enter OTP</h4>
+                    <p>OTP sent on <b>{otpEmail}</b></p>
                     <input
                         type="text"
-                        className="form-control"
+                        name="enteredOtp"
+                        className="form-control my-3"
                         placeholder="Enter OTP"
-                        value={Loginform.values.enteredOtp || ""}
-                        onChange={e => Loginform.setFieldValue("enteredOtp", e.target.value)}
+                        value={Loginform.values.enteredOtp}
+                        onChange={(e) => Loginform.setFieldValue("enteredOtp", e.target.value)}
                     />
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setShowOtpModal(false)}>Cancel</Button>
-                    <Button variant="primary" onClick={verifyOtpAndLogin}>Verify & Login</Button>
-                </Modal.Footer>
-            </Modal>
+                    <div className="d-flex justify-content-between pb-3">
+                        <div><b>{formatTime(otpCountdown)}</b></div>
+                        <div>
+                        <button 
+                            className="btn btn-link p-0"
+                            disabled={!canResendOtp}
+                            onClick={handleResendOtp}
+                        >
+                            Resend OTP
+                        </button>
+                        </div>
+                    </div>
+                    <button
+                        className="btn btn-primary w-100"
+                        onClick={() => verifyOtpAndLogin()}
+                        disabled={loader}
+                    >
+                        {loader ? <LoaderWight /> : "Verify & Login"}
+                    </button>
+
+                    <div className="mt-3 text-center">
+                        <Link
+                        className="text-primary"
+                        onClick={() => {
+                            setOtpSent(false);
+                            Loginform.setFieldValue("enteredOtp", "");
+                        }}
+                        >
+                        Back to Sign Up
+                        </Link>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

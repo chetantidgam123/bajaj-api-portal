@@ -11,7 +11,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import '../../../src/new.css'
 import { post_data } from '../../ApiServices';
-import { arrayIndex, availableApi, convertToPayload } from '../../Utils';
+import { arrayIndex, availableApi, convertToPayload, scrollToTop } from '../../Utils';
 import { useNavigate, Link } from 'react-router-dom';
 import { error_swal_toast } from '../../SwalServices';
 
@@ -94,6 +94,7 @@ const getURLIds = async() => {
 }
 
 useEffect(() => {
+    scrollToTop()
     getURLIds()
 }, [])
 
