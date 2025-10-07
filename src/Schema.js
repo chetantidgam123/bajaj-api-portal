@@ -38,7 +38,7 @@ export const profileFormSchema = yup.object().shape({
   company_email: yup.string().email("Invalid office email").required("Mandatory field*"),
   company_mobile: yup.string().matches(/^\d{10}$/, "Office phone number must be exactly 10 digits").required("Mandatory field*"),
   company_office_mobile: yup.string().matches(/^\d{10}$/, "Alt. office phone number must be exactly 10 digits").required("Mandatory field*"),
-  company_address: yup.string().min(3, "minimum length should be 3 characters").required("Mandatory field*"),
+  company_address: yup.string().min(3, "minimum length should be 3 characters").max(50, "maximum length should be 50 characters").required("Mandatory field*"),
   clientId: yup.string(),
   clientSecret: yup.string(),
   profile_img: yup.string(),

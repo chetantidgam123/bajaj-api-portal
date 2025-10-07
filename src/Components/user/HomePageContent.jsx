@@ -200,29 +200,29 @@ function HomePageContent() {
                 setRequestLoader(false);
 
                 if (response.data.status) {
-                    console.log("inside status condition 1")
+                    console.log("inside status condition 1", tokendata.emailid)
                     setOpenTryitModal(false);
                     success_swal_toast(response.data.message);
-                    const adminEmail = "meshramsagar715@gmail.com"
-                    console.log("inside status condition 2")
+                    const adminEmail = "ctidgam1997@gmail.com"
+                    console.log("inside status condition 2", tokendata.emailid)
                     const emailBody = generateApiRequestEmail({
                         adminName: "Admin",
-                        apiName: "",
-                        userName: tokendata.fullName,
+                        apiName: apiData.apiname,
+                        userName: tokendata.fullname,
                         userEmail: tokendata.emailid,
                         requestDate: new Date().toLocaleString(),
                         loginLink: "https://apidocs.bajajauto.com/"
                     })
-                    console.log("inside status condition 3")
+                    console.log("inside status condition 3", tokendata.emailid)
                     const subject= "Approval Required - User API Access Request"
                     await sendEmail({ body: emailBody, toRecepients: [adminEmail], subject: subject, contentType: 'text/html' });
                     const emailBody2 = apiRequestUser({
-                        apiName: "",
-                        userName: tokendata.fullName
+                        apiName: apiData.apiname,
+                        userName: tokendata.fullname
                     })
-                    console.log("inside status condition 4");
-                    // userEmail: tokendata.emailid
-                    const userMail = "sagarmeshram532@gmail.com"
+                    console.log("inside status condition 4", tokendata.emailid);
+                    const userMail = tokendata.emailid
+                    // const userMail = "sagarmeshram532@gmail.com"
                     await sendEmail({ body: emailBody2, toRecepients: [userMail], subject: "Bajaj Developer API Usage Details - Your Request", contentType: 'text/html' })
                 } else {
                     error_swal_toast(response.data.message);
@@ -249,12 +249,12 @@ function HomePageContent() {
                             <div className="card-body card-bg">
                                 <div className='row align-items-center'>
                                     <div className={api_id ? 'col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12' : 'col-12'}>
-                                        <h5 className='mb-0'>{title || 'Get Started'}</h5>
+                                        <h1 className='mb-0'>{title || 'Get Started'}</h1>
                                         <ReactMarkdown  
                                             remarkPlugins={[remarkGfm]}
                                             components={{
-                                                h1: ({node, ...props}) => <h3 {...props} />, // all h1 become h3
-                                                h2: ({node, ...props}) => <h4 {...props} />, // all h2 become h4
+                                                h1: ({node, ...props}) => <h5 {...props} />, // all h1 become h3
+                                                h2: ({node, ...props}) => <h5 {...props} />, // all h2 become h4
                                                 h3: ({node, ...props}) => <h5 {...props} />, // all h2 become h4
                                             }}
                                         >{description}
