@@ -5,11 +5,13 @@ import LangCurlExecuteComp from './LangCurlExecuteComp';
 import SyntaxHighLighter from './SyntaxHighLighter';
 import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm'
-import { arrayIndex, convertToPayload, copyToClipboard, getTokenData, scrollToTop, trucateString } from '../../Utils';
+import { arrayIndex, convertToPayload, copyToClipboard, getTokenData, scrollToTop, sendEmail, trucateString } from '../../Utils';
 import GetStarted from './GetStarted';
 import { error_swal_toast, success_swal_toast } from '../../SwalServices';
 import { post_auth_data, post_data } from '../../ApiServices';
 import { PageLoaderBackdrop, Loader, LoaderWight } from '../../Loader';
+import { generateApiRequestEmail } from '../../emailTemplate';
+import { apiRequestUser } from '../../emailTemplate';
 function HomePageContent() {
     const navigate = useNavigate();
     const { collection_id, category_id, api_id } = useParams();
@@ -157,27 +159,80 @@ function HomePageContent() {
 
             })
     }
-    const sendRequest = () => {
-        const payload = {
-            api_id: api_id,
-            application_name: apiData.application_name
-        }
-        setRequestLoader(true);
-        post_auth_data("portal/private", convertToPayload('send-api-access-request', payload), {})
-            .then(async (response) => {
+    // const sendRequest = () => {
+    //     const payload = {
+    //         api_id: api_id,
+    //         application_name: apiData.application_name
+    //     }
+    //     setRequestLoader(true);
+    //     post_auth_data("portal/private", convertToPayload('send-api-access-request', payload), {})
+    //         .then(async (response) => {
+    //             setRequestLoader(false);
+    //             if (response.data.status) {
+    //                 setOpenTryitModal(false);
+    //                 success_swal_toast(response.data.message);
+    //             }
+    //             else {
+    //                 error_swal_toast(response.data.message);
+    //             }
+    //         }).catch((error) => {
+    //             setRequestLoader(false);
+    //             error_swal_toast(error.message)
+    //         })
+    // }
+
+    const sendRequest = async () => {
+        const tokendata = getTokenData()
+        console.log(tokendata)
+            const payload = {
+                api_id: api_id,
+                application_name: apiData.application_name
+            };
+            setRequestLoader(true);
+
+            try {
+                const response = await post_auth_data(
+                    "portal/private",
+                    convertToPayload('send-api-access-request', payload),
+                    {}
+                );
+
                 setRequestLoader(false);
+
                 if (response.data.status) {
+                    console.log("inside status condition 1")
                     setOpenTryitModal(false);
                     success_swal_toast(response.data.message);
-                }
-                else {
+                    const adminEmail = "meshramsagar715@gmail.com"
+                    console.log("inside status condition 2")
+                    const emailBody = generateApiRequestEmail({
+                        adminName: "Admin",
+                        apiName: "",
+                        userName: tokendata.fullName,
+                        userEmail: tokendata.emailid,
+                        requestDate: new Date().toLocaleString(),
+                        loginLink: "https://apidocs.bajajauto.com/"
+                    })
+                    console.log("inside status condition 3")
+                    const subject= "Approval Required - User API Access Request"
+                    await sendEmail({ body: emailBody, toRecepients: [adminEmail], subject: subject, contentType: 'text/html' });
+                    const emailBody2 = apiRequestUser({
+                        apiName: "",
+                        userName: tokendata.fullName
+                    })
+                    console.log("inside status condition 4");
+                    // userEmail: tokendata.emailid
+                    const userMail = "sagarmeshram532@gmail.com"
+                    await sendEmail({ body: emailBody2, toRecepients: [userMail], subject: "Bajaj Developer API Usage Details - Your Request", contentType: 'text/html' })
+                } else {
                     error_swal_toast(response.data.message);
                 }
-            }).catch((error) => {
+            } catch (error) {
                 setRequestLoader(false);
-                error_swal_toast(error.message)
-            })
-    }
+                error_swal_toast(error.message);
+            }
+    };
+
 
     useEffect(() => {
         if (category_id && !getTokenData()) {
@@ -200,6 +255,7 @@ function HomePageContent() {
                                             components={{
                                                 h1: ({node, ...props}) => <h3 {...props} />, // all h1 become h3
                                                 h2: ({node, ...props}) => <h4 {...props} />, // all h2 become h4
+                                                h3: ({node, ...props}) => <h5 {...props} />, // all h2 become h4
                                             }}
                                         >{description}
                                         </ReactMarkdown>

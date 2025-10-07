@@ -9,7 +9,7 @@ const accessGrantedEmail = (data) => {
     return `<!doctype html><html lang='en-US'><head><meta content='text/html; charset=utf-8' http-equiv='Content-Type'/><meta name='description' content='BAJAJ Developer Portal Access Granted'><style type='text/css'>a:hover{text-decoration:underline!important;}</style></head><body marginheight='0' topmargin='0' marginwidth='0' leftmargin='0' style='margin:0;background-color:#f2f3f8;'><table cellspacing='0' border='0' cellpadding='0' width='100%' bgcolor='#f2f3f8'><tr><td><table style='background-color:#f2f3f8;max-width:670px;margin:0 auto;' width='100%' border='0' align='center' cellpadding='0' cellspacing='0'><tr><td style='height:35px;'>&nbsp;</td></tr><tr><td style='text-align:center;'></td></tr><tr><td style='height:20px;'>&nbsp;</td></tr><tr><td><table width='95%' border='0' align='center' cellpadding='0' cellspacing='0' style='max-width:670px;background:#fff;border-radius:3px;text-align:left;-webkit-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);-moz-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);box-shadow:0 6px 18px 0 rgba(0,0,0,.06);'><tr><td style='height:40px;'>&nbsp;</td></tr><tr><td style='padding:0 35px 30px 35px;'><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG4lo39vSLS1FaLIpr1XKrjiebmWX-3fRErA&s' width='200px' style='margin-bottom:20px;'/><span style='display:inline-block;vertical-align:middle;margin:29px 0 26px;border-bottom:1px solid #cecece;width:100px;'></span><p style='color:#455056;font-size:15px;margin:0;text-align:left!important;'>Dear ${data.userName},</p><br><p style='color:#455056;font-size:15px;margin:0;text-align:left!important;'>Welcome aboard! Your access to the BAJAJ API Portal has been successfully created. You can now log in and explore the available APIs and resources.</p><br><p style='color:#455056;font-size:15px;margin:0;text-align:left!important;'><strong>Access Details:</strong><br>Portal URL: <a href='${data.portalURL}' target='_blank'>${data.portalURL}</a><br>User ID / Registered Email: ${data.userEmail}</p><br><p style='color:#455056;font-size:15px;margin:0;text-align:left!important;'>👉 Login Here: <a href='${data.LoginURL}' target='_blank'>${data.LoginURL}</a></p><br><p style='color:#455056;font-size:15px;margin:0;text-align:left!important;'>If you face any issues while accessing the portal, feel free to contact our support team at ${data.supportContact}</p><p style='color:#ffffff;font-size:15px;text-align:left;background:linear-gradient(180deg,#0087FF 0%,#0052A4 100%);padding:20px;'>For any Production issue, please send an email to: <a href='mailto:apigwsupport@bajajauto.co.in' style='color:white;'>apigwsupport@bajajauto.co.in</a></p></td></tr></table></td></tr></table></td></tr></table></body></html>`
 }
 
-const generateApiRequestEmail = ({ adminName, userName, apiName, requestDate }) => {
+const generateApiRequestEmail = (data) => {
     return `
 <!DOCTYPE html>
 <html lang="en">
@@ -59,12 +59,13 @@ const generateApiRequestEmail = ({ adminName, userName, apiName, requestDate }) 
 </head>
 <body>
 <div class="container">
-    <p>Dear ${adminName},</p>
+    <div><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG4lo39vSLS1FaLIpr1XKrjiebmWX-3fRErA&s' width='200px' style='margin-bottom:20px;' /></div>
+    <p>Dear ${data.adminName},</p>
     <p>A new API access request has been submitted and requires your approval. Please review the details below:</p>
     <div class="details">
-        <p><strong>Requested By (User):</strong> ${userName}</p>
-        <p><strong>API Name:</strong> ${apiName}</p>
-        <p><strong>Request Date:</strong> ${requestDate}</p>
+        <p><strong>Requested By (User):</strong> ${data.userName}</p>
+        <p><strong>API Name:</strong> ${data.apiName}</p>
+        <p><strong>Request Date:</strong> ${data.requestDate}</p>
     </div>
     <p style='color:#ffffff;font-size:15px;text-align:left;background:linear-gradient(180deg,#0087FF 0%,#0052A4 100%);padding:20px;'>For any Production issue, please send an email to: <a href='mailto:apigwsupport@bajajauto.co.in' style='color:white;'>apigwsupport@bajajauto.co.in</a></p>
 </div>
@@ -113,11 +114,12 @@ const apiRequestUser = (data) => {
 </head>
 <body>
   <div class="container">
-      <h2>API Access Request Received</h2>
-      <p>Dear ${userName},</p>
-      <p>Thank you for reaching out to us with your request regarding API usage "<strong>${apiName}</strong>". We have received your query and our team is currently reviewing the details.</p>
+      <div><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG4lo39vSLS1FaLIpr1XKrjiebmWX-3fRErA&s' width='200px' style='margin-bottom:20px;' /></div>
+      <p>Dear ${data.userName},</p>
+      <p>Thank you for reaching out to us with your request regarding API usage "<strong>${data.apiName}</strong>". We have received your query and our team is currently reviewing the details.</p>
       <p>We will share the necessary credentials and usage instructions to help you get started soon.</p>
       <p class="footer">Best Regards,<br/>The API Support Team</p>
+       <p style='color:#ffffff;font-size:15px;text-align:left;background:linear-gradient(180deg,#0087FF 0%,#0052A4 100%);padding:20px;'>For any Production issue, please send an email to: <a href='mailto:apigwsupport@bajajauto.co.in' style='color:white;'>apigwsupport@bajajauto.co.in</a></p>
   </div>
 </body>
 </html>
