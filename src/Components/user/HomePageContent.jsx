@@ -5,7 +5,7 @@ import LangCurlExecuteComp from './LangCurlExecuteComp';
 import SyntaxHighLighter from './SyntaxHighLighter';
 import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm'
-import { arrayIndex, convertToPayload, copyToClipboard, getTokenData, trucateString } from '../../Utils';
+import { arrayIndex, convertToPayload, copyToClipboard, getTokenData, scrollToTop, trucateString } from '../../Utils';
 import GetStarted from './GetStarted';
 import { error_swal_toast, success_swal_toast } from '../../SwalServices';
 import { post_auth_data, post_data } from '../../ApiServices';
@@ -33,6 +33,10 @@ function HomePageContent() {
     useEffect(() => {
         chekParamParameter()
     }, [api_id, collection_id, category_id])
+
+    useEffect(() => {
+        scrollToTop()
+    }, [])
 
     const chekParamParameter = () => {
         let obj = {
@@ -191,7 +195,14 @@ function HomePageContent() {
                                 <div className='row align-items-center'>
                                     <div className={api_id ? 'col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12' : 'col-12'}>
                                         <h5 className='mb-0'>{title || 'Get Started'}</h5>
-                                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{description}</ReactMarkdown>
+                                        <ReactMarkdown  
+                                            remarkPlugins={[remarkGfm]}
+                                            components={{
+                                                h1: ({node, ...props}) => <h3 {...props} />, // all h1 become h3
+                                                h2: ({node, ...props}) => <h4 {...props} />, // all h2 become h4
+                                            }}
+                                        >{description}
+                                        </ReactMarkdown>
                                     </div>
                                     <div className={api_id ? 'col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12' : ''}>
                                         <div className="d-flex justify-content-end">

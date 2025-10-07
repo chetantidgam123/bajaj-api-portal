@@ -1,8 +1,14 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import FooterHome from './FooterHome'
 import Header from '../user/layout/Header'
+import { scrollToTop } from '../../Utils'
 
 function Privacypolicy() {
+
+    useEffect(() => {
+      scrollToTop()
+    }, [])
+
   return (
   <div>
           <Header />
