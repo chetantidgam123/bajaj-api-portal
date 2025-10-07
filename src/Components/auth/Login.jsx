@@ -19,7 +19,7 @@ function Login({ setModalName, setShow }) {
     const [otpEmail, setOtpEmail] = useState("");
     const [otpSent, setOtpSent] = useState(false);
 
-    const [otpCountdown, setOtpCountdown] = useState(600); // 10 minutes in seconds
+    const [otpCountdown, setOtpCountdown] = useState(30); // 10 minutes in seconds
     const [resendCountdown, setResendCountdown] = useState(30);
     const [canResendOtp, setCanResendOtp] = useState(false);
     const [backendTokenData, setBackendTokenData] = useState(null); // store token data temporarily
@@ -45,7 +45,7 @@ function Login({ setModalName, setShow }) {
         return () => clearInterval(timer);
     }, [otpSent, otpCountdown]);
 
-        // Resend button countdown (30 sec)
+    // Resend button countdown (30 sec)
     useEffect(() => {
         let timer;
         if (otpSent && resendCountdown > 0) {
@@ -98,7 +98,7 @@ function Login({ setModalName, setShow }) {
 
                 success_swal_toast("OTP sent to your email!");
                 setOtpSent(true);
-                setOtpCountdown(600);
+                setOtpCountdown(30);
                 setResendCountdown(30);
                 setCanResendOtp(false);
                 console.log("Generated OTP:", otp);
@@ -144,7 +144,7 @@ function Login({ setModalName, setShow }) {
         const otp = generateOtp();
         const expiry = Date.now() + 5 * 60 * 1000;
         localStorage.setItem("loginOtp", JSON.stringify({ otp, expiry }));
-        
+
 
         const firstName = otpEmail.split("@")[0] || "User";
         const emailBody = `<p>Dear ${firstName},</p><p>Your OTP is <b>${otp}</b></p>`;
@@ -164,28 +164,28 @@ function Login({ setModalName, setShow }) {
 
     return (
         <div style={{ height: "30.5em", display: 'flex', alignItems: 'center' }}>
-           {!otpSent ? ( 
-            <FormikProvider value={Loginform}>
-                <Form className="w-100">
-                    <h3>Sign In</h3>
-                    <p className="text-muted">Sign in to your account</p>
-                    <FloatingInputLabel fieldName="emailId" formikFrom={Loginform} labelText="Email Address" />
-                    <FloatingInputLabel fieldName="userPassword" formikFrom={Loginform} labelText="Password" fieldType="password" />
-                    <div className="d-flex justify-content-between mb-2">
-                        <small>
-                            <Link className="text-primary" onClick={() => setModalName('forget-pass')}>Forgot Password?</Link>
-                        </small>
-                    </div>
-                    <div className="text-center">
-                        <button type="button" className="btn btn-blue w-100" onClick={Loginform.handleSubmit} disabled={loader}>
-                            Sign In {loader && <LoaderWight />}
-                        </button>
-                        <div className="mt-3">
-                            New to our product? <Link className="text-primary" onClick={() => { setModalName('signup'); Loginform.resetForm(); }}>Sign Up</Link>
+            {!otpSent ? (
+                <FormikProvider value={Loginform}>
+                    <Form className="w-100">
+                        <h3>Sign In</h3>
+                        <p className="text-muted">Sign in to your account</p>
+                        <FloatingInputLabel fieldName="emailId" formikFrom={Loginform} labelText="Email Address" />
+                        <FloatingInputLabel fieldName="userPassword" formikFrom={Loginform} labelText="Password" fieldType="password" />
+                        <div className="d-flex justify-content-between mb-2">
+                            <small>
+                                <Link className="text-primary" onClick={() => setModalName('forget-pass')}>Forgot Password?</Link>
+                            </small>
                         </div>
-                    </div>
-                </Form>
-            </FormikProvider>) : (
+                        <div className="text-center">
+                            <button type="button" className="btn btn-blue w-100" onClick={Loginform.handleSubmit} disabled={loader}>
+                                Sign In {loader && <LoaderWight />}
+                            </button>
+                            <div className="mt-3">
+                                New to our product? <Link className="text-primary" onClick={() => { setModalName('signup'); Loginform.resetForm(); }}>Sign Up</Link>
+                            </div>
+                        </div>
+                    </Form>
+                </FormikProvider>) : (
                 <div className="p-3">
                     <h4>Enter OTP</h4>
                     <p>OTP sent on <b>{otpEmail}</b></p>
@@ -200,13 +200,13 @@ function Login({ setModalName, setShow }) {
                     <div className="d-flex justify-content-between pb-3">
                         <div><b>{formatTime(otpCountdown)}</b></div>
                         <div>
-                        <button 
-                            className="btn btn-link p-0"
-                            disabled={!canResendOtp}
-                            onClick={handleResendOtp}
-                        >
-                            Resend OTP
-                        </button>
+                            <button
+                                className="btn btn-link p-0"
+                                disabled={!canResendOtp}
+                                onClick={handleResendOtp}
+                            >
+                                Resend OTP
+                            </button>
                         </div>
                     </div>
                     <button
@@ -219,13 +219,13 @@ function Login({ setModalName, setShow }) {
 
                     <div className="mt-3 text-center">
                         <Link
-                        className="text-primary"
-                        onClick={() => {
-                            setOtpSent(false);
-                            Loginform.setFieldValue("enteredOtp", "");
-                        }}
+                            className="text-primary"
+                            onClick={() => {
+                                setOtpSent(false);
+                                Loginform.setFieldValue("enteredOtp", "");
+                            }}
                         >
-                        Back to Sign Up
+                            Back to Sign Up
                         </Link>
                     </div>
                 </div>
