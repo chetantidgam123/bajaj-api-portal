@@ -3,6 +3,8 @@ import Swal from "sweetalert2";
 import { error_swal_toast, success_swal_toast } from "../../SwalServices";
 import { post_auth_data } from "../../ApiServices";
 import { PageLoaderBackdrop } from "../../Loader";
+import { sendEmail } from "../../Utils";
+import { generateApiApprovalEmail } from "../../emailTemplate";
 
 function RequestAccessList() {
     const [reqAccList, setReqAccList] = useState([]);
@@ -95,7 +97,19 @@ function RequestAccessList() {
         try {
             const response = await post_auth_data("portal/private", payload, {});
             if (response.data.status) {
+                console.log("inside status condition true or false 1")
                 success_swal_toast(response.data.message)
+                const subject= "Login Approval Granted for BAJAJ API Access"
+                const userName = user.fullname
+                const userEmail = "sagarmeshram532@gmail.com"
+                const userId = user.id
+                console.log("inside status condition true or false 2")
+                const emailBody = generateApiApprovalEmail({
+                    userName, userId,
+                    loginLink: "https://apidocs.bajajauto.com/"
+                })
+                console.log("inside status condition true or false 3")
+                await sendEmail({ body: emailBody, toRecepients: [userEmail], subject: subject, contentType: 'text/html' })
                 fetchRequestList();
             } else {
                 error_swal_toast(response.data.message || "Something went wrong");

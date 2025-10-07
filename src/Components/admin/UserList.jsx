@@ -4,12 +4,13 @@ import { Button, Dropdown, Form } from "react-bootstrap";
 import Modal from 'react-bootstrap/Modal';
 import { createUserSchema } from "../../Schema";
 import { post_auth_data, post_data } from "../../ApiServices";
-import { arrayIndex, convertToPayload, getTokenData, offsetPagination } from "../../Utils";
+import { arrayIndex, convertToPayload, getTokenData, offsetPagination, sendEmail } from "../../Utils";
 import { ErrorMessage, FormikProvider, useFormik } from "formik";
 import { confirm_swal_with_text, error_swal_toast, success_swal_toast } from "../../SwalServices";
 import { PageLoaderBackdrop } from "../../Loader";
 import PaginateComponent from "../common/Pagination";
 import { Link } from "react-router-dom";
+import { accessGrantedEmail } from "../../emailTemplate";
 
 function UserList() {
     const [show, setShow] = useState(false);
@@ -65,7 +66,7 @@ function UserList() {
         }
         confirm_swal_with_text(callback, `Are you sure <br/> you want to ${user.approved_status == 0 ? 'approve' : 'restrict'} user?`)
     }
-    const toggleStatus = (user, resolve, reject) => {
+    const toggleStatus = async(user, resolve, reject) => {
         let payload = {
             "record_uuid": user.record_uuid,
             "approved_status": user.approved_status == 0 ? 1 : 0
@@ -73,8 +74,30 @@ function UserList() {
         post_data("portal/private", convertToPayload('approve-user', payload), { "jwt_token": getTokenData()?.jwt_token })
             .then((response) => {
                 if (response.data.status) {
-                    getUserList();
-                    resolve();
+                    success_swal_toast(response.data.message);
+                    const subject = "BAJAJ Developer Portal-Website Access Granted";
+                    const userName = user.fullname;
+                    const userEmail = user.emailid;
+                    const userID = user.id;
+                    const emailBody = accessGrantedEmail({
+                        userName,
+                        userEmail,
+                        userID,
+                        portalURL: "https://apidocs.bajajauto.com/",
+                        LoginURL: "https://apidocs.bajajauto.com/"
+                    });
+                    sendEmail({ body: emailBody, toRecepients: [userEmail], subject: subject, contentType: 'text/html' })
+                    .then(() => { 
+                        getUserList();
+                        resolve();
+                    })
+                    .catch(emailError => {
+                        console.error("Error sending email:", emailError);
+                        reject();
+                        error_swal_toast("Email sending failed");
+                    });
+                    // getUserList();
+                    // resolve();
                 } else {
                     reject();
                     error_swal_toast(response.data.message || "something went wrong");
