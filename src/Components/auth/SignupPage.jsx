@@ -10,7 +10,7 @@ import { Link, useLocation } from "react-router-dom";
 import { error_swal_toast, success_swal_toast } from "../../SwalServices";
 import { useEffect, useState } from "react";
 import { LoaderWight } from "../../Loader";
-import { signUpOtpEmail } from "../../emailTemplate";
+import { signUpOtpEmail, adminNotificationEmail } from "../../emailTemplate";
 
 function SignupPage({ setModalName, setShow }) {
   const [loader, setLoader] = useState(false)
@@ -107,6 +107,18 @@ function SignupPage({ setModalName, setShow }) {
       setLoader(false);
       if (res?.data?.status) {
         success_swal_toast(res.data.message || "User registered successfully");
+        const adminEmail = "ctidgam1997@gmail.com";
+        // const adminEmail = "meshramsagar715@gmail.com"
+        // const adminName = "Chetan";
+        // const currentDateTime = new Date().toLocaleString();
+        const emailBody =  adminNotificationEmail({
+          adminName: "Admin",
+          userName: values.fullName,
+          userEmail: values.emailId,
+          requestedOn: new Date().toLocaleString()
+        })
+        const subject = "Action Required - New User Login Request for BAJAJ API Developer Portal"
+        await sendEmail({ body: emailBody, toRecepients: [adminEmail], subject: subject, contentType: 'text/html' });
         setModalName("login");
         // setShowOtpModal(false);
         setOtpSent(false)
@@ -258,6 +270,11 @@ const handleResendOtp = () => {
           <button
             className="btn btn-primary w-100"
             onClick={() => verifyOtpAndRegister(signupForm.values)}
+            // onClick={async () => {
+            //   setLoader(true);
+            //   await verifyOtpAndRegister(signupForm.values);
+            //   setLoader(false); // optionally
+            // }}
             disabled={loader}
           >
             {loader ? <LoaderWight /> : "Verify & Login"}

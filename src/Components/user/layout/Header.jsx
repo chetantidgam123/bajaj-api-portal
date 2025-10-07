@@ -6,6 +6,7 @@ import Login from "../../auth/Login";
 import ForgotPassword from "../../auth/ForgotPassword";
 import ResetPassword from "../../auth/ResetPasswrd";
 import { getTokenData, getInitials } from "../../../Utils";
+import { confirm_swal_with_text,success_swal_toast } from "../../../SwalServices";
 
 function Header() {
   const [fullName, setFullName] = useState('');
@@ -22,10 +23,29 @@ function Header() {
     setFullName(token?.fullname || "");
   }, [location]);
 
+  // const logout = () => {
+  //   confirm_swal_with_text()
+  //   localStorage.clear();
+  //   navigate("/");
+  // };
   const logout = () => {
-    localStorage.clear();
-    navigate("/");
-  };
+  confirm_swal_with_text(async (resolve) => {
+    try {
+      // Clear local storage or token
+      localStorage.clear();
+
+      // Optional: show success message
+      success_swal_toast("You have been logged out!");
+
+      // Navigate to homepage or login
+      navigate("/");
+
+      resolve(true);
+    } catch (err) {
+      console.error("Logout error:", err);
+    }
+  }, "Are you sure you want to logout?");
+};
 
   return (
     <div className="header">
