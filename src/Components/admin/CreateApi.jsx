@@ -497,8 +497,8 @@ function CreateApi() {
                                                 <td>{moment(item.createdat).format('DD-MMM-YY')}</td>
                                                 <td>{moment(item.updatedat).format('DD-MMM-YY')}</td>
                                                 <td>
-                                                    <button type='button' className='span-btn' onClick={() => { viewSample(item, i) }}><i className='fa fa-pencil'></i></button>
-                                                    <button type='button' className='span-btn' onClick={() => { confirm_swal_call(i) }}><i className='fa fa-trash text-danger'></i></button>
+                                                    <button type='button' className='btn btn-primary btn-sm mx-2' onClick={() => { viewSample(item, i) }}><i className='fa fa-pencil'></i></button>
+                                                    <button type='button' className='btn btn-danger btn-sm' onClick={() => { confirm_swal_call(i) }}><i className='fa fa-trash'></i></button>
                                                 </td>
                                             </tr>
                                         ))

@@ -43,7 +43,6 @@ function Header() {
 
     }, []);
     return (
-        <div>
             <div className='adminHeader'>
                 <nav className="navbar navbar-expand-lg px-4">
                     <div className="container-fluid bg-white">
@@ -115,7 +114,6 @@ function Header() {
                     </div>
                 </nav>
             </div>
-        </div>
     )
 }
 

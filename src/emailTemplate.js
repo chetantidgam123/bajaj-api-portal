@@ -1,8 +1,8 @@
 const loginOtpEmail = (data) => {
-    return `<!doctype html><html lang='en-US'><head><meta content='text/html; charset=utf-8' http-equiv='Content-Type'/><meta name='description' content='Reset Password.'><style type='text/css'>a:hover{text-decoration:underline!important;}</style></head><body marginheight='0' topmargin='0' marginwidth='0' leftmargin='0' style='margin:0;background-color:#f2f3f8;'><table cellspacing='0' border='0' cellpadding='0' width='100%' bgcolor='#f2f3f8'><tr><td><table style='background-color:#f2f3f8;max-width:670px;margin:0 auto;' width='100%' border='0' align='center' cellpadding='0' cellspacing='0'><tr><td style='height:35px;'>&nbsp;</td></tr><tr><td style='text-align:center;'></td></tr><tr><td style='height:20px;'>&nbsp;</td></tr><tr><td><table width='95%' border='0' align='center' cellpadding='0' cellspacing='0' style='max-width:670px;background:#fff;border-radius:3px;text-align:center;-webkit-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);-moz-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);box-shadow:0 6px 18px 0 rgba(0,0,0,.06);'><tr><td style='height:40px;'>&nbsp;</td></tr><tr><td style='padding:0 35px 30px 35px;'><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG4lo39vSLS1FaLIpr1XKrjiebmWX-3fRErA&s' width='200px' style='margin-bottom:20px;'/><h1 style='color:#1e1e2d;font-weight:500;margin:0;font-size:25px;font-family:Rubik,sans-serif;'></h1><span style='display:inline-block;vertical-align:middle;margin:29px 0 26px;border-bottom:1px solid #cecece;width:100px;'></span><p style='color:#455056;font-size:15px;margin:0;text-align:left!important;'>Dear ${data.firstName},<br/>We received a sign-in request for your account on the Bajaj API Developer Portal.</p><br><p style='color:#455056;font-size:15px;margin:0;text-align:left!important;'>To verify your credentials and complete the login, please use the One-Time Password (OTP) below:<br><b>${data.otp}</b></p><br><p style='color:#455056;font-size:15px;margin:0;text-align:left!important;'>Thanks & Regards,<br>Mulesoft Support<br>Digital & Analytics | Bajaj Auto Limited</p><p style='color:#ffffff;font-size:15px;text-align:left;background:linear-gradient(180deg,#0087FF 0%,#0052A4 100%);padding:20px;'>For any Production issue, please send an email to: <a href='' style='color:white;'>apigwsupport@bajajauto.co.in</a></p></td></tr></table></td></tr></table></td></tr></table></body></html>`
+    return `<!doctype html><html lang='en-US'><head><meta content='text/html; charset=utf-8' http-equiv='Content-Type'/><meta name='description' content='Reset Password.'><style type='text/css'>a:hover{text-decoration:underline!important;}</style></head><body marginheight='0' topmargin='0' marginwidth='0' leftmargin='0' style='margin:0;background-color:#f2f3f8;'><table cellspacing='0' border='0' cellpadding='0' width='100%' bgcolor='#f2f3f8'><tr><td><table style='background-color:#f2f3f8;max-width:670px;margin:0 auto;' width='100%' border='0' align='center' cellpadding='0' cellspacing='0'><tr><td style='height:35px;'>&nbsp;</td></tr><tr><td style='text-align:center;'></td></tr><tr><td style='height:20px;'>&nbsp;</td></tr><tr><td><table width='95%' border='0' align='center' cellpadding='0' cellspacing='0' style='max-width:670px;background:#fff;border-radius:3px;text-align:center;-webkit-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);-moz-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);box-shadow:0 6px 18px 0 rgba(0,0,0,.06);'><tr><td style='height:40px;'>&nbsp;</td></tr><tr><td style='padding:0 35px 30px 35px;'><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG4lo39vSLS1FaLIpr1XKrjiebmWX-3fRErA&s' width='200px' style='margin-bottom:20px;'/><h1 style='color:#1e1e2d;font-weight:500;margin:0;font-size:25px;font-family:Poppins-Regular;'></h1><span style='display:inline-block;vertical-align:middle;margin:29px 0 26px;border-bottom:1px solid #cecece;width:100px;'></span><p style='color:#455056;font-size:15px;margin:0;text-align:left!important;'>Dear ${data.firstName},<br/>We received a sign-in request for your account on the Bajaj API Developer Portal.</p><br><p style='color:#455056;font-size:15px;margin:0;text-align:left!important;'>To verify your credentials and complete the login, please use the One-Time Password (OTP) below:<br><b>${data.otp}</b></p><br><p style='color:#455056;font-size:15px;margin:0;text-align:left!important;'>Thanks & Regards,<br>Mulesoft Support<br>Digital & Analytics | Bajaj Auto Limited</p><p style='color:#ffffff;font-size:15px;text-align:left;background:linear-gradient(180deg,#0087FF 0%,#0052A4 100%);padding:20px;'>For any Production issue, please send an email to: <a href='' style='color:white;'>apigwsupport@bajajauto.co.in</a></p></td></tr></table></td></tr></table></td></tr></table></body></html>`
 }
 const signUpOtpEmail = (data) => {
-    return `<!doctype html><html lang='en-US'><head><meta content='text/html; charset=utf-8' http-equiv='Content-Type'/><meta name='description' content='Reset Password.'><style type='text/css'>a:hover{text-decoration:underline!important;}</style></head><body marginheight='0' topmargin='0' marginwidth='0' leftmargin='0' style='margin:0;background-color:#f2f3f8;'><table cellspacing='0' border='0' cellpadding='0' width='100%' bgcolor='#f2f3f8'><tr><td><table style='background-color:#f2f3f8;max-width:670px;margin:0 auto;' width='100%' border='0' align='center' cellpadding='0' cellspacing='0'><tr><td style='height:35px;'>&nbsp;</td></tr><tr><td style='text-align:center;'></td></tr><tr><td style='height:20px;'>&nbsp;</td></tr><tr><td><table width='95%' border='0' align='center' cellpadding='0' cellspacing='0' style='max-width:670px;background:#fff;border-radius:3px;text-align:center;-webkit-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);-moz-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);box-shadow:0 6px 18px 0 rgba(0,0,0,.06);'><tr><td style='height:40px;'>&nbsp;</td></tr><tr><td style='padding:0 35px 30px 35px;'><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG4lo39vSLS1FaLIpr1XKrjiebmWX-3fRErA&s' width='200px' style='margin-bottom:20px;'/><h1 style='color:#1e1e2d;font-weight:500;margin:0;font-size:25px;font-family:Rubik,sans-serif;'></h1><span style='display:inline-block;vertical-align:middle;margin:29px 0 26px;border-bottom:1px solid #cecece;width:100px;'></span><p style='color:#455056;font-size:15px;margin:0;text-align:left!important;'>Dear ${data.firstName},<br/><br/>Thank you for registering on the Bajaj API Developer Portal.</p><br><p style='color:#455056;font-size:15px;margin:0;text-align:left!important;'>To verify your email address and activate your account, please use the One-Time Password (OTP) below<br><b>${data.otp}</b></p><br><p style='color:#455056;font-size:15px;margin:0;text-align:left!important;'>Thanks & Regards,<br>Mulesoft Support<br>Digital & Analytics | Bajaj Auto Limited</p><p style='color:#ffffff;font-size:15px;text-align:left;background:linear-gradient(180deg,#0087FF 0%,#0052A4 100%);padding:20px;'>For any Production issue, please send an email to: <a href='' style='color:white;'>apigwsupport@bajajauto.co.in</a></p></td></tr></table></td></tr></table></td></tr></table></body></html>`
+    return `<!doctype html><html lang='en-US'><head><meta content='text/html; charset=utf-8' http-equiv='Content-Type'/><meta name='description' content='Reset Password.'><style type='text/css'>a:hover{text-decoration:underline!important;}</style></head><body marginheight='0' topmargin='0' marginwidth='0' leftmargin='0' style='margin:0;background-color:#f2f3f8;'><table cellspacing='0' border='0' cellpadding='0' width='100%' bgcolor='#f2f3f8'><tr><td><table style='background-color:#f2f3f8;max-width:670px;margin:0 auto;' width='100%' border='0' align='center' cellpadding='0' cellspacing='0'><tr><td style='height:35px;'>&nbsp;</td></tr><tr><td style='text-align:center;'></td></tr><tr><td style='height:20px;'>&nbsp;</td></tr><tr><td><table width='95%' border='0' align='center' cellpadding='0' cellspacing='0' style='max-width:670px;background:#fff;border-radius:3px;text-align:center;-webkit-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);-moz-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);box-shadow:0 6px 18px 0 rgba(0,0,0,.06);'><tr><td style='height:40px;'>&nbsp;</td></tr><tr><td style='padding:0 35px 30px 35px;'><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG4lo39vSLS1FaLIpr1XKrjiebmWX-3fRErA&s' width='200px' style='margin-bottom:20px;'/><h1 style='color:#1e1e2d;font-weight:500;margin:0;font-size:25px;font-family:Poppins-Regular;'></h1><span style='display:inline-block;vertical-align:middle;margin:29px 0 26px;border-bottom:1px solid #cecece;width:100px;'></span><p style='color:#455056;font-size:15px;margin:0;text-align:left!important;'>Dear ${data.firstName},<br/><br/>Thank you for registering on the Bajaj API Developer Portal.</p><br><p style='color:#455056;font-size:15px;margin:0;text-align:left!important;'>To verify your email address and activate your account, please use the One-Time Password (OTP) below<br><b>${data.otp}</b></p><br><p style='color:#455056;font-size:15px;margin:0;text-align:left!important;'>Thanks & Regards,<br>Mulesoft Support<br>Digital & Analytics | Bajaj Auto Limited</p><p style='color:#ffffff;font-size:15px;text-align:left;background:linear-gradient(180deg,#0087FF 0%,#0052A4 100%);padding:20px;'>For any Production issue, please send an email to: <a href='' style='color:white;'>apigwsupport@bajajauto.co.in</a></p></td></tr></table></td></tr></table></td></tr></table></body></html>`
 }
 
 const accessGrantedEmail = (data) => {
@@ -16,10 +16,11 @@ const generateApiRequestEmail = (data) => {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 <title>API Access Request</title>
 <style>
     body {
-        font-family: Arial, sans-serif;
+    font-family: 'Poppins', sans-serif;
         line-height: 1.6;
         color: #333;
         background-color: #f9f9f9;
@@ -67,7 +68,7 @@ const generateApiRequestEmail = (data) => {
         <p><strong>API Name:</strong> ${data.apiName}</p>
         <p><strong>Request Date:</strong> ${data.requestDate}</p>
     </div>
-    <p style='color:#ffffff;font-size:15px;text-align:left;background:linear-gradient(180deg,#0087FF 0%,#0052A4 100%);padding:20px;'>For any Production issue, please send an email to: <a href='mailto:apigwsupport@bajajauto.co.in' style='color:white;'>apigwsupport@bajajauto.co.in</a></p>
+    <p style='color:#ffffff;font-size:13px;text-align:left;background:linear-gradient(180deg,#0087FF 0%,#0052A4 100%);padding:20px;'>For any Production issue, please send an email to: <a href='mailto:apigwsupport@bajajauto.co.in' style='color:white;'>apigwsupport@bajajauto.co.in</a></p>
 </div>
 </body>
 </html>
@@ -80,10 +81,12 @@ const apiRequestUser = (data) => {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
 <title>API Access Acknowledgement</title>
 <style>
   body {
-      font-family: Arial, sans-serif;
+      font-family: 'Poppins', sans-serif;
       line-height: 1.6;
       color: #333;
       background-color: #f9f9f9;
@@ -119,7 +122,7 @@ const apiRequestUser = (data) => {
       <p>Thank you for reaching out to us with your request regarding API usage "<strong>${data.apiName}</strong>". We have received your query and our team is currently reviewing the details.</p>
       <p>We will share the necessary credentials and usage instructions to help you get started soon.</p>
       <p class="footer">Best Regards,<br/>The API Support Team</p>
-       <p style='color:#ffffff;font-size:15px;text-align:left;background:linear-gradient(180deg,#0087FF 0%,#0052A4 100%);padding:20px;'>For any Production issue, please send an email to: <a href='mailto:apigwsupport@bajajauto.co.in' style='color:white;'>apigwsupport@bajajauto.co.in</a></p>
+       <p style='color:#ffffff;font-size:13px;text-align:left;background:linear-gradient(180deg,#0087FF 0%,#0052A4 100%);padding:20px;'>For any Production issue, please send an email to: <a href='mailto:apigwsupport@bajajauto.co.in' style='color:white;'>apigwsupport@bajajauto.co.in</a></p>
   </div>
 </body>
 </html>
@@ -135,11 +138,13 @@ const adminNotificationEmail = (data) => {
   <head>
     <meta content='text/html; charset=utf-8' http-equiv='Content-Type'/>
     <meta name='description' content='New User Login Request Notification'/>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
     <style type='text/css'>
       a:hover {text-decoration: underline!important;}
     </style>
   </head>
-  <body marginheight='0' topmargin='0' marginwidth='0' leftmargin='0' style='margin:0;background-color:#f2f3f8;'>
+  <body marginheight='0' topmargin='0' marginwidth='0' leftmargin='0' style='margin:0;background-color:#f2f3f8;   font-family: 'Poppins', sans-serif;'>
     <table cellspacing='0' border='0' cellpadding='0' width='100%' bgcolor='#f2f3f8'>
       <tr>
         <td>
@@ -167,7 +172,7 @@ const adminNotificationEmail = (data) => {
                       Thanks & Regards,<br/>
                       BAJAJ API Developer Portal Team
                     </p>
-                    <p style='color:#ffffff;font-size:15px;text-align:left;background:linear-gradient(180deg,#0087FF 0%,#0052A4 100%);padding:20px;'>For any Production issue, please send an email to: <a href='mailto:apigwsupport@bajajauto.co.in' style='color:white;'>apigwsupport@bajajauto.co.in</a></p>
+                    <p style='color:#ffffff;font-size:13px;text-align:left;background:linear-gradient(180deg,#0087FF 0%,#0052A4 100%);padding:20px;'>For any Production issue, please send an email to: <a href='mailto:apigwsupport@bajajauto.co.in' style='color:white;'>apigwsupport@bajajauto.co.in</a></p>
                   </td></tr>
                 </table>
               </td>
@@ -189,10 +194,12 @@ const generateApiApprovalEmail = ({ userName, userId, loginLink }) => {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
 <title>BAJAJ API Access Approved</title>
 <style>
   body {
-      font-family: Arial, sans-serif;
+   font-family: 'Poppins', sans-serif;
       line-height: 1.6;
       color: #333;
       background-color: #f9f9f9;
@@ -261,7 +268,7 @@ const generateApiApprovalEmail = ({ userName, userId, loginLink }) => {
       <p>If you encounter any issues while logging in or using the API, feel free to contact our support team for assistance.</p>
       
       <p class="footer">Best Regards,<br/>The BAJAJ API Support Team</p>
-      <p style='color:#ffffff;font-size:15px;text-align:left;background:linear-gradient(180deg,#0087FF 0%,#0052A4 100%);padding:20px;'>For any Production issue, please send an email to: <a href='mailto:apigwsupport@bajajauto.co.in' style='color:white;'>apigwsupport@bajajauto.co.in</a></p>
+      <p style='color:#ffffff;font-size:13px;text-align:left;background:linear-gradient(180deg,#0087FF 0%,#0052A4 100%);padding:20px;'>For any Production issue, please send an email to: <a href='mailto:apigwsupport@bajajauto.co.in' style='color:white;'>apigwsupport@bajajauto.co.in</a></p>
 
   </div>
 </body>

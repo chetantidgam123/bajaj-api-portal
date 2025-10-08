@@ -188,7 +188,7 @@ function Login({ setModalName, setShow }) {
                         </div>
                     </Form>
                 </FormikProvider>) : (
-                <div className="p-3">
+                <div className="my-4 w-100">
                     <h4>Enter OTP</h4>
                     <p>OTP sent on <b>{otpEmail}</b></p>
                     <input

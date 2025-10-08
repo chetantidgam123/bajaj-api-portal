@@ -709,6 +709,10 @@ h6 {
     height: 70px;
     padding: 5px;
     border-bottom: 1px solid #dddddd;
+        background-color: white;
+    position: sticky;
+    top: 0;
+    z-index: 99;
 }
 
 textarea.form-control {
