@@ -156,7 +156,7 @@ function Login({ setModalName, setShow }) {
             success_swal_toast("OTP resent to your email!");
             setResendCountdown(30);
             setCanResendOtp(false);
-            setOtpCountdown(600); // optional: reset OTP timer
+            setOtpCountdown(30); // optional: reset OTP timer
             console.log("Generated OTP (resend):", otp);
         } catch (err) {
             error_swal_toast("Failed to resend OTP");

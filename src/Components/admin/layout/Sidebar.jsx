@@ -64,8 +64,8 @@ function Sidebar() {
           </div>
           <div
             className={`${isClosed
-                ? "col-xl-12 col-lg-12 col-md-12 col-sm-2 col-2"
-                : "col-xl-3 col-lg-3 col-md-3 col-sm-2 col-2"
+              ? "col-xl-12 col-lg-12 col-md-12 col-sm-2 col-2"
+              : "col-xl-3 col-lg-3 col-md-3 col-sm-2 col-2"
               } d-flex justify-content-center`}
           >
             <div
@@ -96,9 +96,8 @@ function Sidebar() {
               <ul className="admin-sidebar-ul mb-0 px-0 py-1">
                 <li className="list-style-none">
                   <Link
-                    className={`admin-sidebar-li mb-2 ${
-                      currentPath === "/master/user-list" ? "active-tab" : ""
-                    }`}
+                    className={`admin-sidebar-li mb-2 ${currentPath === "/master/user-list" ? "active-tab" : ""
+                      }`}
                     to="/master/user-list"
                   >
                     User List
@@ -128,8 +127,8 @@ function Sidebar() {
                 <li className="list-style-none">
                   <Link
                     className={`admin-sidebar-li mb-2 ${currentPath === "/master/category-list"
-                        ? "active-tab"
-                        : ""
+                      ? "active-tab"
+                      : ""
                       }`}
                     to="/master/category-list"
                   >
@@ -138,20 +137,9 @@ function Sidebar() {
                 </li>
                 <li className="list-style-none">
                   <Link
-                    className={`admin-sidebar-li mb-2 text-truncate ${currentPath === "/master/category-description"
-                        ? "active-tab"
-                        : ""
-                      }`}
-                    to="/master/category-description"
-                  >
-                    Category Description 
-                  </Link>
-                </li>
-                <li className="list-style-none">
-                  <Link
                     className={`admin-sidebar-li mb-2 ${currentPath === "/master/sub-category-list"
-                        ? "active-tab"
-                        : ""
+                      ? "active-tab"
+                      : ""
                       }`}
                     to="/master/sub-category-list"
                   >
@@ -173,8 +161,8 @@ function Sidebar() {
                 <li className="list-style-none">
                   <Link
                     className={`admin-sidebar-li mb-2 ${currentPath === "/master/term-and-condition"
-                        ? "active-tab"
-                        : ""
+                      ? "active-tab"
+                      : ""
                       }`}
                     to="/master/term-and-condition"
                   >
@@ -184,8 +172,8 @@ function Sidebar() {
                 <li className="list-style-none">
                   <Link
                     className={`admin-sidebar-li mb-2 ${currentPath === "/master/privacy-policy"
-                        ? "active-tab"
-                        : ""
+                      ? "active-tab"
+                      : ""
                       }`}
                     to="/master/privacy-policy"
                   >
@@ -216,8 +204,8 @@ function Sidebar() {
                 <li className="list-style-none">
                   <Link
                     className={`admin-sidebar-li mb-2 ${currentPath === "/master/suggest-an-api"
-                        ? "active-tab"
-                        : ""
+                      ? "active-tab"
+                      : ""
                       }`}
                     to="/master/suggest-an-api"
                   >
@@ -244,12 +232,12 @@ function Sidebar() {
               <span className="link-name ms-2">Request Access Management</span>
             </Accordion.Header>
             <Accordion.Body className="px-4 py-2">
-             <ul className="admin-sidebar-ul mb-0 px-0 py-1">
+              <ul className="admin-sidebar-ul mb-0 px-0 py-1">
                 <li className="list-style-none">
                   <Link
                     className={`admin-sidebar-li mb-2 ${currentPath === "/master/request-access-list"
-                        ? "active-tab"
-                        : ""
+                      ? "active-tab"
+                      : ""
                       }`}
                     to="/master/request-access-list"
                   >
@@ -270,9 +258,8 @@ function Sidebar() {
               <ul className="admin-sidebar-ul">
                 <li className="list-style-none">
                   <Link
-                    className={`admin-sidebar-li mb-2 ${
-                      currentPath === "/master/reports" ? "active-tab" : ""
-                    }`}
+                    className={`admin-sidebar-li mb-2 ${currentPath === "/master/reports" ? "active-tab" : ""
+                      }`}
                     to="/master/reports"
                   >
                     Reports

@@ -14,7 +14,7 @@ export const signupFormSchema = yup.object().shape({
   userPassword: yup
     .string()
     .min(6, "Password must be at least 6 characters long")
-    .matches(/^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{6,}$/, "Invalid password pattern must contain Uppercase letter,special charachter & number")
+    .matches(/^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{6,}$/, "Invalid password pattern must contain atleaset one uppercase letter,special character & number")
     .required("mandatory field*"),
   terms: yup.boolean().oneOf([true], "You must agree to the terms and conditions"),
 });
