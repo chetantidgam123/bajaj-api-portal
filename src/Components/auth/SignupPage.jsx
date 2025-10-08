@@ -194,6 +194,7 @@ const handleResendOtp = () => {
       <p>Create an account to get started</p>
       <FormikProvider value={signupForm}>
         <Form className="" autoComplete="off">
+          
           <div className="">
             <FloatingInputLabel fieldName={`fullName`} formikFrom={signupForm} labelText={`Full Name`} />
           </div>
@@ -244,17 +245,21 @@ const handleResendOtp = () => {
         </Form>
       </FormikProvider> </> 
       ): (
-        <div className="p-3">
-          <h4>Enter OTP</h4>
+        <div className="my-4 w-100">
+             <Form >
+           <h3>Enter OTP</h3>
           <p>OTP sent on <b>{otpEmail}</b></p>
-          <input
+           <div className="">
+              <FloatingInputLabel fieldName={`emailId`} formikFrom={forgotPasswordForm} labelText={`Email Address`} />
+            </div>
+         <div className="">
+          <FloatingInputLabel
+            fieldName="enteredOtp"
+            formikFrom={signupForm}
+            labelText="Enter OTP"
             type="text"
-            name="enteredOtp"
-            className="form-control my-3"
-            placeholder="Enter OTP"
-            value={signupForm.values.enteredOtp}
-            onChange={(e) => signupForm.setFieldValue("enteredOtp", e.target.value)}
           />
+        </div>
           <div className="d-flex justify-content-between pb-3">
             <div><b>{formatTime(otpCountdown)}</b></div>
             <div>
@@ -291,6 +296,7 @@ const handleResendOtp = () => {
               Back to Sign Up
             </Link>
           </div>
+          </Form>
         </div>
       )}  
 

@@ -201,7 +201,7 @@ function Sidebard() {
                           >
                             {api.apimethod}
                           </Badge>
-                          <small className="text-white">{api.apiname}</small>
+                          <small className="text-white text-start">{api.apiname}</small>
                         </button>
                       </div>
                     ))}
@@ -282,15 +282,19 @@ function ApiList({ si, cItem, item, sItem, returnClass }) {
     <div className={returnClass(cItem.apis.length - 1 == si, api_id && sItem.uniqueid == api_id)} >
       <button className="span-btn w-100 border-0 bg-none"
         style={{ background: 'none' }} onClick={() => { checkPermission(item.record_uuid, cItem.record_uuid, sItem.uniqueid) }}>
-        <div className="d-flex align-items-center">
-          <Badge
+        <div className="d-flex row align-items-center">
+        <div className="col-4">
+            <Badge
             pill
             bg=""
             className={`me-2 badge-${sItem.apimethod.toLowerCase()}`}
           >
             {sItem.apimethod}
           </Badge>
-          <small className="text-white">{sItem.apiname}</small>
+        </div>
+        <div className="col-8">
+          <small className="text-white text-start">{sItem.apiname}</small>
+          </div>
         </div>
       </button>
     </div>
