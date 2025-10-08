@@ -189,7 +189,7 @@ function Sidebard() {
                         )}
                       >
                         <button
-                          className="span-btn-cirlce-btn"
+                          className="span-btn w-100 border-0 bg-none text-start" style={{ background: 'none' }}
                           onClick={() => {
                             checkLogin(item.record_uuid, 0, api.uniqueid);
                           }}
@@ -201,7 +201,7 @@ function Sidebard() {
                           >
                             {api.apimethod}
                           </Badge>
-                          <small className="text-dark">{api.apiname}</small>
+                          <small className="text-white">{api.apiname}</small>
                         </button>
                       </div>
                     ))}
