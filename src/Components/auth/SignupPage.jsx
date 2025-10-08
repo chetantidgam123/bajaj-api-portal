@@ -11,15 +11,17 @@ import { error_swal_toast, success_swal_toast } from "../../SwalServices";
 import { useEffect, useState } from "react";
 import { LoaderWight } from "../../Loader";
 import { signUpOtpEmail, adminNotificationEmail } from "../../emailTemplate";
+import { encrypt, decrypt } from "../../Utils";
 
 function SignupPage({ setModalName, setShow }) {
   const [loader, setLoader] = useState(false)
   const [otpSent, setOtpSent] = useState(false);
   // const [showOtpModal, setShowOtpModal] = useState(false);
   const [otpEmail, setOtpEmail] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
-  const [otpCountdown, setOtpCountdown] = useState(600); // 10 minutes in seconds
-  const [resendCountdown, setResendCountdown] = useState(30);
+  const [otpCountdown, setOtpCountdown] = useState(90); 
+  const [resendCountdown, setResendCountdown] = useState(90);
   const [canResendOtp, setCanResendOtp] = useState(false);
 
 
@@ -51,8 +53,12 @@ function SignupPage({ setModalName, setShow }) {
     }
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    const expiry = Date.now() + 5 * 60 * 1000; // 5 minutes
-    localStorage.setItem("signupOtp", JSON.stringify({ otp, expiry }));
+    const expiry = Date.now() + 90 * 1000; // 90 sec
+    // localStorage.setItem("signupOtp", JSON.stringify({ otp, expiry }));
+
+    const otpPayload = JSON.stringify({ otp, expiry: Date.now() + 90 * 1000 });
+    const encryptedOtp = encrypt(otpPayload);
+    localStorage.setItem('pweoriwpepedaldssdcds', encryptedOtp);
 
     const firstName = signupForm.values.fullName.split(" ")[0] || "User"; // extract first name
     const emailBody = signUpOtpEmail({ firstName: firstName, otp: otp });
@@ -69,7 +75,15 @@ function SignupPage({ setModalName, setShow }) {
   };
 
   const verifyOtpAndRegister = async (values) => {
-    const stored = JSON.parse(localStorage.getItem("signupOtp"));
+    // const stored = JSON.parse(localStorage.getItem("signupOtp"));
+
+    const encryptedOtp = localStorage.getItem('pweoriwpepedaldssdcds');
+    const decrypted = decrypt(encryptedOtp);
+    const stored = decrypted ? JSON.parse(decrypted) : null;
+
+    if (!stored || Date.now() > stored.expiry) {
+        error_swal_toast("OTP expired or invalid");
+    }
     // console.log(values.fullName, values.mobileNo, values.emailId, values.userPassword)
     if (!stored) return error_swal_toast("OTP not generated or expired.");
     // if (!stored) {
@@ -180,9 +194,9 @@ const formatTime = (seconds) => {
 
 const handleResendOtp = () => {
   sendOtp(otpEmail);
-  setResendCountdown(30); // reset 30 sec timer for resend
+  setResendCountdown(90); // reset 30 sec timer for resend
   setCanResendOtp(false);
-  setOtpCountdown(600); // reset full OTP validity countdown if needed
+  setOtpCountdown(90); // reset full OTP validity countdown if needed
 };
 
   return (
@@ -194,7 +208,7 @@ const handleResendOtp = () => {
       <p>Create an account to get started</p>
       <FormikProvider value={signupForm}>
         <Form className="" autoComplete="off">
-          
+
           <div className="">
             <FloatingInputLabel fieldName={`fullName`} formikFrom={signupForm} labelText={`Full Name`} />
           </div>
@@ -246,20 +260,23 @@ const handleResendOtp = () => {
       </FormikProvider> </> 
       ): (
         <div className="my-4 w-100">
-             <Form >
-           <h3>Enter OTP</h3>
+          <h3>Enter OTP</h3>
           <p>OTP sent on <b>{otpEmail}</b></p>
-           <div className="">
-              <FloatingInputLabel fieldName={`emailId`} formikFrom={forgotPasswordForm} labelText={`Email Address`} />
-            </div>
-         <div className="">
-          <FloatingInputLabel
-            fieldName="enteredOtp"
-            formikFrom={signupForm}
-            labelText="Enter OTP"
-            type="text"
-          />
-        </div>
+          <div className="position-relative my-3">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="enteredOtp"
+                className="form-control pe-5"
+                placeholder="Enter OTP"
+                value={signupForm.values.enteredOtp}
+                onChange={(e) => signupForm.setFieldValue("enteredOtp", e.target.value)}
+              />
+                <i
+                  className={`fa ${showPassword ? "fa-eye-slash" : "fa-eye"} position-absolute top-50 end-0 translate-middle-y me-3`}
+                  role="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                ></i>
+          </div>
           <div className="d-flex justify-content-between pb-3">
             <div><b>{formatTime(otpCountdown)}</b></div>
             <div>
@@ -296,7 +313,6 @@ const handleResendOtp = () => {
               Back to Sign Up
             </Link>
           </div>
-          </Form>
         </div>
       )}  
 

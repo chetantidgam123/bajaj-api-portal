@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 import { LoaderWight } from "../../Loader";
 import { loginOtpEmail } from "../../emailTemplate";
 import { BasicLoader } from "../../Loader";
+import { encrypt,decrypt } from "../../Utils";
 
 // Generate 6-digit OTP
 const generateOtp = () => Math.floor(100000 + Math.random() * 900000).toString();
@@ -20,9 +21,9 @@ function Login({ setModalName, setShow }) {
     const [otpEmail, setOtpEmail] = useState("");
     const [otpSent, setOtpSent] = useState(false);
     const [basicLoader, setBasicLoader] = useState(false)
-
-    const [otpCountdown, setOtpCountdown] = useState(30); // 10 minutes in seconds
-    const [resendCountdown, setResendCountdown] = useState(30);
+    const [showPassword, setShowPassword] = useState(false);
+    const [otpCountdown, setOtpCountdown] = useState(90); // 10 minutes in seconds
+    const [resendCountdown, setResendCountdown] = useState(90);
     const [canResendOtp, setCanResendOtp] = useState(false);
     const [backendTokenData, setBackendTokenData] = useState(null); // store token data temporarily
     const navigate = useNavigate();
@@ -84,7 +85,11 @@ function Login({ setModalName, setShow }) {
                 // Generate OTP
                 const otp = generateOtp();
                 const expiry = Date.now() + 5 * 60 * 1000; // 5 minutes
-                localStorage.setItem("loginOtp", JSON.stringify({ otp, expiry }));
+                // localStorage.setItem("loginOtp", JSON.stringify({ otp, expiry }));
+
+                const otpPayload = JSON.stringify({ otp, expiry: Date.now() + 90 * 1000 });
+                const encryptedOtp = encrypt(otpPayload);
+                localStorage.setItem('adiholedjewdjewdpewk', encryptedOtp);
 
                 const firstName =
                     res?.data?.userdata?.fullname || "User";
@@ -100,8 +105,8 @@ function Login({ setModalName, setShow }) {
 
                 success_swal_toast("OTP sent to your email!");
                 setOtpSent(true);
-                setOtpCountdown(30);
-                setResendCountdown(30);
+                setOtpCountdown(90);
+                setResendCountdown(90);
                 setCanResendOtp(false);
                 console.log("Generated OTP:", otp);
             } else {
@@ -115,7 +120,11 @@ function Login({ setModalName, setShow }) {
 
     // Step 2: Verify OTP and finalize login
     const verifyOtpAndLogin = () => {
-        const stored = JSON.parse(localStorage.getItem("loginOtp"));
+        // const stored = JSON.parse(localStorage.getItem("loginOtp"));
+        const encryptedOtp = localStorage.getItem('adiholedjewdjewdpewk');
+        const decrypted = decrypt(encryptedOtp);
+        const stored = decrypted ? JSON.parse(decrypted) : null;
+
         if (!stored) {
             error_swal_toast("OTP expired or not generated");
             return;
@@ -145,7 +154,11 @@ function Login({ setModalName, setShow }) {
     const handleResendOtp = async () => {
         const otp = generateOtp();
         const expiry = Date.now() + 5 * 60 * 1000;
-        localStorage.setItem("loginOtp", JSON.stringify({ otp, expiry }));
+        // localStorage.setItem("loginOtp", JSON.stringify({ otp, expiry }));
+
+        const otpPayload = JSON.stringify({ otp, expiry: Date.now() + 90 * 1000 });
+        const encryptedOtp = encrypt(otpPayload);
+        localStorage.setItem('adiholedjewdjewdpewk', encryptedOtp);
 
 
         const firstName = otpEmail.split("@")[0] || "User";
@@ -154,9 +167,9 @@ function Login({ setModalName, setShow }) {
         try {
             await sendEmail({ body: emailBody, toRecepients: [otpEmail], subject: "Your OTP for login", contentType: "application/json" });
             success_swal_toast("OTP resent to your email!");
-            setResendCountdown(30);
+            setResendCountdown(90);
             setCanResendOtp(false);
-            setOtpCountdown(30); // optional: reset OTP timer
+            setOtpCountdown(90); // optional: reset OTP timer
             console.log("Generated OTP (resend):", otp);
         } catch (err) {
             error_swal_toast("Failed to resend OTP");
@@ -191,14 +204,21 @@ function Login({ setModalName, setShow }) {
                 <div className="my-4 w-100">
                     <h4>Enter OTP</h4>
                     <p>OTP sent on <b>{otpEmail}</b></p>
-                    <input
-                        type="text"
-                        name="enteredOtp"
-                        className="form-control my-3"
-                        placeholder="Enter OTP"
-                        value={Loginform.values.enteredOtp}
-                        onChange={(e) => Loginform.setFieldValue("enteredOtp", e.target.value)}
-                    />
+                    <div className="position-relative my-3">
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            name="enteredOtp"
+                            className="form-control pe-5"
+                            placeholder="Enter OTP"
+                            value={Loginform.values.enteredOtp}
+                            onChange={(e) => Loginform.setFieldValue("enteredOtp", e.target.value)}
+                        />
+                            <i
+                            className={`fa ${showPassword ? "fa-eye-slash" : "fa-eye"} position-absolute top-50 end-0 translate-middle-y me-3`}
+                            role="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            ></i>
+                    </div>
                     <div className="d-flex justify-content-between pb-3">
                         <div><b>{formatTime(otpCountdown)}</b></div>
                         <div>
