@@ -101,7 +101,8 @@ function RequestAccessList() {
                 success_swal_toast(response.data.message)
                 const subject= "Login Approval Granted for BAJAJ API Access"
                 const userName = user.fullname
-                const userEmail = "sagarmeshram532@gmail.com"
+                // const userEmail = "sagarmeshram532@gmail.com"
+                const userEmail = user?.emailId || ""
                 const userId = user.id
                 console.log("inside status condition true or false 2")
                 const emailBody = generateApiApprovalEmail({

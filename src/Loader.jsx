@@ -8,6 +8,14 @@ function LoaderWight() {
   return <i className="fa fa-spinner fa-spin text-white"></i>;
 }
 
+function BasicLoader() {
+  return (
+    <Spinner animation="border" role="status">
+      <span className="visually-hidden">Loading...</span>
+    </Spinner>
+  );
+}
+
 function PageLoader() {
   return (<div className='d-flex align-items-center justify-content-center w-100'>
     <Spinner animation="grow" size='lg' className='color-volite' />
@@ -36,4 +44,4 @@ function PageLoaderBackdrop() {
   )
 }
 
-export { Loader, PageLoader, PageLoaderBackdrop, LoaderWight }
+export { Loader, PageLoader, PageLoaderBackdrop, LoaderWight, BasicLoader }

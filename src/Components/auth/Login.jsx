@@ -10,6 +10,7 @@ import { error_swal_toast, success_swal_toast } from "../../SwalServices";
 import { useState, useEffect } from "react";
 import { LoaderWight } from "../../Loader";
 import { loginOtpEmail } from "../../emailTemplate";
+import { BasicLoader } from "../../Loader";
 
 // Generate 6-digit OTP
 const generateOtp = () => Math.floor(100000 + Math.random() * 900000).toString();
@@ -18,6 +19,7 @@ function Login({ setModalName, setShow }) {
     const [loader, setLoader] = useState(false);
     const [otpEmail, setOtpEmail] = useState("");
     const [otpSent, setOtpSent] = useState(false);
+    const [basicLoader, setBasicLoader] = useState(false)
 
     const [otpCountdown, setOtpCountdown] = useState(30); // 10 minutes in seconds
     const [resendCountdown, setResendCountdown] = useState(30);
@@ -135,7 +137,7 @@ function Login({ setModalName, setShow }) {
         localStorage.removeItem("loginOtp");
         setShow(false);
         Loginform.resetForm();
-
+        setBasicLoader(false)
         success_swal_toast("Login successful!");
         navigate('/get-started');
     };
@@ -211,7 +213,10 @@ function Login({ setModalName, setShow }) {
                     </div>
                     <button
                         className="btn btn-primary w-100"
-                        onClick={() => verifyOtpAndLogin()}
+                        onClick={() => {
+                            setBasicLoader(true)
+                            verifyOtpAndLogin()
+                        }}
                         disabled={loader}
                     >
                         {loader ? <LoaderWight /> : "Verify & Login"}
