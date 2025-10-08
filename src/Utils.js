@@ -369,5 +369,7 @@ export {
     statusCodes,
     copyToClipboard,
     statusValue,
-    getInitials
+    getInitials,
+    encrypt,
+    decrypt
 }
