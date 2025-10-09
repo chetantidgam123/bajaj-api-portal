@@ -8,6 +8,11 @@ import remarkGfm from 'remark-gfm'
 import { arrayIndex, convertToPayload, copyToClipboard, getTokenData, trucateString } from '../../Utils';
 import GetStarted from './GetStarted';
 import { error_swal_toast } from '../../SwalServices';
+import accesscontrol from '/assets/img/access-control.png';
+import dots from '/assets/img/dots.png';
+import egypt from '/assets/img/egypt.png';
+import uparrow from '/assets/img/arrow-right-solid-full 1.png';
+// import { FaAngleDown, FaAngleRight } from "react-icons/fa";
 import { post_auth_data, post_data } from '../../ApiServices';
 import { PageLoaderBackdrop, Loader } from '../../Loader';
 import EditableBody from '../user/UtilComponent/EditableBody'
@@ -23,7 +28,8 @@ function ApiPlayGround() {
     const [statusCode, setStatusCode] = useState(0);
     const [modalData, setModalData] = useState({ header: [], body: {}, resbody: {} })
     const [loader, setLoader] = useState(false);
-
+      const [isOpen, setIsOpen] = useState(true);
+      
     const location = useLocation();
     const [bodyRequestSample, setBodyRequestSample] = useState('')
     useEffect(() => {
@@ -171,45 +177,149 @@ function ApiPlayGround() {
                 </div>
             </div>
             <div className='box-apiplay'>
-        <p className='text-center'>This request does not have a body</p>
+                <p className='text-center'>This request does not have a body</p>
             </div>
             <div className='border-top'></div>
-            <div className='d-flex mt-4'>
-                <p className='me-4'><b>Responce</b></p>
-                <p><i class="fa-solid fa-clock me-2"></i>History <i class="fa-solid fa-angle-down"></i></p>
-            </div>
-            <p className='text-muted'>Error: connect ECONNREFUSED 127.0.0.1:8080 <br></br>
-                Request Headers <br></br>
-                Content-Type: application/json <br></br>
-                User-Agent: PostmanRuntime/7.45.0 <br></br>
-                Accept: */* <br></br>
-                Cache-Control: no-cache <br></br>
-                Postman-Token: 6fa9e43a-e8ee-45dc-8ab5-15075fe756c6 <br></br>
-                Host: localhost:8080<br></br>
-                Accept-Encoding: gzip, deflate, br<br></br>
-                Connection: keep-alive</p>
-                <div className='row'>
-                    <div className='col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 d-flex'>
-                    <p><i class="fa-solid fa-magnifying-glass me-2"></i>Find & replace</p>
-                    <p className='ms-3'><i class="fa-solid fa-code me-2"></i>Console</p>
-                    </div>
-                   <div className='col-xl-9 col-lg-9 col-md-6 col-sm-12 col-12 d-flex justify-content-end'>
-                    <p>
-                         <i className="fa-solid fa-terminal me-2"></i> Runner
-                    </p>
-                  <p className='ms-3'>
-                    <i className="fa-regular fa-circle-play me-2"></i> Start Proxy
-                    </p>
-                    <p className='ms-3'>
-                    <i className="fa-regular fa-cookie me-2"></i> Cookies
-                    </p>
-                    <p className='ms-3'>
-                    <i className="fa-regular fa-trash-can me-2"></i> Trash
-                    </p>
+            <div className='mt-4 row d-flex justify-content-between'>
+                <div className='col-xl-3 col-lg-3 col-md-3 col-sm-4 col-4'>
+                    <ul class="nav nav-pills mb-3 mt-3" id="pills-tab" role="tablist">
+                        <li class="nav-item pe-3" role="presentation">
+                            <button class="nav-link  try-api-tab active" id="pills-onenew-tab" data-bs-toggle="pill" data-bs-target="#pills-onenew" type="button" role="tab" aria-controls="pills-onenew" aria-selected="true">Body</button>
+                        </li>
+                        <li class="nav-item px-3" role="presentation">
+                            <button class="nav-link try-api-tab " id="pills-new-tab" data-bs-toggle="pill" data-bs-target="#pills-new" type="button" role="tab" aria-controls="pills-new" aria-selected="false">Header (8)</button>
+                        </li>
 
+
+
+                    </ul>
+                </div>
+                <div className='col-xl-4 col-lg-4 col-md-9 col-sm-8 col-8 d-flex align-items-center'>
+                    <span className="badge bg-success">200 OK</span>
+                    <div className='grey-dot ms-2'></div>
+                    <span className='ms-2'>1.16 KB</span>
+                    <div className='grey-dot ms-2'></div>
+                    <img src={accesscontrol} className='ms-2' alt="" style={{ width: '20px', height: '20px' }} />
+                    <div className='ms-2'>|</div>
+                    <img src={egypt} className='ms-2' alt="" style={{ width: '20px', height: '20px' }} />
+                    <span className='ms-2'>Save Response</span>
+                    <img src={dots} className='ms-2' alt="" style={{ width: '20px', height: '20px' }} />
+                </div>
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="pills-onenew" role="tabpanel" aria-labelledby="pills-onenew-tab">
+                        <span class="badge bg-secondary mb-2"> { } JSON  <i class="fa-solid fa-angle-down"></i></span>
+
+                        <p>
+                            [
+
+                            'id' - '1',<br></br>
+                            'name' - 'Google Pixel 6 Pro',<br></br>
+                            'name' - 'Google Pixel 6 Pro',<br></br>
+                            'name' - 'Google Pixel 6 Pro',<br></br>
+                            'name' - 'Google Pixel 6 Pro',<br></br>
+                            'name' - 'Google Pixel 6 Pro',<br></br>
+                            'name' - 'Google Pixel 6 Pro',
+
+                            ]
+                        </p>
                     </div>
+                    <div class="tab-pane fade" id="pills-twonew" role="tabpanel" aria-labelledby="pills-twonew-tab">.2..</div>
 
                 </div>
+            </div>
+         <div
+      className="bg-white border rounded-2 p-2 mt-3"
+     
+    >
+      {/* Console Header */}
+      <div className=" row d-flex align-items-center justify-content-between mb-2">
+        <div className='col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12'>
+       <span className='border-bottom-blue pb-1'>
+        <i className="fa-solid fa-code me-2 text-secondary"></i>
+         <span className=''>Console</span>
+       </span>
+        </div>
+        <div className='col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 d-flex align-items-center justify-content-end'>
+        <span className='me-2 mb-0'>All Logs <i class="fa-solid fa-angle-down"></i></span>
+        <span class="badge bg-light text-dark">Clear</span>
+            <i class="fa-solid fa-copy me-2 text-secondary"></i>
+              <img src={dots} className='ms-2' alt="" style={{ width: '20px', height: '20px' }} />
+              <img src={uparrow} className='ms-2' alt="" style={{ width: '20px', height: '20px' }} />
+                <i class="fa-solid fa-xmark text-secondary"></i>
+        </div>
+      </div>
+
+      {/* First GET request (collapsible) */}
+      <div className="border-top pt-2">
+        <div
+          className="d-flex justify-content-between align-items-center"
+          style={{ cursor: "pointer" }}
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <div className="d-flex align-items-center">
+            {isOpen ? (
+              <i className="fa-solid fa-angle-down me-2 text-secondary"></i>
+            ) : (
+             <i className="fa-solid fa-angle-right me-2 text-secondary"></i>
+            )}
+            <span className="text-primary fw-semibold">GET</span>
+            <span className="text-secondary ms-2">
+              https://api.restful-api.dev/objects
+            </span>
+          </div>
+          <div>
+            <span className="text-success me-2">200</span>
+            <span className="text-secondary">862 ms</span>
+          </div>
+        </div>
+
+        {/* Collapsible details */}
+        {isOpen && (
+          <div className="ms-4 mt-2">
+            <div className="text-secondary small">▶ Network</div>
+            <div className="text-secondary small">▶ Request Headers</div>
+            <div className="text-secondary small">▶ Request Body</div>
+            <div className="text-secondary small">▶ Response Headers</div>
+            <div className="text-secondary small">▶ Response Body</div>
+          </div>
+        )}
+      </div>
+
+      {/* Second GET request */}
+      <div className="border-top pt-2 mt-1">
+        <div className="d-flex justify-content-between align-items-center">
+          <div className="d-flex align-items-center">
+             <i className="fa-solid fa-angle-right me-2 text-secondary"></i>
+            <span className="text-primary fw-semibold">GET</span>
+            <span className="text-secondary ms-2">
+              https://api.restful-api.dev/objects
+            </span>
+          </div>
+          <div>
+            <span className="text-success me-2">200</span>
+            <span className="text-secondary">862 ms</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Third GET request */}
+      <div className="border-top pt-2 mt-1">
+        <div className="d-flex justify-content-between align-items-center">
+          <div className="d-flex align-items-center">
+            <i className="fa-solid fa-angle-right me-2 text-secondary"></i>
+            <span className="text-primary fw-semibold">GET</span>
+            <span className="text-secondary ms-2">
+              https://api.restful-api.dev/objects
+            </span>
+          </div>
+          <div>
+            <span className="text-success me-2">200</span>
+            <span className="text-secondary">862 ms</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
             {
                 loader && <PageLoaderBackdrop />
             }

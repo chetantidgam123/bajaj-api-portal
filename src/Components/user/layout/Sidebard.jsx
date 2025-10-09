@@ -98,7 +98,10 @@ function Sidebard() {
               } d-flex justify-content-center`}
           >
             <div className="circle-arrow toggle" onClick={toggleSidebar}>
-              <i className="fa-solid fa-arrow-left" role="button"></i>
+               <i
+              className={`fa-solid ${isClosed ? "fa-arrow-right" : "fa-arrow-left"}`}
+              role="button"
+            ></i>
             </div>
           </div>
 
