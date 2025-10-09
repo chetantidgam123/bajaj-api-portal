@@ -180,9 +180,9 @@ function ApiPlayGround() {
                 <p className='text-center'>This request does not have a body</p>
             </div>
             <div className='border-top'></div>
-            <div className='mt-4 row d-flex justify-content-between'>
+            <div className='row d-flex justify-content-between'>
                 <div className='col-xl-3 col-lg-3 col-md-3 col-sm-4 col-4'>
-                    <ul class="nav nav-pills mb-3 mt-3" id="pills-tab" role="tablist">
+                    <ul class="nav nav-pills my-1" id="pills-tab" role="tablist">
                         <li class="nav-item pe-3" role="presentation">
                             <button class="nav-link  try-api-tab active" id="pills-onenew-tab" data-bs-toggle="pill" data-bs-target="#pills-onenew" type="button" role="tab" aria-controls="pills-onenew" aria-selected="true">Body</button>
                         </li>
