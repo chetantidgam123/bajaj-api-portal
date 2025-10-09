@@ -243,13 +243,13 @@ function HomePageContent() {
     return (
         <div className="home-container">
             <div className="home-content">
-                <div className={`center-content ${!api_id ? 'center-content-condition' : ''}`}>
+                <div className={`center-content  ${!api_id ? 'center-content-condition' : ''}`}>
                     {(collection_id) &&
                         <div className="card-new mb-3">
                             <div className="card-body card-bg">
                                 <div className='row align-items-center'>
                                     <div className={api_id ? 'col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12' : 'col-12'}>
-                                        <h1 className='mb-0'>{title || 'Get Started'}</h1>
+                                        <h2 className='mb-0'>{title || 'Get Started'}</h2>
                                         <ReactMarkdown  
                                             remarkPlugins={[remarkGfm]}
                                             components={{
