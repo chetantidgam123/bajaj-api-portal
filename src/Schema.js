@@ -16,7 +16,7 @@ export const signupFormSchema = yup.object().shape({
     .min(6, "Password must be at least 6 characters long")
     .matches(/^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{6,}$/, "Invalid password pattern must contain atleaset one uppercase letter,special character & number")
     .required("mandatory field*"),
-  terms: yup.boolean().oneOf([true], "You must agree to the terms and conditions"),
+  // terms: yup.boolean().oneOf([true], "You must agree to the terms and conditions"),
 });
 export const loginFormSchema = yup.object().shape({
   emailId: yup
@@ -37,7 +37,7 @@ export const profileFormSchema = yup.object().shape({
   company_name: yup.string().min(3, "minimum length should be 3 characters").required("Mandatory field*"),
   company_email: yup.string().email("Invalid office email").required("Mandatory field*"),
   company_mobile: yup.string().matches(/^\d{10}$/, "Office phone number must be exactly 10 digits").required("Mandatory field*"),
-  company_office_mobile: yup.string().matches(/^\d{10}$/, "Alt. office phone number must be exactly 10 digits").required("Mandatory field*"),
+  company_office_mobile: yup.string().matches(/^\d{10}$/, "Alt. office phone number must be exactly 10 digits"),
   company_address: yup.string().min(3, "minimum length should be 3 characters").max(50, "maximum length should be 50 characters").required("Mandatory field*"),
   clientId: yup.string(),
   clientSecret: yup.string(),

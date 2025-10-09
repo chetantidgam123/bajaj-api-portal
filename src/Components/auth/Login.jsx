@@ -74,7 +74,6 @@ function Login({ setModalName, setShow }) {
         setLoader(true);
         try {
             const res = await post_data("portal/public", convertToPayload('login', payload), {});
-            setLoader(false);
             if (res.data.status) {
                 // Store backend token temporarily
                 setBackendTokenData(res.data.userdata);
@@ -102,7 +101,7 @@ function Login({ setModalName, setShow }) {
                     subject: "In OTP for Bajaj Developer Portal",
                     contentType: "text/html"
                 });
-
+                setLoader(false);
                 success_swal_toast("OTP sent to your email!");
                 setOtpSent(true);
                 setOtpCountdown(90);
@@ -237,9 +236,10 @@ function Login({ setModalName, setShow }) {
                             setBasicLoader(true)
                             verifyOtpAndLogin()
                         }}
-                        disabled={loader}
+                        disabled={basicLoader}
                     >
-                        {loader ? <LoaderWight /> : "Verify & Login"}
+                        {/* {loader ? <LoaderWight /> : "Verify & Login"} */}
+                        Verify & Login {basicLoader && <LoaderWight />}
                     </button>
 
                     <div className="mt-3 text-center">

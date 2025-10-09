@@ -9,6 +9,9 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { BrowserRouter } from "react-router-dom";
 import RouterElement from "./routes/RouterElement";
 const root = ReactDOM.createRoot(document.getElementById("root"));
+if (process.env.NODE_ENV === "production") {
+  console.log = () => {}; // disable logs only in production
+}
 root.render(
   <BrowserRouter basename="/" >
     <RouterElement />

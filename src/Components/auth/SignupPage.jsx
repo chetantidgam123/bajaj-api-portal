@@ -33,7 +33,7 @@ function SignupPage({ setModalName, setShow }) {
       emailId: "",
       userPassword: "",
       confirmPassword: "",
-      terms: false,
+      // terms: false,
       enteredOtp: "",
     },
     validationSchema: signupFormSchema,
@@ -47,7 +47,7 @@ function SignupPage({ setModalName, setShow }) {
 
   // Step 1: Generate OTP and save in localStorage
   const sendOtp = async (email) => {
-
+    setLoader(true)
     if (!signupForm.values.fullName || !signupForm.values.emailId || !signupForm.values.mobileNo || !signupForm.values.userPassword) {
       return error_swal_toast("Please fill all required fields correctly.");
     }
@@ -68,7 +68,9 @@ function SignupPage({ setModalName, setShow }) {
       success_swal_toast("OTP has been sent to your email!");
       // setShowOtpModal(true);
       setOtpSent(true);
+      setLoader(false)
     } catch (err) {
+      setLoader(false)
       error_swal_toast("Failed to send OTP email.");
     }
     console.log("Generated OTP:", otp); // debug
@@ -241,13 +243,15 @@ const handleResendOtp = () => {
           <div className="text-center">
             {/* <button type="button" className="btn btn-primary w-100" onClick={signupForm.handleSubmit} disabled={loader}>Sign Up {loader ? <LoaderWight /> : <i className="fa-solid fa-arrow-right"></i>}</button> */}
             <button
-              type="button"
+              type="submit"
               className="btn btn-primary w-100"
-              onClick={() => {
-                sendOtp(signupForm.values.emailId);
-                setOtpEmail(signupForm.values.emailId);
-                // setShowOtpModal(true); // show OTP popup
-              }}
+              onClick={signupForm.handleSubmit}
+              // onClick={() => {
+              //   sendOtp(signupForm.values.emailId);
+              //   setOtpEmail(signupForm.values.emailId);
+              //   // setShowOtpModal(true); // show OTP popup
+              // }}
+              disabled={loader}
             >
               Send OTP
             </button>
