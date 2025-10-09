@@ -714,10 +714,12 @@ h6 {
     top: 0;
     z-index: 99;
 }
+ 
 
 textarea.form-control {
     line-height: 2.25 !important
 }
+
 
 select.form-select {
     height: calc(3.5rem + calc(var(--bs-border-width) * 2));
