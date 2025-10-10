@@ -70,7 +70,9 @@ function LangCurlExecuteComp({ apiData, setStatusCode,bodyReqSample,tryit=false 
                         </small>
                     </div>
                     <div>
-                        <button className='span-btn-cirlce-btn p-0'>
+                        <button 
+                        className='span-btn-cirlce-btn p-0' 
+                        onClick={() => navigator.clipboard.writeText(apiData.apiurl)}>
                         <img src="/assets/img/copy.png" alt="copy"/>
                         </button>
                     </div>

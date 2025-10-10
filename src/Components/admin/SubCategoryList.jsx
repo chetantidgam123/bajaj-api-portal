@@ -49,9 +49,9 @@ function SubCategoryList() {
                 setCategoryList([]);
             })
     }
-    const getSubCategoryList = (page = 1) => {
+    const getSubCategoryList = (page = 1, catId = "") => {
         let payload = {
-            category_id: subcategoryForm.values.categoryid,
+            category_id: Number(catId || subcategoryForm.values.categoryid || 0),
             offset: ((page - 1) * offsetPagination),
             limit: offsetPagination
         }
@@ -97,7 +97,7 @@ function SubCategoryList() {
     const updateSubCategory = (data) => {
         let payload = {
             subcategoryname: data.subcategoryname,
-            categoryid: data.categoryid,
+            categoryid: Number(data.categoryid),
             sub_categoryid: data.sub_categoryid,
             description: data.description,
             isenabled: data.isenabled,
@@ -200,7 +200,7 @@ function SubCategoryList() {
                         </div>
                     </div>
                    <div className="col-3 mb-2">
-                        <button className="btn btn-primary profilePageButton px-3 search-btn">Search  </button>
+                        <button className="btn btn-primary profilePageButton px-3 search-btn" onClick={() => getSubCategoryList(1, dropCatInput)}>Search  </button>
                     </div>
                 </div>
             </div>
