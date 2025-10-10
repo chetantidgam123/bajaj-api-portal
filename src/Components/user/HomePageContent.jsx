@@ -279,12 +279,12 @@ function HomePageContent() {
                     {(collection_id == 0 || location.pathname.includes('get-started')) && <GetStarted />}
                     {api_id && apiData && <div className="card  mb-3">
                         <div className="card-body card-bg">
-                            <div className="row d-flex justify-content-between align-items-start mb-3">
+                            <div className="row d-flex justify-content-between align-items-center mb-3">
                                 <div className='col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12'>
                                     <h5 className="mb-0" id='requestSample'>Request Sample :</h5>
                                 </div>
                                 <div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-end'>
-                                    <button onClick={() => { copyToClipboard(JSON.parse(apiData.reqsample) || '{}') }} className='span-btn-cirlce'><img src="/assets/img/copy.png" alt="copy" /></button>
+                                    <button onClick={() => { copyToClipboard(JSON.parse(apiData.reqsample) || '{}') }} className='span-btn-cirlce-btn '><img src="/assets/img/copy.png" alt="copy" /></button>
                                 </div>
 
                             </div>
