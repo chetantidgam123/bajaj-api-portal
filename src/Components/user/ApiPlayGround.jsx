@@ -28,8 +28,8 @@ function ApiPlayGround() {
     const [statusCode, setStatusCode] = useState(0);
     const [modalData, setModalData] = useState({ header: [], body: {}, resbody: {} })
     const [loader, setLoader] = useState(false);
-      const [isOpen, setIsOpen] = useState(true);
-      
+    const [isOpen, setIsOpen] = useState(true);
+
     const location = useLocation();
     const [bodyRequestSample, setBodyRequestSample] = useState('')
     useEffect(() => {
@@ -126,35 +126,44 @@ function ApiPlayGround() {
                 <li class="nav-item pe-3" role="presentation">
                     <button class="nav-link  try-api-tab active" id="pills-one-tab" data-bs-toggle="pill" data-bs-target="#pills-one" type="button" role="tab" aria-controls="pills-one" aria-selected="true">Params</button>
                 </li>
+               
                 <li class="nav-item px-3" role="presentation">
-                    <button class="nav-link try-api-tab " id="pills-two-tab" data-bs-toggle="pill" data-bs-target="#pills-two" type="button" role="tab" aria-controls="pills-two" aria-selected="false">Authorization</button>
+                    <button class="nav-link try-api-tab " id="pills-two-tab" data-bs-toggle="pill" data-bs-target="#pills-two" type="button" role="tab" aria-controls="pills-two" aria-selected="false"> Headers (8)</button>
                 </li>
                 <li class="nav-item px-3" role="presentation">
-                    <button class="nav-link try-api-tab " id="pills-three-tab" data-bs-toggle="pill" data-bs-target="#pills-three" type="button" role="tab" aria-controls="pills-three" aria-selected="false"> Headers (8)</button>
-                </li>
-                <li class="nav-item px-3" role="presentation">
-                    <button class="nav-link try-api-tab body-dot" id="pills-four-tab" data-bs-toggle="pill" data-bs-target="#pills-four" type="button" role="tab" aria-controls="pills-four" aria-selected="false">
+                    <button class="nav-link try-api-tab body-dot" id="pills-three-tab" data-bs-toggle="pill" data-bs-target="#pills-three" type="button" role="tab" aria-controls="pills-three" aria-selected="false">
                         Body
                     </button>
                 </li>
 
 
-                <li class="nav-item px-3" role="presentation">
-                    <button class="nav-link try-api-tab body-dot" id="pills-five-tab" data-bs-toggle="pill" data-bs-target="#pills-five" type="button" role="tab" aria-controls="pills-five" aria-selected="false">Scripts </button>
-                </li>
-                <li class="nav-item px-3" role="presentation">
-                    <button class="nav-link try-api-tab " id="pills-six-tab" data-bs-toggle="pill" data-bs-target="#pills-six" type="button" role="tab" aria-controls="pills-six" aria-selected="false"> Settings</button>
-                </li>
             </ul>
             <div class="tab-content" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="pills-one" role="tabpanel" aria-labelledby="pills-one-tab">
-
+                <div className='table-responsive'>
+                    <table className='table table-bordered'>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Key</th>
+                                <th>Value</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Key</th>
+                                <th>Value</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
                 </div>
                 <div class="tab-pane fade" id="pills-two" role="tabpanel" aria-labelledby="pills-two-tab">.2..</div>
                 <div class="tab-pane fade" id="pills-three" role="tabpanel" aria-labelledby="pills-three-tab">.3..</div>
-                <div class="tab-pane fade" id="pills-four" role="tabpanel" aria-labelledby="pills-four-tab">.4.</div>
-                <div class="tab-pane fade" id="pills-five" role="tabpanel" aria-labelledby="pills-five-tab">.5..</div>
-                <div class="tab-pane fade" id="pills-six" role="tabpanel" aria-labelledby="pills-six-tab">.5..</div>
+               
             </div>
             <div className='d-flex'>
                 <div class="form-check">
@@ -227,98 +236,102 @@ function ApiPlayGround() {
 
                 </div>
             </div>
-         <div
-      className="bg-white border rounded-2 p-2 mt-3"
-     
-    >
-      {/* Console Header */}
-      <div className=" row d-flex align-items-center justify-content-between mb-2">
-        <div className='col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12'>
-       <span className='border-bottom-blue pb-1'>
-        <i className="fa-solid fa-code me-2 text-secondary"></i>
-         <span className=''>Console</span>
-       </span>
-        </div>
-        <div className='col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 d-flex align-items-center justify-content-end'>
-        <span className='me-2 mb-0'>All Logs <i class="fa-solid fa-angle-down"></i></span>
-        <span class="badge bg-light text-dark">Clear</span>
-            <i class="fa-solid fa-copy me-2 text-secondary"></i>
-              <img src={dots} className='ms-2' alt="" style={{ width: '20px', height: '20px' }} />
-              <img src={uparrow} className='ms-2' alt="" style={{ width: '20px', height: '20px' }} />
-                <i class="fa-solid fa-xmark text-secondary"></i>
-        </div>
-      </div>
+            <div className='border-top'></div>
+            <div>
+                {/* Console Header */}
+                <span className=' pb-1' style={{ cursor: 'pointer' }} data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
+                    <i className="fa-solid fa-code me-2 text-secondary"></i>
+                    <span className=''>Console</span>
+                </span>
+                <div className="offcanvas offcanvas-bottom bottom-backdrop" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
+                    <div className="offcanvas-header ">
+                        <div className=" row d-flex w-100 align-items-center justify-content-between mb-2">
+                            <div className='col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12'>
+                                <span className='border-bottom-blue pb-1'>
+                                    <i className="fa-solid fa-code me-2 text-secondary"></i>
+                                    <span className=''>Console</span>
+                                </span>
+                            </div>
+                            <div className='col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 d-flex align-items-center justify-content-end'>
+                                <span className='me-2 mb-0'>All Logs <i class="fa-solid fa-angle-down"></i></span>
+                                <span class="badge bg-light text-dark">Clear</span>
+                                <i class="fa-solid fa-copy me-2 text-secondary"></i>
+                                <img src={dots} className='ms-2' alt="" style={{ width: '20px', height: '20px' }} />
+                                <img src={uparrow} className='ms-2' alt="" style={{ width: '20px', height: '20px' }} />
+                                <i class="fa-solid fa-xmark text-secondary" data-bs-dismiss="offcanvas" aria-label="Close"></i>
+                            </div>
+                        </div>
+                        {/* <h5 className="offcanvas-title" id="offcanvasBottomLabel">Offcanvas bottom</h5> */}
+                        {/* <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button> */}
+                    </div>
+                    <div className="offcanvas-body small">
+                        <div className="border-top pt-2">
+                            <div
+                                className="d-flex justify-content-between align-items-center"
+                                style={{ cursor: "pointer" }}
+                                onClick={() => setIsOpen(!isOpen)}
+                            >
+                                <div className="d-flex align-items-center">
+                                    {isOpen ? (
+                                        <i className="fa-solid fa-angle-down me-2 text-secondary"></i>
+                                    ) : (
+                                        <i className="fa-solid fa-angle-right me-2 text-secondary"></i>
+                                    )}
+                                    <span className="text-primary fw-semibold">GET</span>
+                                    <span className="text-secondary ms-2">
+                                        https://api.restful-api.dev/objects
+                                    </span>
+                                </div>
+                                <div>
+                                    <span className="text-success me-2">200</span>
+                                    <span className="text-secondary">862 ms</span>
+                                </div>
+                            </div>
 
-      {/* First GET request (collapsible) */}
-      <div className="border-top pt-2">
-        <div
-          className="d-flex justify-content-between align-items-center"
-          style={{ cursor: "pointer" }}
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <div className="d-flex align-items-center">
-            {isOpen ? (
-              <i className="fa-solid fa-angle-down me-2 text-secondary"></i>
-            ) : (
-             <i className="fa-solid fa-angle-right me-2 text-secondary"></i>
-            )}
-            <span className="text-primary fw-semibold">GET</span>
-            <span className="text-secondary ms-2">
-              https://api.restful-api.dev/objects
-            </span>
-          </div>
-          <div>
-            <span className="text-success me-2">200</span>
-            <span className="text-secondary">862 ms</span>
-          </div>
-        </div>
-
-        {/* Collapsible details */}
-        {isOpen && (
-          <div className="ms-4 mt-2">
-            <div className="text-secondary small">▶ Network</div>
-            <div className="text-secondary small">▶ Request Headers</div>
-            <div className="text-secondary small">▶ Request Body</div>
-            <div className="text-secondary small">▶ Response Headers</div>
-            <div className="text-secondary small">▶ Response Body</div>
-          </div>
-        )}
-      </div>
-
-      {/* Second GET request */}
-      <div className="border-top pt-2 mt-1">
-        <div className="d-flex justify-content-between align-items-center">
-          <div className="d-flex align-items-center">
-             <i className="fa-solid fa-angle-right me-2 text-secondary"></i>
-            <span className="text-primary fw-semibold">GET</span>
-            <span className="text-secondary ms-2">
-              https://api.restful-api.dev/objects
-            </span>
-          </div>
-          <div>
-            <span className="text-success me-2">200</span>
-            <span className="text-secondary">862 ms</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Third GET request */}
-      <div className="border-top pt-2 mt-1">
-        <div className="d-flex justify-content-between align-items-center">
-          <div className="d-flex align-items-center">
-            <i className="fa-solid fa-angle-right me-2 text-secondary"></i>
-            <span className="text-primary fw-semibold">GET</span>
-            <span className="text-secondary ms-2">
-              https://api.restful-api.dev/objects
-            </span>
-          </div>
-          <div>
-            <span className="text-success me-2">200</span>
-            <span className="text-secondary">862 ms</span>
-          </div>
-        </div>
-      </div>
-    </div>
+                            {/* Collapsible details */}
+                            {isOpen && (
+                                <div className="ms-4 mt-2">
+                                    <div className="text-secondary small">▶ Network</div>
+                                    <div className="text-secondary small">▶ Request Headers</div>
+                                    <div className="text-secondary small">▶ Request Body</div>
+                                    <div className="text-secondary small">▶ Response Headers</div>
+                                    <div className="text-secondary small">▶ Response Body</div>
+                                </div>
+                            )}
+                        </div>
+                        <div className="border-top pt-2 mt-1">
+                            <div className="d-flex justify-content-between align-items-center">
+                                <div className="d-flex align-items-center">
+                                    <i className="fa-solid fa-angle-right me-2 text-secondary"></i>
+                                    <span className="text-primary fw-semibold">GET</span>
+                                    <span className="text-secondary ms-2">
+                                        https://api.restful-api.dev/objects
+                                    </span>
+                                </div>
+                                <div>
+                                    <span className="text-success me-2">200</span>
+                                    <span className="text-secondary">862 ms</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="border-top pt-2 mt-1">
+                            <div className="d-flex justify-content-between align-items-center">
+                                <div className="d-flex align-items-center">
+                                    <i className="fa-solid fa-angle-right me-2 text-secondary"></i>
+                                    <span className="text-primary fw-semibold">GET</span>
+                                    <span className="text-secondary ms-2">
+                                        https://api.restful-api.dev/objects
+                                    </span>
+                                </div>
+                                <div>
+                                    <span className="text-success me-2">200</span>
+                                    <span className="text-secondary">862 ms</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             {
                 loader && <PageLoaderBackdrop />

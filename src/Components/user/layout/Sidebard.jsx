@@ -26,6 +26,10 @@ function Sidebard() {
       return;
     }
     if (api_id) {
+      if (isClosed) {
+        setActiveKey(null)
+        setSubActiveKey(null)
+      }
       navigate("/collection-api/" + collection_id + "/" + api_id);
     } else {
       navigate("/api/" + collection_id + "/" + category_id);
@@ -166,6 +170,9 @@ function Sidebard() {
                                   item={item}
                                   sItem={sItem}
                                   returnClass={returnClass}
+                                  setActiveKey={setActiveKey}
+                                  setSubActiveKey={setSubActiveKey}
+                                  isClosed={isClosed}
                                 />
                               ) : null)}
                             </Accordion.Body>
@@ -190,7 +197,8 @@ function Sidebard() {
                         <button
                           className="span-btn w-100 border-0 bg-none text-start" style={{ background: 'none' }}
                           onClick={() => {
-                            checkLogin(item.record_uuid, 0, api.uniqueid);
+                            checkLogin(item.reord_uuid, 0, api.uniqueid);
+
                           }}
                         >
                           <Badge
@@ -267,12 +275,18 @@ function Sidebard() {
   );
 }
 
-function ApiList({ si, cItem, item, sItem, returnClass }) {
+function ApiList({ si, cItem, item, sItem, returnClass, setActiveKey, setSubActiveKey, isClosed }) {
   const { api_id } = useParams();
   const navigate = useNavigate()
   const checkPermission = (record_uuid, crecord_uuid, uniqueid) => {
+
     if (getTokenData()?.jwt_token) {
+      if (isClosed) {
+        setActiveKey(null)
+        setSubActiveKey(null)
+      }
       navigate(`/api/${record_uuid}/${crecord_uuid}/${uniqueid}`)
+
     } else {
       error_swal_toast('Please login to access this page')
     }
@@ -306,6 +320,10 @@ ApiList.propTypes = {
   item: PropTypes.any,
   sItem: PropTypes.any,
   returnClass: PropTypes.any,
+  setActiveKey: PropTypes.any,
+  setSubActiveKey: PropTypes.any,
+  isClosed: PropTypes.boolean
+
 };
 
 export default Sidebard;
