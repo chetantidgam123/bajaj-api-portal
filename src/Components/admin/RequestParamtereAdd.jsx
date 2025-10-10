@@ -16,6 +16,8 @@ function RequestParamtereAdd({ modalvalue, setShow, modalType, apiForm }) {
                 reqbody: 'reqbody',
                 reqheader: 'reqheader',
                 resheader: 'resheader',
+                uri_params: 'uri_params',
+                query_params: 'query_params',
             };
 
             if (paramMap[modalType]) {

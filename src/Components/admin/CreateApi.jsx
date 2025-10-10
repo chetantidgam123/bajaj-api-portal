@@ -33,6 +33,8 @@ function CreateApi() {
             "apimethod": "",
             "application_name": "",
             "reqbody": [],
+            "query_params": [],
+            "uri_params": [],
             "reqheader": [],
             "resheader": [],
             "reqsample": {},
@@ -132,6 +134,12 @@ function CreateApi() {
         else if (modalType == 'resheader') {
             setModalvalue(apiForm.values.resheader || [])
         }
+        else if (modalType == 'query_params') {
+            setModalvalue(apiForm.values.query_params || [])
+        }
+        else if (modalType == 'uri_params') {
+            setModalvalue(apiForm.values.uri_params || [])
+        }
         setModalType(modalType);
         setShow(true);
     }
@@ -201,6 +209,8 @@ function CreateApi() {
                         "apiurl": response.data.data.apiurl,
                         "apimethod": response.data.data.apimethod,
                         "reqbody": JSON.parse(response.data.data.reqbody.value || '[]'),
+                        "query_params": JSON.parse(response.data.data.query_params?.value || '[]'),
+                        "uri_params": JSON.parse(response.data.data.uri_params?.value || '[]'),
                         "reqheader": JSON.parse(response.data.data.reqheader.value || '[]'),
                         "resheader": JSON.parse(response.data.data.resheader.value || '[]'),
                         "reqsample": response.data.data.reqsample,
@@ -363,15 +373,83 @@ function CreateApi() {
                                     </select>
                                     <ErrorMessage name={"apimethod"} component="small" className='text-danger' />
                                 </div>
-                                    <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-3">
+                                <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-3">
                                     <label htmlFor="apiurl" className="form-label" >Api Endpoint</label>
                                     <input type="text" className='form-control' name='apiurl'
-                                        // onChange={apiForm.handleChange}
-                                        //  onBlur={apiForm.handleBlur}
-                                        // value={apiForm.values.apiurl} 
-                                        />
+                                    // onChange={apiForm.handleChange}
+                                    //  onBlur={apiForm.handleBlur}
+                                    // value={apiForm.values.apiurl} 
+                                    />
                                     <ErrorMessage name="apiurl" component="small" className='text-danger' />
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="card my-3">
+                        <div className=" card-header d-flex justify-content-between">
+                            <h5 className="my-2">Query Parameters</h5>
+                            <button className='btn btn-primary' type='button' onClick={() => { handleModal('query_params') }}>Add Parameter</button>
+                        </div>
+                        <div className="card-body">
+                            <div className='table-responsive'>
+                                <table className="table table-bordered ">
+                                    <thead>
+                                        <tr>
+                                            <th>Key</th>
+                                            <th>Value</th>
+                                            <th>Required</th>
+                                            <th>description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            apiForm.values.query_params.map((item, i) => (
+                                                <tr key={arrayIndex('table-req-header', i)}>
+                                                    <td>{item.key}</td>
+                                                    <td>{item.value}</td>
+                                                    <td className="d-flex align-items-center justify-content-center">
+                                                        <input style={{ height: "15px", width: "15px", margin: "5px 5px 8px 5px" }} checked={item.isrequired} type="checkbox" className='form-check' readOnly />
+                                                    </td>
+                                                    <td>{item.description}</td>
+                                                </tr>
+                                            ))
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="card my-3">
+                        <div className=" card-header d-flex justify-content-between">
+                            <h5 className="my-2">Uri Parameters</h5>
+                            <button className='btn btn-primary' type='button' onClick={() => { handleModal('uri_params') }}>Add Parameter</button>
+                        </div>
+                        <div className="card-body">
+                            <div className='table-responsive'>
+                                <table className="table table-bordered ">
+                                    <thead>
+                                        <tr>
+                                            <th>Key</th>
+                                            <th>Value</th>
+                                            <th>Required</th>
+                                            <th>description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            apiForm.values.uri_params.map((item, i) => (
+                                                <tr key={arrayIndex('table-req-header', i)}>
+                                                    <td>{item.key}</td>
+                                                    <td>{item.value}</td>
+                                                    <td className="d-flex align-items-center justify-content-center">
+                                                        <input style={{ height: "15px", width: "15px", margin: "5px 5px 8px 5px" }} checked={item.isrequired} type="checkbox" className='form-check' readOnly />
+                                                    </td>
+                                                    <td>{item.description}</td>
+                                                </tr>
+                                            ))
+                                        }
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -381,137 +459,137 @@ function CreateApi() {
                             <button className='btn btn-primary' type='button' onClick={() => { handleModal('reqbody') }}>Add Parameter</button>
                         </div>
                         <div className="card-body">
-                             <div className='table-responsive'>
-                            <table className="table table-bordered ">
-                                <thead className='text-truncate'>
-                                    <tr>
-                                        <th>Key</th>
-                                        <th>Value</th>
-                                        <th>Required</th>
-                                        <th>description</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        apiForm.values.reqbody.map((item, i) => (
-                                            <tr key={arrayIndex('table-req-body', i)}>
-                                                <td>{item.key}</td>
-                                                <td>{item.value}</td>
-                                                <td className="d-flex align-items-center justify-content-center">
-                                                    <input style={{ height: "15px", width: "15px", margin: "5px 5px 8px 5px" }} checked={item.isrequired} type="checkbox" className='form-check' readOnly />
-                                                </td>
-                                                <td>{item.description}</td>
-                                            </tr>
-                                        ))
-                                    }
-                                </tbody>
-                            </table>
+                            <div className='table-responsive'>
+                                <table className="table table-bordered ">
+                                    <thead className='text-truncate'>
+                                        <tr>
+                                            <th>Key</th>
+                                            <th>Value</th>
+                                            <th>Required</th>
+                                            <th>description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            apiForm.values.reqbody.map((item, i) => (
+                                                <tr key={arrayIndex('table-req-body', i)}>
+                                                    <td>{item.key}</td>
+                                                    <td>{item.value}</td>
+                                                    <td className="d-flex align-items-center justify-content-center">
+                                                        <input style={{ height: "15px", width: "15px", margin: "5px 5px 8px 5px" }} checked={item.isrequired} type="checkbox" className='form-check' readOnly />
+                                                    </td>
+                                                    <td>{item.description}</td>
+                                                </tr>
+                                            ))
+                                        }
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                     <div className="card my-3">
                         <div className=" card-header d-flex justify-content-between">
-                    
-                             <h5 className="my-2">Request Headers</h5>
+
+                            <h5 className="my-2">Request Headers</h5>
                             <button className='btn btn-primary' type='button' onClick={() => { handleModal('reqheader') }}>Add Parameter</button>
                         </div>
                         <div className="card-body">
-                             <div className='table-responsive'>
-                            <table className="table table-bordered ">
-                                <thead>
-                                    <tr>
-                                        <th>Key</th>
-                                        <th>Value</th>
-                                        <th>Required</th>
-                                        <th>description</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        apiForm.values.reqheader.map((item, i) => (
-                                            <tr key={arrayIndex('table-req-header', i)}>
-                                                <td>{item.key}</td>
-                                                <td>{item.value}</td>
-                                                <td className="d-flex align-items-center justify-content-center">
-                                                    <input style={{ height: "15px", width: "15px", margin: "5px 5px 8px 5px" }} checked={item.isrequired} type="checkbox" className='form-check' readOnly />
-                                                </td>
-                                                <td>{item.description}</td>
-                                            </tr>
-                                        ))
-                                    }
-                                </tbody>
-                            </table>
+                            <div className='table-responsive'>
+                                <table className="table table-bordered ">
+                                    <thead>
+                                        <tr>
+                                            <th>Key</th>
+                                            <th>Value</th>
+                                            <th>Required</th>
+                                            <th>description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            apiForm.values.reqheader.map((item, i) => (
+                                                <tr key={arrayIndex('table-req-header', i)}>
+                                                    <td>{item.key}</td>
+                                                    <td>{item.value}</td>
+                                                    <td className="d-flex align-items-center justify-content-center">
+                                                        <input style={{ height: "15px", width: "15px", margin: "5px 5px 8px 5px" }} checked={item.isrequired} type="checkbox" className='form-check' readOnly />
+                                                    </td>
+                                                    <td>{item.description}</td>
+                                                </tr>
+                                            ))
+                                        }
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                     <div className="card my-3">
                         <div className=" card-header d-flex justify-content-between">
-                             <h5 className="my-2">Request Headers</h5>
+                            <h5 className="my-2">Response Headers</h5>
                             <button className='btn btn-primary' type='button' onClick={() => { handleModal('resheader') }}>Add Parameter</button>
                         </div>
                         <div className="card-body">
                             <div className='table-responsive'>
-                            <table className="table table-bordered ">
-                                <thead className='text-truncate'>
-                                    <tr>
-                                        <th>Key</th>
-                                        <th>Value</th>
-                                        <th>Required</th>
-                                        <th>description</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        apiForm.values.resheader.map((item, i) => (
-                                            <tr key={arrayIndex('table-req-header', i)}>
-                                                <td>{item.key}</td>
-                                                <td>{item.value}</td>
-                                                <td className="d-flex align-items-center justify-content-center">
-                                                    <input style={{ height: "15px", width: "15px", margin: "5px 5px 8px 5px" }} checked={item.isrequired} type="checkbox" className='form-check' readOnly />
-                                                </td>
-                                                <td>{item.description}</td>
-                                            </tr>
-                                        ))
-                                    }
-                                </tbody>
-                            </table>
+                                <table className="table table-bordered ">
+                                    <thead className='text-truncate'>
+                                        <tr>
+                                            <th>Key</th>
+                                            <th>Value</th>
+                                            <th>Required</th>
+                                            <th>description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            apiForm.values.resheader.map((item, i) => (
+                                                <tr key={arrayIndex('table-req-header', i)}>
+                                                    <td>{item.key}</td>
+                                                    <td>{item.value}</td>
+                                                    <td className="d-flex align-items-center justify-content-center">
+                                                        <input style={{ height: "15px", width: "15px", margin: "5px 5px 8px 5px" }} checked={item.isrequired} type="checkbox" className='form-check' readOnly />
+                                                    </td>
+                                                    <td>{item.description}</td>
+                                                </tr>
+                                            ))
+                                        }
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                     <div className="card my-3">
                         <div className=" card-header d-flex justify-content-between">
-                             <h5 className="my-2">Request Sample</h5>
+                            <h5 className="my-2">Request Sample</h5>
                             <button className='btn btn-primary' type='button' onClick={handleAddSampleModal}>Add Parameter</button>
                         </div>
                         <div className="card-body">
                             <div className='table-responsive'>
-                            <table className="table table-bordered ">
-                                <thead className='text-truncate'>
-                                    <tr>
-                                        <th>Sr. No.</th>
-                                        <th>Status Code</th>
-                                        <th>Created at</th>
-                                        <th>Updated at</th>
-                                        <th>action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        apiForm.values.responses.map((item, i) => (
-                                            <tr key={arrayIndex('table-req-header', i)}>
-                                                <td>{i + 1}</td>
-                                                <td>{item.code}</td>
-                                                <td>{moment(item.createdat).format('DD-MMM-YY')}</td>
-                                                <td>{moment(item.updatedat).format('DD-MMM-YY')}</td>
-                                                <td className='text-truncate'>
-                                                    <button type='button' className='btn btn-primary btn-sm mx-2' onClick={() => { viewSample(item, i) }}><i className='fa fa-pencil'></i></button>
-                                                    <button type='button' className='btn btn-danger btn-sm' onClick={() => { confirm_swal_call(i) }}><i className='fa fa-trash'></i></button>
-                                                </td>
-                                            </tr>
-                                        ))
-                                    }
-                                </tbody>
-                            </table>
+                                <table className="table table-bordered ">
+                                    <thead className='text-truncate'>
+                                        <tr>
+                                            <th>Sr. No.</th>
+                                            <th>Status Code</th>
+                                            <th>Created at</th>
+                                            <th>Updated at</th>
+                                            <th>action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            apiForm.values.responses.map((item, i) => (
+                                                <tr key={arrayIndex('table-req-header', i)}>
+                                                    <td>{i + 1}</td>
+                                                    <td>{item.code}</td>
+                                                    <td>{moment(item.createdat).format('DD-MMM-YY')}</td>
+                                                    <td>{moment(item.updatedat).format('DD-MMM-YY')}</td>
+                                                    <td className='text-truncate'>
+                                                        <button type='button' className='btn btn-primary btn-sm mx-2' onClick={() => { viewSample(item, i) }}><i className='fa fa-pencil'></i></button>
+                                                        <button type='button' className='btn btn-danger btn-sm' onClick={() => { confirm_swal_call(i) }}><i className='fa fa-trash'></i></button>
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        }
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
