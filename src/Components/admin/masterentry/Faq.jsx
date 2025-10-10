@@ -99,13 +99,13 @@ function Faq() {
 
   return (
     <div className="mx-2 card-admin-main">
-      <div className="card-body card-bg">
-        <div className="row justify-content-between align-items-center">
-          <div className="col-3">
-            <h4 className="">FAQ List</h4>
-          </div>
-          <div className="col-3 d-flex justify-content-end">
-            <Form.Select
+          <div className="card-body card-bg">
+          <div className="row justify-content-between">
+         <div className="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+              <h4 className="mb-2">FAQ List</h4>
+            </div>
+           <div className="col-xl-2 col-lg-3 col-md-6 col-sm-12 col-12 d-flex justify-content-xl-end justify-content-lg-end justify-content-md-center justify-content-sm-center justify-content-center">
+               <Form.Select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               style={{ width: "200px" }}
@@ -116,9 +116,10 @@ function Faq() {
                 </option>
               ))}
             </Form.Select>
+            </div>
           </div>
         </div>
-      </div>
+
 
       {loader.pageloader && <PageLoaderBackdrop />}
       <div className="table-responsive mt-2">

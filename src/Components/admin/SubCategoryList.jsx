@@ -169,10 +169,10 @@ function SubCategoryList() {
         <div className="mx-2 card-admin-main">
             <div className="card-body card-bg">
                 <div className="row justify-content-between">
-                    <div className="col-3">
+                    <div className="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
                         <h4 className="mb-2">Sub Category List</h4>
                     </div>
-                    <div className="col-2 d-flex justify-content-end">
+                    <div className="col-xl-2 col-lg-3 col-md-6 col-sm-12 col-12 d-flex justify-content-xl-end justify-content-lg-end justify-content-md-center justify-content-sm-center justify-content-center">
                         <button className="btn btn-primary py-1" onClick={handleShow}>Add Sub Category</button>
                     </div>
                 </div>
@@ -185,7 +185,7 @@ function SubCategoryList() {
                 <div className="row  align-items-start">
 
 
-                    <div className="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                   <div className="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-xs-12 mb-2">
                         <div className="mb-3">
                             <select className="form-select" id="category-drop-input" name="category-drop-input"
                                 value={dropCatInput}
@@ -199,14 +199,14 @@ function SubCategoryList() {
                             </select>
                         </div>
                     </div>
-                    <div className="col-3">
+                   <div className="col-3 mb-2">
                         <button className="btn btn-primary profilePageButton px-3 search-btn">Search  </button>
                     </div>
                 </div>
             </div>
             <div className="table-responsive">
                 <table className="table table-bordered custom-table table-striped ">
-                    <thead>
+                     <thead className="text-truncate">
                         <tr>
                             <th>Sr. No</th>
                             <th>Category Name</th>

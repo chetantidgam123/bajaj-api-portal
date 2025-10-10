@@ -381,8 +381,9 @@ function CreateApi() {
                             <button className='btn btn-primary' type='button' onClick={() => { handleModal('reqbody') }}>Add Parameter</button>
                         </div>
                         <div className="card-body">
+                             <div className='table-responsive'>
                             <table className="table table-bordered ">
-                                <thead>
+                                <thead className='text-truncate'>
                                     <tr>
                                         <th>Key</th>
                                         <th>Value</th>
@@ -405,6 +406,7 @@ function CreateApi() {
                                     }
                                 </tbody>
                             </table>
+                            </div>
                         </div>
                     </div>
                     <div className="card my-3">
@@ -414,6 +416,7 @@ function CreateApi() {
                             <button className='btn btn-primary' type='button' onClick={() => { handleModal('reqheader') }}>Add Parameter</button>
                         </div>
                         <div className="card-body">
+                             <div className='table-responsive'>
                             <table className="table table-bordered ">
                                 <thead>
                                     <tr>
@@ -438,6 +441,7 @@ function CreateApi() {
                                     }
                                 </tbody>
                             </table>
+                            </div>
                         </div>
                     </div>
                     <div className="card my-3">
@@ -446,8 +450,9 @@ function CreateApi() {
                             <button className='btn btn-primary' type='button' onClick={() => { handleModal('resheader') }}>Add Parameter</button>
                         </div>
                         <div className="card-body">
+                            <div className='table-responsive'>
                             <table className="table table-bordered ">
-                                <thead>
+                                <thead className='text-truncate'>
                                     <tr>
                                         <th>Key</th>
                                         <th>Value</th>
@@ -470,6 +475,7 @@ function CreateApi() {
                                     }
                                 </tbody>
                             </table>
+                            </div>
                         </div>
                     </div>
                     <div className="card my-3">
@@ -478,8 +484,9 @@ function CreateApi() {
                             <button className='btn btn-primary' type='button' onClick={handleAddSampleModal}>Add Parameter</button>
                         </div>
                         <div className="card-body">
+                            <div className='table-responsive'>
                             <table className="table table-bordered ">
-                                <thead>
+                                <thead className='text-truncate'>
                                     <tr>
                                         <th>Sr. No.</th>
                                         <th>Status Code</th>
@@ -496,7 +503,7 @@ function CreateApi() {
                                                 <td>{item.code}</td>
                                                 <td>{moment(item.createdat).format('DD-MMM-YY')}</td>
                                                 <td>{moment(item.updatedat).format('DD-MMM-YY')}</td>
-                                                <td>
+                                                <td className='text-truncate'>
                                                     <button type='button' className='btn btn-primary btn-sm mx-2' onClick={() => { viewSample(item, i) }}><i className='fa fa-pencil'></i></button>
                                                     <button type='button' className='btn btn-danger btn-sm' onClick={() => { confirm_swal_call(i) }}><i className='fa fa-trash'></i></button>
                                                 </td>
@@ -505,6 +512,7 @@ function CreateApi() {
                                     }
                                 </tbody>
                             </table>
+                            </div>
                         </div>
                     </div>
                     <div className='text-end'>

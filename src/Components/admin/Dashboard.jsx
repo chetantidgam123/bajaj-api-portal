@@ -33,7 +33,7 @@ function Dashboard() {
       </div>
        {/* Total APIs, Total Users, and other statistics can be displayed here in the future. */}
         <div className="row hovEffect mt-5">
-          <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12" role="button" onClick={() => navigate('/master/user-list')} style={{cursor: "pointer"}}>
+          <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-3" role="button" onClick={() => navigate('/master/user-list')} style={{cursor: "pointer"}}>
             <div className="card-dash">
               <div className="row">
                 <div className="col-4">
@@ -49,7 +49,7 @@ function Dashboard() {
               <p className="card-text mt-3 font-18">Manage and view all users.</p>
             </div>
           </div>
-            <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12" role="button" onClick={() => navigate('/master/api-list')} style={{cursor: "pointer"}}>
+            <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-3" role="button" onClick={() => navigate('/master/api-list')} style={{cursor: "pointer"}}>
             <div className="card-dash">
               <div className="row">
                 <div className="col-4">
@@ -65,7 +65,7 @@ function Dashboard() {
               <p className="card-text mt-3 font-18">Create, update, and delete APIs.</p>
             </div>
           </div>
-           <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12" role="button" onClick={() => navigate('/master/reports')} style={{cursor: "pointer"}}>
+           <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-3" role="button" onClick={() => navigate('/master/reports')} style={{cursor: "pointer"}}>
          <div className="card-dash">
               <div className="row">
                 <div className="col-4">
