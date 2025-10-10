@@ -148,7 +148,7 @@ function SubCategoryList() {
         post_auth_data("portal/private", convertToPayload('update-sub-category', payload), {})
             .then((response) => {
                 if (response.data.status) {
-                    getCategoryList();
+                    getSubCategoryList();
                     resolve();
                 } else {
                     reject();
@@ -167,83 +167,83 @@ function SubCategoryList() {
     }, [])
     return (
         <div className="mx-2 card-admin-main">
-             <div className="card-body card-bg">
- <div className="row justify-content-between">
-                    <div className="col-3">
+            <div className="card-body card-bg">
+                <div className="row justify-content-between">
+                    <div className="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
                         <h4 className="mb-2">Sub Category List</h4>
                     </div>
-                    <div className="col-2 d-flex justify-content-end">
-                         <button className="btn btn-primary py-1" onClick={handleShow}>Add Sub Category</button>
+                    <div className="col-xl-2 col-lg-3 col-md-6 col-sm-12 col-12 d-flex justify-content-xl-end justify-content-lg-end justify-content-md-center justify-content-sm-center justify-content-center">
+                        <button className="btn btn-primary py-1" onClick={handleShow}>Add Sub Category</button>
                     </div>
                 </div>
             </div>
 
 
 
-          <div className="">
-             <label className="form-label mt-4" htmlFor="category-drop-input">Filters</label>
-<div className="row  align-items-start">
-    
-                   
-                <div className="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-xs-12">
-                <div className="mb-3">
-                    <select className="form-select" id="category-drop-input" name="category-drop-input"
-                        value={dropCatInput}
-                        onChange={(e) => { setDropCatInput(e.target.value) }}>
-                        <option value="">Select Category</option>
-                        {
-                            categoryList.map((cat, i) => (
-                                <option key={arrayIndex('catlist', i)} value={cat.id}>{cat.categoryname}</option>
-                            ))
-                        }
-                    </select>
+            <div className="">
+                <label className="form-label mt-4" htmlFor="category-drop-input">Filters</label>
+                <div className="row  align-items-start">
+
+
+                   <div className="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        <div className="mb-3">
+                            <select className="form-select" id="category-drop-input" name="category-drop-input"
+                                value={dropCatInput}
+                                onChange={(e) => { setDropCatInput(e.target.value) }}>
+                                <option value="">Select Category</option>
+                                {
+                                    categoryList.map((cat, i) => (
+                                        <option key={arrayIndex('catlist', i)} value={cat.id}>{cat.categoryname}</option>
+                                    ))
+                                }
+                            </select>
+                        </div>
+                    </div>
+                   <div className="col-3 mb-2">
+                        <button className="btn btn-primary profilePageButton px-3 search-btn">Search  </button>
+                    </div>
                 </div>
             </div>
-            <div className="col-3">
-<button className="btn btn-primary profilePageButton px-3 search-btn">Search  </button>
-            </div>
-</div>
-          </div>
-           <div className="table-responsive">
-            <table className="table table-bordered custom-table table-striped ">
-                <thead>
-                    <tr>
-                        <th>Sr. No</th>
-                        <th>Category Name</th>
-                        <th>Sub Category Name</th>
-                        <th>Created Date</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        subCategoryList.length > 0 && subCategoryList.map((scat, index) => (
-                            <tr key={arrayIndex('usescatr', index)}>
-                                <td>{scat.sr_no || index + 1}</td>
-                                <td>{scat.categoryname}</td>
-                                <td>{scat.subcategoryname}</td>
-                                <td>{moment(scat.createddate).format('DD-MMM-yyyy')}</td>
-                                <td>
-                                    <div className="d-flex">
-                                        <Form.Check // prettier-ignore
-                                            type="switch"
-                                            id="custom-switch"
-                                            checked={scat.isenabled}
-                                            onChange={() => { confirm_swal_call(scat) }}
-                                        />
-                                        <button className="btn btn-primary btn-sm mx-2" title="Edit User" onClick={() => { openEditModal(scat); }}>
-                                            <i className="fa fa-pencil" ></i>
-                                        </button>
-                                        <button className="btn btn-danger btn-sm" title="Delete User">
-                                            <i className="fa fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        ))
-                    }
-                </tbody>
-            </table>
+            <div className="table-responsive">
+                <table className="table table-bordered custom-table table-striped ">
+                     <thead className="text-truncate">
+                        <tr>
+                            <th>Sr. No</th>
+                            <th>Category Name</th>
+                            <th>Sub Category Name</th>
+                            <th>Created Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            subCategoryList.length > 0 && subCategoryList.map((scat, index) => (
+                                <tr key={arrayIndex('usescatr', index)}>
+                                    <td>{scat.sr_no || index + 1}</td>
+                                    <td>{scat.categoryname}</td>
+                                    <td>{scat.subcategoryname}</td>
+                                    <td>{moment(scat.createddate).format('DD-MMM-yyyy')}</td>
+                                    <td>
+                                        <div className="d-flex">
+                                            <Form.Check // prettier-ignore
+                                                type="switch"
+                                                id="custom-switch"
+                                                checked={scat.isenabled}
+                                                onChange={() => { confirm_swal_call(scat) }}
+                                            />
+                                            <button className="btn btn-primary btn-sm mx-2" title="Edit User" onClick={() => { openEditModal(scat); }}>
+                                                <i className="fa fa-pencil" ></i>
+                                            </button>
+                                            <button className="btn btn-danger btn-sm" title="Delete User">
+                                                <i className="fa fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </table>
             </div>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>

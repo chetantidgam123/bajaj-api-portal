@@ -172,7 +172,7 @@ function RequestAccessList() {
         <div className="mx-2 card-admin-main">
             <div className="card-body card-bg">
                 <div className="row justify-content-between align-items-center">
-                    <div className="col-4">
+                    <div className="col-12">
                         <h4 className="">Request Access List</h4>
                     </div>
                 </div>
@@ -180,14 +180,14 @@ function RequestAccessList() {
             <div className="mt-4">
                 <label for="exampleInputEmail1">Filters</label>
                 <div className="row align-items-center">
-                    <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+                    <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-2">
                         <div class="form-group mt-2">
                             <input type="email" name="email" class="form-control p-3" id="exampleInputEmail1"
                                 aria-describedby="emailHelp" placeholder="Search" value={search.input}
                                 onChange={(e) => { SetSearch({ ...search, input: (e.target.value).trim() }) }} />
                         </div>
                     </div>
-                    <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+                    <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-2">
                         <div class="form-group mt-2">
                             <select 
                                 class="form-control p-3" 
@@ -207,7 +207,7 @@ function RequestAccessList() {
                             </select>
                         </div>
                     </div>
-                    <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
                         <button className="btn btn-primary profilePageButton px-3 search-btn" onClick={() => { fetchRequestList(1) }}>Search </button>
                         <button className="btn btn-outline-primary ms-2 profilePageButton px-3 search-btn" onClick={() => refresh()}><i class="fas fa-sync-alt"></i> </button>
                     </div>
@@ -221,7 +221,7 @@ function RequestAccessList() {
             ) : ( */}
                 <div className="table-responsive mt-2">
                     <table className="table table-bordered custom-table table-striped mt-3">
-                        <thead>
+                        <thead className="text-truncate">
                             <tr>
                                 <th>Sr. No</th>
                                 <th>Username</th>

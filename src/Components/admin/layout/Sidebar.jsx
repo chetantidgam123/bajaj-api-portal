@@ -55,7 +55,7 @@ function Sidebar() {
       <div className="pt-2 px-2 linear min-height">
         <div className="row align-items-center px-3 mt-3">
           {/* ✅ React toggle button (no querySelector) */}
-          <div className="col-xl-9 col-lg-9 col-md-9 col-sm-10 col-10">
+          <div className="col-xl-9 col-lg-9 col-md-9 col-sm-8 col-8">
             <h4 className="heading-hide heading-display mb-0">
               <Link className="text-white text-decoration-none" to="/master">
                 Dashboard
@@ -64,8 +64,8 @@ function Sidebar() {
           </div>
           <div
             className={`${isClosed
-              ? "col-xl-12 col-lg-12 col-md-12 col-sm-2 col-2"
-              : "col-xl-3 col-lg-3 col-md-3 col-sm-2 col-2"
+              ? "col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"
+              : "col-xl-3 col-lg-3 col-md-3 col-sm-4 col-4"
               } d-flex justify-content-center`}
           >
             <div

@@ -75,10 +75,10 @@ function TermCond() {
             <div className="mx-2 card-admin-main">
                   <div className="card-body card-bg">
           <div className="row justify-content-between">
-            <div className="col-3">
+         <div className="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
               <h4 className="mb-2">Terms And Condition</h4>
             </div>
-            <div className="col-2 d-flex justify-content-end">
+           <div className="col-xl-2 col-lg-3 col-md-6 col-sm-12 col-12 d-flex justify-content-xl-end justify-content-lg-end justify-content-md-center justify-content-sm-center justify-content-center">
               <button  className="btn btn-primary btn-sm mx-2 px-4">
                 Add
               </button>

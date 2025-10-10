@@ -98,10 +98,10 @@ function Sidebard() {
               } d-flex justify-content-center`}
           >
             <div className="circle-arrow toggle" onClick={toggleSidebar}>
-               <i
-              className={`fa-solid ${isClosed ? "fa-arrow-right" : "fa-arrow-left"}`}
-              role="button"
-            ></i>
+              <i
+                className={`fa-solid ${isClosed ? "fa-arrow-right" : "fa-arrow-left"}`}
+                role="button"
+              ></i>
             </div>
           </div>
 
@@ -146,12 +146,8 @@ function Sidebard() {
                       onSelect={(key) => setSubActiveKey(key)}
                       alwaysOpen={false}
                     >
-                      {item.subcategories.map((cItem, ci) => (
-                        <Accordion.Item
-                          key={arrayIndex("acc_c", ci)}
-                          eventKey={ci}
-                          style={{ border: "none" }}
-                        >
+                      {item.subcategories.map((cItem, ci) => cItem.isenabled ? ((
+                        <Accordion.Item key={arrayIndex("acc_c", ci)} eventKey={ci} style={{ border: "none" }}>
                           <Accordion.Header
                             onClick={() => {
                               checkLogin(item.record_uuid, cItem.record_uuid, 0);
@@ -162,7 +158,7 @@ function Sidebard() {
 
                           {cItem.apis.length > 0 && (
                             <Accordion.Body className="p-0 ">
-                              {cItem.apis.map((sItem, si) => (
+                              {cItem.apis.map((sItem, si) => (sItem.isenabled && !sItem.isdeleted) ? (
                                 <ApiList
                                   key={arrayIndex("acc_Si", si)}
                                   si={si}
@@ -171,11 +167,11 @@ function Sidebard() {
                                   sItem={sItem}
                                   returnClass={returnClass}
                                 />
-                              ))}
+                              ) : null)}
                             </Accordion.Body>
                           )}
                         </Accordion.Item>
-                      ))}
+                      )) : null)}
                     </Accordion>
                   </Accordion.Body>
                 )}
@@ -183,7 +179,7 @@ function Sidebard() {
                 {/* API Categories */}
                 {item.apis_category.length > 0 && (
                   <Accordion.Body className="p-0">
-                    {item.apis_category.map((api, si) => (
+                    {item.apis_category.map((api, si) => (api.isenabled && !api.isdeleted) ? (
                       <div
                         key={arrayIndex("acc_Si", si)}
                         className={returnClass(
@@ -207,7 +203,7 @@ function Sidebard() {
                           <small className="text-white text-start">{api.apiname}</small>
                         </button>
                       </div>
-                    ))}
+                    ) : null)}
                   </Accordion.Body>
                 )}
               </Accordion.Item>
@@ -286,17 +282,17 @@ function ApiList({ si, cItem, item, sItem, returnClass }) {
       <button className="span-btn w-100 border-0 bg-none"
         style={{ background: 'none' }} onClick={() => { checkPermission(item.record_uuid, cItem.record_uuid, sItem.uniqueid) }}>
         <div className="d-flex row align-items-center">
-        <div className="col-4">
+          <div className="col-4">
             <Badge
-            pill
-            bg=""
-            className={`me-2 badge-${sItem.apimethod.toLowerCase()}`}
-          >
-            {sItem.apimethod}
-          </Badge>
-        </div>
-        <div className="col-8">
-          <small className="text-white text-start">{sItem.apiname}</small>
+              pill
+              bg=""
+              className={`me-2 badge-${sItem.apimethod.toLowerCase()}`}
+            >
+              {sItem.apimethod}
+            </Badge>
+          </div>
+          <div className="col-8">
+            <small className="text-white text-start">{sItem.apiname}</small>
           </div>
         </div>
       </button>

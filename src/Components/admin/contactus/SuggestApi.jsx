@@ -14,8 +14,9 @@ function SuggestApi(){
             </div>
     </div>
            
+           <div className="table-responsive">
             <table className="table table-bordered custom-table table-striped mt-3 ">
-                <thead>
+                <thead className="text-truncate">
                     <tr>
                         <th>Sr. No</th>
                         <th>Full Name</th>
@@ -58,6 +59,7 @@ function SuggestApi(){
 
                 </tbody>
             </table>
+            </div>
             {/* <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Add User</Modal.Title>

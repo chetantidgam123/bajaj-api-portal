@@ -143,14 +143,14 @@ function Profile() {
           <Form onSubmit={Profileform.handleSubmit}>
             <div className="card-bg card-gradient">
               <div className="row d-flex justify-content-between">
-                <div className="col-6 p-3 d-flex">
+                <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 p-3 d-flex">
                   <img className="profileImage" src={Profileform.values.profile_img || "/assets/img/userImage.png"} />
                   <div className="d-flex flex-column justify-content-center ms-3">
                     <h5 className="profileHeaders">{fullName}</h5>
                     <span className="text-white">{emailId}</span>
                   </div>
                 </div>
-                <div className="col-3 d-flex justify-content-end align-items-center">
+                <div className="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 d-flex justify-content-end align-items-center">
                   <input
                     type="file"
                     className="d-none"
@@ -171,7 +171,7 @@ function Profile() {
               className="w-100 d-flex flex-column card-bg mt-3"
               onSubmit={Profileform.handleSubmit}
             >
-              <p className=" color-blue mt-3 font-600">Personal Details</p>
+              <p className=" color-blue mt-3 font-600 mb-2">Personal Details</p>
 
               <div className="row">
                 <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
@@ -234,7 +234,7 @@ function Profile() {
                       </div>
                     )}
                 </div>
-                <div className="col-3 mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
+                <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
                   <input
                     type="text"
                     className="form-control p-3"
@@ -254,7 +254,7 @@ function Profile() {
                     )}
                 </div>
               </div>
-              <p className="color-blue font-600 mt-xl-5 mt-lg-4 mt-md-3 mt-sm-2 mt-1">
+              <p className="color-blue font-600 mt-xl-5 mt-lg-4 mt-md-3 mt-sm-2 mt-1 mb-2">
                 Company Details
               </p>
               <div className="row">
@@ -353,7 +353,7 @@ function Profile() {
                     )}
                 </div>
               </div>
-              <h5 className="font-600 mt-xl-5 mt-lg-4 mt-md-3 mt-sm-2 mt-1">
+              <h5 className="font-600 mt-xl-5 mt-lg-4 mt-md-3 mt-sm-2 mt-1 mb-2">
                 Credentials
               </h5>
 

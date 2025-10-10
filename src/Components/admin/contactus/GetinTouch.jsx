@@ -43,7 +43,7 @@ function GetinTouch() {
          <div className="mx-2 card-admin-main">
       <div className="card-body card-bg">
         <div className="row justify-content-between align-items-center">
-          <div className="col-4">
+          <div className="col-12">
             <h4 className="">Get in Touch List</h4>
           </div>
         </div>
@@ -51,7 +51,7 @@ function GetinTouch() {
       {loader.pageloader && <PageLoaderBackdrop />}
     <div className="table-responsive mt-2">
         <table className="table table-bordered custom-table table-striped mt-3">
-        <thead>
+        <thead className="text-truncate">
           <tr>
             <th>Sr. No</th>
             <th>Full Name</th>
