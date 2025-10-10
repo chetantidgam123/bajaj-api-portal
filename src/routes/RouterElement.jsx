@@ -17,8 +17,8 @@ import Contactus from '../Components/Home/Contactus';
 import ApiPlaygroundHistory from '../Components/user/ApiPlaygroundHistory';
 const HomePageContent = lazy(() => import('../Components/user/HomePageContent'));
 const PageNotFound = lazy(() => import('../Components/user/PageNotFound'));
-const TryApiPage = lazy(()=>import('../Components/user/TryApiPage'))
-const ApiPlayGround = lazy(()=>import('../Components/user/ApiPlayGround'))
+const TryApiPage = lazy(() => import('../Components/user/TryApiPage'))
+const ApiPlayGround = lazy(() => import('../Components/user/ApiPlayGround'))
 
 function PrivateRoute({ children }) {
     const tokenData = getTokenData();
@@ -37,16 +37,18 @@ const routes = [
     { path: '/', element: <LandingPage /> },
     { path: '/email/:token', element: <Email /> },
     { path: '/faq', element: <FaqList /> },
-     { path: "/TermsofServices", element: <TermsofServices /> },
-     { path: "/SupportCenter", element: <SupportCenter /> },
-     { path: "/Privacypolicy", element: <Privacypolicy /> },
-     { path: "/Contactus", element: <Contactus /> },
+    { path: "/TermsofServices", element: <TermsofServices /> },
+    { path: "/SupportCenter", element: <SupportCenter /> },
+    { path: "/Privacypolicy", element: <Privacypolicy /> },
+    { path: "/Contactus", element: <Contactus /> },
+    { path: "/try-api/:collection_id/:category_id/:api_id", element: <PrivateRoute><ApiPlayGround /></PrivateRoute> },
+
     {
         element: <HomeLayout />,
         children: [
             // { path: "/api", element: <HomePageContent /> },
             { path: "/get-started", element: <HomePageContent /> },
-           
+
             { path: "/api/:collection_id", element: <HomePageContent /> },
             { path: "/collection-api/:collection_id/:api_id", element: <HomePageContent /> },
             { path: "/api/:collection_id/:category_id", element: <HomePageContent /> },
@@ -55,9 +57,6 @@ const routes = [
             { path: "/user/profile", element: <PrivateRoute><Profile /></PrivateRoute> },
             { path: "/page", element: <PrivateRoute><PageNotFound /></PrivateRoute> },
             { path: "/api-playground-history", element: <ApiPlaygroundHistory /> },
-
-            //  { path: "/try-api/:collection_id/:category_id/:api_id", element: <PrivateRoute><TryApiPage /></PrivateRoute>},
-             { path: "/try-api/:collection_id/:category_id/:api_id", element: <PrivateRoute><ApiPlayGround /></PrivateRoute>},
         ]
     }
 

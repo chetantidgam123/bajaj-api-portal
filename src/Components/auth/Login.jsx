@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { post_data } from "../../ApiServices";
-import { convertToPayload, setTokenData, sendEmail } from "../../Utils";
+import { convertToPayload, setTokenData, sendEmail, OTP_KEY } from "../../Utils";
 import { FormikProvider, useFormik } from "formik";
 import { loginFormSchema } from "../../Schema";
 import { Form, Modal, Button } from "react-bootstrap";
@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
 import { LoaderWight } from "../../Loader";
 import { loginOtpEmail } from "../../emailTemplate";
 import { BasicLoader } from "../../Loader";
-import { encrypt,decrypt } from "../../Utils";
+import { encrypt, decrypt } from "../../Utils";
 
 // Generate 6-digit OTP
 const generateOtp = () => Math.floor(100000 + Math.random() * 900000).toString();
@@ -88,7 +88,7 @@ function Login({ setModalName, setShow }) {
 
                 const otpPayload = JSON.stringify({ otp, expiry: Date.now() + 90 * 1000 });
                 const encryptedOtp = encrypt(otpPayload);
-                localStorage.setItem('adiholedjewdjewdpewk', encryptedOtp);
+                localStorage.setItem(OTP_KEY, encryptedOtp);
 
                 const firstName =
                     res?.data?.userdata?.fullname || "User";
@@ -120,7 +120,7 @@ function Login({ setModalName, setShow }) {
     // Step 2: Verify OTP and finalize login
     const verifyOtpAndLogin = () => {
         // const stored = JSON.parse(localStorage.getItem("loginOtp"));
-        const encryptedOtp = localStorage.getItem('adiholedjewdjewdpewk');
+        const encryptedOtp = localStorage.getItem(OTP_KEY);
         const decrypted = decrypt(encryptedOtp);
         const stored = decrypted ? JSON.parse(decrypted) : null;
 
@@ -130,7 +130,7 @@ function Login({ setModalName, setShow }) {
         }
         if (Date.now() > stored.expiry) {
             error_swal_toast("OTP expired. Please request again");
-            localStorage.removeItem("loginOtp");
+            localStorage.removeItem(OTP_KEY);
             setOtpSent(false);
             return;
         }
@@ -142,7 +142,7 @@ function Login({ setModalName, setShow }) {
         // OTP is valid → set backend token and login
         setTokenData(backendTokenData);
 
-        localStorage.removeItem("loginOtp");
+        localStorage.removeItem(OTP_KEY);
         setShow(false);
         Loginform.resetForm();
         setBasicLoader(false)
@@ -157,7 +157,7 @@ function Login({ setModalName, setShow }) {
 
         const otpPayload = JSON.stringify({ otp, expiry: Date.now() + 90 * 1000 });
         const encryptedOtp = encrypt(otpPayload);
-        localStorage.setItem('adiholedjewdjewdpewk', encryptedOtp);
+        localStorage.setItem(OTP_KEY, encryptedOtp);
 
 
         const firstName = otpEmail.split("@")[0] || "User";
@@ -212,11 +212,11 @@ function Login({ setModalName, setShow }) {
                             value={Loginform.values.enteredOtp}
                             onChange={(e) => Loginform.setFieldValue("enteredOtp", e.target.value)}
                         />
-                            <i
+                        <i
                             className={`fa ${showPassword ? "fa-eye-slash" : "fa-eye"} position-absolute top-50 end-0 translate-middle-y me-3`}
                             role="button"
                             onClick={() => setShowPassword(!showPassword)}
-                            ></i>
+                        ></i>
                     </div>
                     <div className="d-flex justify-content-between pb-3">
                         <div><b>{formatTime(otpCountdown)}</b></div>

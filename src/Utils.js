@@ -3,6 +3,7 @@ import CryptoJS from 'crypto-js';
 import { jwtDecode } from "jwt-decode";
 import { error_swal_toast, success_swal_toast } from './SwalServices';
 const TOKEN_KEY = 'ff591090-0805-4282-8493-e9435a4d3d67';
+const OTP_KEY = 'otff591090-0805-4282-8493-e9435a4d3pp';
 const offsetPagination = 20;
 const setTokenData = (data) => {
     const temp = JSON.stringify(data);
@@ -346,6 +347,7 @@ const getInitials = (name) => {
 
 
 export {
+    OTP_KEY,
     availableApi,
     isError,
     loanTypes,
