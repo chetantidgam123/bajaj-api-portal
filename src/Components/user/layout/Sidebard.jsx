@@ -150,7 +150,7 @@ function Sidebard() {
                       onSelect={(key) => setSubActiveKey(key)}
                       alwaysOpen={false}
                     >
-                      {item.subcategories.map((cItem, ci) => cItem.isenabled ? ((
+                      {item.subcategories.map((cItem, ci) => (cItem.isenabled && !cItem.isdeleted) ? ((
                         <Accordion.Item key={arrayIndex("acc_c", ci)} eventKey={ci} style={{ border: "none" }}>
                           <Accordion.Header
                             onClick={() => {
