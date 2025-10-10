@@ -121,7 +121,7 @@ function TermCond() {
                         dangerouslySetInnerHTML={{ __html: exportedHTML }}
                     />
                 </td>
-                <td>07 Sep 2029</td>
+                <td>07 Sep 2025</td>
                 <td>
                   <div className="d-flex justify-content-center">
                     <Form.Check

@@ -127,6 +127,6 @@ export const faqSchema = yup.object().shape({
     .matches(/^[0-9]{10}$/, "Enter a valid 10-digit phone number")
     .required("Phone number is required"),
   category_name: yup.string().trim().required("Category is required"),
-  que: yup.string().trim().required("Please enter your question"),
-  ans: yup.string().trim(), // optional
+  que: yup.string().trim().matches(/^[A-Za-z\s.,!?'"()-]+$/, "Only letters and basic punctuation allowed").required("Please enter your question"),
+  // ans: yup.string().trim(), // optional
 });

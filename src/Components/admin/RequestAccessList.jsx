@@ -64,6 +64,68 @@ function RequestAccessList() {
     }
 
     // 🔹 Toggle Status API
+    // const toggleStatus = async (user, status, client_id = "", client_secret = "") => {
+    //     const request_id = user?.request_id || user?.id;
+    //     if (!request_id) {
+    //         return error_swal_toast("Request ID not found! Cannot process this request.");
+    //     }
+
+    //     // 🔹 Set loading for clicked button only
+    //     setLoadingButtons(prev => ({
+    //         ...prev,
+    //         [request_id]: {
+    //             approve: status === 1,
+    //             reject: status === 2
+    //         }
+    //     }));
+
+    //     const payload = {
+    //         apiType: "toggle-api-access-request",
+    //         requestPayload: {
+    //             api_id: user?.api_id || "",
+    //             client_id: client_id || "",
+    //             client_secret: client_secret || "",
+    //             user_id: user?.user_id?.toString() || "",
+    //             status: status.toString(),
+    //             request_id: request_id.toString(),
+    //         },
+    //         requestHeaders: {},
+    //         uriParams: {},
+    //         additionalParam: "",
+    //     };
+
+    //     try {
+    //         const response = await post_auth_data("portal/private", payload, {});
+    //         if (response.data.status) {
+    //             console.log("inside status condition true or false 1")
+    //             success_swal_toast(response.data.message)
+    //             const subject= "Login Approval Granted for BAJAJ API Access"
+    //             const userName = user.fullname
+    //             // const userEmail = "sagarmeshram532@gmail.com"
+    //             const userEmail = user?.emailId || ""
+    //             const userId = user.id
+    //             console.log("inside status condition true or false 2")
+    //             const emailBody = generateApiApprovalEmail({
+    //                 userName, userId,
+    //                 loginLink: "https://apidocs.bajajauto.com/"
+    //             })
+    //             console.log("inside status condition true or false 3")
+    //             await sendEmail({ body: emailBody, toRecepients: [userEmail], subject: subject, contentType: 'text/html' })
+    //             fetchRequestList();
+    //         } else {
+    //             error_swal_toast(response.data.message || "Something went wrong");
+    //         }
+    //     } catch (error) {
+    //         error_swal_toast(error.message || "API call failed");
+    //     } finally {
+    //         // 🔹 Reset loading only for clicked button
+    //         setLoadingButtons(prev => ({
+    //             ...prev,
+    //             [request_id]: { approve: false, reject: false }
+    //         }));
+    //     }
+    // };
+
     const toggleStatus = async (user, status, client_id = "", client_secret = "") => {
         const request_id = user?.request_id || user?.id;
         if (!request_id) {
@@ -97,20 +159,57 @@ function RequestAccessList() {
         try {
             const response = await post_auth_data("portal/private", payload, {});
             if (response.data.status) {
-                console.log("inside status condition true or false 1")
                 success_swal_toast(response.data.message)
+
+                  setReqAccList(prev =>
+                    prev.map(item =>
+                    item.request_id === request_id
+                        ? { ...item, approved_status: status }
+                        : item
+                    )
+                  );
+
                 const subject= "Login Approval Granted for BAJAJ API Access"
                 const userName = user.fullname
-                // const userEmail = "sagarmeshram532@gmail.com"
                 const userEmail = user?.emailId || ""
                 const userId = user.id
-                console.log("inside status condition true or false 2")
-                const emailBody = generateApiApprovalEmail({
-                    userName, userId,
-                    loginLink: "https://apidocs.bajajauto.com/"
-                })
-                console.log("inside status condition true or false 3")
-                await sendEmail({ body: emailBody, toRecepients: [userEmail], subject: subject, contentType: 'text/html' })
+                // console.log("inside status condition true or false 2")
+                // const emailBody = generateApiApprovalEmail({
+                //     userName, userId,
+                //     loginLink: "https://apidocs.bajajauto.com/"
+                // })
+                // console.log("inside status condition true or false 3")
+                // await sendEmail({ body: emailBody, toRecepients: [userEmail], subject: subject, contentType: 'text/html' })
+                if (status === 1) {
+                    // ✅ APPROVED
+                    const subject = "Login Approval Granted for BAJAJ API Access";
+                    const emailBody = generateApiApprovalEmail({
+                        status: "Approved",
+                        userName,
+                        userId,
+                        loginLink: "https://apidocs.bajajauto.com/"
+                    });
+                    await sendEmail({
+                        body: emailBody,
+                        toRecepients: [userEmail],
+                        subject,
+                        contentType: "text/html"
+                    });
+                } else if (status === 2) {
+                    // ❌ REJECTED
+                    const subject = "BAJAJ API Access Request Rejected";
+                    const emailBody = generateApiApprovalEmail({
+                        status: "Rejected",
+                        userName,
+                        userId,
+                    })
+                    await sendEmail({
+                        body: emailBody,
+                        toRecepients: [userEmail],
+                        subject,
+                        contentType: "text/html"
+                    });
+                }
                 fetchRequestList();
             } else {
                 error_swal_toast(response.data.message || "Something went wrong");

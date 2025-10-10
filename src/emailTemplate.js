@@ -187,7 +187,8 @@ const adminNotificationEmail = (data) => {
   `
 }
 
-const generateApiApprovalEmail = ({ userName, userId, loginLink }) => {
+const generateApiApprovalEmail = ({ userName, userId, loginLink, status }) => {
+    const isApproved = status?.toLowerCase() === "approved";
     return `
 <!DOCTYPE html>
 <html lang="en">
@@ -256,12 +257,14 @@ const generateApiApprovalEmail = ({ userName, userId, loginLink }) => {
       <div class="details">
           <p><strong>API Name:</strong> BAJAJ API</p>
           <p><strong>User ID:</strong> ${userId}</p>
-          <p><strong>Access Status:</strong> Approved</p>
+          <p><strong>Access Status:</strong> ${status}</p>
       </div>
 
-      <p>
-        👉 <a href="${loginLink}" class="login-button" target="_blank">Login Here</a>
-      </p>
+      ${
+        isApproved
+          ? `<p>👉 <a href="${loginLink}" class="login-button" target="_blank">Login Here</a></p>`
+          : `<p>Your access request is <strong>${status}</strong>.</p>`
+      }
 
       <p>Please ensure you keep your login credentials secure and do not share them with others. For usage guidelines, rate limits, and integration instructions, kindly refer to the provided API documentation.</p>
       
