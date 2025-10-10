@@ -92,7 +92,7 @@ function FaqList() {
             <div>
               <h4 className="mb-4">Find answers to your most common questions and get quick solutions to help you get started.</h4>
             </div>
-            <Accordion>
+            <Accordion className="FAQ-border">
               {faqList.length > 0 ? (
                 faqList.map((faqItem, fi) => (
                   <Accordion.Item

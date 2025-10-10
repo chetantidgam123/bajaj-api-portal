@@ -735,7 +735,7 @@ select.form-select {
 
 .apiSidebar {
     border: none;
-    border-bottom: 1px solid #dee2e6;
+    
     /* padding: 12px 10px; */
 }
 
@@ -1015,3 +1015,7 @@ border-radius: 20px !important;
     overflow-x: hidden;
     overflow-y: scroll;
 }
+.slick-slider {
+  width: 100%;
+}
+

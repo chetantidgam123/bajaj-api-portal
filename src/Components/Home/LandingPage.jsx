@@ -52,24 +52,46 @@ function LandingPage() {
         AOS.init({ duration: 1000, once: true }); // initialize AOS
     }, []);
 
-    const settings = {
-        dots: false,
-        infinite: false,
-        speed: 500,
-        slidesToShow,
-        slidesToScroll: 1,
-        initialSlide: 0,
-        onInit: () => setCurrent(0),
-        beforeChange: (_, next) => setCurrent(next),
-        nextArrow: (
-            <NextArrow isActive={current < availableApi.length - slidesToShow} />
-        ),
-        prevArrow: <PrevArrow isActive={current > 0} />,
-        responsive: [
-            { breakpoint: 1024, settings: { slidesToShow: 2 } },
-            { breakpoint: 768, settings: { slidesToShow: 1 } }
-        ]
-    };
+const settings = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 3, // desktop default
+    slidesToScroll: 1,
+    initialSlide: 0,
+    beforeChange: (_, next) => setCurrent(next),
+    nextArrow: (
+      <NextArrow isActive={current < availableApi.length - 3} />
+    ),
+    prevArrow: <PrevArrow isActive={current > 0} />,
+    responsive: [
+      {
+        breakpoint: 1024, // tablet
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          infinite: false,
+        },
+      },
+      {
+        breakpoint: 768, // mobile landscape
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          infinite: false,
+        },
+      },
+      {
+        breakpoint: 480, // mobile portrait
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          infinite: false,
+        },
+      },
+    ],
+  };
+
     useEffect(() => {
         AOS.init({
             duration: 1000,
@@ -149,16 +171,16 @@ useEffect(() => {
                         <div className='col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-3'>
                             <div className='card-ava'>
                                 <div className='row'>
-                                    <div className='col-6'>
+                                     <div className='col-5'>
                                         <img src="/assets/img/Works-1.png" alt="" className="w-100" />
                                     </div>
-                                    <div className='col-6'>
+                                    <div className='col-7'>
                                         <div className='circle-work'>
                                             <img src="/assets/img/sign-up 1.png" alt="" className="w-75 d-flex justify-content-center align-items-center" />
                                         </div>
                                         <h5 className='mt-2'>Sign Up to
                                             Get Started</h5>
-                                        <p>Create your account to explore and manage powerful APIs.</p>
+                                        <p>Create your account to explore & manage powerful APIs.</p>
                                     </div>
                                 </div>
                             </div>
@@ -166,10 +188,10 @@ useEffect(() => {
                         <div className='col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-3'>
                             <div className='card-ava'>
                                 <div className='row'>
-                                    <div className='col-6'>
+                                    <div className='col-5'>
                                         <img src="/assets/img/Works-2.png" alt="" className="w-100" />
                                     </div>
-                                    <div className='col-6'>
+                                    <div className='col-7'>
                                         <div className='circle-work'>
                                             <img src="/assets/img/sign-up 2.png" alt="" className="w-75 d-flex justify-content-center align-items-center" />
                                         </div>
@@ -182,10 +204,10 @@ useEffect(() => {
                         <div className='col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-3'>
                             <div className='card-ava'>
                                 <div className='row'>
-                                    <div className='col-6'>
+                                    <div className='col-5'>
                                         <img src="/assets/img/Works-3.png" alt="" className="w-100" />
                                     </div>
-                                    <div className='col-6'>
+                                     <div className='col-7'>
                                         <div className='circle-work'>
                                             <img src="/assets/img/sign-up 3.png" alt="" className="w-75 d-flex justify-content-center align-items-center" />
                                         </div>
@@ -265,27 +287,31 @@ useEffect(() => {
                         </div>
                     </div>
 
-                    <Slider {...settings}>
-                        {availableApi.map((card, index) => (
-                            <div role='button' onClick={() => { navigate(card.routePath) }} key={arrayIndex("card", index)} className="p-3" data-aos="zoom-in">
-                                <div className='card-ava'>
-                                    <div className="circle-ava">
-                                        <img
-                                            src="/assets/img/bullet.png"
-                                            alt="NA"
-                                            className='w-100 d-flex justify-content-start align-items-center'
-                                        />
-                                    </div>
-                                    <div className="content-title my-3">
-                                        {card.title}
-                                    </div>
-                                    <div className="content-details four-lines">
-                                        {card.details}
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </Slider>
+                   <div className="api-slider-container" style={{ width: "100%" }}>
+      <Slider {...settings}>
+        {availableApi.map((card, index) => (
+          <div
+            role="button"
+            key={index}
+            onClick={() => navigate(card.routePath)}
+            className="p-3"
+            data-aos="zoom-in"
+          >
+            <div className="card-ava">
+              <div className="circle-ava">
+                <img
+                  src="/assets/img/bullet.png"
+                  alt="NA"
+                  className="w-100 d-flex justify-content-start align-items-center"
+                />
+              </div>
+              <div className="content-title my-3">{card.title}</div>
+              <div className="content-details four-lines">{card.details}</div>
+            </div>
+          </div>
+        ))}
+      </Slider>
+    </div>
 
                     <div className='d-flex justify-content-center mt-4'>
                         <button className='btn btn-blue p-3' onClick={() => { navigate('api/f054d44c-65cf-49d5-9a68-eef138cd5453') }}>

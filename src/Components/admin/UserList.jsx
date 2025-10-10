@@ -1,6 +1,7 @@
 import moment from "moment"
 import { useEffect, useState } from "react";
 import { Button, Dropdown, Form } from "react-bootstrap";
+import { useMediaQuery } from "react-responsive";
 import Modal from 'react-bootstrap/Modal';
 import { createUserSchema } from "../../Schema";
 import { post_auth_data, post_data } from "../../ApiServices";
@@ -21,6 +22,7 @@ function UserList() {
     const [search, SetSearch] = useState({ status: '', input: '' });
     const handleClose = () => { setShow(false); categoryForm.resetForm(); };
     const handleShow = () => setShow(true);
+    const isSmallScreen = useMediaQuery({maxWidth : 991})
     const UserForm = useFormik({
         initialValues: {
             fullName: "",
@@ -143,10 +145,10 @@ function UserList() {
         <div className="mx-2 card-admin-main">
             <div className="card-body card-bg">
                 <div className="row justify-content-between">
-                    <div className="col-3">
+                 <div className="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
                         <h4 className="mb-2">Users</h4>
                     </div>
-                    <div className="col-2 d-flex justify-content-end d-none">
+                   <div className="col-xl-2 col-lg-3 col-md-6 col-sm-12 col-12 d-flex justify-content-xl-end justify-content-lg-end justify-content-md-center justify-content-sm-center justify-content-center">
                         <button className="btn btn-primary px-3 py-2" onClick={handleShow}>
                             Add User</button>
                     </div>
@@ -156,14 +158,14 @@ function UserList() {
             <div className="mt-4">
                 <label for="exampleInputEmail1">Filters</label>
                 <div className="row align-items-center">
-                    <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+                    <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-2">
                         <div className="form-group mt-2">
                             <input type="email" name="email" className="form-control p-3" id="exampleInputEmail1"
                                 aria-describedby="emailHelp" placeholder="Enter email/Phone Number"
                                 onChange={(e) => { SetSearch({ ...search, input: (e.target.value).trim() }) }} />
                         </div>
                     </div>
-                    <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+                    <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-2">
                         <div className="form-group mt-2">
                             <select
                                 className="form-control p-3"
@@ -183,15 +185,15 @@ function UserList() {
                             </select>
                         </div>
                     </div>
-                    <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
                         <button className="btn btn-primary profilePageButton px-3 search-btn" onClick={() => { getUserList(1) }}>Search </button>
                         <button className="btn btn-outline-primary ms-2 profilePageButton px-3 search-btn" onClick={() => refresh()}><i className="fas fa-sync-alt"></i> </button>
                     </div>
                 </div>
             </div>
-            <div className="table-responsive mt-4">
+            <div  className={isSmallScreen ? "table-responsive" : ""}>
                 <table className="table table-bordered custom-table table-striped">
-                    <thead>
+                    <thead className="text-truncate">
                         <tr>
                             <th>Sr. No</th>
                             <th>Full Name</th>
