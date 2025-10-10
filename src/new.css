@@ -49,7 +49,7 @@ li{
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    padding: 50px 0px;
+    /* padding: 50px 0px; */
 }
 
 .banner .welcome {
@@ -1319,4 +1319,7 @@ button {
   background-color: #fff; /* optional - prevent blue background */
   border-bottom: 1px solid #dee2e6 !important; /* keep gray border */
   box-shadow: none !important;
+}
+.bottom-backdrop + .offcanvas-backdrop.show{
+    opacity: 0;
 }
