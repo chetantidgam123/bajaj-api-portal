@@ -16,6 +16,7 @@ import uparrow from '/assets/img/arrow-right-solid-full 1.png';
 import { post_auth_data, post_data } from '../../ApiServices';
 import { PageLoaderBackdrop, Loader } from '../../Loader';
 import EditableBody from '../user/UtilComponent/EditableBody'
+import { ErrorMessage, FieldArray, Form, FormikProvider, useFormik } from 'formik';
 function ApiPlayGround() {
     const navigate = useNavigate();
     const { collection_id, category_id, api_id } = useParams();
@@ -31,7 +32,6 @@ function ApiPlayGround() {
     const [isOpen, setIsOpen] = useState(true);
 
     const location = useLocation();
-    const [bodyRequestSample, setBodyRequestSample] = useState('')
     useEffect(() => {
         chekParamParameter()
     }, [api_id, collection_id, category_id])
@@ -104,7 +104,61 @@ function ApiPlayGround() {
 
             })
     }
+    const parameterForm = useFormik({
+        initialValues: {
+            parameters: []
+        },
+        validationSchema: "",
+        onSubmit: (val) => {
+            console.log(val)
+        }
+    })
+    const headersForm = useFormik({
+        initialValues: {
+            parameters: []
+        },
+        validationSchema: "",
+        onSubmit: (val) => {
+            console.log(val)
+        }
+    })
+    const urlencodedForm = useFormik({
+        initialValues: {
+            parameters: []
+        },
+        validationSchema: "",
+        onSubmit: (val) => {
+            console.log(val)
+        }
+    })
 
+    const handleAddParam = (arrayHelper) => {
+        let obj = { key: "", value: "", description: "", }
+        arrayHelper.push(obj)
+    };
+    const [bodyType, setBodyType] = useState('raw')
+    const handleBody = (e, type) => {
+        if (e.target.checked) {
+            setBodyType(type)
+        }
+    }
+
+    const [bodyRequestSample, setBodyRequestSample] = useState('')
+    const handleBodyChange = (language) => {
+        setBodyRequestSample(language);
+    }
+    const createApiRqe = () => {
+        console.log(urlencodedForm.values.parameters)
+        console.log(headersForm.values.parameters)
+        console.log(parameterForm.values.parameters)
+        if (bodyType == 'raw') {
+            try {
+                JSON.parse(bodyRequestSample)
+            } catch (error) {
+                error_swal_toast('Invalid json data')
+            }
+        }
+    }
     return (
         <div className="home-container bg-white p-3">
             <div className="card-new mb-3">
@@ -119,14 +173,14 @@ function ApiPlayGround() {
                     <InputGroup.Text id="basic-addon1">{apiData?.apimethod || 'GET'}</InputGroup.Text>
                     <input type="text" className="form-control" aria-label="Text input with dropdown button" value={apiData?.apiurl || 'url'} readOnly />
                 </div>
-                <button className='btn btn-primary ms-2 px-3'>Send</button>
+                <button className='btn btn-primary ms-2 px-3' onClick={createApiRqe}>Send</button>
             </div>
 
             <ul class="nav nav-pills mb-3 mt-3" id="pills-tab" role="tablist">
-                <li class="nav-item pe-3" role="presentation">
+                <li class="nav-item pe-3" rzole="presentation">
                     <button class="nav-link  try-api-tab active" id="pills-one-tab" data-bs-toggle="pill" data-bs-target="#pills-one" type="button" role="tab" aria-controls="pills-one" aria-selected="true">Params</button>
                 </li>
-               
+
                 <li class="nav-item px-3" role="presentation">
                     <button class="nav-link try-api-tab " id="pills-two-tab" data-bs-toggle="pill" data-bs-target="#pills-two" type="button" role="tab" aria-controls="pills-two" aria-selected="false"> Headers (8)</button>
                 </li>
@@ -140,51 +194,207 @@ function ApiPlayGround() {
             </ul>
             <div class="tab-content" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="pills-one" role="tabpanel" aria-labelledby="pills-one-tab">
-                <div className='table-responsive'>
-                    <table className='table table-bordered'>
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Key</th>
-                                <th>Value</th>
-                                <th>Description</th>
-                            </tr>
-                        </thead>
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Key</th>
-                                <th>Value</th>
-                                <th>Description</th>
-                            </tr>
-                        </thead>
-                    </table>
+                    <div className='table-responsive'>
+                        <FormikProvider value={parameterForm}>
+                            <Form className="api-form" autoComplete="off">
+                                <FieldArray name='parameters' render={(arrayHelper) => (
+
+                                    <table className="table table-bordered ">
+                                        <thead>
+                                            <tr>
+                                                <th colSpan={5}>
+                                                    <div className="text-end">
+                                                        <button className="btn btn-primary" type="button" onClick={() => { handleAddParam(arrayHelper) }}>Add Parameter</button>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th>Key</th>
+                                                <th>Value</th>
+                                                <th>description</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                parameterForm.values.parameters.map((param, index) => (
+                                                    <tr key={arrayIndex('queryparam', index)}>
+                                                        <td className="">
+                                                            <input type="text" className='form-control' name={`parameters[${index}].key`}
+                                                                onChange={parameterForm.handleChange} onBlur={parameterForm.handleBlur}
+                                                                value={parameterForm.values.parameters[index].key} />
+                                                            <ErrorMessage name={`parameters[${index}].key`} component="small" className='text-danger' />
+                                                        </td>
+                                                        <td className="">
+                                                            <input type="text" className='form-control' name={`parameters[${index}].value`}
+                                                                onChange={parameterForm.handleChange} onBlur={parameterForm.handleBlur}
+                                                                value={parameterForm.values.parameters[index].value} />
+                                                            <ErrorMessage name={`parameters[${index}].value`} component="small" className='text-danger' />
+                                                        </td>
+                                                        <td className="">
+                                                            <input type="text" className='form-control' name={`parameters[${index}].description`}
+                                                                onChange={parameterForm.handleChange} onBlur={parameterForm.handleBlur}
+                                                                value={parameterForm.values.parameters[index].description} />
+                                                            <ErrorMessage name={`parameters[${index}].description`} component="small" className='text-danger' />
+                                                        </td>
+                                                        <td className="d-flex align-items-center justify-content-center">
+                                                            <button type="buttn" className="btn btn-danger btn-sm" title="remove" onClick={() => { arrayHelper.remove(index) }}>
+                                                                <i className="fa fa-trash"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                ))
+                                            }
+                                        </tbody>
+                                    </table>
+                                )} />
+                            </Form>
+                        </FormikProvider>
+                    </div>
                 </div>
+                <div class="tab-pane fade" id="pills-two" role="tabpanel" aria-labelledby="pills-two-tab">
+                    <FormikProvider value={headersForm}>
+                        <Form className="api-form" autoComplete="off">
+                            <FieldArray name='parameters' render={(arrayHelper) => (
+
+                                <table className="table table-bordered ">
+                                    <thead>
+                                        <tr>
+                                            <th colSpan={5}>
+                                                <div className="text-end">
+                                                    <button className="btn btn-primary" type="button" onClick={() => { handleAddParam(arrayHelper) }}>Add Parameter</button>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th>Key</th>
+                                            <th>Value</th>
+                                            <th>description</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            headersForm.values.parameters.map((param, index) => (
+                                                <tr key={arrayIndex('queryparam', index)}>
+                                                    <td className="">
+                                                        <input type="text" className='form-control' name={`parameters[${index}].key`}
+                                                            onChange={headersForm.handleChange} onBlur={headersForm.handleBlur}
+                                                            value={headersForm.values.parameters[index].key} />
+                                                        <ErrorMessage name={`parameters[${index}].key`} component="small" className='text-danger' />
+                                                    </td>
+                                                    <td className="">
+                                                        <input type="text" className='form-control' name={`parameters[${index}].value`}
+                                                            onChange={headersForm.handleChange} onBlur={headersForm.handleBlur}
+                                                            value={headersForm.values.parameters[index].value} />
+                                                        <ErrorMessage name={`parameters[${index}].value`} component="small" className='text-danger' />
+                                                    </td>
+                                                    <td className="">
+                                                        <input type="text" className='form-control' name={`parameters[${index}].description`}
+                                                            onChange={headersForm.handleChange} onBlur={headersForm.handleBlur}
+                                                            value={headersForm.values.parameters[index].description} />
+                                                        <ErrorMessage name={`parameters[${index}].description`} component="small" className='text-danger' />
+                                                    </td>
+                                                    <td className="d-flex align-items-center justify-content-center">
+                                                        <button type="buttn" className="btn btn-danger btn-sm" title="remove" onClick={() => { arrayHelper.remove(index) }}>
+                                                            <i className="fa fa-trash"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        }
+                                    </tbody>
+                                </table>
+                            )} />
+                        </Form>
+                    </FormikProvider>
                 </div>
-                <div class="tab-pane fade" id="pills-two" role="tabpanel" aria-labelledby="pills-two-tab">.2..</div>
-                <div class="tab-pane fade" id="pills-three" role="tabpanel" aria-labelledby="pills-three-tab">.3..</div>
-               
+                <div class="tab-pane fade" id="pills-three" role="tabpanel" aria-labelledby="pills-three-tab">
+                    <div className='d-flex'>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" checked={bodyType == 'form_data'} id="form_data" onChange={(e) => { handleBody(e, 'form_data') }} />
+                            <label class="form-check-label" role='button' for="form_data">
+                                form-data
+                            </label>
+                        </div>
+                        <div class="form-check ms-4">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" checked={bodyType == 'urlencoded'} id="urlencoded" onChange={(e) => { handleBody(e, 'urlencoded') }} />
+                            <label class="form-check-label" role='button' for="urlencoded">
+                                x-www-form-urlencoded
+                            </label>
+                        </div>
+                        <div class="form-check ms-4">
+                            <input class="form-check-input" type="radio" checked={bodyType == 'raw'} name="flexRadioDefault" id="raw" onChange={(e) => { handleBody(e, 'raw') }} />
+                            <label class="form-check-label" role='button' for="raw">
+                                raw
+                            </label>
+                        </div>
+                    </div>
+                    {bodyType == 'form_data' && <div className="bodybox">Cooming soon</div>}
+                    {bodyType == 'urlencoded' && <div className="bodybox">
+                        <FormikProvider value={urlencodedForm}>
+                            <Form className="api-form" autoComplete="off">
+                                <FieldArray name='parameters' render={(arrayHelper) => (
+
+                                    <table className="table table-bordered ">
+                                        <thead>
+                                            <tr>
+                                                <th colSpan={5}>
+                                                    <div className="text-end">
+                                                        <button className="btn btn-primary" type="button" onClick={() => { handleAddParam(arrayHelper) }}>Add Parameter</button>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th>Key</th>
+                                                <th>Value</th>
+                                                <th>description</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                urlencodedForm.values.parameters.map((param, index) => (
+                                                    <tr key={arrayIndex('urlencoded', index)}>
+                                                        <td className="">
+                                                            <input type="text" className='form-control' name={`parameters[${index}].key`}
+                                                                onChange={urlencodedForm.handleChange} onBlur={urlencodedForm.handleBlur}
+                                                                value={urlencodedForm.values.parameters[index].key} />
+                                                            <ErrorMessage name={`parameters[${index}].key`} component="small" className='text-danger' />
+                                                        </td>
+                                                        <td className="">
+                                                            <input type="text" className='form-control' name={`parameters[${index}].value`}
+                                                                onChange={urlencodedForm.handleChange} onBlur={urlencodedForm.handleBlur}
+                                                                value={urlencodedForm.values.parameters[index].value} />
+                                                            <ErrorMessage name={`parameters[${index}].value`} component="small" className='text-danger' />
+                                                        </td>
+                                                        <td className="">
+                                                            <input type="text" className='form-control' name={`parameters[${index}].description`}
+                                                                onChange={urlencodedForm.handleChange} onBlur={urlencodedForm.handleBlur}
+                                                                value={urlencodedForm.values.parameters[index].description} />
+                                                            <ErrorMessage name={`parameters[${index}].description`} component="small" className='text-danger' />
+                                                        </td>
+                                                        <td className="d-flex align-items-center justify-content-center">
+                                                            <button type="buttn" className="btn btn-danger btn-sm" title="remove" onClick={() => { arrayHelper.remove(index) }}>
+                                                                <i className="fa fa-trash"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                ))
+                                            }
+                                        </tbody>
+                                    </table>
+                                )} />
+                            </Form>
+                        </FormikProvider>
+                    </div>}
+                    {bodyType == 'raw' && <div className="bodybox">
+                        <EditableBody curl={bodyRequestSample} onChange={handleBodyChange} />
+                    </div>}
+                </div>
+
             </div>
-            <div className='d-flex'>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-                    <label class="form-check-label" for="flexRadioDefault1">
-                        form-data
-                    </label>
-                </div>
-                <div class="form-check ms-4">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked />
-                    <label class="form-check-label" for="flexRadioDefault2">
-                        x-www-form-urlencoded
-                    </label>
-                </div>
-                <div class="form-check ms-4">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked />
-                    <label class="form-check-label" for="flexRadioDefault2">
-                        raw
-                    </label>
-                </div>
-            </div>
+
             <div className='box-apiplay'>
                 <p className='text-center'>This request does not have a body</p>
             </div>
