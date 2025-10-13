@@ -1,11 +1,47 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Modal,Form } from "react-bootstrap";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { PageLoaderBackdrop } from "../../../Loader";
+import { offsetPagination,convertToPayload } from "../../../Utils";
+import { post_auth_data } from "../../../ApiServices";
+import { error_swal_toast, success_swal_toast, confirm_swal_with_text } from "../../../SwalServices";
+import PaginateComponent from "../../common/Pagination";
 function TermCond() {
     const [openModalTC, setOpenModalTC] = useState(false);
     const [loader, setLoader] = useState({ pageloader: false })
+    const [selectedTerms, setSelectedTerms] = useState(null);
+    const [termsCon, setTermsCon] = useState([]);
+    const [modalMode, setModalMode] = useState("add");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    useEffect(() => {
+      getAllTermCon()
+    }, [])
+
+    const getAllTermCon = (page=1) => {
+      setCurrentPage(page)
+    const payload = {
+      limit: String(offsetPagination),
+      page: String(page),
+      title: "",
+    }
+setLoader({ pageloader: true });
+post_auth_data("portal/private", convertToPayload("get-all-term-and-condition", payload), {})
+    .then(async (response) => {
+        setLoader({ pageloader: false });
+        if (response.data.status) {
+          setTermsCon(response.data.data || []);
+          setTotalPages(Math.ceil(response.data.totalRecords / offsetPagination))
+        } else {
+            error_swal_toast(response.data.message)
+        }
+    }).catch((error) => {
+        setLoader({ pageloader: false });
+        console.log(error)
+        error_swal_toast(error.message)
+    })
+}
 
     const apiHtml = `<div>
   <h2>Terms and Conditions</h2>
@@ -46,12 +82,104 @@ function TermCond() {
 
 `;
 
+const addTermCon = () => {
+const payload = {
+  description: exportedHTML,
+  title: exportedTitle,
+}
+setLoader({ pageloader: true });
+post_auth_data("portal/private", convertToPayload("add-term-and-condition", payload), {})
+    .then(async (response) => {
+        setLoader({ pageloader: false });
+        if (response.data.status) {
+          success_swal_toast("term & Condition added successfully!");
+          getAllTermCon();
+        } else {
+            error_swal_toast(response.data.message)
+        }
+    }).catch((error) => {
+        setLoader({ pageloader: false });
+        console.error(error);
+        error_swal_toast("Error adding tems & Condition.");
+    })
+}
 
     const [exportedHTML, setExportedHTML] = useState(apiHtml);
+    const [exportedTitle, setExportedTitle] = useState("");
 
+    const editTermsCon = () => {
+      if (!selectedTerms?.record_uuid) {
+        return error_swal_toast("terms ID missing for update.");
+      }
+      const payload = {
+        terms_id: selectedTerms?.record_uuid,
+        description: exportedHTML,
+        title: exportedTitle,
+      }
+     setLoader({ pageloader: true });
+    post_auth_data("portal/private", convertToPayload("update-term-and-condition", payload), {})
+        .then(async (response) => {
+            setLoader({ pageloader: false });
+            if (response.data.status) {
+              success_swal_toast(response.data.message ||"term & condition updated successfully!");
+              getAllTermCon(currentPage);
+            } else {
+                error_swal_toast(response.data.message)
+            }
+        }).catch((error) => {
+            setLoader({ pageloader: false });
+            console.error(error);
+            error_swal_toast("Error updating terms & condition.");
+        })
+    }
 
-    const handleSave = () => {
-        setOpenModalTC(false);
+    const confirm_swal_call = (term) => {
+        const callback = () => { togglePolicies(term); }
+        confirm_swal_with_text(callback, `Are you sure <br/> you want to ${term.isenabled ? 'disable' : 'enable'}?`)
+    }
+
+    const togglePolicies = (term) => {
+    const payload = {
+      terms_id: term.record_uuid,
+      isenabled: !term.isenabled, // toggle
+    }
+    setLoader({ pageloader: true });
+    post_auth_data("portal/private", convertToPayload("toggle-term-and-condition", payload), {})
+        .then(async (response) => {
+            setLoader({ pageloader: false });
+            if (response.data.status) {
+              success_swal_toast(`Policy ${term.isenabled ? "disabled" : "enabled"} successfully.`);
+              getAllTermCon(currentPage);
+            } else {
+                error_swal_toast(response.data.message)
+            }
+        }).catch((error) => {
+            setLoader({ pageloader: false });
+            console.error(error);
+            error_swal_toast("Failed to toggle policy status.");
+        })
+    }
+
+  const handleSave = () => {
+    setOpenModalTC(false);
+    if (modalMode === "add") addTermCon();
+    else editTermsCon();
+  };
+
+    const handleAdd = () => {
+      setModalMode("add");
+      setSelectedTerms(null);
+      setExportedHTML(""); // start blank
+      setExportedTitle("");
+      setOpenModalTC(true);
+    };
+
+    const handleEdit = (terms) => {
+      setModalMode("edit");
+      setSelectedTerms(terms);
+      setExportedTitle(terms.title || "");
+      setExportedHTML(terms.description || "");
+      setOpenModalTC(true);
     };
 
     return (
@@ -79,7 +207,7 @@ function TermCond() {
               <h4 className="mb-2">Terms And Condition</h4>
             </div>
            <div className="col-xl-2 col-lg-3 col-md-6 col-sm-12 col-12 d-flex justify-content-xl-end justify-content-lg-end justify-content-md-center justify-content-sm-center justify-content-center">
-              <button  className="btn btn-primary btn-sm mx-2 px-4">
+              <button  className="btn btn-primary btn-sm mx-2 px-4" title="Edit Content" onClick={handleAdd}>
                 Add
               </button>
             </div>
@@ -112,7 +240,7 @@ function TermCond() {
                 </th>
               </tr>
             </thead>
-            <tbody>
+            {/* <tbody>
               <tr>
                 <td>1.</td>
                 <td>
@@ -133,7 +261,7 @@ function TermCond() {
                     <button
                       className="btn btn-primary btn-sm mx-2"
                       title="Edit User"
-                      onClick={() => setOpenModalTC(true)}
+                      onClick={() => handleEdit(terms)}
                     >
                       <i className="fa fa-pencil"></i>
                     </button>
@@ -146,8 +274,51 @@ function TermCond() {
                   </div>
                 </td>
               </tr>
-            </tbody>
+            </tbody> */}
+            <tbody>
+  {termsCon.length > 0 ? (
+    termsCon.map((terms, index) => (
+      <tr key={terms.id}>
+        <td>{index + 1}</td>
+        <td>
+          <div
+            className="p-2 height-box-term"
+            dangerouslySetInnerHTML={{ __html: `<h5>${terms.title}</h5>${terms.description}`}}
+          />
+        </td>
+        <td>13-10-2025</td>
+        <td>
+          <div className="d-flex justify-content-center">
+            <Form.Check
+              type="switch"
+              id={`switch-${index}`}
+              checked={terms.isenabled}
+              onChange={() => confirm_swal_call(terms)}
+            />
+            <button
+              className="btn btn-primary btn-sm mx-2"
+              title="Edit"
+              onClick={() => handleEdit(terms)}
+            >
+              <i className="fa fa-pencil"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    ))
+  ) : (
+    <tr><td colSpan="4" className="text-center">No terms found</td></tr>
+  )}
+</tbody>
+
           </table>
+
+        <PaginateComponent
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onChange={(page) => getAllTermCon(page)}
+        />
+
         </div>
 
 
@@ -166,16 +337,26 @@ function TermCond() {
                     onHide={() => setOpenModalTC(false)}
                 >
                     <Modal.Header closeButton>
-                        <Modal.Title>Edit Terms & Conditions</Modal.Title>
+                        {modalMode === "add" ? <Modal.Title>Add Terms & Conditions</Modal.Title> : <Modal.Title>Edit Terms & Conditions</Modal.Title>}
                     </Modal.Header>
                     <Modal.Body>
+                        <Form.Group className="mb-3">
+                          <Form.Label>Title</Form.Label>
+                          <Form.Control
+                            type="text"
+                            placeholder="Enter policy title"
+                            value={exportedTitle}
+                            onChange={(e) => setExportedTitle(e.target.value)}
+                          />
+                        </Form.Group>
                         <CKEditor
                             editor={ClassicEditor}
                             data={exportedHTML}
-                            onChange={(event, editor) => {
-                                const data = editor.getData();
-                                setExportedHTML(data);
-                            }}
+                            // onChange={(event, editor) => {
+                            //     const data = editor.getData();
+                            //     setExportedHTML(data);
+                            // }}
+                            onChange={(event, editor) => setExportedHTML(editor.getData())}
                             config={{
                                 toolbar: [
                                     "heading",              // Heading (H1, H2, H3...)
@@ -212,7 +393,7 @@ function TermCond() {
                             Cancel
                         </Button>
                         <Button variant="primary" onClick={handleSave}>
-                            Save
+                            {modalMode === "add" ? "Add" : "Update"}
                         </Button>
                     </Modal.Footer>
                 </Modal>

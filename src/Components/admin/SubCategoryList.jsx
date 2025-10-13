@@ -8,14 +8,23 @@ import { arrayIndex, convertToPayload, offsetPagination } from "../../Utils";
 import { useFormik } from "formik";
 import { confirm_swal_with_text, error_swal_toast, success_swal_toast } from "../../SwalServices";
 import { LoaderWight, PageLoaderBackdrop } from "../../Loader";
+import PaginateComponent from "../common/Pagination";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 function SubCategoryList() {
     const [show, setShow] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
     const [loader, setLoader] = useState({ pageloader: false, submit: false })
-    const [dropCatInput, setDropCatInput] = useState('');
+    const [totalPages, setTotalPages] = useState(1);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [dropCatInput, setDropCatInput] = useState(0);
     const [subCategoryList, setSubCategoryList] = useState([]);
     const handleClose = () => { setShow(false); subcategoryForm.resetForm(); };
-    const handleShow = () => setShow(true);
+    const handleShow = () => {
+        setIsEdit(false);
+        subcategoryForm.resetForm();
+        setShow(true)
+    };
     const subcategoryForm = useFormik({
         initialValues: {
             subcategoryname: "",
@@ -49,9 +58,12 @@ function SubCategoryList() {
                 setCategoryList([]);
             })
     }
-    const getSubCategoryList = (page = 1, catId = "") => {
+    const getSubCategoryList = (page = 1, catId = null) => {
+        setCurrentPage(page)
         let payload = {
-            category_id: Number(catId || subcategoryForm.values.categoryid || 0),
+            // category_id: Number(catId || subcategoryForm.values.categoryid || 0),
+            // category_id: catId !== null ? Number(catId) : 0,
+            category_id: catId ? Number(catId) : 0,
             offset: ((page - 1) * offsetPagination),
             limit: offsetPagination
         }
@@ -61,6 +73,7 @@ function SubCategoryList() {
                 setLoader({ ...loader, pageloader: false })
                 if (response.data.status) {
                     setSubCategoryList(response.data.data || [])
+                    setTotalPages(Math.ceil(response.data.count / offsetPagination))
                 } else {
                     error_swal_toast(response.data.message);
                     setSubCategoryList([]);
@@ -94,6 +107,34 @@ function SubCategoryList() {
                 error_swal_toast(error.message || error);
             })
     };
+
+    const confirm_swal_call_delete = (scat) => {
+        const callback = (resolve, reject) => {
+            deleteSubCategory(scat, resolve, reject);
+        }
+        confirm_swal_with_text(callback, `Are you sure <br/> you want to delete this category?`)
+    }
+    
+    const deleteSubCategory = (scat, resolve, reject) => {
+        let payload = {"subcategoryid": scat.id}
+        post_auth_data("portal/private", convertToPayload("delete-subcategory", payload), {})
+        .then((res) => {
+            if(res.data.status) {
+                console.log(res.data)
+                success_swal_toast(res.data.message || "Sub Category deleted successfully");
+                resolve();
+                getSubCategoryList()
+            } else {
+                reject();
+                error_swal_toast(res.data.message || "Failed to delete sub category");
+            }
+        }).catch((error) => {
+            reject();
+            error_swal_toast(error.message || "something went wrong");
+            console.error("Error during deletion:", error);
+        }) 
+    }
+
     const updateSubCategory = (data) => {
         let payload = {
             subcategoryname: data.subcategoryname,
@@ -165,6 +206,12 @@ function SubCategoryList() {
         getSubCategoryList();
         getCategoryList();
     }, [])
+
+    const refresh = () => {
+        setDropCatInput(0);
+        getSubCategoryList(1, 0)
+    }
+
     return (
         <div className="mx-2 card-admin-main">
             <div className="card-body card-bg">
@@ -201,6 +248,7 @@ function SubCategoryList() {
                     </div>
                    <div className="col-3 mb-2">
                         <button className="btn btn-primary profilePageButton px-3 search-btn" onClick={() => getSubCategoryList(1, dropCatInput)}>Search  </button>
+                        <button className="btn btn-outline-primary ms-2 profilePageButton px-3 search-btn" onClick={refresh}><i className="fas fa-sync-alt"></i> </button>
                     </div>
                 </div>
             </div>
@@ -234,7 +282,7 @@ function SubCategoryList() {
                                             <button className="btn btn-primary btn-sm mx-2" title="Edit User" onClick={() => { openEditModal(scat); }}>
                                                 <i className="fa fa-pencil" ></i>
                                             </button>
-                                            <button className="btn btn-danger btn-sm" title="Delete User">
+                                            <button className="btn btn-danger btn-sm" title="Delete User" onClick={() => confirm_swal_call_delete(scat)}>
                                                 <i className="fa fa-trash"></i>
                                             </button>
                                         </div>
@@ -244,6 +292,11 @@ function SubCategoryList() {
                         }
                     </tbody>
                 </table>
+                <PaginateComponent
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(page) => getSubCategoryList(page, dropCatInput)}
+                />
             </div>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
@@ -275,7 +328,7 @@ function SubCategoryList() {
                             <small className="text-danger">{subcategoryForm.errors.subcategoryname}</small>
                         ) : null}
                     </div>
-                    <div className="mb-2">
+                    {/* <div className="mb-2">
                         <label className="form-label" htmlFor="description">Sub Category description</label>
                         <textarea type="text" className="form-control" id="description" name="description"
                             placeholder="Enter category description" value={subcategoryForm.values.description}
@@ -283,6 +336,49 @@ function SubCategoryList() {
                         {subcategoryForm.touched.description && subcategoryForm.errors.description ? (
                             <small className="text-danger">{subcategoryForm.errors.description}</small>
                         ) : null}
+                    </div> */}
+                     <div className="mb-2">
+                        <label className="form-label" htmlFor="description">Sub Category Description</label>
+                        <CKEditor
+                        editor={ClassicEditor}
+                        data={subcategoryForm.values.description}
+                        onChange={(event, editor) => {
+                            const data = editor.getData();
+                            subcategoryForm.setFieldValue("description", data);
+                        }}
+                        onBlur={() => subcategoryForm.setFieldTouched("description", true)}
+                        config={{
+                            toolbar: [
+                                "heading",              // Heading (H1, H2, H3...)
+                                "|",
+                                "bold", "italic", "underline", "strikethrough",
+                                "link",
+                                "|",
+                                "bulletedList", "numberedList", "blockQuote",
+                                "|",
+                                "alignment",           // left, center, right, justify
+                                "insertTable",         // table insert
+                                "imageUpload",         // image upload
+                                "|",
+                                "undo", "redo",
+                                "removeFormat",
+                            ],
+                            heading: {
+                                options: [
+                                { model: "paragraph", title: "Paragraph", class: "ck-heading_paragraph" },
+                                { model: "heading1", view: "h1", title: "Heading 1", class: "ck-heading_heading1" },
+                                { model: "heading2", view: "h2", title: "Heading 2", class: "ck-heading_heading2" },
+                                { model: "heading3", view: "h3", title: "Heading 3", class: "ck-heading_heading3" },
+                                { model: "heading4", view: "h4", title: "Heading 4", class: "ck-heading_heading4" },
+                                { model: "heading5", view: "h5", title: "Heading 5", class: "ck-heading_heading5" },
+                                { model: "heading6", view: "h6", title: "Heading 6", class: "ck-heading_heading6" },
+                                ],
+                            },
+                        }}
+                    />
+                    {subcategoryForm.touched.description && subcategoryForm.errors.description ? (
+                        <small className="text-danger">{subcategoryForm.errors.description}</small>
+                    ) : null}
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
