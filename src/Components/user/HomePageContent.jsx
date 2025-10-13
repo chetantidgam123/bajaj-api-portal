@@ -38,7 +38,7 @@ function HomePageContent() {
 
     useEffect(() => {
         scrollToTop()
-    }, [])
+    }, [collection_id, category_id, api_id])
 
     const chekParamParameter = () => {
         let obj = {
