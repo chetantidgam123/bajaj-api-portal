@@ -64,6 +64,13 @@ function CreateApi() {
                 }
                 return _o
             });
+            // 🔹 Ensure these two are strings
+            if (typeof obj.reqsample === "object") {
+                obj.reqsample = JSON.stringify(obj.reqsample, null, 2);
+            }
+            if (typeof obj.reqschema === "object") {
+                obj.reqschema = JSON.stringify(obj.reqschema, null, 2);
+            }
             if (api_id) {
                 createApi(obj, 'update-api');
             } else {

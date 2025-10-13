@@ -20,7 +20,7 @@ function UserList() {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [search, SetSearch] = useState({ status: '', input: '' });
-    const handleClose = () => { setShow(false); categoryForm.resetForm(); };
+    const handleClose = () => { setShow(false); UserForm.resetForm(); };
     const handleShow = () => setShow(true);
     const isSmallScreen = useMediaQuery({maxWidth : 991})
     const UserForm = useFormik({
@@ -53,12 +53,40 @@ function UserList() {
                 setLoader({ ...loader, pageloader: false })
                 if (response.data.status) {
                     setUserList(response.data.data)
+                    const totalPages = Math.ceil(response.data.totalRecords / offsetPagination);
+                    setTotalPages(totalPages);
                 } else {
                     error_swal_toast(response.data.message || "something went wrong");
                 }
             }).catch((error) => {
                 setLoader({ ...loader, pageloader: false })
                 console.error("Error during signup:", error);
+            })
+    }
+
+    const confirm_swall_call_delete = (user) => {
+        const callback = (resolve, reject) => {
+            deleteuser(user, resolve, reject)
+        }
+        confirm_swal_with_text(callback, `Are you sure <br/> you want to delete`)
+    }
+
+    const deleteuser = (user, resolve, reject) => {
+        let payload = { "userid": user.id }
+        post_auth_data("portal/private", convertToPayload('delete-user', payload), {})
+        .then((res) => {
+            if(res.data.status) {
+                console.log(res.data)
+                success_swal_toast(res.data.message);
+                getUserList();
+                resolve();
+            } else {
+                reject();
+                error_swal_toast(res.data.message || "something went wrong");
+            }
+        }).catch((error) => {
+            reject();
+            console.error("Error during delete:", error);
             })
     }
 
@@ -73,7 +101,7 @@ function UserList() {
             "record_uuid": user.record_uuid,
             "approved_status": user.approved_status == 0 ? 1 : 0
         }
-        post_data("portal/private", convertToPayload('approve-user', payload), { "jwt_token": getTokenData()?.jwt_token })
+        post_auth_data("portal/private", convertToPayload('approve-user', payload), {})
             .then((response) => {
                 if (response.data.status) {
                     success_swal_toast(response.data.message);
@@ -162,6 +190,7 @@ function UserList() {
                         <div className="form-group mt-2">
                             <input type="email" name="email" className="form-control p-3" id="exampleInputEmail1"
                                 aria-describedby="emailHelp" placeholder="Enter email/Phone Number"
+                                value={search.input} 
                                 onChange={(e) => { SetSearch({ ...search, input: (e.target.value).trim() }) }} />
                         </div>
                     </div>
@@ -258,7 +287,7 @@ function UserList() {
                                                             {user.approved_status === 1 ? "Reject" : "Approve"} User
                                                         </Dropdown.Item>
                                                         {/* <Dropdown.Item><i className="fa-solid fa-pen"></i> Edit User</Dropdown.Item> */}
-                                                        <Dropdown.Item><i className="fa-solid fa-trash"></i> Delete User</Dropdown.Item>
+                                                        <Dropdown.Item onClick={() => confirm_swall_call_delete(user)}><i className="fa-solid fa-trash"></i> Delete User</Dropdown.Item>
                                                         <Dropdown.Item as={Link} to={`/master/user-list/details/${user.id}`} state={{ userData: user }}><i className="fa-solid fa-eye"></i> View Details</Dropdown.Item>
                                                     </Dropdown.Menu>
                                                 </Dropdown>
@@ -294,7 +323,7 @@ function UserList() {
                 <PaginateComponent
                     currentPage={currentPage}
                     totalPages={totalPages}
-                    onPageChange={(page) => getUserList(page)}
+                    onPageChange={(page) => getUserList(page, search)}
                 />
             </div>
 

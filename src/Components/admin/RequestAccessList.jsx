@@ -3,8 +3,9 @@ import Swal from "sweetalert2";
 import { error_swal_toast, success_swal_toast } from "../../SwalServices";
 import { post_auth_data } from "../../ApiServices";
 import { PageLoaderBackdrop } from "../../Loader";
-import { sendEmail } from "../../Utils";
+import { offsetPagination, sendEmail } from "../../Utils";
 import { generateApiApprovalEmail } from "../../emailTemplate";
+import PaginateComponent from "../common/Pagination";
 
 function RequestAccessList() {
     const [reqAccList, setReqAccList] = useState([]);
@@ -12,6 +13,8 @@ function RequestAccessList() {
     const [loadingButtons, setLoadingButtons] = useState({}); // per-button loading
     const [search, SetSearch] = useState({ status: '', input: '' });
     const [loader, setLoader] = useState({ pageloader: false })
+    const [totalPages, setTotalPages] = useState(1)
+    const [currentPage, setCurrentPage] = useState(1)
     // 🔹 Approve Swal
     const approve_swal_call = (user) => {
         Swal.fire({
@@ -171,7 +174,7 @@ function RequestAccessList() {
 
                 const subject= "Login Approval Granted for BAJAJ API Access"
                 const userName = user.fullname
-                const userEmail = user?.emailId || ""
+                const userEmail = user?.emailid || ""
                 const userId = user.id
                 // console.log("inside status condition true or false 2")
                 // const emailBody = generateApiApprovalEmail({
@@ -227,6 +230,7 @@ function RequestAccessList() {
 
     // 🔹 Fetch Request List
     const fetchRequestList = async (page = 1, filters = search) => {
+        setCurrentPage(page)
         setLoader({ ...loader, pageloader: true });
         const payload = {
             apiType: "get-all-api-request",
@@ -245,6 +249,7 @@ function RequestAccessList() {
                     request_id: item.request_id || item.id || ""
                 }));
                 setReqAccList(dataWithReqId);
+                setTotalPages(Math.ceil(response.data.totaltotalRecords / offsetPagination))
             } else {
                 error_swal_toast(response.data.message || "Failed to fetch list");
             }
@@ -404,6 +409,11 @@ function RequestAccessList() {
                             }
                         </tbody>
                     </table>
+                    <PaginateComponent 
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={(page) => getApiList(page)}
+                    />
                 </div>
             {/* )} */}
             {loader.pageloader && <PageLoaderBackdrop />}

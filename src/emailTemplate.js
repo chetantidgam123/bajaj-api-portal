@@ -250,9 +250,9 @@ const generateApiApprovalEmail = ({ userName, userId, loginLink, status }) => {
 </head>
 <body>
   <div class="container">
-      <div><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG4lo39vSLS1FaLIpr1XKrjiebmWX-3fRErA&s' width='200px' style='margin-bottom:20px;' /></div
+      <div><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG4lo39vSLS1FaLIpr1XKrjiebmWX-3fRErA&s' width='200px' style='margin-bottom:20px;' /></div>
       <p>Dear ${userName},</p>
-      <p>Your login request for accessing the <strong>BAJAJ API</strong> has been successfully approved. You can now use your registered credentials to log in and start accessing the API services.</p>
+      <p>Your login request for accessing the <strong>BAJAJ API</strong> has been ${isApproved ? `successfully approved. You can now use your registered credentials to log in and start accessing the API services` : `rejected`}.</p>
       
       <div class="details">
           <p><strong>API Name:</strong> BAJAJ API</p>
@@ -266,7 +266,7 @@ const generateApiApprovalEmail = ({ userName, userId, loginLink, status }) => {
           : `<p>Your access request is <strong>${status}</strong>.</p>`
       }
 
-      <p>Please ensure you keep your login credentials secure and do not share them with others. For usage guidelines, rate limits, and integration instructions, kindly refer to the provided API documentation.</p>
+      ${isApproved ? `<p>Please ensure you keep your login credentials secure and do not share them with others. For usage guidelines, rate limits, and integration instructions, kindly refer to the provided API documentation.</p>` : ""}
       
       <p>If you encounter any issues while logging in or using the API, feel free to contact our support team for assistance.</p>
       

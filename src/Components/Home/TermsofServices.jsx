@@ -1,13 +1,38 @@
-import { useEffect } from "react"
+import { useEffect,useState } from "react"
 import Header from "../user/layout/Header"
 import FooterHome from "./FooterHome"
-import { scrollToTop } from "../../Utils"
+import { scrollToTop,convertToPayload } from "../../Utils"
+import { error_swal_toast } from "../../SwalServices"
+import { post_data } from "../../ApiServices"
+import { PageLoaderBackdrop } from "../../Loader"
 
 function TermsofServices() {
+  const [loader, setLoader] = useState(false)
+  const [termCon, setTermCon] = useState([])
 
   useEffect(() => {
     scrollToTop()
+    getTermandCon()
   }, [])
+
+  const getTermandCon = () => {
+    setLoader(true)
+    let payload = {}
+    post_data("portal/public", convertToPayload('get-term-and-condition', payload), {})
+    .then((response) => {
+        if (response.data.status) {
+          const result = response.data.result;
+          setTermCon(Array.isArray(result) ? result : [result]);
+          setLoader(false)
+        } else {
+            error_swal_toast(response.data.message || "something went wrong");
+        }
+    }).catch((error) => {
+        setLoader(false)
+        error_swal_toast(error.message || "something went wrong");
+        console.error("Error during signup:", error);
+    })
+  };
 
   return (
     <div>
@@ -19,7 +44,7 @@ function TermsofServices() {
                 <div className='container'>
                     <div className='card-Works margin-top-100px'>
                 <p>Welcome to the Bajaj API Portal. These Terms of Service govern your access to and use of the Portal, APIs, documentation, SDKs, and related services provided by Bajaj.</p>
-                <h5 className="mt-3">Eligibility</h5>
+                {/* <h5 className="mt-3">Eligibility</h5>
                 <ol>
                     <li>You must be at least 18 years old and authorized to bind your organization to these Terms.</li>
                     <li>You represent that you have all rights, licenses, and authority necessary to use the Services.</li>
@@ -54,11 +79,20 @@ function TermsofServices() {
                     <ol  className="mt-3">
                         <li>All rights, title, and interest in the Portal, APIs, trademarks, and content remain the property of Bajaj or its licensors.</li>
                         <li>You retain ownership of your Apps, subject to Bajaj’s rights in the APIs.</li>
-                    </ol>
+                    </ol> */}
+                    {termCon.length > 0 ? termCon.map((tem, index) => (
+                      <div key={tem.id}>
+                        <h5>{tem.title}</h5>
+                        <div dangerouslySetInnerHTML={{ __html: tem.description }} />
+                      </div>
+                    )) : (
+                      <div>{""}</div>
+                    )}
              </div>
              </div>
              </div>
           <FooterHome />
+          {loader && <PageLoaderBackdrop />}
     </div>
   )
 }
