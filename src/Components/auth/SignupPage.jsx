@@ -20,7 +20,7 @@ function SignupPage({ setModalName, setShow }) {
   const [otpEmail, setOtpEmail] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const [otpCountdown, setOtpCountdown] = useState(90); 
+  const [otpCountdown, setOtpCountdown] = useState(90);
   const [resendCountdown, setResendCountdown] = useState(90);
   const [canResendOtp, setCanResendOtp] = useState(false);
 
@@ -64,7 +64,7 @@ function SignupPage({ setModalName, setShow }) {
     const emailBody = signUpOtpEmail({ firstName: firstName, otp: otp });
 
     try {
-      await sendEmail({ body: emailBody, toRecepients: [email], subject: String("Your OTP for Email Verification"), contentType: String('text/html') });
+      await sendEmail({ body: emailBody, toRecepients: [email], subject: String("OTP for Email Verification"), contentType: String('text/html') });
       success_swal_toast("OTP has been sent to your email!");
       // setShowOtpModal(true);
       setOtpSent(true);
@@ -84,7 +84,7 @@ function SignupPage({ setModalName, setShow }) {
     const stored = decrypted ? JSON.parse(decrypted) : null;
 
     if (!stored || Date.now() > stored.expiry) {
-        error_swal_toast("OTP expired or invalid");
+      error_swal_toast("OTP expired or invalid");
     }
     // console.log(values.fullName, values.mobileNo, values.emailId, values.userPassword)
     if (!stored) return error_swal_toast("OTP not generated or expired.");
@@ -127,7 +127,7 @@ function SignupPage({ setModalName, setShow }) {
         // const adminEmail = "meshramsagar715@gmail.com"
         // const adminName = "Chetan";
         // const currentDateTime = new Date().toLocaleString();
-        const emailBody =  adminNotificationEmail({
+        const emailBody = adminNotificationEmail({
           adminName: "Admin",
           userName: values.fullName,
           userEmail: values.emailId,
@@ -145,8 +145,8 @@ function SignupPage({ setModalName, setShow }) {
         signupForm.resetForm();
         // setShowOtpModal(false);
         setOtpSent(false)
-      } else if(!res?.data?.status) {
-          error_swal_toast(res.data.message)
+      } else if (!res?.data?.status) {
+        error_swal_toast(res.data.message)
       }
 
     } catch (error) {
@@ -163,73 +163,73 @@ function SignupPage({ setModalName, setShow }) {
     }
   }, [location])
 
-   useEffect(() => {
-  let timer;
-  if (otpSent && otpCountdown > 0) {
-    timer = setInterval(() => {
-      setOtpCountdown((prev) => prev - 1);
-    }, 1000);
-  } 
-  // else if (otpCountdown === 0) {
-  //   setCanResendOtp(true); // allow resend when timer finishes
-  // }
-  return () => clearInterval(timer);
-}, [otpSent, otpCountdown]);
+  useEffect(() => {
+    let timer;
+    if (otpSent && otpCountdown > 0) {
+      timer = setInterval(() => {
+        setOtpCountdown((prev) => prev - 1);
+      }, 1000);
+    }
+    // else if (otpCountdown === 0) {
+    //   setCanResendOtp(true); // allow resend when timer finishes
+    // }
+    return () => clearInterval(timer);
+  }, [otpSent, otpCountdown]);
 
-useEffect(() => {
-  let timer;
-  if (otpSent && resendCountdown > 0) {
-    timer = setInterval(() => {
-      setResendCountdown((prev) => prev - 1);
-    }, 1000);
-  } else if (resendCountdown === 0) {
-    setCanResendOtp(true); // enable resend after 30 seconds
-  }
-  return () => clearInterval(timer);
-}, [otpSent, resendCountdown]);
+  useEffect(() => {
+    let timer;
+    if (otpSent && resendCountdown > 0) {
+      timer = setInterval(() => {
+        setResendCountdown((prev) => prev - 1);
+      }, 1000);
+    } else if (resendCountdown === 0) {
+      setCanResendOtp(true); // enable resend after 30 seconds
+    }
+    return () => clearInterval(timer);
+  }, [otpSent, resendCountdown]);
 
-const formatTime = (seconds) => {
-  const min = Math.floor(seconds / 60);
-  const sec = seconds % 60;
-  return `${min.toString().padStart(2,"0")}:${sec.toString().padStart(2,"0")}`;
-};
+  const formatTime = (seconds) => {
+    const min = Math.floor(seconds / 60);
+    const sec = seconds % 60;
+    return `${min.toString().padStart(2, "0")}:${sec.toString().padStart(2, "0")}`;
+  };
 
-const handleResendOtp = () => {
-  sendOtp(otpEmail);
-  setResendCountdown(90); // reset 30 sec timer for resend
-  setCanResendOtp(false);
-  setOtpCountdown(90); // reset full OTP validity countdown if needed
-};
+  const handleResendOtp = () => {
+    sendOtp(otpEmail);
+    setResendCountdown(90); // reset 30 sec timer for resend
+    setCanResendOtp(false);
+    setOtpCountdown(90); // reset full OTP validity countdown if needed
+  };
 
   return (
-       <div style={{ height: "30.5em" }}>
+    <div style={{ height: "30.5em" }}>
 
       {!otpSent ? (
         <>
-        <h3>Sign Up</h3>
-      <p>Create an account to get started</p>
-      <FormikProvider value={signupForm}>
-        <Form className="" autoComplete="off">
+          <h3>Sign Up</h3>
+          <p>Create an account to get started</p>
+          <FormikProvider value={signupForm}>
+            <Form className="" autoComplete="off">
 
-          <div className="">
-            <FloatingInputLabel fieldName={`fullName`} formikFrom={signupForm} labelText={`Full Name`} />
-          </div>
-          <div className="">
-            <FloatingInputLabel fieldName={`emailId`} formikFrom={signupForm} labelText={`Email Address`} />
-          </div>
-          <div className="">
-            <FloatingInputLabel fieldName={`mobileNo`} formikFrom={signupForm} labelText={`Phone Number`} />
-          </div>
-          <div className="">
-            <FloatingInputLabel fieldName={`userPassword`} formikFrom={signupForm} labelText={`Password`} fieldType="password" />
-          </div>
-          <div className="d-none">
-            <label className="form-label mb-1" htmlFor="confirmPassword">Confirm Password</label>
-            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Enter your password" className="form-control"
-              value={signupForm.values.confirmPassword} onChange={signupForm.handleChange} onBlur={signupForm.handleBlur} />
-            <ErrorMessage name={`confirmPassword`} component="small" className='text-danger' />
-          </div>
-          {/* <div className="">
+              <div className="">
+                <FloatingInputLabel fieldName={`fullName`} formikFrom={signupForm} labelText={`Full Name`} />
+              </div>
+              <div className="">
+                <FloatingInputLabel fieldName={`emailId`} formikFrom={signupForm} labelText={`Email Address`} />
+              </div>
+              <div className="">
+                <FloatingInputLabel fieldName={`mobileNo`} formikFrom={signupForm} labelText={`Phone Number`} />
+              </div>
+              <div className="">
+                <FloatingInputLabel fieldName={`userPassword`} formikFrom={signupForm} labelText={`Password`} fieldType="password" />
+              </div>
+              <div className="d-none">
+                <label className="form-label mb-1" htmlFor="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Enter your password" className="form-control"
+                  value={signupForm.values.confirmPassword} onChange={signupForm.handleChange} onBlur={signupForm.handleBlur} />
+                <ErrorMessage name={`confirmPassword`} component="small" className='text-danger' />
+              </div>
+              {/* <div className="">
             <label className="form-label mb-1" htmlFor="userPassword">
               <input style={{ height: "15px", width: "15px", margin: "5px 5px 8px 5px" }} className="form-check-input"
                 type="checkbox" id="terms" name="terms" value={signupForm.values.terms}
@@ -240,51 +240,51 @@ const handleResendOtp = () => {
               <ErrorMessage name={`terms`} component="small" className='text-danger' />
             </div>
           </div> */}
-          <div className="text-center">
-            {/* <button type="button" className="btn btn-primary w-100" onClick={signupForm.handleSubmit} disabled={loader}>Sign Up {loader ? <LoaderWight /> : <i className="fa-solid fa-arrow-right"></i>}</button> */}
-            <button
-              type="submit"
-              className="btn btn-primary w-100"
-              onClick={signupForm.handleSubmit}
-              // onClick={() => {
-              //   sendOtp(signupForm.values.emailId);
-              //   setOtpEmail(signupForm.values.emailId);
-              //   // setShowOtpModal(true); // show OTP popup
-              // }}
-              disabled={loader}
-            >
-              Send OTP
-            </button>
-            <div className="mt-3">
-              Have an account?&nbsp; &nbsp;<Link className="text-primary" onClick={() => { setModalName('login'); signupForm.resetForm(); }}>Sign In</Link>
-            </div>
-          </div>
+              <div className="text-center">
+                {/* <button type="button" className="btn btn-primary w-100" onClick={signupForm.handleSubmit} disabled={loader}>Sign Up {loader ? <LoaderWight /> : <i className="fa-solid fa-arrow-right"></i>}</button> */}
+                <button
+                  type="submit"
+                  className="btn btn-primary w-100"
+                  onClick={signupForm.handleSubmit}
+                  // onClick={() => {
+                  //   sendOtp(signupForm.values.emailId);
+                  //   setOtpEmail(signupForm.values.emailId);
+                  //   // setShowOtpModal(true); // show OTP popup
+                  // }}
+                  disabled={loader}
+                >
+                  Send OTP
+                </button>
+                <div className="mt-3">
+                  Have an account?&nbsp; &nbsp;<Link className="text-primary" onClick={() => { setModalName('login'); signupForm.resetForm(); }}>Sign In</Link>
+                </div>
+              </div>
 
-        </Form>
-      </FormikProvider> </> 
-      ): (
+            </Form>
+          </FormikProvider> </>
+      ) : (
         <div className="my-4 w-100">
           <h3>Enter OTP</h3>
           <p>OTP sent on <b>{otpEmail}</b></p>
           <div className="position-relative my-3">
-              <input
-                type={showPassword ? "text" : "password"}
-                name="enteredOtp"
-                className="form-control pe-5"
-                placeholder="Enter OTP"
-                value={signupForm.values.enteredOtp}
-                onChange={(e) => signupForm.setFieldValue("enteredOtp", e.target.value)}
-              />
-                <i
-                  className={`fa ${showPassword ? "fa-eye-slash" : "fa-eye"} position-absolute top-50 end-0 translate-middle-y me-3`}
-                  role="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                ></i>
+            <input
+              type={showPassword ? "text" : "password"}
+              name="enteredOtp"
+              className="form-control pe-5"
+              placeholder="Enter OTP"
+              value={signupForm.values.enteredOtp}
+              onChange={(e) => signupForm.setFieldValue("enteredOtp", e.target.value)}
+            />
+            <i
+              className={`fa ${showPassword ? "fa-eye-slash" : "fa-eye"} position-absolute top-50 end-0 translate-middle-y me-3`}
+              role="button"
+              onClick={() => setShowPassword(!showPassword)}
+            ></i>
           </div>
           <div className="d-flex justify-content-between pb-3">
             <div><b>{formatTime(otpCountdown)}</b></div>
             <div>
-              <button 
+              <button
                 className="btn btn-link p-0"
                 disabled={!canResendOtp}
                 onClick={handleResendOtp}
@@ -318,7 +318,7 @@ const handleResendOtp = () => {
             </Link>
           </div>
         </div>
-      )}  
+      )}
 
     </div>
   );

@@ -74,6 +74,7 @@ function Login({ setModalName, setShow }) {
         setLoader(true);
         try {
             const res = await post_data("portal/public", convertToPayload('login', payload), {});
+            setLoader(false);
             if (res.data.status) {
                 // Store backend token temporarily
                 setBackendTokenData(res.data.userdata);
@@ -98,7 +99,7 @@ function Login({ setModalName, setShow }) {
                 await sendEmail({
                     body: emailBody,
                     toRecepients: [Loginform.values.emailId],
-                    subject: "In OTP for Bajaj Developer Portal",
+                    subject: "Sign In OTP for Bajaj Developer Portal",
                     contentType: "text/html"
                 });
                 setLoader(false);
