@@ -1,22 +1,17 @@
 import { useEffect, useState } from 'react';
-import { Button, Dropdown, InputGroup, Modal, Table } from 'react-bootstrap';
+import { InputGroup } from 'react-bootstrap';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import LangCurlExecuteComp from './LangCurlExecuteComp';
-import SyntaxHighLighter from './SyntaxHighLighter';
-import ReactMarkdown from "react-markdown";
-import remarkGfm from 'remark-gfm'
-import { arrayIndex, convertToPayload, copyToClipboard, getTokenData, trucateString } from '../../Utils';
-import GetStarted from './GetStarted';
+import { arrayIndex, convertToPayload, getTokenData, } from '../../Utils';
 import { error_swal_toast } from '../../SwalServices';
 import accesscontrol from '/assets/img/access-control.png';
 import dots from '/assets/img/dots.png';
 import egypt from '/assets/img/egypt.png';
 import uparrow from '/assets/img/arrow-right-solid-full 1.png';
-// import { FaAngleDown, FaAngleRight } from "react-icons/fa";
 import { post_auth_data, post_data } from '../../ApiServices';
 import { PageLoaderBackdrop, Loader } from '../../Loader';
 import EditableBody from '../user/UtilComponent/EditableBody'
 import { ErrorMessage, FieldArray, Form, FormikProvider, useFormik } from 'formik';
+const env = import.meta.env
 function ApiPlayGround() {
     const navigate = useNavigate();
     const { collection_id, category_id, api_id } = useParams();
@@ -25,6 +20,7 @@ function ApiPlayGround() {
     const [apiData, setApiData] = useState(null);
     const [description, setDescription] = useState('');
     const [title, setTitle] = useState('');
+    const [clientCreds, setClientCreds] = useState({});
     const [responsData, setResponsData] = useState({ resbody: {}, resschema: {} });
     const [statusCode, setStatusCode] = useState(0);
     const [modalData, setModalData] = useState({ header: [], body: {}, resbody: {} })
@@ -34,7 +30,27 @@ function ApiPlayGround() {
     const location = useLocation();
     useEffect(() => {
         chekParamParameter()
+        getClientCredentials()
     }, [api_id, collection_id, category_id])
+
+    const getClientCredentials = () => {
+        const payload = {
+            "query": "SELECT client_id,client_secret FROM user_api_cred WHERE user_id = (SELECT id from usermaster WHERE emailid ='" + getTokenData().emailid + "')",
+            "message": "Get user credentials"
+        }
+        post_data(env.VITE_POSTGRE_ENDPOINT, payload, {})
+            .then(async (response) => {
+                setClientCreds(response.data.data[0])
+            }).catch((error) => {
+                console.log(error)
+                // error_swal_toast(error.message)
+            })
+    }
+
+    const dynamicAPIReference = (data) => {
+        console.log(data);
+
+    }
 
     const chekParamParameter = () => {
         let obj = {
@@ -46,34 +62,8 @@ function ApiPlayGround() {
             getAuthDataById('get-api-by-id', obj)
             return
         }
-        if (category_id) {
-            obj.record_uuid = category_id
-            getAuthDataById('get-sub-category-by-id', obj)
-            return
-        }
-        if (collection_id && collection_id != 0) {
-            obj.record_uuid = collection_id
-            getDataById('get-category-by-id', obj)
-        }
     }
-    const getDataById = (url, payload = {}) => {
-        setLoader(true)
-        post_data("portal/public", convertToPayload(url, payload), {})
-            .then(async (response) => {
-                setLoader(false)
-                if (response.data.status) {
-                    setDescription(response.data.data.description || '');
-                    setTitle(response.data.data.categoryname || '');
-                } else {
-                    error_swal_toast(response.data.message)
-                }
-            }).catch((error) => {
-                setLoader(false);
-                console.log(error)
-                error_swal_toast(error.message)
 
-            })
-    }
     const getAuthDataById = (url, payload = {}) => {
         setLoader(true);
         post_auth_data("portal/private", convertToPayload(url, payload), {})
@@ -87,6 +77,7 @@ function ApiPlayGround() {
                         setBodyRequestSample(JSON.parse(response.data.data.reqsample))
                         headersForm.setValues({ parameters: JSON.parse(response.data.data.reqheader?.value || '[]') })
                         parameterForm.setValues({ parameters: JSON.parse(response.data.data.query_params?.value || '[]') })
+                        uriparameterForm.setValues({ parameters: JSON.parse(response.data.data.uri_params?.value || '[]') })
                         let res = JSON.parse(response.data.data.responses.value || '[]');
                         for (const item of res) {
                             if (item.code == 200) {
@@ -107,6 +98,15 @@ function ApiPlayGround() {
             })
     }
     const parameterForm = useFormik({
+        initialValues: {
+            parameters: []
+        },
+        validationSchema: "",
+        onSubmit: (val) => {
+            console.log(val)
+        }
+    })
+    const uriparameterForm = useFormik({
         initialValues: {
             parameters: []
         },
@@ -153,6 +153,37 @@ function ApiPlayGround() {
         console.log(urlencodedForm.values.parameters)
         console.log(headersForm.values.parameters)
         console.log(parameterForm.values.parameters)
+        console.log(uriparameterForm.values.parameters)
+        let header = [
+            {
+                "key": "client_id",
+                "value": clientCreds.client_id || '',
+                "description": ""
+            },
+            {
+                "key": "client_secret",
+                "value": clientCreds.client_secret || '',
+                "description": ""
+            }
+        ]
+        let a = [...headersForm.values.parameters, header]
+        console.log(a)
+        let json = {
+            "base_url": "",
+            "endpoint": "",
+            "encData": {},
+            "plain_payload": "",
+            "queryParams": {},
+            "uriParams": {},
+            "headers": {
+                "encKey": "",
+                "token": "",
+                "x-oauth-token": "",
+                "client_id": "",
+                "client_secret": "",
+                "cookie": ""
+            }
+        }
         if (bodyType == 'raw') {
             try {
                 JSON.parse(bodyRequestSample)
@@ -168,8 +199,7 @@ function ApiPlayGround() {
                     <h5>{title || 'Try it'}</h5>
                 </div>
             </div>
-
-            <p><img src="/assets/img/http.png" alt="NA" srcset="" className='me-2 my-2' />{apiData?.apiurl || 'url'}</p>
+            <p><img src="/assets/img/http.png" alt="NA" srcSet="" className='me-2 my-2' />{apiData?.apiurl || 'url'}</p>
             <div className="d-flex">
                 <div className="input-group">
                     <InputGroup.Text id="basic-addon1">{apiData?.apimethod || 'GET'}</InputGroup.Text>
@@ -200,12 +230,12 @@ function ApiPlayGround() {
                         <FormikProvider value={parameterForm}>
                             <Form className="api-form" autoComplete="off">
                                 <FieldArray name='parameters' render={(arrayHelper) => (
-
                                     <table className="table table-bordered ">
                                         <thead>
                                             <tr>
-                                                <th colSpan={5}>
-                                                    <div className="text-end">
+                                                <th colSpan={4}>
+                                                    <p>Query params</p>
+                                                    <div className="text-end d-none">
                                                         <button className="btn btn-primary" type="button" onClick={() => { handleAddParam(arrayHelper) }}>Add Parameter</button>
                                                     </div>
                                                 </th>
@@ -237,6 +267,63 @@ function ApiPlayGround() {
                                                             <input type="text" className='form-control' name={`parameters[${index}].description`}
                                                                 onChange={parameterForm.handleChange} onBlur={parameterForm.handleBlur}
                                                                 value={parameterForm.values.parameters[index].description} />
+                                                            <ErrorMessage name={`parameters[${index}].description`} component="small" className='text-danger' />
+                                                        </td>
+                                                        <td className="d-flex align-items-center justify-content-center">
+                                                            <button type="buttn" className="btn btn-danger btn-sm" title="remove" onClick={() => { arrayHelper.remove(index) }}>
+                                                                <i className="fa fa-trash"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                ))
+                                            }
+                                        </tbody>
+                                    </table>
+                                )} />
+                            </Form>
+                        </FormikProvider>
+                    </div>
+                    <div className='table-responsive'>
+                        <FormikProvider value={uriparameterForm}>
+                            <Form className="api-form" autoComplete="off">
+                                <FieldArray name='uriparameters' render={(arrayHelper) => (
+                                    <table className="table table-bordered ">
+                                        <thead>
+                                            <tr>
+                                                <th colSpan={4}>
+                                                    <p>Path Variables</p>
+                                                    <div className="text-end d-none">
+                                                        <button className="btn btn-primary" type="button" onClick={() => { handleAddParam(arrayHelper) }}>Add Parameter</button>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th>Key</th>
+                                                <th>Value</th>
+                                                <th>description</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                uriparameterForm.values.parameters.map((param, index) => (
+                                                    <tr key={arrayIndex('uriparams', index)}>
+                                                        <td className="">
+                                                            <input type="text" className='form-control' name={`parameters[${index}].key`}
+                                                                onChange={uriparameterForm.handleChange} onBlur={uriparameterForm.handleBlur}
+                                                                value={uriparameterForm.values.parameters[index].key} />
+                                                            <ErrorMessage name={`parameters[${index}].key`} component="small" className='text-danger' />
+                                                        </td>
+                                                        <td className="">
+                                                            <input type="text" className='form-control' name={`parameters[${index}].value`}
+                                                                onChange={uriparameterForm.handleChange} onBlur={uriparameterForm.handleBlur}
+                                                                value={uriparameterForm.values.parameters[index].value} />
+                                                            <ErrorMessage name={`parameters[${index}].value`} component="small" className='text-danger' />
+                                                        </td>
+                                                        <td className="">
+                                                            <input type="text" className='form-control' name={`parameters[${index}].description`}
+                                                                onChange={uriparameterForm.handleChange} onBlur={uriparameterForm.handleBlur}
+                                                                value={uriparameterForm.values.parameters[index].description} />
                                                             <ErrorMessage name={`parameters[${index}].description`} component="small" className='text-danger' />
                                                         </td>
                                                         <td className="d-flex align-items-center justify-content-center">
@@ -315,19 +402,19 @@ function ApiPlayGround() {
                     <div className='d-flex mb-2'>
                         <div className="form-check">
                             <input className="form-check-input" type="radio" name="flexRadioDefault" checked={bodyType == 'form_data'} id="form_data" onChange={(e) => { handleBody(e, 'form_data') }} />
-                            <label className="form-check-label" role='button' for="form_data">
+                            <label className="form-check-label" role='button' htmlFor="form_data">
                                 form-data
                             </label>
                         </div>
                         <div className="form-check ms-4">
                             <input className="form-check-input" type="radio" name="flexRadioDefault" checked={bodyType == 'urlencoded'} id="urlencoded" onChange={(e) => { handleBody(e, 'urlencoded') }} />
-                            <label className="form-check-label" role='button' for="urlencoded">
+                            <label className="form-check-label" role='button' htmlFor="urlencoded">
                                 x-www-form-urlencoded
                             </label>
                         </div>
                         <div className="form-check ms-4">
                             <input className="form-check-input" type="radio" checked={bodyType == 'raw'} name="flexRadioDefault" id="raw" onChange={(e) => { handleBody(e, 'raw') }} />
-                            <label className="form-check-label" role='button' for="raw">
+                            <label className="form-check-label" role='button' htmlFor="raw">
                                 raw
                             </label>
                         </div>
@@ -406,9 +493,6 @@ function ApiPlayGround() {
                         <li className="nav-item px-3" role="presentation">
                             <button className="nav-link try-api-tab " id="pills-new-tab" data-bs-toggle="pill" data-bs-target="#pills-new" type="button" role="tab" aria-controls="pills-new" aria-selected="false">Header (8)</button>
                         </li>
-
-
-
                     </ul>
                 </div>
                 <div className='col-xl-4 col-lg-4 col-md-9 col-sm-8 col-8 d-flex align-items-center'>
@@ -451,7 +535,7 @@ function ApiPlayGround() {
                     <i className="fa-solid fa-code me-2 text-secondary"></i>
                     <span className=''>Console</span>
                 </span>
-                <div className="offcanvas offcanvas-bottom bottom-backdrop" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
+                <div className="offcanvas offcanvas-bottom bottom-backdrop" tabIndex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
                     <div className="offcanvas-header ">
                         <div className=" row d-flex w-100 align-items-center justify-content-between mb-2">
                             <div className='col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12'>
@@ -545,7 +629,6 @@ function ApiPlayGround() {
                 loader && <PageLoaderBackdrop />
             }
         </div>
-
     );
 }
 
