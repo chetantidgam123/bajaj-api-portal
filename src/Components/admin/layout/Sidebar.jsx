@@ -32,6 +32,13 @@ function Sidebar() {
   };
 
   const defaultActiveKey = getDefaultActiveKey();
+  const handleUserListClick = (e) => {
+    if (isClosed) {
+      setActiveKey(null);
+    
+    }
+    // If sidebar is open, the normal Link behavior will work
+  };
 
   return (
     <nav className={`sidebar_entity ${isClosed ? "close" : ""}`}>
@@ -51,7 +58,6 @@ function Sidebar() {
           </span>
         </div>
       </header>
-
       <div className="pt-2 px-2 linear min-height">
         <div className="row align-items-center px-3 mt-3">
           {/* ✅ React toggle button (no querySelector) */}
@@ -99,6 +105,7 @@ function Sidebar() {
                     className={`admin-sidebar-li mb-2 ${currentPath === "/master/user-list" ? "active-tab" : ""
                       }`}
                     to="/master/user-list"
+                     onClick={handleUserListClick}
                   >
                     User List
                   </Link>

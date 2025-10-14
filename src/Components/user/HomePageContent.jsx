@@ -250,7 +250,6 @@ function HomePageContent() {
                                 <div className='row align-items-center'>
                                     <div className={api_id ? 'col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12' : 'col-12'}>
                                         <h4 className='mb-0'>{title || 'Get Started'}</h4>
-                                        <hr />
                                         <ReactMarkdown
                                             remarkPlugins={[remarkGfm]}
                                             components={{
@@ -302,7 +301,6 @@ function HomePageContent() {
                                     <div className='col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-end'>
                                         <button type="button" className="btn btn-outline-primary" onClick={() => { setModalData({ header: [], body: JSON.parse(apiData?.reqbody?.value || '[]') }); setShow(true) }}>View in detail</button>
                                     </div>
-
                                 </div>
                                 <div className="table-responsive-custom">
                                     <Table bordered responsive='lg'>
@@ -423,7 +421,7 @@ function HomePageContent() {
                                                     )) :
                                                     <tr>
                                                         <td colSpan={4} className='text-center'>No Parameter available</td>
-                                                    </tr>
+                                                  </tr>
                                             }
                                         </tbody>
                                     </Table>

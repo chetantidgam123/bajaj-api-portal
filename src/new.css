@@ -655,19 +655,21 @@ li{
     position: absolute;
     top: 0px;
     left: 63px;
-    background-color: #0685FF;
+    background-color: #ffffff;
     border-radius: 10px;
     width: max-content;
     padding-left: 5px;
     z-index: 1;
 }
-
+.sidebar_entity-user.close  .accordion-button{
+        color: #0683fc;
+}
 .sidebar_entity-user.close .accordion-item .accordion-item .accordion-collapse.show {
     display: block;
     position: absolute;
     top: 51px;
     left: 0px;
-    background-color: #0685FF;
+    background-color: #ffffff;
     border-radius: 10px;
     width: max-content;
     z-index: 2;
@@ -1323,3 +1325,15 @@ button {
 .bottom-backdrop + .offcanvas-backdrop.show{
     opacity: 0;
 }
+.sidebar_entity-user.close .accordion-collapse .accordion-button::after {
+    filter: brightness(2) invert(1) !important;
+}
+.sidebar_entity-user.close  .span-btn{
+    height: 45px;
+}
+.apiSidebar1 small{
+    color: white;
+}
+.sidebar_entity-user.close .accordion-item small{
+    color:  #0683fc;
+} 

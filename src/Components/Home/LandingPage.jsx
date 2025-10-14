@@ -139,8 +139,8 @@ useEffect(() => {
                             </div>
                         </div>
                         {/* <div className='col-xl-5 col-lg-4 col-md-12 col-sm-12 col-12 top_image_bounce' data-aos="fade-left"> */}
-                        <div className='col-xl-5 col-lg-4 col-md-12 col-sm-12 col-12' data-aos="fade-left">
-                            <img src="/assets/img/banner-1.png" className='w-100' alt='' />
+                        <div className='col-xl-5 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-center' data-aos="fade-left">
+                            <img src="/assets/img/banner-1.png" className='' style={{width : '80%'}} alt='' />
                         </div>
                     </div>
 
