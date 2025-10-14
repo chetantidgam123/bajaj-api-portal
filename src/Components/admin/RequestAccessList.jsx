@@ -284,16 +284,16 @@ function RequestAccessList() {
                 <label for="exampleInputEmail1">Filters</label>
                 <div className="row align-items-center">
                     <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-2">
-                        <div class="form-group mt-2">
-                            <input type="email" name="email" class="form-control p-3" id="exampleInputEmail1"
+                        <div className="form-group mt-2">
+                            <input type="email" name="email" className="form-control p-3" id="exampleInputEmail1"
                                 aria-describedby="emailHelp" placeholder="Search" value={search.input}
                                 onChange={(e) => { SetSearch({ ...search, input: (e.target.value).trim() }) }} />
                         </div>
                     </div>
                     <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-2">
-                        <div class="form-group mt-2">
+                        <div className="form-group mt-2">
                             <select
-                                class="form-control p-3"
+                                className="form-control p-3"
                                 name="status"
                                 id="exampleFormControlSelect1"
                                 value={search.status}
@@ -312,7 +312,7 @@ function RequestAccessList() {
                     </div>
                     <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
                         <button className="btn btn-primary profilePageButton px-3 search-btn" onClick={() => { fetchRequestList(1) }}>Search </button>
-                        <button className="btn btn-outline-primary ms-2 profilePageButton px-3 search-btn" onClick={() => refresh()}><i class="fas fa-sync-alt"></i> </button>
+                        <button className="btn btn-outline-primary ms-2 profilePageButton px-3 search-btn" onClick={() => refresh()}><i className="fas fa-sync-alt"></i> </button>
                     </div>
                 </div>
             </div>
