@@ -20,7 +20,7 @@ function SignupPage({ setModalName, setShow }) {
   const [otpEmail, setOtpEmail] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const [otpCountdown, setOtpCountdown] = useState(90);
+  // const [otpCountdown, setOtpCountdown] = useState(90);
   const [resendCountdown, setResendCountdown] = useState(90);
   const [canResendOtp, setCanResendOtp] = useState(false);
 
@@ -53,10 +53,11 @@ function SignupPage({ setModalName, setShow }) {
     }
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    const expiry = Date.now() + 90 * 1000; // 90 sec
+    // const expiry = Date.now() + 90 * 1000; // 90 sec
     // localStorage.setItem("signupOtp", JSON.stringify({ otp, expiry }));
 
-    const otpPayload = JSON.stringify({ otp, expiry: Date.now() + 90 * 1000 });
+    // const otpPayload = JSON.stringify({ otp, expiry: Date.now() + 90 * 1000 });
+    const otpPayload = JSON.stringify({ otp, expiry: Date.now() + 10 * 60 * 1000 }); // 10 minutes = 600,000 ms
     const encryptedOtp = encrypt(otpPayload);
     localStorage.setItem('pweoriwpepedaldssdcds', encryptedOtp);
 
@@ -86,7 +87,7 @@ function SignupPage({ setModalName, setShow }) {
     if (!stored || Date.now() > stored.expiry) {
       error_swal_toast("OTP expired or invalid");
     }
-    // console.log(values.fullName, values.mobileNo, values.emailId, values.userPassword)
+        // console.log(values.fullName, values.mobileNo, values.emailId, values.userPassword)
     if (!stored) return error_swal_toast("OTP not generated or expired.");
     // if (!stored) {
     //   error_swal_toast("OTP not generated or expired.");
@@ -96,7 +97,7 @@ function SignupPage({ setModalName, setShow }) {
 
     if (Date.now() > stored.expiry) {
       error_swal_toast("OTP expired. Please request again.");
-      localStorage.removeItem("signupOtp");
+      localStorage.removeItem("pweoriwpepedaldssdcds");
       // setShowOtpModal(false);
       setOtpSent(false);
       return;
@@ -107,7 +108,7 @@ function SignupPage({ setModalName, setShow }) {
       return;
     }
 
-    localStorage.removeItem("signupOtp"); // remove OTP after success
+    localStorage.removeItem("pweoriwpepedaldssdcds"); // remove OTP after success
     setLoader(true);
 
     try {
@@ -163,30 +164,42 @@ function SignupPage({ setModalName, setShow }) {
     }
   }, [location])
 
-  useEffect(() => {
-    let timer;
-    if (otpSent && otpCountdown > 0) {
-      timer = setInterval(() => {
-        setOtpCountdown((prev) => prev - 1);
-      }, 1000);
-    }
-    // else if (otpCountdown === 0) {
-    //   setCanResendOtp(true); // allow resend when timer finishes
-    // }
-    return () => clearInterval(timer);
-  }, [otpSent, otpCountdown]);
+  // useEffect(() => {
+  //   let timer;
+  //   if (otpSent && otpCountdown > 0) {
+  //     timer = setInterval(() => {
+  //       setOtpCountdown((prev) => prev - 1);
+  //     }, 1000);
+  //   }
+  //   // else if (otpCountdown === 0) {
+  //   //   setCanResendOtp(true); // allow resend when timer finishes
+  //   // }
+  //   return () => clearInterval(timer);
+  // }, [otpSent, otpCountdown]);
+
+  // useEffect(() => {
+  //   let timer;
+  //   if (otpSent && resendCountdown > 0) {
+  //     timer = setInterval(() => {
+  //       setResendCountdown((prev) => prev - 1);
+  //     }, 1000);
+  //   } else if (resendCountdown === 0) {
+  //     setCanResendOtp(true); // enable resend after 30 seconds
+  //   }
+  //   return () => clearInterval(timer);
+  // }, [otpSent, resendCountdown]);
 
   useEffect(() => {
-    let timer;
-    if (otpSent && resendCountdown > 0) {
-      timer = setInterval(() => {
-        setResendCountdown((prev) => prev - 1);
-      }, 1000);
-    } else if (resendCountdown === 0) {
-      setCanResendOtp(true); // enable resend after 30 seconds
-    }
-    return () => clearInterval(timer);
-  }, [otpSent, resendCountdown]);
+  let timer;
+  if (otpSent && resendCountdown > 0) {
+    timer = setInterval(() => {
+      setResendCountdown((prev) => prev - 1);
+    }, 1000);
+  } else if (resendCountdown === 0) {
+    setCanResendOtp(true);
+  }
+  return () => clearInterval(timer);
+}, [otpSent, resendCountdown]);
 
   const formatTime = (seconds) => {
     const min = Math.floor(seconds / 60);
@@ -198,7 +211,7 @@ function SignupPage({ setModalName, setShow }) {
     sendOtp(otpEmail);
     setResendCountdown(90); // reset 30 sec timer for resend
     setCanResendOtp(false);
-    setOtpCountdown(90); // reset full OTP validity countdown if needed
+    // setOtpCountdown(90); // reset full OTP validity countdown if needed
   };
 
   return (
@@ -246,12 +259,13 @@ function SignupPage({ setModalName, setShow }) {
                   type="submit"
                   className="btn btn-primary w-100"
                   onClick={signupForm.handleSubmit}
-                  // onClick={() => {
+                  // onClick={() => {onClick={signupForm.handleSubmit}
                   //   sendOtp(signupForm.values.emailId);
                   //   setOtpEmail(signupForm.values.emailId);
                   //   // setShowOtpModal(true); // show OTP popup
                   // }}
-                  disabled={loader}
+                  // disabled={loader}
+                  disabled={loader || !signupForm.isValid || !signupForm.dirty}
                 >
                   Send OTP
                 </button>
@@ -281,7 +295,7 @@ function SignupPage({ setModalName, setShow }) {
               onClick={() => setShowPassword(!showPassword)}
             ></i>
           </div>
-          <div className="d-flex justify-content-between pb-3">
+          {/* <div className="d-flex justify-content-between pb-3">
             <div><b>{formatTime(otpCountdown)}</b></div>
             <div>
               <button
@@ -292,7 +306,27 @@ function SignupPage({ setModalName, setShow }) {
                 Resend OTP
               </button>
             </div>
-          </div>
+          </div> */}
+          <div className="d-flex justify-content-between pb-3">
+  {resendCountdown > 0 ? (
+    <>
+      <div><b>{formatTime(resendCountdown)}</b></div>
+      <div>
+        <button className="btn btn-link p-0" disabled>Resend OTP</button>
+      </div>
+    </>
+  ) : (
+    <div className="text-end w-100">
+      <button
+        className="btn btn-link p-0"
+        disabled={!canResendOtp}
+        onClick={handleResendOtp}
+      >
+        Resend OTP
+      </button>
+    </div>
+  )}
+</div>
           <button
             className="btn btn-primary w-100"
             onClick={() => verifyOtpAndRegister(signupForm.values)}
@@ -301,7 +335,8 @@ function SignupPage({ setModalName, setShow }) {
             //   await verifyOtpAndRegister(signupForm.values);
             //   setLoader(false); // optionally
             // }}
-            disabled={loader}
+            // disabled={loader}
+            disabled={loader || !signupForm.values.enteredOtp}
           >
             {loader ? <LoaderWight /> : "Verify & Login"}
           </button>
