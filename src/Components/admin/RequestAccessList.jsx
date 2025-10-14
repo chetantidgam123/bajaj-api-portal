@@ -163,16 +163,15 @@ function RequestAccessList() {
             const response = await post_auth_data("portal/private", payload, {});
             if (response.data.status) {
                 success_swal_toast(response.data.message)
-
-                  setReqAccList(prev =>
+                setReqAccList(prev =>
                     prev.map(item =>
-                    item.request_id === request_id
-                        ? { ...item, approved_status: status }
-                        : item
+                        item.request_id === request_id
+                            ? { ...item, approved_status: status }
+                            : item
                     )
-                  );
+                );
 
-                const subject= "Login Approval Granted for BAJAJ API Access"
+                const subject = "Login Approval Granted for BAJAJ API Access"
                 const userName = user.fullname
                 const userEmail = user?.emailid || ""
                 const userId = user.id
@@ -293,9 +292,9 @@ function RequestAccessList() {
                     </div>
                     <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-2">
                         <div class="form-group mt-2">
-                            <select 
-                                class="form-control p-3" 
-                                name="status" 
+                            <select
+                                class="form-control p-3"
+                                name="status"
                                 id="exampleFormControlSelect1"
                                 value={search.status}
                                 onChange={(e) => {
@@ -323,98 +322,98 @@ function RequestAccessList() {
                     <span className="spinner-border"></span> Loading...
                 </div>
             ) : ( */}
-                <div className="table-responsive mt-2">
-                    <table className="table table-bordered custom-table table-striped mt-3">
-                        <thead className="text-truncate">
-                            <tr>
-                                <th>Sr. No</th>
-                                <th>Username</th>
-                                <th>Api Name</th>
-                                <th>App Name</th>
-                                <th>Client Id</th>
-                                <th>Client Secret</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {reqAccList.length > 0 && reqAccList.map((user, index) => (
-                                <tr key={user.request_id || index}>
-                                    <td>{index + 1}</td>
-                                    <td>{user.fullname}</td>
-                                    <td>{user.apiname}</td>
-                                    <td>{user.application_name}</td>
-                                    <td>{user.client_id}</td>
-                                    <td>{user.client_secret}</td>
-                                    {/* <td>
+            <div className="table-responsive mt-2">
+                <table className="table table-bordered custom-table table-striped mt-3">
+                    <thead className="text-truncate">
+                        <tr>
+                            <th>Sr. No</th>
+                            <th>Username</th>
+                            <th>Api Name</th>
+                            <th>App Name</th>
+                            <th>Client Id</th>
+                            <th>Client Secret</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {reqAccList.length > 0 && reqAccList.map((user, index) => (
+                            <tr key={user.request_id || index}>
+                                <td>{index + 1}</td>
+                                <td>{user.fullname}</td>
+                                <td>{user.apiname}</td>
+                                <td>{user.application_name}</td>
+                                <td>{user.client_id}</td>
+                                <td>{user.client_secret}</td>
+                                {/* <td>
                                         {user.approved_status === 0 ? "Pending" :
                                             user.approved_status === 1 ? "Approved" : "Rejected"}
                                     </td> */}
-                                    <td>
-                                        {user.approved_status === 0 && (
-                                            <div className="d-flex align-items-center">
-                                                <i className="fa-solid fa-circle-exclamation text-warning me-2"></i>
-                                                <span>Pending</span>
-                                            </div>
-                                        )}
-                                        {user.approved_status === 1 && (
-                                            <div className="d-flex align-items-center">
-                                                <i className="fa-solid fa-circle-check text-success me-2"></i>
-                                                <span>Approved</span>
-                                            </div>
-                                        )}
-                                        {user.approved_status === 2 && (
-                                            <div className="d-flex align-items-center">
-                                                <i className="fas fa-times-circle text-danger me-2"></i>
-                                                <span>Rejected</span>
-                                            </div>
-                                        )}
-                                    </td>
-                                    <td className="text-center">
-                                        <div className="d-flex justify-content-center">
-                                            <button
-                                                className="btn btn-success btn-sm mx-2"
-                                                title="Approve request"
-                                                onClick={() => { checkClientId(user) }}
-                                                disabled={loadingButtons[user.request_id]?.approve || user.approved_status === 1}
-                                            >
-                                                {loadingButtons[user.request_id]?.approve ? (
-                                                    <span className="spinner-border spinner-border-sm"></span>
-                                                ) : (
-                                                    <i className="fa fa-check"></i>
-                                                )}
-                                            </button>
-
-                                            <button
-                                                className="btn btn-danger btn-sm"
-                                                title="Reject request"
-                                                onClick={() => reject_swal_call(user)}
-                                                disabled={loadingButtons[user.request_id]?.reject || user.approved_status === 2}
-                                            >
-                                                {loadingButtons[user.request_id]?.reject ? (
-                                                    <span className="spinner-border spinner-border-sm"></span>
-                                                ) : (
-                                                    <i className="fa fa-times"></i>
-                                                )}
-                                            </button>
+                                <td>
+                                    {user.approved_status === 0 && (
+                                        <div className="d-flex align-items-center">
+                                            <i className="fa-solid fa-circle-exclamation text-warning me-2"></i>
+                                            <span>Pending</span>
                                         </div>
-                                    </td>
-                                </tr>
-                            )) 
+                                    )}
+                                    {user.approved_status === 1 && (
+                                        <div className="d-flex align-items-center">
+                                            <i className="fa-solid fa-circle-check text-success me-2"></i>
+                                            <span>Approved</span>
+                                        </div>
+                                    )}
+                                    {user.approved_status === 2 && (
+                                        <div className="d-flex align-items-center">
+                                            <i className="fas fa-times-circle text-danger me-2"></i>
+                                            <span>Rejected</span>
+                                        </div>
+                                    )}
+                                </td>
+                                <td className="text-center">
+                                    <div className="d-flex justify-content-center">
+                                        <button
+                                            className="btn btn-success btn-sm mx-2"
+                                            title="Approve request"
+                                            onClick={() => { checkClientId(user) }}
+                                            disabled={loadingButtons[user.request_id]?.approve || user.approved_status === 1}
+                                        >
+                                            {loadingButtons[user.request_id]?.approve ? (
+                                                <span className="spinner-border spinner-border-sm"></span>
+                                            ) : (
+                                                <i className="fa fa-check"></i>
+                                            )}
+                                        </button>
+
+                                        <button
+                                            className="btn btn-danger btn-sm"
+                                            title="Reject request"
+                                            onClick={() => reject_swal_call(user)}
+                                            disabled={loadingButtons[user.request_id]?.reject || user.approved_status === 2}
+                                        >
+                                            {loadingButtons[user.request_id]?.reject ? (
+                                                <span className="spinner-border spinner-border-sm"></span>
+                                            ) : (
+                                                <i className="fa fa-times"></i>
+                                            )}
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        ))
                             // : (
                             //     <tr>
                             //         <td colSpan={6} className="text-center">No data found</td>
                             //     </tr>
                             // )
-                            }
-                        </tbody>
-                    </table>
-                    <PaginateComponent 
-                        currentPage={currentPage}
-                        totalPages={totalPages}
-                        onPageChange={(page) => getApiList(page)}
-                    />
-                </div>
+                        }
+                    </tbody>
+                </table>
+                <PaginateComponent
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(page) => getApiList(page)}
+                />
+            </div>
             {/* )} */}
             {loader.pageloader && <PageLoaderBackdrop />}
         </div>

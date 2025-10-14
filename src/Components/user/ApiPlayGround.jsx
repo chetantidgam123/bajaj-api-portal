@@ -85,6 +85,8 @@ function ApiPlayGround() {
                     if (api_id) {
                         setApiData(response.data.data);
                         setBodyRequestSample(JSON.parse(response.data.data.reqsample))
+                        headersForm.setValues({ parameters: JSON.parse(response.data.data.reqheader?.value || '[]') })
+                        parameterForm.setValues({ parameters: JSON.parse(response.data.data.query_params?.value || '[]') })
                         let res = JSON.parse(response.data.data.responses.value || '[]');
                         for (const item of res) {
                             if (item.code == 200) {
@@ -176,24 +178,24 @@ function ApiPlayGround() {
                 <button className='btn btn-primary ms-2 px-3' onClick={createApiRqe}>Send</button>
             </div>
 
-            <ul class="nav nav-pills mb-3 mt-3" id="pills-tab" role="tablist">
-                <li class="nav-item pe-3" rzole="presentation">
-                    <button class="nav-link  try-api-tab active" id="pills-one-tab" data-bs-toggle="pill" data-bs-target="#pills-one" type="button" role="tab" aria-controls="pills-one" aria-selected="true">Params</button>
+            <ul className="nav nav-pills mb-3 mt-3" id="pills-tab" role="tablist">
+                <li className="nav-item pe-3" rzole="presentation">
+                    <button className="nav-link  try-api-tab active" id="pills-one-tab" data-bs-toggle="pill" data-bs-target="#pills-one" type="button" role="tab" aria-controls="pills-one" aria-selected="true">Params</button>
                 </li>
 
-                <li class="nav-item px-3" role="presentation">
-                    <button class="nav-link try-api-tab " id="pills-two-tab" data-bs-toggle="pill" data-bs-target="#pills-two" type="button" role="tab" aria-controls="pills-two" aria-selected="false"> Headers (8)</button>
+                <li className="nav-item px-3" role="presentation">
+                    <button className="nav-link try-api-tab " id="pills-two-tab" data-bs-toggle="pill" data-bs-target="#pills-two" type="button" role="tab" aria-controls="pills-two" aria-selected="false"> Headers (8)</button>
                 </li>
-                <li class="nav-item px-3" role="presentation">
-                    <button class="nav-link try-api-tab body-dot" id="pills-three-tab" data-bs-toggle="pill" data-bs-target="#pills-three" type="button" role="tab" aria-controls="pills-three" aria-selected="false">
+                <li className="nav-item px-3" role="presentation">
+                    <button className="nav-link try-api-tab body-dot" id="pills-three-tab" data-bs-toggle="pill" data-bs-target="#pills-three" type="button" role="tab" aria-controls="pills-three" aria-selected="false">
                         Body
                     </button>
                 </li>
 
 
             </ul>
-            <div class="tab-content" id="pills-tabContent">
-                <div class="tab-pane fade show active" id="pills-one" role="tabpanel" aria-labelledby="pills-one-tab">
+            <div className="tab-content" id="pills-tabContent">
+                <div className="tab-pane fade show active" id="pills-one" role="tabpanel" aria-labelledby="pills-one-tab">
                     <div className='table-responsive'>
                         <FormikProvider value={parameterForm}>
                             <Form className="api-form" autoComplete="off">
@@ -252,7 +254,7 @@ function ApiPlayGround() {
                         </FormikProvider>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="pills-two" role="tabpanel" aria-labelledby="pills-two-tab">
+                <div className="tab-pane fade" id="pills-two" role="tabpanel" aria-labelledby="pills-two-tab">
                     <FormikProvider value={headersForm}>
                         <Form className="api-form" autoComplete="off">
                             <FieldArray name='parameters' render={(arrayHelper) => (
@@ -309,23 +311,23 @@ function ApiPlayGround() {
                         </Form>
                     </FormikProvider>
                 </div>
-                <div class="tab-pane fade" id="pills-three" role="tabpanel" aria-labelledby="pills-three-tab">
-                    <div className='d-flex'>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" checked={bodyType == 'form_data'} id="form_data" onChange={(e) => { handleBody(e, 'form_data') }} />
-                            <label class="form-check-label" role='button' for="form_data">
+                <div className="tab-pane fade" id="pills-three" role="tabpanel" aria-labelledby="pills-three-tab">
+                    <div className='d-flex mb-2'>
+                        <div className="form-check">
+                            <input className="form-check-input" type="radio" name="flexRadioDefault" checked={bodyType == 'form_data'} id="form_data" onChange={(e) => { handleBody(e, 'form_data') }} />
+                            <label className="form-check-label" role='button' for="form_data">
                                 form-data
                             </label>
                         </div>
-                        <div class="form-check ms-4">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" checked={bodyType == 'urlencoded'} id="urlencoded" onChange={(e) => { handleBody(e, 'urlencoded') }} />
-                            <label class="form-check-label" role='button' for="urlencoded">
+                        <div className="form-check ms-4">
+                            <input className="form-check-input" type="radio" name="flexRadioDefault" checked={bodyType == 'urlencoded'} id="urlencoded" onChange={(e) => { handleBody(e, 'urlencoded') }} />
+                            <label className="form-check-label" role='button' for="urlencoded">
                                 x-www-form-urlencoded
                             </label>
                         </div>
-                        <div class="form-check ms-4">
-                            <input class="form-check-input" type="radio" checked={bodyType == 'raw'} name="flexRadioDefault" id="raw" onChange={(e) => { handleBody(e, 'raw') }} />
-                            <label class="form-check-label" role='button' for="raw">
+                        <div className="form-check ms-4">
+                            <input className="form-check-input" type="radio" checked={bodyType == 'raw'} name="flexRadioDefault" id="raw" onChange={(e) => { handleBody(e, 'raw') }} />
+                            <label className="form-check-label" role='button' for="raw">
                                 raw
                             </label>
                         </div>
@@ -394,19 +396,15 @@ function ApiPlayGround() {
                 </div>
 
             </div>
-
-            <div className='box-apiplay'>
-                <p className='text-center'>This request does not have a body</p>
-            </div>
             <div className='border-top'></div>
             <div className='row d-flex justify-content-between'>
                 <div className='col-xl-3 col-lg-3 col-md-3 col-sm-4 col-4'>
-                    <ul class="nav nav-pills my-1" id="pills-tab" role="tablist">
-                        <li class="nav-item pe-3" role="presentation">
-                            <button class="nav-link  try-api-tab active" id="pills-onenew-tab" data-bs-toggle="pill" data-bs-target="#pills-onenew" type="button" role="tab" aria-controls="pills-onenew" aria-selected="true">Body</button>
+                    <ul className="nav nav-pills my-1" id="pills-tab" role="tablist">
+                        <li className="nav-item pe-3" role="presentation">
+                            <button className="nav-link  try-api-tab active" id="pills-onenew-tab" data-bs-toggle="pill" data-bs-target="#pills-onenew" type="button" role="tab" aria-controls="pills-onenew" aria-selected="true">Body</button>
                         </li>
-                        <li class="nav-item px-3" role="presentation">
-                            <button class="nav-link try-api-tab " id="pills-new-tab" data-bs-toggle="pill" data-bs-target="#pills-new" type="button" role="tab" aria-controls="pills-new" aria-selected="false">Header (8)</button>
+                        <li className="nav-item px-3" role="presentation">
+                            <button className="nav-link try-api-tab " id="pills-new-tab" data-bs-toggle="pill" data-bs-target="#pills-new" type="button" role="tab" aria-controls="pills-new" aria-selected="false">Header (8)</button>
                         </li>
 
 
@@ -424,9 +422,9 @@ function ApiPlayGround() {
                     <span className='ms-2'>Save Response</span>
                     <img src={dots} className='ms-2' alt="" style={{ width: '20px', height: '20px' }} />
                 </div>
-                <div class="tab-content" id="pills-tabContent">
-                    <div class="tab-pane fade show active" id="pills-onenew" role="tabpanel" aria-labelledby="pills-onenew-tab">
-                        <span class="badge bg-secondary mb-2"> { } JSON  <i class="fa-solid fa-angle-down"></i></span>
+                <div className="tab-content" id="pills-tabContent">
+                    <div className="tab-pane fade show active" id="pills-onenew" role="tabpanel" aria-labelledby="pills-onenew-tab">
+                        <span className="badge bg-secondary mb-2"> { } JSON  <i className="fa-solid fa-angle-down"></i></span>
 
                         <p>
                             [
@@ -442,7 +440,7 @@ function ApiPlayGround() {
                             ]
                         </p>
                     </div>
-                    <div class="tab-pane fade" id="pills-twonew" role="tabpanel" aria-labelledby="pills-twonew-tab">.2..</div>
+                    <div className="tab-pane fade" id="pills-twonew" role="tabpanel" aria-labelledby="pills-twonew-tab">.2..</div>
 
                 </div>
             </div>
@@ -463,12 +461,12 @@ function ApiPlayGround() {
                                 </span>
                             </div>
                             <div className='col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 d-flex align-items-center justify-content-end'>
-                                <span className='me-2 mb-0'>All Logs <i class="fa-solid fa-angle-down"></i></span>
-                                <span class="badge bg-light text-dark">Clear</span>
-                                <i class="fa-solid fa-copy me-2 text-secondary"></i>
+                                <span className='me-2 mb-0'>All Logs <i className="fa-solid fa-angle-down"></i></span>
+                                <span className="badge bg-light text-dark">Clear</span>
+                                <i className="fa-solid fa-copy me-2 text-secondary"></i>
                                 <img src={dots} className='ms-2' alt="" style={{ width: '20px', height: '20px' }} />
                                 <img src={uparrow} className='ms-2' alt="" style={{ width: '20px', height: '20px' }} />
-                                <i class="fa-solid fa-xmark text-secondary" data-bs-dismiss="offcanvas" aria-label="Close"></i>
+                                <i className="fa-solid fa-xmark text-secondary" data-bs-dismiss="offcanvas" aria-label="Close"></i>
                             </div>
                         </div>
                         {/* <h5 className="offcanvas-title" id="offcanvasBottomLabel">Offcanvas bottom</h5> */}
