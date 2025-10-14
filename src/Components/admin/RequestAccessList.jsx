@@ -3,8 +3,9 @@ import Swal from "sweetalert2";
 import { error_swal_toast, success_swal_toast } from "../../SwalServices";
 import { post_auth_data } from "../../ApiServices";
 import { PageLoaderBackdrop } from "../../Loader";
-import { sendEmail } from "../../Utils";
+import { offsetPagination, sendEmail } from "../../Utils";
 import { generateApiApprovalEmail } from "../../emailTemplate";
+import PaginateComponent from "../common/Pagination";
 
 function RequestAccessList() {
     const [reqAccList, setReqAccList] = useState([]);
@@ -12,6 +13,8 @@ function RequestAccessList() {
     const [loadingButtons, setLoadingButtons] = useState({}); // per-button loading
     const [search, SetSearch] = useState({ status: '', input: '' });
     const [loader, setLoader] = useState({ pageloader: false })
+    const [totalPages, setTotalPages] = useState(1)
+    const [currentPage, setCurrentPage] = useState(1)
     // 🔹 Approve Swal
     const approve_swal_call = (user) => {
         Swal.fire({
@@ -160,18 +163,17 @@ function RequestAccessList() {
             const response = await post_auth_data("portal/private", payload, {});
             if (response.data.status) {
                 success_swal_toast(response.data.message)
-
-                  setReqAccList(prev =>
+                setReqAccList(prev =>
                     prev.map(item =>
-                    item.request_id === request_id
-                        ? { ...item, approved_status: status }
-                        : item
+                        item.request_id === request_id
+                            ? { ...item, approved_status: status }
+                            : item
                     )
-                  );
+                );
 
-                const subject= "Login Approval Granted for BAJAJ API Access"
+                const subject = "Login Approval Granted for BAJAJ API Access"
                 const userName = user.fullname
-                const userEmail = user?.emailId || ""
+                const userEmail = user?.emailid || ""
                 const userId = user.id
                 // console.log("inside status condition true or false 2")
                 // const emailBody = generateApiApprovalEmail({
@@ -227,6 +229,7 @@ function RequestAccessList() {
 
     // 🔹 Fetch Request List
     const fetchRequestList = async (page = 1, filters = search) => {
+        setCurrentPage(page)
         setLoader({ ...loader, pageloader: true });
         const payload = {
             apiType: "get-all-api-request",
@@ -245,6 +248,7 @@ function RequestAccessList() {
                     request_id: item.request_id || item.id || ""
                 }));
                 setReqAccList(dataWithReqId);
+                setTotalPages(Math.ceil(response.data.totaltotalRecords / offsetPagination))
             } else {
                 error_swal_toast(response.data.message || "Failed to fetch list");
             }
@@ -280,17 +284,17 @@ function RequestAccessList() {
                 <label for="exampleInputEmail1">Filters</label>
                 <div className="row align-items-center">
                     <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-2">
-                        <div class="form-group mt-2">
-                            <input type="email" name="email" class="form-control p-3" id="exampleInputEmail1"
+                        <div className="form-group mt-2">
+                            <input type="email" name="email" className="form-control p-3" id="exampleInputEmail1"
                                 aria-describedby="emailHelp" placeholder="Search" value={search.input}
                                 onChange={(e) => { SetSearch({ ...search, input: (e.target.value).trim() }) }} />
                         </div>
                     </div>
                     <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-2">
-                        <div class="form-group mt-2">
-                            <select 
-                                class="form-control p-3" 
-                                name="status" 
+                        <div className="form-group mt-2">
+                            <select
+                                className="form-control p-3"
+                                name="status"
                                 id="exampleFormControlSelect1"
                                 value={search.status}
                                 onChange={(e) => {
@@ -308,7 +312,7 @@ function RequestAccessList() {
                     </div>
                     <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
                         <button className="btn btn-primary profilePageButton px-3 search-btn" onClick={() => { fetchRequestList(1) }}>Search </button>
-                        <button className="btn btn-outline-primary ms-2 profilePageButton px-3 search-btn" onClick={() => refresh()}><i class="fas fa-sync-alt"></i> </button>
+                        <button className="btn btn-outline-primary ms-2 profilePageButton px-3 search-btn" onClick={() => refresh()}><i className="fas fa-sync-alt"></i> </button>
                     </div>
                 </div>
             </div>
@@ -318,93 +322,98 @@ function RequestAccessList() {
                     <span className="spinner-border"></span> Loading...
                 </div>
             ) : ( */}
-                <div className="table-responsive mt-2">
-                    <table className="table table-bordered custom-table table-striped mt-3">
-                        <thead className="text-truncate">
-                            <tr>
-                                <th>Sr. No</th>
-                                <th>Username</th>
-                                <th>Api Name</th>
-                                <th>App Name</th>
-                                <th>Client Id</th>
-                                <th>Client Secret</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {reqAccList.length > 0 && reqAccList.map((user, index) => (
-                                <tr key={user.request_id || index}>
-                                    <td>{index + 1}</td>
-                                    <td>{user.fullname}</td>
-                                    <td>{user.apiname}</td>
-                                    <td>{user.application_name}</td>
-                                    <td>{user.client_id}</td>
-                                    <td>{user.client_secret}</td>
-                                    {/* <td>
+            <div className="table-responsive mt-2">
+                <table className="table table-bordered custom-table table-striped mt-3">
+                    <thead className="text-truncate">
+                        <tr>
+                            <th>Sr. No</th>
+                            <th>Username</th>
+                            <th>Api Name</th>
+                            <th>App Name</th>
+                            <th>Client Id</th>
+                            <th>Client Secret</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {reqAccList.length > 0 && reqAccList.map((user, index) => (
+                            <tr key={user.request_id || index}>
+                                <td>{index + 1}</td>
+                                <td>{user.fullname}</td>
+                                <td>{user.apiname}</td>
+                                <td>{user.application_name}</td>
+                                <td>{user.client_id}</td>
+                                <td>{user.client_secret}</td>
+                                {/* <td>
                                         {user.approved_status === 0 ? "Pending" :
                                             user.approved_status === 1 ? "Approved" : "Rejected"}
                                     </td> */}
-                                    <td>
-                                        {user.approved_status === 0 && (
-                                            <div className="d-flex align-items-center">
-                                                <i className="fa-solid fa-circle-exclamation text-warning me-2"></i>
-                                                <span>Pending</span>
-                                            </div>
-                                        )}
-                                        {user.approved_status === 1 && (
-                                            <div className="d-flex align-items-center">
-                                                <i className="fa-solid fa-circle-check text-success me-2"></i>
-                                                <span>Approved</span>
-                                            </div>
-                                        )}
-                                        {user.approved_status === 2 && (
-                                            <div className="d-flex align-items-center">
-                                                <i className="fas fa-times-circle text-danger me-2"></i>
-                                                <span>Rejected</span>
-                                            </div>
-                                        )}
-                                    </td>
-                                    <td className="text-center">
-                                        <div className="d-flex justify-content-center">
-                                            <button
-                                                className="btn btn-success btn-sm mx-2"
-                                                title="Approve request"
-                                                onClick={() => { checkClientId(user) }}
-                                                disabled={loadingButtons[user.request_id]?.approve || user.approved_status === 1}
-                                            >
-                                                {loadingButtons[user.request_id]?.approve ? (
-                                                    <span className="spinner-border spinner-border-sm"></span>
-                                                ) : (
-                                                    <i className="fa fa-check"></i>
-                                                )}
-                                            </button>
-
-                                            <button
-                                                className="btn btn-danger btn-sm"
-                                                title="Reject request"
-                                                onClick={() => reject_swal_call(user)}
-                                                disabled={loadingButtons[user.request_id]?.reject || user.approved_status === 2}
-                                            >
-                                                {loadingButtons[user.request_id]?.reject ? (
-                                                    <span className="spinner-border spinner-border-sm"></span>
-                                                ) : (
-                                                    <i className="fa fa-times"></i>
-                                                )}
-                                            </button>
+                                <td>
+                                    {user.approved_status === 0 && (
+                                        <div className="d-flex align-items-center">
+                                            <i className="fa-solid fa-circle-exclamation text-warning me-2"></i>
+                                            <span>Pending</span>
                                         </div>
-                                    </td>
-                                </tr>
-                            )) 
+                                    )}
+                                    {user.approved_status === 1 && (
+                                        <div className="d-flex align-items-center">
+                                            <i className="fa-solid fa-circle-check text-success me-2"></i>
+                                            <span>Approved</span>
+                                        </div>
+                                    )}
+                                    {user.approved_status === 2 && (
+                                        <div className="d-flex align-items-center">
+                                            <i className="fas fa-times-circle text-danger me-2"></i>
+                                            <span>Rejected</span>
+                                        </div>
+                                    )}
+                                </td>
+                                <td className="text-center">
+                                    <div className="d-flex justify-content-center">
+                                        <button
+                                            className="btn btn-success btn-sm mx-2"
+                                            title="Approve request"
+                                            onClick={() => { checkClientId(user) }}
+                                            disabled={loadingButtons[user.request_id]?.approve || user.approved_status === 1}
+                                        >
+                                            {loadingButtons[user.request_id]?.approve ? (
+                                                <span className="spinner-border spinner-border-sm"></span>
+                                            ) : (
+                                                <i className="fa fa-check"></i>
+                                            )}
+                                        </button>
+
+                                        <button
+                                            className="btn btn-danger btn-sm"
+                                            title="Reject request"
+                                            onClick={() => reject_swal_call(user)}
+                                            disabled={loadingButtons[user.request_id]?.reject || user.approved_status === 2}
+                                        >
+                                            {loadingButtons[user.request_id]?.reject ? (
+                                                <span className="spinner-border spinner-border-sm"></span>
+                                            ) : (
+                                                <i className="fa fa-times"></i>
+                                            )}
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        ))
                             // : (
                             //     <tr>
                             //         <td colSpan={6} className="text-center">No data found</td>
                             //     </tr>
                             // )
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                        }
+                    </tbody>
+                </table>
+                <PaginateComponent
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(page) => getApiList(page)}
+                />
+            </div>
             {/* )} */}
             {loader.pageloader && <PageLoaderBackdrop />}
         </div>

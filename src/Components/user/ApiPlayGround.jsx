@@ -16,6 +16,7 @@ import uparrow from '/assets/img/arrow-right-solid-full 1.png';
 import { post_auth_data, post_data } from '../../ApiServices';
 import { PageLoaderBackdrop, Loader } from '../../Loader';
 import EditableBody from '../user/UtilComponent/EditableBody'
+import { ErrorMessage, FieldArray, Form, FormikProvider, useFormik } from 'formik';
 function ApiPlayGround() {
     const navigate = useNavigate();
     const { collection_id, category_id, api_id } = useParams();
@@ -31,7 +32,6 @@ function ApiPlayGround() {
     const [isOpen, setIsOpen] = useState(true);
 
     const location = useLocation();
-    const [bodyRequestSample, setBodyRequestSample] = useState('')
     useEffect(() => {
         chekParamParameter()
     }, [api_id, collection_id, category_id])
@@ -85,6 +85,8 @@ function ApiPlayGround() {
                     if (api_id) {
                         setApiData(response.data.data);
                         setBodyRequestSample(JSON.parse(response.data.data.reqsample))
+                        headersForm.setValues({ parameters: JSON.parse(response.data.data.reqheader?.value || '[]') })
+                        parameterForm.setValues({ parameters: JSON.parse(response.data.data.query_params?.value || '[]') })
                         let res = JSON.parse(response.data.data.responses.value || '[]');
                         for (const item of res) {
                             if (item.code == 200) {
@@ -104,7 +106,61 @@ function ApiPlayGround() {
 
             })
     }
+    const parameterForm = useFormik({
+        initialValues: {
+            parameters: []
+        },
+        validationSchema: "",
+        onSubmit: (val) => {
+            console.log(val)
+        }
+    })
+    const headersForm = useFormik({
+        initialValues: {
+            parameters: []
+        },
+        validationSchema: "",
+        onSubmit: (val) => {
+            console.log(val)
+        }
+    })
+    const urlencodedForm = useFormik({
+        initialValues: {
+            parameters: []
+        },
+        validationSchema: "",
+        onSubmit: (val) => {
+            console.log(val)
+        }
+    })
 
+    const handleAddParam = (arrayHelper) => {
+        let obj = { key: "", value: "", description: "", }
+        arrayHelper.push(obj)
+    };
+    const [bodyType, setBodyType] = useState('raw')
+    const handleBody = (e, type) => {
+        if (e.target.checked) {
+            setBodyType(type)
+        }
+    }
+
+    const [bodyRequestSample, setBodyRequestSample] = useState('')
+    const handleBodyChange = (language) => {
+        setBodyRequestSample(language);
+    }
+    const createApiRqe = () => {
+        console.log(urlencodedForm.values.parameters)
+        console.log(headersForm.values.parameters)
+        console.log(parameterForm.values.parameters)
+        if (bodyType == 'raw') {
+            try {
+                JSON.parse(bodyRequestSample)
+            } catch (error) {
+                error_swal_toast('Invalid json data')
+            }
+        }
+    }
     return (
         <div className="home-container bg-white p-3">
             <div className="card-new mb-3">
@@ -119,84 +175,236 @@ function ApiPlayGround() {
                     <InputGroup.Text id="basic-addon1">{apiData?.apimethod || 'GET'}</InputGroup.Text>
                     <input type="text" className="form-control" aria-label="Text input with dropdown button" value={apiData?.apiurl || 'url'} readOnly />
                 </div>
-                <button className='btn btn-primary ms-2 px-3'>Send</button>
+                <button className='btn btn-primary ms-2 px-3' onClick={createApiRqe}>Send</button>
             </div>
 
-            <ul class="nav nav-pills mb-3 mt-3" id="pills-tab" role="tablist">
-                <li class="nav-item pe-3" role="presentation">
-                    <button class="nav-link  try-api-tab active" id="pills-one-tab" data-bs-toggle="pill" data-bs-target="#pills-one" type="button" role="tab" aria-controls="pills-one" aria-selected="true">Params</button>
+            <ul className="nav nav-pills mb-3 mt-3" id="pills-tab" role="tablist">
+                <li className="nav-item pe-3" rzole="presentation">
+                    <button className="nav-link  try-api-tab active" id="pills-one-tab" data-bs-toggle="pill" data-bs-target="#pills-one" type="button" role="tab" aria-controls="pills-one" aria-selected="true">Params</button>
                 </li>
-               
-                <li class="nav-item px-3" role="presentation">
-                    <button class="nav-link try-api-tab " id="pills-two-tab" data-bs-toggle="pill" data-bs-target="#pills-two" type="button" role="tab" aria-controls="pills-two" aria-selected="false"> Headers (8)</button>
+
+                <li className="nav-item px-3" role="presentation">
+                    <button className="nav-link try-api-tab " id="pills-two-tab" data-bs-toggle="pill" data-bs-target="#pills-two" type="button" role="tab" aria-controls="pills-two" aria-selected="false"> Headers (8)</button>
                 </li>
-                <li class="nav-item px-3" role="presentation">
-                    <button class="nav-link try-api-tab body-dot" id="pills-three-tab" data-bs-toggle="pill" data-bs-target="#pills-three" type="button" role="tab" aria-controls="pills-three" aria-selected="false">
+                <li className="nav-item px-3" role="presentation">
+                    <button className="nav-link try-api-tab body-dot" id="pills-three-tab" data-bs-toggle="pill" data-bs-target="#pills-three" type="button" role="tab" aria-controls="pills-three" aria-selected="false">
                         Body
                     </button>
                 </li>
 
 
             </ul>
-            <div class="tab-content" id="pills-tabContent">
-                <div class="tab-pane fade show active" id="pills-one" role="tabpanel" aria-labelledby="pills-one-tab">
-                <div className='table-responsive'>
-                    <table className='table table-bordered'>
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Key</th>
-                                <th>Value</th>
-                                <th>Description</th>
-                            </tr>
-                        </thead>
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Key</th>
-                                <th>Value</th>
-                                <th>Description</th>
-                            </tr>
-                        </thead>
-                    </table>
+            <div className="tab-content" id="pills-tabContent">
+                <div className="tab-pane fade show active" id="pills-one" role="tabpanel" aria-labelledby="pills-one-tab">
+                    <div className='table-responsive'>
+                        <FormikProvider value={parameterForm}>
+                            <Form className="api-form" autoComplete="off">
+                                <FieldArray name='parameters' render={(arrayHelper) => (
+
+                                    <table className="table table-bordered ">
+                                        <thead>
+                                            <tr>
+                                                <th colSpan={5}>
+                                                    <div className="text-end">
+                                                        <button className="btn btn-primary" type="button" onClick={() => { handleAddParam(arrayHelper) }}>Add Parameter</button>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th>Key</th>
+                                                <th>Value</th>
+                                                <th>description</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                parameterForm.values.parameters.map((param, index) => (
+                                                    <tr key={arrayIndex('queryparam', index)}>
+                                                        <td className="">
+                                                            <input type="text" className='form-control' name={`parameters[${index}].key`}
+                                                                onChange={parameterForm.handleChange} onBlur={parameterForm.handleBlur}
+                                                                value={parameterForm.values.parameters[index].key} />
+                                                            <ErrorMessage name={`parameters[${index}].key`} component="small" className='text-danger' />
+                                                        </td>
+                                                        <td className="">
+                                                            <input type="text" className='form-control' name={`parameters[${index}].value`}
+                                                                onChange={parameterForm.handleChange} onBlur={parameterForm.handleBlur}
+                                                                value={parameterForm.values.parameters[index].value} />
+                                                            <ErrorMessage name={`parameters[${index}].value`} component="small" className='text-danger' />
+                                                        </td>
+                                                        <td className="">
+                                                            <input type="text" className='form-control' name={`parameters[${index}].description`}
+                                                                onChange={parameterForm.handleChange} onBlur={parameterForm.handleBlur}
+                                                                value={parameterForm.values.parameters[index].description} />
+                                                            <ErrorMessage name={`parameters[${index}].description`} component="small" className='text-danger' />
+                                                        </td>
+                                                        <td className="d-flex align-items-center justify-content-center">
+                                                            <button type="buttn" className="btn btn-danger btn-sm" title="remove" onClick={() => { arrayHelper.remove(index) }}>
+                                                                <i className="fa fa-trash"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                ))
+                                            }
+                                        </tbody>
+                                    </table>
+                                )} />
+                            </Form>
+                        </FormikProvider>
+                    </div>
                 </div>
+                <div className="tab-pane fade" id="pills-two" role="tabpanel" aria-labelledby="pills-two-tab">
+                    <FormikProvider value={headersForm}>
+                        <Form className="api-form" autoComplete="off">
+                            <FieldArray name='parameters' render={(arrayHelper) => (
+
+                                <table className="table table-bordered ">
+                                    <thead>
+                                        <tr>
+                                            <th colSpan={5}>
+                                                <div className="text-end">
+                                                    <button className="btn btn-primary" type="button" onClick={() => { handleAddParam(arrayHelper) }}>Add Parameter</button>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th>Key</th>
+                                            <th>Value</th>
+                                            <th>description</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            headersForm.values.parameters.map((param, index) => (
+                                                <tr key={arrayIndex('queryparam', index)}>
+                                                    <td className="">
+                                                        <input type="text" className='form-control' name={`parameters[${index}].key`}
+                                                            onChange={headersForm.handleChange} onBlur={headersForm.handleBlur}
+                                                            value={headersForm.values.parameters[index].key} />
+                                                        <ErrorMessage name={`parameters[${index}].key`} component="small" className='text-danger' />
+                                                    </td>
+                                                    <td className="">
+                                                        <input type="text" className='form-control' name={`parameters[${index}].value`}
+                                                            onChange={headersForm.handleChange} onBlur={headersForm.handleBlur}
+                                                            value={headersForm.values.parameters[index].value} />
+                                                        <ErrorMessage name={`parameters[${index}].value`} component="small" className='text-danger' />
+                                                    </td>
+                                                    <td className="">
+                                                        <input type="text" className='form-control' name={`parameters[${index}].description`}
+                                                            onChange={headersForm.handleChange} onBlur={headersForm.handleBlur}
+                                                            value={headersForm.values.parameters[index].description} />
+                                                        <ErrorMessage name={`parameters[${index}].description`} component="small" className='text-danger' />
+                                                    </td>
+                                                    <td className="d-flex align-items-center justify-content-center">
+                                                        <button type="buttn" className="btn btn-danger btn-sm" title="remove" onClick={() => { arrayHelper.remove(index) }}>
+                                                            <i className="fa fa-trash"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        }
+                                    </tbody>
+                                </table>
+                            )} />
+                        </Form>
+                    </FormikProvider>
                 </div>
-                <div class="tab-pane fade" id="pills-two" role="tabpanel" aria-labelledby="pills-two-tab">.2..</div>
-                <div class="tab-pane fade" id="pills-three" role="tabpanel" aria-labelledby="pills-three-tab">.3..</div>
-               
-            </div>
-            <div className='d-flex'>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-                    <label class="form-check-label" for="flexRadioDefault1">
-                        form-data
-                    </label>
+                <div className="tab-pane fade" id="pills-three" role="tabpanel" aria-labelledby="pills-three-tab">
+                    <div className='d-flex mb-2'>
+                        <div className="form-check">
+                            <input className="form-check-input" type="radio" name="flexRadioDefault" checked={bodyType == 'form_data'} id="form_data" onChange={(e) => { handleBody(e, 'form_data') }} />
+                            <label className="form-check-label" role='button' for="form_data">
+                                form-data
+                            </label>
+                        </div>
+                        <div className="form-check ms-4">
+                            <input className="form-check-input" type="radio" name="flexRadioDefault" checked={bodyType == 'urlencoded'} id="urlencoded" onChange={(e) => { handleBody(e, 'urlencoded') }} />
+                            <label className="form-check-label" role='button' for="urlencoded">
+                                x-www-form-urlencoded
+                            </label>
+                        </div>
+                        <div className="form-check ms-4">
+                            <input className="form-check-input" type="radio" checked={bodyType == 'raw'} name="flexRadioDefault" id="raw" onChange={(e) => { handleBody(e, 'raw') }} />
+                            <label className="form-check-label" role='button' for="raw">
+                                raw
+                            </label>
+                        </div>
+                    </div>
+                    {bodyType == 'form_data' && <div className="bodybox">Cooming soon</div>}
+                    {bodyType == 'urlencoded' && <div className="bodybox">
+                        <FormikProvider value={urlencodedForm}>
+                            <Form className="api-form" autoComplete="off">
+                                <FieldArray name='parameters' render={(arrayHelper) => (
+
+                                    <table className="table table-bordered ">
+                                        <thead>
+                                            <tr>
+                                                <th colSpan={5}>
+                                                    <div className="text-end">
+                                                        <button className="btn btn-primary" type="button" onClick={() => { handleAddParam(arrayHelper) }}>Add Parameter</button>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th>Key</th>
+                                                <th>Value</th>
+                                                <th>description</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                urlencodedForm.values.parameters.map((param, index) => (
+                                                    <tr key={arrayIndex('urlencoded', index)}>
+                                                        <td className="">
+                                                            <input type="text" className='form-control' name={`parameters[${index}].key`}
+                                                                onChange={urlencodedForm.handleChange} onBlur={urlencodedForm.handleBlur}
+                                                                value={urlencodedForm.values.parameters[index].key} />
+                                                            <ErrorMessage name={`parameters[${index}].key`} component="small" className='text-danger' />
+                                                        </td>
+                                                        <td className="">
+                                                            <input type="text" className='form-control' name={`parameters[${index}].value`}
+                                                                onChange={urlencodedForm.handleChange} onBlur={urlencodedForm.handleBlur}
+                                                                value={urlencodedForm.values.parameters[index].value} />
+                                                            <ErrorMessage name={`parameters[${index}].value`} component="small" className='text-danger' />
+                                                        </td>
+                                                        <td className="">
+                                                            <input type="text" className='form-control' name={`parameters[${index}].description`}
+                                                                onChange={urlencodedForm.handleChange} onBlur={urlencodedForm.handleBlur}
+                                                                value={urlencodedForm.values.parameters[index].description} />
+                                                            <ErrorMessage name={`parameters[${index}].description`} component="small" className='text-danger' />
+                                                        </td>
+                                                        <td className="d-flex align-items-center justify-content-center">
+                                                            <button type="buttn" className="btn btn-danger btn-sm" title="remove" onClick={() => { arrayHelper.remove(index) }}>
+                                                                <i className="fa fa-trash"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                ))
+                                            }
+                                        </tbody>
+                                    </table>
+                                )} />
+                            </Form>
+                        </FormikProvider>
+                    </div>}
+                    {bodyType == 'raw' && <div className="bodybox">
+                        <EditableBody curl={bodyRequestSample} onChange={handleBodyChange} />
+                    </div>}
                 </div>
-                <div class="form-check ms-4">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked />
-                    <label class="form-check-label" for="flexRadioDefault2">
-                        x-www-form-urlencoded
-                    </label>
-                </div>
-                <div class="form-check ms-4">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked />
-                    <label class="form-check-label" for="flexRadioDefault2">
-                        raw
-                    </label>
-                </div>
-            </div>
-            <div className='box-apiplay'>
-                <p className='text-center'>This request does not have a body</p>
+
             </div>
             <div className='border-top'></div>
             <div className='row d-flex justify-content-between'>
                 <div className='col-xl-3 col-lg-3 col-md-3 col-sm-4 col-4'>
-                    <ul class="nav nav-pills my-1" id="pills-tab" role="tablist">
-                        <li class="nav-item pe-3" role="presentation">
-                            <button class="nav-link  try-api-tab active" id="pills-onenew-tab" data-bs-toggle="pill" data-bs-target="#pills-onenew" type="button" role="tab" aria-controls="pills-onenew" aria-selected="true">Body</button>
+                    <ul className="nav nav-pills my-1" id="pills-tab" role="tablist">
+                        <li className="nav-item pe-3" role="presentation">
+                            <button className="nav-link  try-api-tab active" id="pills-onenew-tab" data-bs-toggle="pill" data-bs-target="#pills-onenew" type="button" role="tab" aria-controls="pills-onenew" aria-selected="true">Body</button>
                         </li>
-                        <li class="nav-item px-3" role="presentation">
-                            <button class="nav-link try-api-tab " id="pills-new-tab" data-bs-toggle="pill" data-bs-target="#pills-new" type="button" role="tab" aria-controls="pills-new" aria-selected="false">Header (8)</button>
+                        <li className="nav-item px-3" role="presentation">
+                            <button className="nav-link try-api-tab " id="pills-new-tab" data-bs-toggle="pill" data-bs-target="#pills-new" type="button" role="tab" aria-controls="pills-new" aria-selected="false">Header (8)</button>
                         </li>
 
 
@@ -214,9 +422,9 @@ function ApiPlayGround() {
                     <span className='ms-2'>Save Response</span>
                     <img src={dots} className='ms-2' alt="" style={{ width: '20px', height: '20px' }} />
                 </div>
-                <div class="tab-content" id="pills-tabContent">
-                    <div class="tab-pane fade show active" id="pills-onenew" role="tabpanel" aria-labelledby="pills-onenew-tab">
-                        <span class="badge bg-secondary mb-2"> { } JSON  <i class="fa-solid fa-angle-down"></i></span>
+                <div className="tab-content" id="pills-tabContent">
+                    <div className="tab-pane fade show active" id="pills-onenew" role="tabpanel" aria-labelledby="pills-onenew-tab">
+                        <span className="badge bg-secondary mb-2"> { } JSON  <i className="fa-solid fa-angle-down"></i></span>
 
                         <p>
                             [
@@ -232,7 +440,7 @@ function ApiPlayGround() {
                             ]
                         </p>
                     </div>
-                    <div class="tab-pane fade" id="pills-twonew" role="tabpanel" aria-labelledby="pills-twonew-tab">.2..</div>
+                    <div className="tab-pane fade" id="pills-twonew" role="tabpanel" aria-labelledby="pills-twonew-tab">.2..</div>
 
                 </div>
             </div>
@@ -253,12 +461,12 @@ function ApiPlayGround() {
                                 </span>
                             </div>
                             <div className='col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 d-flex align-items-center justify-content-end'>
-                                <span className='me-2 mb-0'>All Logs <i class="fa-solid fa-angle-down"></i></span>
-                                <span class="badge bg-light text-dark">Clear</span>
-                                <i class="fa-solid fa-copy me-2 text-secondary"></i>
+                                <span className='me-2 mb-0'>All Logs <i className="fa-solid fa-angle-down"></i></span>
+                                <span className="badge bg-light text-dark">Clear</span>
+                                <i className="fa-solid fa-copy me-2 text-secondary"></i>
                                 <img src={dots} className='ms-2' alt="" style={{ width: '20px', height: '20px' }} />
                                 <img src={uparrow} className='ms-2' alt="" style={{ width: '20px', height: '20px' }} />
-                                <i class="fa-solid fa-xmark text-secondary" data-bs-dismiss="offcanvas" aria-label="Close"></i>
+                                <i className="fa-solid fa-xmark text-secondary" data-bs-dismiss="offcanvas" aria-label="Close"></i>
                             </div>
                         </div>
                         {/* <h5 className="offcanvas-title" id="offcanvasBottomLabel">Offcanvas bottom</h5> */}

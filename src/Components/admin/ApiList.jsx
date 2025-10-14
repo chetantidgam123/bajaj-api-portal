@@ -6,6 +6,8 @@ import { arrayIndex, convertToPayload, offsetPagination } from "../../Utils";
 import { useNavigate } from "react-router-dom";
 import { error_swal_toast } from "../../SwalServices";
 import { PageLoaderBackdrop } from "../../Loader";
+import { confirm_swal_with_text,success_swal_toast } from "../../SwalServices";
+import PaginateComponent from "../common/Pagination";
 function ApiList() {
     const [apiList, setApiList] = useState([]);
     const [categoryList, setCategoryList] = useState([]);
@@ -13,12 +15,16 @@ function ApiList() {
     const [categoryId, setCategoryId] = useState(0);
     const [subCategoryId, setSubCategoryId] = useState(0);
     const [loader, setLoader] = useState({ pageloder: false })
+    const [totalPages, setTotalPages] = useState(1)
+    const [currentPage, setCurrentPage] = useState(1);
     const navigate = useNavigate();
-    const getApiList = (page = 1) => {
+
+    const getApiList = (page = 1, catId = categoryId, subCatId = subCategoryId) => {
+        setCurrentPage(page);
         setLoader({ ...loader, pageloder: true })
         post_auth_data("portal/private", convertToPayload('get-all-apis', {
-            categoryid: categoryId,
-            subcategoryid: subCategoryId,
+            categoryid: catId,
+            subcategoryid: subCatId,
             offset: ((page - 1) * offsetPagination),
             limit: offsetPagination
         }), {})
@@ -26,6 +32,8 @@ function ApiList() {
                 setLoader({ ...loader, pageloder: false })
                 if (response.data.status) {
                     setApiList(response.data.data || [])
+                    const totalPages = Math.ceil(response.data.totalRecords / offsetPagination);
+                    setTotalPages(totalPages);
                 } else {
                     error_swal_toast(response.data.message)
                     setApiList([])
@@ -38,7 +46,7 @@ function ApiList() {
     const getCategoryList = () => {
         post_auth_data("portal/private", convertToPayload('get-all-categories', {}), {})
             .then((response) => {
-                setLoader({ ...loader, pageloader: false })
+                // setLoader({ ...loader, pageloader: false })
                 if (response.data.status) {
                     setCategoryList(response.data.data || [])
                 } else {
@@ -46,7 +54,7 @@ function ApiList() {
                     setCategoryList([]);
                 }
             }).catch((error) => {
-                setLoader({ ...loader, pageloader: false })
+                // setLoader({ ...loader, pageloader: false })
                 setCategoryList([])
                 error_swal_toast(error.message || error);
             })
@@ -69,6 +77,32 @@ function ApiList() {
             })
     }
 
+    const confirm_swall_call_delete = (apil) => {
+            const callback = (resolve, reject) => {
+                deleteApi(apil, resolve, reject)
+            }
+            confirm_swal_with_text(callback, `Are you sure <br/> you want to delete`)
+        }
+    
+        const deleteApi = (apil, resolve, reject) => {
+            let payload = { "api_id": apil.id }
+            post_auth_data("portal/private", convertToPayload('delete-api', payload), {})
+            .then((res) => {
+                if(res.data.status) {
+                    console.log(res.data)
+                    success_swal_toast(res.data.message);
+                    getApiList()
+                    resolve();
+                } else {
+                    reject();
+                    error_swal_toast(res.data.message || "something went wrong");
+                }
+            }).catch((error) => {
+                reject();
+                console.error("Error during delete:", error);
+            })
+        }
+
     useEffect(() => {
         getApiList();
         getCategoryList();
@@ -79,7 +113,18 @@ function ApiList() {
         } else {
             setSubCategoryList([])
         }
+        // setSubCategoryId(0);
+        // getSubCategoryList();
     }, [categoryId])
+
+    const refresh = () => {
+      const resetCategory = 0;
+      const resetSubCategory = 0;
+      setCategoryId(resetCategory);
+      setSubCategoryId(resetSubCategory);
+      getApiList(1, resetCategory, resetSubCategory);
+    }
+
     return (
         <div className="mx-2 card-admin-main">
             <div className="card-body card-bg">
@@ -101,7 +146,7 @@ function ApiList() {
                     <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-3">
                         <select className="form-select" id="categoryid" name="categoryid"
                             value={categoryId}
-                            onChange={(e) => { setCategoryId(e.target.value) }}>
+                            onChange={(e) => { setCategoryId(Number(e.target.value)) }}>
                             <option value={0}>Select Category</option>
                             {
                                 categoryList.map((m, i) => (
@@ -113,7 +158,7 @@ function ApiList() {
                     <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-3">
                         <select className="form-select" id="subcategoryid" name="subcategoryid"
                             value={subCategoryId}
-                            onChange={(e) => { setSubCategoryId(e.target.value) }}>
+                            onChange={(e) => { setSubCategoryId(Number(e.target.value)) }}>
                             <option value={0}>Select Subcategory</option>
                             {
                                 subCategoryList.map((m, i) => (
@@ -124,6 +169,7 @@ function ApiList() {
                     </div>
                     <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-3">
                         <button className="btn btn-primary profilePageButton px-3 search-btn" onClick={() => { getApiList(1) }}>Search </button>
+                        <button className="btn btn-outline-primary ms-2 profilePageButton px-3 search-btn" onClick={refresh}><i className="fas fa-sync-alt"></i> </button>
                     </div>
                 </div>
             </div>
@@ -153,11 +199,12 @@ function ApiList() {
                                             <Form.Check // prettier-ignore
                                                 type="switch"
                                                 id="custom-switch"
+                                                // checked={api.isenabled}
                                             />
                                             <button className="btn btn-primary btn-sm mx-2" title="Edit Category" onClick={() => { navigate('/master/update-api/' + api.uniqueid) }}>
                                                 <i className="fa fa-pencil" ></i>
                                             </button>
-                                            <button className="btn btn-danger btn-sm" title="Delete Category">
+                                            <button className="btn btn-danger btn-sm" title="Delete Category" onClick={() =>  confirm_swall_call_delete(api)}>
                                                 <i className="fa fa-trash"></i>
                                             </button>
                                         </div>
@@ -167,6 +214,11 @@ function ApiList() {
                         }
                     </tbody>
                 </table>
+                <PaginateComponent
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(page) => getApiList(page)}
+                />
             </div>
             {loader.pageloder && <PageLoaderBackdrop />}
         </div>

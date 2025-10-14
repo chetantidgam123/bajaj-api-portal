@@ -8,12 +8,18 @@ import { arrayIndex, convertToPayload } from "../../Utils";
 import { useFormik } from "formik";
 import { confirm_swal_with_text, error_swal_toast, success_swal_toast } from "../../SwalServices";
 import { LoaderWight, PageLoaderBackdrop } from "../../Loader";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 function CategoryList() {
     const [show, setShow] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
     const [loader, setLoader] = useState({ pageloader: false, submit: false })
     const handleClose = () => { setShow(false); categoryForm.resetForm(); };
-    const handleShow = () => setShow(true);
+    const handleShow = () => {
+        setIsEdit(false);
+        categoryForm.resetForm();
+        setShow(true);
+    };
     const [categoryList, setCategoryList] = useState([]);
     const categoryForm = useFormik({
         initialValues: {
@@ -108,6 +114,33 @@ function CategoryList() {
         });
         setIsEdit(true);
         setShow(true);
+    }
+
+    const confirm_swal_call_delete = (user) => {
+        const callback = (resolve, reject) => {
+            deleteCategory(user, resolve, reject);
+        }
+        confirm_swal_with_text(callback, `Are you sure <br/> you want to delete this category?`)
+    }
+
+    const deleteCategory = (user, resolve, reject) => {
+        let payload = {"categoryid": user.id}
+        post_auth_data("portal/private", convertToPayload("delete-category", payload), {})
+        .then((res) => {
+            if(res.data.status) {
+                console.log(res.data)
+                success_swal_toast(res.data.message || "Category deleted successfully");
+                resolve();
+                getCategoryList();
+            } else {
+                reject();
+                error_swal_toast(res.data.message || "Failed to delete category");
+            }
+        }).catch((error) => {
+            reject();
+            error_swal_toast(error.message || "something went wrong");
+            console.error("Error during deletion:", error);
+        }) 
     }
 
     const confirm_swal_call = (cat) => {
@@ -205,7 +238,7 @@ function CategoryList() {
                                             <button className="btn btn-primary btn-sm mx-2" title="Edit User" onClick={() => { openEditModal(cat); }}>
                                                 <i className="fa fa-pencil" ></i>
                                             </button>
-                                            <button className="btn btn-danger btn-sm" title="Delete User">
+                                            <button className="btn btn-danger btn-sm" title="Delete User" onClick={() => confirm_swal_call_delete(cat)}>
                                                 <i className="fa fa-trash"></i>
                                             </button>
                                         </div>
@@ -230,7 +263,7 @@ function CategoryList() {
                             <small className="text-danger">{categoryForm.errors.categoryName}</small>
                         ) : null}
                     </div>
-                    <div className="mb-2">
+                    {/* <div className="mb-2">
                         <label className="form-label" htmlFor="description">Category description</label>
                         <textarea type="text" className="form-control" id="description" name="description"
                             placeholder="Enter category description" value={categoryForm.values.description}
@@ -238,6 +271,49 @@ function CategoryList() {
                         {categoryForm.touched.description && categoryForm.errors.description ? (
                             <small className="text-danger">{categoryForm.errors.description}</small>
                         ) : null}
+                    </div> */}
+                    <div className="mb-2">
+                        <label className="form-label" htmlFor="description">Category Description</label>
+                        <CKEditor
+                        editor={ClassicEditor}
+                        data={categoryForm.values.description}
+                        onChange={(event, editor) => {
+                            const data = editor.getData();
+                            categoryForm.setFieldValue("description", data);
+                        }}
+                        onBlur={() => categoryForm.setFieldTouched("description", true)}
+                        config={{
+                            toolbar: [
+                                "heading",              // Heading (H1, H2, H3...)
+                                "|",
+                                "bold", "italic", "underline", "strikethrough",
+                                "link",
+                                "|",
+                                "bulletedList", "numberedList", "blockQuote",
+                                "|",
+                                "alignment",           // left, center, right, justify
+                                "insertTable",         // table insert
+                                "imageUpload",         // image upload
+                                "|",
+                                "undo", "redo",
+                                "removeFormat",
+                            ],
+                            heading: {
+                                options: [
+                                { model: "paragraph", title: "Paragraph", class: "ck-heading_paragraph" },
+                                { model: "heading1", view: "h1", title: "Heading 1", class: "ck-heading_heading1" },
+                                { model: "heading2", view: "h2", title: "Heading 2", class: "ck-heading_heading2" },
+                                { model: "heading3", view: "h3", title: "Heading 3", class: "ck-heading_heading3" },
+                                { model: "heading4", view: "h4", title: "Heading 4", class: "ck-heading_heading4" },
+                                { model: "heading5", view: "h5", title: "Heading 5", class: "ck-heading_heading5" },
+                                { model: "heading6", view: "h6", title: "Heading 6", class: "ck-heading_heading6" },
+                                ],
+                            },
+                        }}
+                    />
+                    {categoryForm.touched.description && categoryForm.errors.description ? (
+                        <small className="text-danger">{categoryForm.errors.description}</small>
+                    ) : null}
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
