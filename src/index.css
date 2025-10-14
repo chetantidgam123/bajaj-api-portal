@@ -742,12 +742,13 @@ select.form-select {
 .apiSidebar1 {
     /* padding: 12px 10px; */
     border: none;
+       /* box-shadow: 0 0 20px 0 #4c577d3b; */
 }
 
 .admin-sidebar-ul a {
     text-decoration: none;
     color: #fff;
-        padding: 6px 12px;
+        /* padding: 6px 12px; */
 }
 
 .h-60 {
@@ -777,7 +778,7 @@ select.form-select {
     background-color: #0478e852;
 }
 
-.activeApi .text-dark {
+.activeApi small {
     color: white !important;
 }
 
@@ -980,14 +981,14 @@ select.form-select {
     height: 35px;
 }
 .admin-sidebar-ul li{
-        margin-bottom: 6px;
+        /* margin-bottom: 6px; */
 }
-  .active-tab {
-   background-color: #ffffff;
-  color: #0052A4  !important;
+.active-tab {
+   /* background-color: #ffffff; */
+  /* color: #0052A4  !important; */
    border-radius: 4px; 
   /* padding: 6px 12px; */
-  display: inline-block;
+  /* display: inline-block; */
   width: 100%;
   /* border-bottom: 1px solid #5278F2 */
 }
