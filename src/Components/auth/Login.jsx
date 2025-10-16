@@ -127,22 +127,24 @@ function Login({ setModalName, setShow }) {
 
         if (!stored) {
             error_swal_toast("OTP expired or not generated");
+            setBasicLoader(false)
             return;
         }
         if (Date.now() > stored.expiry) {
             error_swal_toast("OTP expired. Please request again");
             localStorage.removeItem(OTP_KEY);
+            setBasicLoader(false)
             setOtpSent(false);
             return;
         }
         if (Loginform.values.enteredOtp !== stored.otp) {
+            setBasicLoader(false)
             error_swal_toast("Invalid OTP. Try again");
             return;
         }
 
         // OTP is valid → set backend token and login
         setTokenData(backendTokenData);
-
         localStorage.removeItem(OTP_KEY);
         setShow(false);
         Loginform.resetForm();
@@ -161,11 +163,16 @@ function Login({ setModalName, setShow }) {
         localStorage.setItem(OTP_KEY, encryptedOtp);
 
 
-        const firstName = otpEmail.split("@")[0] || "User";
+        const firstName = backendTokenData.firstname || "User";
         const emailBody = `<p>Dear ${firstName},</p><p>Your OTP is <b>${otp}</b></p>`;
 
         try {
-            await sendEmail({ body: emailBody, toRecepients: [otpEmail], subject: "Your OTP for login", contentType: "application/json" });
+            await sendEmail({
+                body: emailBody,
+                toRecepients: [otpEmail],
+                subject: "Your OTP for login",
+                contentType: "text/html"
+            });
             success_swal_toast("OTP resent to your email!");
             setResendCountdown(90);
             setCanResendOtp(false);

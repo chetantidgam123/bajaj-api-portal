@@ -202,8 +202,7 @@ function SignupPage({ setModalName, setShow }) {
   };
 
   return (
-    <div style={{ height: "30.5em" }}>
-
+    <div style={{ height: "30.5em", overflowY: 'auto' }}>
       {!otpSent ? (
         <>
           <h3>Sign Up</h3>
@@ -229,39 +228,20 @@ function SignupPage({ setModalName, setShow }) {
                   value={signupForm.values.confirmPassword} onChange={signupForm.handleChange} onBlur={signupForm.handleBlur} />
                 <ErrorMessage name={`confirmPassword`} component="small" className='text-danger' />
               </div>
-              {/* <div className="">
-            <label className="form-label mb-1" htmlFor="userPassword">
-              <input style={{ height: "15px", width: "15px", margin: "5px 5px 8px 5px" }} className="form-check-input"
-                type="checkbox" id="terms" name="terms" value={signupForm.values.terms}
-                checked={signupForm.values.terms} onChange={signupForm.handleChange} />
-              <small className="w-100" style={{ fontSize: '0.95em' }} >By creating account you agree to our &nbsp; <Link className="text-primary">Terms of Services</Link></small>
-            </label>
-            <div>
-              <ErrorMessage name={`terms`} component="small" className='text-danger' />
-            </div>
-          </div> */}
               <div className="text-center">
-                {/* <button type="button" className="btn btn-primary w-100" onClick={signupForm.handleSubmit} disabled={loader}>Sign Up {loader ? <LoaderWight /> : <i className="fa-solid fa-arrow-right"></i>}</button> */}
-                <button
-                  type="submit"
-                  className="btn btn-primary w-100"
-                  onClick={signupForm.handleSubmit}
-                  // onClick={() => {
-                  //   sendOtp(signupForm.values.emailId);
-                  //   setOtpEmail(signupForm.values.emailId);
-                  //   // setShowOtpModal(true); // show OTP popup
-                  // }}
-                  disabled={loader}
-                >
+                <button type="submit" className="btn btn-primary w-100"
+                  onClick={signupForm.handleSubmit} disabled={loader} >
                   Send OTP
                 </button>
                 <div className="mt-3">
-                  Have an account?&nbsp; &nbsp;<Link className="text-primary" onClick={() => { setModalName('login'); signupForm.resetForm(); }}>Sign In</Link>
+                  Have an account?&nbsp; &nbsp;
+                  <Link className="text-primary" onClick={() => { setModalName('login'); signupForm.resetForm(); }}>Sign In</Link>
                 </div>
               </div>
 
             </Form>
-          </FormikProvider> </>
+          </FormikProvider>
+        </>
       ) : (
         <div className="my-4 w-100">
           <h3>Enter OTP</h3>
