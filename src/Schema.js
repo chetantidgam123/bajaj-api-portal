@@ -2,6 +2,9 @@ import * as yup from "yup";
 
 export const signupFormSchema = yup.object().shape({
   fullName: yup.string().trim().min(3, "Full name must be at least 3 characters").required("mandatory field*"),
+  companyName: yup.string()
+  .min(2, "Company name must be at least 2 characters")
+  .required("Company name is required"),
   emailId: yup
     .string()
     .trim()
