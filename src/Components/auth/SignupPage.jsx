@@ -132,6 +132,8 @@ function SignupPage({ setModalName, setShow }) {
           adminName: "Admin",
           userName: values.fullName,
           userEmail: values.emailId,
+          company_name: values.emailId,
+          mobileno: values.mobileNo,
           requestedOn: new Date().toLocaleString()
         })
         const subject = "Action Required - New User Login Request for BAJAJ API Developer Portal"

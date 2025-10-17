@@ -123,31 +123,10 @@ function HomePageContent() {
 
     const checkAccess = () => {
         const payload = { api_id: api_id }
-        if (!getTokenData()?.company_name) {
-            error_swal_toast('Company details required Please Update the Profile.')
-            return
-        }
         setTryitLoader(true)
         post_auth_data("portal/private", convertToPayload('check-api-access', payload), {})
             .then(async (response) => {
-                setTryitLoader(false)
-                setHasTriedApi(true)
-                // navigate(`/try-api/${collection_id}/${category_id}/${api_id}`)
-                if (response.data.status) {
-                    // navigate(`/try-api/${collection_id}/${category_id}/${api_id}`)
-                    window.open(`/try-api/${collection_id}/${category_id}/${api_id}`, "_blank");
-
-                }
-                else {
-                    setOpenTryitModal(true)
-                    setTryitModalDesc(response.data.message)
-                    if (response.data.error_code == 'CLIENT_CRED_UNAVAILABLE') {
-                        setTryitButton('Generate Credentials')
-                    }
-                    else {
-                        setTryitButton('Request Access')
-                    }
-                }
+            
             }).catch((error) => {
                 setTryitLoader(false)
                 console.log(error)
@@ -159,78 +138,49 @@ function HomePageContent() {
 
             })
     }
-    // const sendRequest = () => {
-    //     const payload = {
-    //         api_id: api_id,
-    //         application_name: apiData.application_name
-    //     }
-    //     setRequestLoader(true);
-    //     post_auth_data("portal/private", convertToPayload('send-api-access-request', payload), {})
-    //         .then(async (response) => {
-    //             setRequestLoader(false);
-    //             if (response.data.status) {
-    //                 setOpenTryitModal(false);
-    //                 success_swal_toast(response.data.message);
-    //             }
-    //             else {
-    //                 error_swal_toast(response.data.message);
-    //             }
-    //         }).catch((error) => {
-    //             setRequestLoader(false);
-    //             error_swal_toast(error.message)
-    //         })
-    // }
 
     const sendRequest = async () => {
-        const tokendata = getTokenData()
-        console.log(tokendata)
+        const tokendata = getTokenData();
         const payload = {
             api_id: api_id,
             application_name: apiData.application_name
         };
         setRequestLoader(true);
-
-        try {
-            const response = await post_auth_data(
-                "portal/private",
-                convertToPayload('send-api-access-request', payload),
-                {}
-            );
-
-            setRequestLoader(false);
-
-            if (response.data.status) {
-                console.log("inside status condition 1", tokendata.emailid)
-                setOpenTryitModal(false);
-                success_swal_toast(response.data.message);
-                const adminEmail = "ctidgam1997@gmail.com"
-                console.log("inside status condition 2", tokendata.emailid)
-                const emailBody = generateApiRequestEmail({
-                    adminName: "Admin",
-                    apiName: apiData.apiname,
-                    userName: tokendata.fullname,
-                    userEmail: tokendata.emailid,
-                    requestDate: new Date().toLocaleString(),
-                    loginLink: "https://apidocs.bajajauto.com/"
-                })
-                console.log("inside status condition 3", tokendata.emailid)
-                const subject = "Approval Required - User API Access Request"
-                await sendEmail({ body: emailBody, toRecepients: [adminEmail], subject: subject, contentType: 'text/html' });
-                const emailBody2 = apiRequestUser({
-                    apiName: apiData.apiname,
-                    userName: tokendata.fullname
-                })
-                console.log("inside status condition 4", tokendata.emailid);
-                const userMail = tokendata.emailid
-                // const userMail = "sagarmeshram532@gmail.com"
-                await sendEmail({ body: emailBody2, toRecepients: [userMail], subject: "Bajaj Developer API Usage Details - Your Request", contentType: 'text/html' })
-            } else {
-                error_swal_toast(response.data.message);
-            }
-        } catch (error) {
-            setRequestLoader(false);
-            error_swal_toast(error.message);
-        }
+        post_auth_data("portal/private", convertToPayload('send-api-access-request', payload), {})
+            .then(async (response) => {
+                setRequestLoader(false);
+                if (response.data.status) {
+                    console.log("inside status condition 1", tokendata.emailid)
+                    setOpenTryitModal(false);
+                    success_swal_toast(response.data.message);
+                    const adminEmail = "ctidgam1997@gmail.com"
+                    console.log("inside status condition 2", tokendata.emailid)
+                    const emailBody = generateApiRequestEmail({
+                        adminName: "Admin",
+                        apiName: apiData.apiname,
+                        userName: tokendata.fullname,
+                        userEmail: tokendata.emailid,
+                        requestDate: new Date().toLocaleString(),
+                        loginLink: "https://apidocs.bajajauto.com/"
+                    })
+                    console.log("inside status condition 3", tokendata.emailid)
+                    const subject = "Approval Required - User API Access Request"
+                    await sendEmail({ body: emailBody, toRecepients: [adminEmail], subject: subject, contentType: 'text/html' });
+                    const emailBody2 = apiRequestUser({
+                        apiName: apiData.apiname,
+                        userName: tokendata.fullname
+                    })
+                    console.log("inside status condition 4", tokendata.emailid);
+                    const userMail = tokendata.emailid
+                    // const userMail = "sagarmeshram532@gmail.com"
+                    await sendEmail({ body: emailBody2, toRecepients: [userMail], subject: "Bajaj Developer API Usage Details - Your Request", contentType: 'text/html' })
+                } else {
+                    error_swal_toast(response.data.message);
+                }
+            }).catch((error) => {
+                setRequestLoader(false);
+                error_swal_toast(error.message);
+            })
     };
 
 
@@ -421,7 +371,7 @@ function HomePageContent() {
                                                     )) :
                                                     <tr>
                                                         <td colSpan={4} className='text-center'>No Parameter available</td>
-                                                  </tr>
+                                                    </tr>
                                             }
                                         </tbody>
                                     </Table>
