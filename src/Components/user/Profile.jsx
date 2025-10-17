@@ -138,7 +138,28 @@ function Profile() {
 
   return (
     <>
-      <div className="card-new p-4 mt-4">
+    <div className="2">
+<div className="row">
+<div className="col-xl-3 col-lg-3 col-md-4 col-sm-12 col-12  mt-4">
+<div className="card p-4 sidebar-bg-color min-height-100">
+<h3>My Profile</h3>
+<ul className="nav nav-pills mb-3 flex-direction-column pt-3" id="pills-tab" role="tablist">
+  <li className="nav-item" role="presentation">
+    <button className="nav-link active w-100 text-start text-sidebar" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Basic Details</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button className="nav-link  w-100 text-start text-sidebar" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Available APIs</button>
+  </li>
+  <li className="nav-item" role="presentation">
+    <button className="nav-link  w-100 text-start text-sidebar" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Accessible APIs</button>
+  </li>
+</ul>
+
+</div>
+</div>
+<div className="col-xl-9 col-lg-9 col-md-8 col-sm-12 col-12">
+  <div className="tab-content" id="pills-tabContent">
+  <div className="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab"> <div className="card-new p-4 mt-4">
         <FormikProvider value={Profileform}>
           <Form onSubmit={Profileform.handleSubmit}>
             <div className="card-bg card-gradient">
@@ -396,7 +417,141 @@ function Profile() {
           </Form>
         </FormikProvider>
         {loader.page && <PageLoaderBackdrop />}
-      </div>
+      </div></div>
+  <div className="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+    <div className="card-bg  p-4 mt-4">
+<div className="card p-3">
+<h4 class="mb-0">Available APIs</h4>
+<div className="mt-3 ">
+<div className="api-table-container">
+    <table className="custom-table-new">
+      <thead className="custom-thead-new">
+        <tr className="custom-tr-new">
+          <th className="custom-th-new"><input type="checkbox"/></th>
+          <th className="custom-th-new">API Name</th>
+          <th className="custom-th-new">API Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr className="custom-tr-new">
+          <td className="custom-td-new"><input type="checkbox"/></td>
+          <td className="custom-td-new">Perform Otp SignIn With VIN</td>
+          <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
+        </tr>
+        <tr className="custom-tr-new">
+          <td className="custom-td-new"><input type="checkbox"/></td>
+          <td className="custom-td-new">Otp Login Verification Request</td>
+          <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
+        </tr>
+        <tr className="custom-tr-new">
+          <td className="custom-td-new"><input type="checkbox"/></td>
+          <td className="custom-td-new">Get All States</td>
+          <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
+        </tr>
+        <tr className="custom-tr-new">
+          <td className="custom-td-new"><input type="checkbox"/></td>
+          <td className="custom-td-new">Models By Brand</td>
+          <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
+        </tr>
+        <tr className="custom-tr-new">
+          <td className="custom-td-new"><input type="checkbox"/></td>
+          <td className="custom-td-new">Generate Token</td>
+          <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
+        </tr>
+        <tr className="custom-tr-new">
+          <td className="custom-td-new"><input type="checkbox"/></td>
+          <td className="custom-td-new">Perform Otp SignIn With VIN</td>
+          <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
+        </tr>
+        <tr className="custom-tr-new">
+          <td className="custom-td-new"><input type="checkbox"/></td>
+          <td className="custom-td-new">Otp Login Verification Request</td>
+          <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
+        </tr>
+        <tr className="custom-tr-new">
+          <td className="custom-td-new"><input type="checkbox"/></td>
+          <td className="custom-td-new">Get All States</td>
+          <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button className="btn-request">Request Access</button>
+  </div>
+</div>
+</div>
+    </div>
+  </div>
+  <div className="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+     <div className="card-bg  p-4 mt-4">
+<div className="card p-3">
+<h4 class="mb-0">Accessible APIs</h4>
+<div className="mt-3 ">
+<div className="api-table-container">
+    <table className="custom-table-new">
+      <thead className="custom-thead-new">
+        <tr className="custom-tr-new">
+          <th className="custom-th-new"><input type="checkbox"/></th>
+          <th className="custom-th-new">API Name</th>
+          <th className="custom-th-new">API Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr className="custom-tr-new">
+          <td className="custom-td-new"><input type="checkbox"/></td>
+          <td className="custom-td-new">Perform Otp SignIn With VIN</td>
+          <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
+        </tr>
+        <tr className="custom-tr-new">
+          <td className="custom-td-new"><input type="checkbox"/></td>
+          <td className="custom-td-new">Otp Login Verification Request</td>
+          <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
+        </tr>
+        <tr className="custom-tr-new">
+          <td className="custom-td-new"><input type="checkbox"/></td>
+          <td className="custom-td-new">Get All States</td>
+          <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
+        </tr>
+        <tr className="custom-tr-new">
+          <td className="custom-td-new"><input type="checkbox"/></td>
+          <td className="custom-td-new">Models By Brand</td>
+          <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
+        </tr>
+        <tr className="custom-tr-new">
+          <td className="custom-td-new"><input type="checkbox"/></td>
+          <td className="custom-td-new">Generate Token</td>
+          <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
+        </tr>
+        <tr className="custom-tr-new">
+          <td className="custom-td-new"><input type="checkbox"/></td>
+          <td className="custom-td-new">Perform Otp SignIn With VIN</td>
+          <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
+        </tr>
+        <tr className="custom-tr-new">
+          <td className="custom-td-new"><input type="checkbox"/></td>
+          <td className="custom-td-new">Otp Login Verification Request</td>
+          <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
+        </tr>
+        <tr className="custom-tr-new">
+          <td className="custom-td-new"><input type="checkbox"/></td>
+          <td className="custom-td-new">Get All States</td>
+          <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button className="btn-request">Try it</button>
+  </div>
+</div>
+</div>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+    </div>
+     
     </>
   );
 }
