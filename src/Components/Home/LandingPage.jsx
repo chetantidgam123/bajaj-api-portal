@@ -236,7 +236,7 @@ useEffect(() => {
                         <div className='col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 mb-3' data-aos="flip-left">
                             <div className='position-relative mt-3'>
                                 <h1 className='step-1'>01</h1>
-                                <h3 className='text-white position-go-subheading mb-0'>Development</h3>
+                                <h3 className='text-white position-go-subheading mb-0'>Sandbox Testing</h3>
                             </div>
                             <div className='row'>
                                 <div className='col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12'>

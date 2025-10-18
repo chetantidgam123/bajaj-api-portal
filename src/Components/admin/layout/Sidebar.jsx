@@ -262,7 +262,7 @@ function Sidebar() {
               <span className="link-name ms-2">Reports</span>
             </Accordion.Header>
             <Accordion.Body className="px-2 py-2">
-              <ul className="admin-sidebar-ul">
+              <ul className="admin-sidebar-ul mb-0 px-0 py-1">
                 <li className="list-style-none">
                   <Link
                     className={`admin-sidebar-li mb-2 ${currentPath === "/master/reports" ? "active-tab" : ""

@@ -6,7 +6,7 @@ import Sidebar from './Sidebar'
 
 function HomeLayout() {
     return (
-        <div>
+        <>
             <div className="entityDashboardBody">
                 <Sidebar />
                 <div className='entity_mainSection'>
@@ -17,7 +17,7 @@ function HomeLayout() {
                     {/* <Footer /> */}
                 </div>
             </div>
-        </div>
+        </>
     )
 }
 

@@ -208,7 +208,7 @@ function Sidebard() {
                           >
                             {api.apimethod}
                           </Badge>
-                          <small className=" text-start">{api.apiname}</small>
+                          <small className=" text-start text-white">{api.apiname}</small>
                         </button>
                       </div>
                     ) : null)}
@@ -306,7 +306,7 @@ function ApiList({ si, cItem, item, sItem, returnClass, setActiveKey, setSubActi
             </Badge>
           </div>
           <div className="col-8 d-flex justify-content-start">
-            <small className="text-start">{sItem.apiname}</small>
+            <small className="text-start text-white">{sItem.apiname}</small>
           </div>
         </div>
       </button>
