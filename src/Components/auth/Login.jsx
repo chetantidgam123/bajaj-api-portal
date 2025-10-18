@@ -74,7 +74,7 @@ function Login({ setModalName, setShow }) {
         setLoader(true);
         try {
             const res = await post_data("portal/public", convertToPayload('login', payload), {});
-            setLoader(false);
+            // setLoader(false);
             if (res.data.status) {
                 // Store backend token temporarily
                 setBackendTokenData(res.data.userdata);
@@ -111,6 +111,7 @@ function Login({ setModalName, setShow }) {
                 setCanResendOtp(false);
                 console.log("Generated OTP:", otp);
             } else {
+                setLoader(false);
                 error_swal_toast(res.data.message || "Invalid credentials");
             }
         } catch (err) {
@@ -152,7 +153,12 @@ function Login({ setModalName, setShow }) {
         Loginform.resetForm();
         setBasicLoader(false)
         success_swal_toast("Login successful!");
-        navigate('/get-started');
+        // navigate('/get-started');        
+        if (backendTokenData?.role === 1) {
+            navigate('/master/dashboard');
+        } else {
+            navigate('/get-started');
+        }
     };
 
     const handleResendOtp = async () => {

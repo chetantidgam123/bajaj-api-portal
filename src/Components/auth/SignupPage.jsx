@@ -29,6 +29,7 @@ function SignupPage({ setModalName, setShow }) {
   const signupForm = useFormik({
     initialValues: {
       fullName: "",
+      companyName: "",
       mobileNo: "",
       emailId: "",
       userPassword: "",
@@ -47,7 +48,7 @@ function SignupPage({ setModalName, setShow }) {
 
   // Step 1: Generate OTP and save in localStorage
   const sendOtp = async (email) => {
-    if (!signupForm.values.fullName || !signupForm.values.emailId || !signupForm.values.mobileNo || !signupForm.values.userPassword) {
+    if (!signupForm.values.fullName || !signupForm.values.companyName || !signupForm.values.emailId || !signupForm.values.mobileNo || !signupForm.values.userPassword) {
       return error_swal_toast("Please fill all required fields correctly.");
     }
 
@@ -86,6 +87,7 @@ function SignupPage({ setModalName, setShow }) {
 
     if (!stored || Date.now() > stored.expiry) {
       error_swal_toast("OTP expired or invalid");
+      return;
     }
     // console.log(values.fullName, values.mobileNo, values.emailId, values.userPassword)
     if (!stored) return error_swal_toast("OTP not generated or expired.");
@@ -115,13 +117,14 @@ function SignupPage({ setModalName, setShow }) {
       // await sendEmail({ body: `Your OTP is: ${stored.otp}`, toRecepients: [otpEmail] });
       let payload = {
         fullName: String(values.fullName),
+        companyName: String(values.companyName),
         mobileNo: String(values.mobileNo),
         emailId: String(values.emailId),
         userPassword: String(values.userPassword),
       }
       console.log(payload)
       const res = await post_data("portal/public", convertToPayload("register-user", payload), {});
-      setLoader(false);
+      // setLoader(false);
       if (res?.data?.status) {
         success_swal_toast(res.data.message || "User registered successfully");
         const adminEmail = "ctidgam1997@gmail.com";
@@ -132,7 +135,6 @@ function SignupPage({ setModalName, setShow }) {
           adminName: "Admin",
           userName: values.fullName,
           userEmail: values.emailId,
-          company_name: values.emailId,
           mobileno: values.mobileNo,
           requestedOn: new Date().toLocaleString()
         })
@@ -142,13 +144,16 @@ function SignupPage({ setModalName, setShow }) {
         // setShowOtpModal(false);
         setOtpSent(false)
         signupForm.resetForm();
+        setLoader(false);
       } else if (res?.data?.errors) {
         const message = res?.data?.errors?.shortDescription?.[0]?.message || "Invalid data or password format";
         error_swal_toast(message);
         signupForm.resetForm();
         // setShowOtpModal(false);
         setOtpSent(false)
+        setLoader(false);
       } else if (!res?.data?.status) {
+        setLoader(false);
         error_swal_toast(res.data.message)
       }
 
@@ -227,6 +232,9 @@ function SignupPage({ setModalName, setShow }) {
 
               <div className="">
                 <FloatingInputLabel fieldName={`fullName`} formikFrom={signupForm} labelText={`Full Name`} />
+              </div>
+              <div className="">
+                <FloatingInputLabel fieldName={`companyName`} formikFrom={signupForm} labelText={`Company Name`} />
               </div>
               <div className="">
                 <FloatingInputLabel fieldName={`emailId`} formikFrom={signupForm} labelText={`Email Address`} />
