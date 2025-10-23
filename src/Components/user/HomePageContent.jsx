@@ -126,7 +126,10 @@ function HomePageContent() {
         setTryitLoader(true)
         post_auth_data("portal/private", convertToPayload('check-api-access', payload), {})
             .then(async (response) => {
-            
+                if(response.data.status) {
+                    setTryitLoader(false);
+                    navigate(`/try-api/${collection_id}/${category_id}/${api_id}`)
+                }
             }).catch((error) => {
                 setTryitLoader(false)
                 console.log(error)
