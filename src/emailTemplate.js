@@ -274,6 +274,43 @@ const generateApiApprovalEmail = ({ userName, userId, loginLink, status }) => {
 </html>
 `};
 
+const ApiListRequestEmail = ({ status, selectedAPIs }) => {
+  if (!selectedAPIs || selectedAPIs.length === 0) return "No APIs selected.";
+
+  const rows = selectedAPIs
+    .map(
+      (apiName, index) => `
+      <tr>
+        <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">${index + 1}</td>
+        <td style="padding: 8px; border: 1px solid #ddd;">${apiName}</td>
+        <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">${status}</td>
+      </tr>
+    `
+    )
+    .join("");
+
+  return `
+    <html>
+      <body style="font-family: Arial, sans-serif; font-size: 14px; color: #333;">
+        <p>Hello,</p>
+        <p>Your request for the following APIs is in process:</p>
+        <table style="border-collapse: collapse; width: 100%; max-width: 600px;">
+          <thead>
+            <tr style="background-color: #f2f2f2;">
+              <th style="padding: 8px; border: 1px solid #ddd;">Sr. No</th>
+              <th style="padding: 8px; border: 1px solid #ddd;">API Name</th>
+              <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows}
+          </tbody>
+        </table>
+        <p>Thank you!</p>
+      </body>
+    </html>
+  `;
+};
 
 export {
   loginOtpEmail,
@@ -282,5 +319,6 @@ export {
   accessGrantedEmail,
   generateApiRequestEmail,
   apiRequestUser,
-  generateApiApprovalEmail
+  generateApiApprovalEmail,
+  ApiListRequestEmail
 }

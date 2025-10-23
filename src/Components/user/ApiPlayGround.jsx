@@ -27,6 +27,9 @@ function ApiPlayGround() {
     const [loader, setLoader] = useState(false);
     const [isOpen, setIsOpen] = useState(true);
 
+    const [isEncrypted, setIsEncrypted] = useState(false);
+    const [responseBox, setResponseBox] = useState('');
+
     const location = useLocation();
     useEffect(() => {
         chekParamParameter()
@@ -192,14 +195,40 @@ function ApiPlayGround() {
             }
         }
     }
+
+    // Mock encrypt/decrypt logic
+        const handleEncryptDecrypt = () => {
+            if (!bodyRequestSample) {
+                error_swal_toast("No body content to process");
+                return;
+            }
+
+            if (!isEncrypted) {
+                // Simulate encryption (for now)
+                const encrypted = btoa(bodyRequestSample); // base64 mock encryption
+                setResponseBox(encrypted);
+                setIsEncrypted(true);
+            } else {
+                // Simulate decryption
+                try {
+                    const decrypted = atob(responseBox);
+                    setResponseBox(decrypted);
+                    setIsEncrypted(false);
+                } catch (error) {
+                    error_swal_toast("Failed to decrypt: Invalid data");
+                }
+            }
+        };
+
     return (
         <div className="home-container bg-white p-3">
-            <div className="card-new mb-3">
+            {/* <div className="card-new mb-3">
                 <div className="card-body card-bg">
                     <h5>{title || 'Try it'}</h5>
                 </div>
-            </div>
-            <p><img src="/assets/img/http.png" alt="NA" srcSet="" className='me-2 my-2' />{apiData?.apiurl || 'url'}</p>
+            </div> */}
+            <div><h3>{title || 'Try it'}</h3></div>
+            {/* <p><img src="/assets/img/http.png" alt="NA" srcSet="" className='me-2 my-2' />{apiData?.apiurl || 'url'}</p> */}
             <div className="d-flex">
                 <div className="input-group">
                     <InputGroup.Text id="basic-addon1">{apiData?.apimethod || 'GET'}</InputGroup.Text>
@@ -399,6 +428,7 @@ function ApiPlayGround() {
                     </FormikProvider>
                 </div>
                 <div className="tab-pane fade" id="pills-three" role="tabpanel" aria-labelledby="pills-three-tab">
+                    <div className='w-full d-flex justify-content-between'>
                     <div className='d-flex mb-2'>
                         <div className="form-check">
                             <input className="form-check-input" type="radio" name="flexRadioDefault" checked={bodyType == 'form_data'} id="form_data" onChange={(e) => { handleBody(e, 'form_data') }} />
@@ -418,6 +448,16 @@ function ApiPlayGround() {
                                 raw
                             </label>
                         </div>
+                        </div>
+                            <div>
+                                <button
+                                    type="button"
+                                    className="btn btn-outline-secondary btn-sm ms-3 mb-1"
+                                    onClick={handleEncryptDecrypt}
+                                >
+                                    {isEncrypted ? "Decrypt" : "Encrypt"}
+                                </button>
+                            </div>
                     </div>
                     {bodyType == 'form_data' && <div className="bodybox">Cooming soon</div>}
                     {bodyType == 'urlencoded' && <div className="bodybox">
@@ -508,7 +548,20 @@ function ApiPlayGround() {
                 </div>
                 <div className="tab-content" id="pills-tabContent">
                     <div className="tab-pane fade show active" id="pills-onenew" role="tabpanel" aria-labelledby="pills-onenew-tab">
-                        <span className="badge bg-secondary mb-2"> { } JSON  <i className="fa-solid fa-angle-down"></i></span>
+                        <EditableBody curl={
+                            [
+
+                            'id' - '1',<br></br>,
+                            'name' - 'Google Pixel 6 Pro',<br></br>,
+                            'name' - 'Google Pixel 6 Pro',<br></br>,
+                            'name' - 'Google Pixel 6 Pro',<br></br>,
+                            'name' - 'Google Pixel 6 Pro',<br></br>,
+                            'name' - 'Google Pixel 6 Pro',<br></br>,
+                            'name' - 'Google Pixel 6 Pro',
+
+                            ]
+                        }  />
+                        {/* <span className="badge bg-secondary mb-2"> { } JSON  <i className="fa-solid fa-angle-down"></i></span>
 
                         <p>
                             [
@@ -522,7 +575,7 @@ function ApiPlayGround() {
                             'name' - 'Google Pixel 6 Pro',
 
                             ]
-                        </p>
+                        </p> */}
                     </div>
                     <div className="tab-pane fade" id="pills-twonew" role="tabpanel" aria-labelledby="pills-twonew-tab">.2..</div>
 

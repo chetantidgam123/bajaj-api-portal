@@ -9,12 +9,25 @@ import { Form } from "react-bootstrap";
 import { error_swal_toast, success_swal_toast } from "../../SwalServices";
 import { useState } from "react";
 import { LoaderWight, PageLoaderBackdrop } from "../../Loader";
+import { sendEmail } from "../../Utils";
+import { ApiListRequestEmail } from "../../emailTemplate";
 
 function Profile() {
   const [loader, setLoader] = useState({ page: false, submit: false });
   const [fullName, setFullName] = useState("");
   const [emailId, setEmailId] = useState("");
   const [profileImage, setProfileImage] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+  const [selectedAPIs, setSelectedAPIs] = useState([]);
+
+  const [availableAPIs, setAvailableAPIs] = useState([
+  { name: "Perform Otp SignIn With VIN", description: "Lorem ipsum dolor sit amet" },
+  { name: "Otp Login Verification Request", description: "Lorem ipsum dolor sit amet" },
+  { name: "Get All States", description: "Lorem ipsum dolor sit amet" },
+  { name: "Models By Brand", description: "Lorem ipsum dolor sit amet" },
+  { name: "Generate Token", description: "Lorem ipsum dolor sit amet" },
+]);
+
   const navigate = useNavigate();
 
   const Profileform = useFormik({
@@ -33,7 +46,7 @@ function Profile() {
       profile_img: "",
     },
     validationSchema: profileFormSchema,
-    onSubmit: (values, { setSubmitting }) => {
+    onSubmit: async (values, { setSubmitting }) => {
       setSubmitting(true);
       handleSubmit(values);
       setSubmitting(false);
@@ -55,6 +68,7 @@ function Profile() {
         setLoader({ ...loader, submit: false });
         if (response.data.status) {
           success_swal_toast(response.data.message || "Updated successfully");
+          setIsEditing(false);
         } else {
           error_swal_toast(response.data.message || "Something went wrong");
         }
@@ -136,6 +150,40 @@ function Profile() {
     getUserData();
   }, []);
 
+ const sendingMail = async () => {
+  if (selectedAPIs.length === 0) {
+    error_swal_toast("Please select at least one API to request access.");
+    return;
+  }
+  const userName = fullName;
+  const subject = "APIs Approval Is In Process"; 
+  const userEmail = emailId;
+  const emailBody = ApiListRequestEmail({
+    status: "Requested",
+    selectedAPIs,
+  });
+
+  await sendEmail({
+    body: emailBody,
+    toRecepients: [userEmail],
+    subject,
+    contentType: "text/html"
+  });
+
+  success_swal_toast("Request sent successfully!");
+};
+
+  const handleCheckboxChange = (apiName, isChecked) => {
+  setSelectedAPIs((prev) => {
+    if (isChecked) {
+      return [...prev, apiName];
+    } else {
+      return prev.filter((name) => name !== apiName);
+    }
+  });
+};
+
+
   return (
     <>
     <div className="2">
@@ -190,7 +238,7 @@ function Profile() {
 
             <div
               className="w-100 d-flex flex-column card-bg mt-3"
-              onSubmit={Profileform.handleSubmit}
+              // onSubmit={Profileform.handleSubmit}
             >
               <p className=" color-blue mt-3 font-600 mb-2">Personal Details</p>
 
@@ -205,6 +253,7 @@ function Profile() {
                     value={Profileform.values.fullname}
                     onChange={Profileform.handleChange}
                     onBlur={Profileform.handleBlur}
+                    disabled={!isEditing}
                   />
                   {Profileform.touched.fullname &&
                     Profileform.errors.fullname && (
@@ -247,6 +296,7 @@ function Profile() {
                       handlePhoneInput("mobileno2", e.target.value)
                     }
                     onBlur={Profileform.handleBlur}
+                    disabled={!isEditing}
                   />
                   {Profileform.touched.mobileno2 &&
                     Profileform.errors.mobileno2 && (
@@ -265,7 +315,7 @@ function Profile() {
                     value={Profileform.values.emailid}
                     onChange={Profileform.handleChange}
                     onBlur={Profileform.handleBlur}
-                    disabled={true}
+                    disabled={!isEditing}
                   />
                   {Profileform.touched.emailid &&
                     Profileform.errors.emailid && (
@@ -289,6 +339,7 @@ function Profile() {
                     value={Profileform.values.company_name}
                     onChange={Profileform.handleChange}
                     onBlur={Profileform.handleBlur}
+                    disabled={!isEditing}
                   />
                   {Profileform.touched.company_name &&
                     Profileform.errors.company_name && (
@@ -307,6 +358,7 @@ function Profile() {
                     value={Profileform.values.company_email}
                     onChange={Profileform.handleChange}
                     onBlur={Profileform.handleBlur}
+                    disabled={!isEditing}
                   />
                   {Profileform.touched.company_email &&
                     Profileform.errors.company_email && (
@@ -327,6 +379,7 @@ function Profile() {
                       handlePhoneInput("company_mobile", e.target.value)
                     }
                     onBlur={Profileform.handleBlur}
+                    disabled={!isEditing}
                   />
                   {Profileform.touched.company_mobile &&
                     Profileform.errors.company_mobile && (
@@ -347,6 +400,7 @@ function Profile() {
                       handlePhoneInput("company_office_mobile", e.target.value)
                     }
                     onBlur={Profileform.handleBlur}
+                    disabled={!isEditing}
                   />
                   {Profileform.touched.company_office_mobile &&
                     Profileform.errors.company_office_mobile && (
@@ -365,6 +419,7 @@ function Profile() {
                     value={Profileform.values.company_address}
                     onChange={Profileform.handleChange}
                     onBlur={Profileform.handleBlur}
+                    disabled={!isEditing}
                   />
                   {Profileform.touched.company_address &&
                     Profileform.errors.company_address && (
@@ -408,11 +463,42 @@ function Profile() {
                     )}
                 </div>
               </div>
-              <div className="d-flex justify-content-end mt-3">
+              {/* <div className="d-flex justify-content-end mt-3">
                 <button className="btn btn-primary profilePageButton px-3" type="submit" disabled={loader.submit}>
                   Submit {loader.submit && <LoaderWight />}
                 </button>
-              </div>
+              </div> */}
+             <div className="d-flex justify-content-end mt-3">
+              {!isEditing ? (
+                <button
+                  type="button"
+                  className="btn btn-secondary profilePageButton px-3"
+                  onClick={(e) => {e.preventDefault(); setIsEditing(true)}}
+                >
+                  Edit
+                </button>
+              ) : (
+                <>
+                  <button
+                    className="btn btn-primary profilePageButton px-3 me-2"
+                    type="submit"
+                    disabled={loader.submit}
+                  >
+                    Save {loader.submit && <LoaderWight />}
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-outline-secondary profilePageButton px-3"
+                    onClick={() => {
+                      getUserData(); // reload old data
+                      setIsEditing(false); // disable edit mode
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </>
+              )}
+            </div>
             </div>
           </Form>
         </FormikProvider>
@@ -432,7 +518,7 @@ function Profile() {
           <th className="custom-th-new">API Description</th>
         </tr>
       </thead>
-      <tbody>
+      {/* <tbody>
         <tr className="custom-tr-new">
           <td className="custom-td-new"><input type="checkbox"/></td>
           <td className="custom-td-new">Perform Otp SignIn With VIN</td>
@@ -473,10 +559,25 @@ function Profile() {
           <td className="custom-td-new">Get All States</td>
           <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
         </tr>
+      </tbody> */}
+      <tbody>
+        {availableAPIs.map((api, index) => (
+          <tr key={index} className="custom-tr-new">
+            <td className="custom-td-new">
+              <input
+                type="checkbox"
+                checked={selectedAPIs.includes(api.name)}
+                onChange={(e) => handleCheckboxChange(api.name, e.target.checked)}
+              />
+            </td>
+            <td className="custom-td-new">{api.name}</td>
+            <td className="custom-td-new">{api.description}</td>
+          </tr>
+        ))}
       </tbody>
     </table>
 
-    <button className="btn-request">Request Access</button>
+    <button className="btn-request" onClick={sendingMail}>Request Access</button>
   </div>
 </div>
 </div>
@@ -491,56 +592,56 @@ function Profile() {
     <table className="custom-table-new">
       <thead className="custom-thead-new">
         <tr className="custom-tr-new">
-          <th className="custom-th-new"><input type="checkbox"/></th>
+          {/* <th className="custom-th-new"><input type="checkbox"/></th> */}
           <th className="custom-th-new">API Name</th>
           <th className="custom-th-new">API Description</th>
         </tr>
       </thead>
       <tbody>
         <tr className="custom-tr-new">
-          <td className="custom-td-new"><input type="checkbox"/></td>
+          {/* <td className="custom-td-new"><input type="checkbox"/></td> */}
           <td className="custom-td-new">Perform Otp SignIn With VIN</td>
           <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
         </tr>
         <tr className="custom-tr-new">
-          <td className="custom-td-new"><input type="checkbox"/></td>
+          {/* <td className="custom-td-new"><input type="checkbox"/></td> */}
           <td className="custom-td-new">Otp Login Verification Request</td>
           <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
         </tr>
         <tr className="custom-tr-new">
-          <td className="custom-td-new"><input type="checkbox"/></td>
+          {/* <td className="custom-td-new"><input type="checkbox"/></td> */}
           <td className="custom-td-new">Get All States</td>
           <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
         </tr>
         <tr className="custom-tr-new">
-          <td className="custom-td-new"><input type="checkbox"/></td>
+          {/* <td className="custom-td-new"><input type="checkbox"/></td> */}
           <td className="custom-td-new">Models By Brand</td>
           <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
         </tr>
         <tr className="custom-tr-new">
-          <td className="custom-td-new"><input type="checkbox"/></td>
+          {/* <td className="custom-td-new"><input type="checkbox"/></td> */}
           <td className="custom-td-new">Generate Token</td>
           <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
         </tr>
         <tr className="custom-tr-new">
-          <td className="custom-td-new"><input type="checkbox"/></td>
+          {/* <td className="custom-td-new"><input type="checkbox"/></td> */}
           <td className="custom-td-new">Perform Otp SignIn With VIN</td>
           <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
         </tr>
         <tr className="custom-tr-new">
-          <td className="custom-td-new"><input type="checkbox"/></td>
+          {/* <td className="custom-td-new"><input type="checkbox"/></td> */}
           <td className="custom-td-new">Otp Login Verification Request</td>
           <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
         </tr>
         <tr className="custom-tr-new">
-          <td className="custom-td-new"><input type="checkbox"/></td>
+          {/* <td className="custom-td-new"><input type="checkbox"/></td> */}
           <td className="custom-td-new">Get All States</td>
           <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
         </tr>
       </tbody>
     </table>
 
-    <button className="btn-request">Try it</button>
+    {/* <button className="btn-request">Try it</button> */}
   </div>
 </div>
 </div>
