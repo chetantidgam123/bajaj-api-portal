@@ -19,6 +19,7 @@ const HomePageContent = lazy(() => import('../Components/user/HomePageContent'))
 const PageNotFound = lazy(() => import('../Components/user/PageNotFound'));
 const TryApiPage = lazy(() => import('../Components/user/TryApiPage'))
 const ApiPlayGround = lazy(() => import('../Components/user/ApiPlayGround'))
+import VerifyEmail from '../Components/Home/VerifyEmail';
 
 function PrivateRoute({ children }) {
     const tokenData = getTokenData();
@@ -35,6 +36,7 @@ PrivateRoute.propTypes = {
 const routes = [
     { path: "/master/*", element: <AdminRoutes /> },
     { path: '/', element: <LandingPage /> },
+    { path: '/email-verify/:emailid', element: <VerifyEmail /> },
     { path: '/email/:token', element: <Email /> },
     { path: '/faq', element: <FaqList /> },
     { path: "/TermsofServices", element: <TermsofServices /> },

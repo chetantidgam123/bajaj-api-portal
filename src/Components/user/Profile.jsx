@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { post_auth_data } from "../../ApiServices";
-import { getJwtData } from "../../Utils";
+import { getJwtData, offsetPagination } from "../../Utils";
 import { useNavigate } from "react-router-dom";
 import { convertToPayload, setTokenData } from "../../Utils";
 import { FormikProvider, useFormik } from "formik";
@@ -11,6 +11,7 @@ import { useState } from "react";
 import { LoaderWight, PageLoaderBackdrop } from "../../Loader";
 import { sendEmail } from "../../Utils";
 import { ApiListRequestEmail } from "../../emailTemplate";
+import PaginateComponent from "../common/Pagination";
 
 function Profile() {
   const [loader, setLoader] = useState({ page: false, submit: false });
@@ -20,13 +21,21 @@ function Profile() {
   const [isEditing, setIsEditing] = useState(false);
   const [selectedAPIs, setSelectedAPIs] = useState([]);
 
-  const [availableAPIs, setAvailableAPIs] = useState([
-  { name: "Perform Otp SignIn With VIN", description: "Lorem ipsum dolor sit amet" },
-  { name: "Otp Login Verification Request", description: "Lorem ipsum dolor sit amet" },
-  { name: "Get All States", description: "Lorem ipsum dolor sit amet" },
-  { name: "Models By Brand", description: "Lorem ipsum dolor sit amet" },
-  { name: "Generate Token", description: "Lorem ipsum dolor sit amet" },
-]);
+//   const [availableAPIs, setAvailableAPIs] = useState([
+//   { name: "Perform Otp SignIn With VIN", description: "Lorem ipsum dolor sit amet" },
+//   { name: "Otp Login Verification Request", description: "Lorem ipsum dolor sit amet" },
+//   { name: "Get All States", description: "Lorem ipsum dolor sit amet" },
+//   { name: "Models By Brand", description: "Lorem ipsum dolor sit amet" },
+//   { name: "Generate Token", description: "Lorem ipsum dolor sit amet" },
+// ]);
+ const [availableAPIs, setAvailableAPIs] = useState([])
+ const [accessibleApi, setAccessibleApi] = useState([])
+
+ const [availableCurrentPage, setAvailableCurrentPage] = useState(1);
+ const [availableTotalPages, setAvailableTotalPages] = useState(1);
+
+ const [accessibleCurrentPage, setAccessibleCurrentPage] = useState(1);
+ const [accessibleTotalPages, setAccessibleTotalPages] = useState(1);
 
   const navigate = useNavigate();
 
@@ -52,6 +61,68 @@ function Profile() {
       setSubmitting(false);
     },
   });
+
+  useEffect(() => {
+    availableAPIList()
+    accessibleAPIList()
+  }, [])
+
+const accessibleAPIList = async(page = 1) => {
+    const payload = {
+      category_id: 0,
+      subcategory_id: 0,
+      limit: offsetPagination,
+      page: page
+    };
+
+    setLoader({ ...loader, submit: true });
+    post_auth_data("portal/private", convertToPayload("get-all-accessble-api", payload), {})
+      .then((response) => {
+        setLoader({ ...loader, submit: false });
+        if (response.data.satus) {
+          setAccessibleApi(response.data.result)
+          const totalCount = response?.data?.totalRecords ?? response?.data?.result?.length ?? 0;
+          setAccessibleTotalPages(Math.ceil(totalCount / offsetPagination))
+          setAccessibleCurrentPage(page);
+        } else {
+          error_swal_toast(response.data.message || "Something went wrong");
+        }
+      })
+      .catch((error) => {
+        setLoader({ ...loader, submit: false });
+        error_swal_toast(error.message || "Something went wrong");
+        console.error("Error during profile update:", error);
+      });
+  };
+
+  
+const availableAPIList = async(page = 1) => {
+    const payload = {
+      category_id: 0,
+      subcategory_id: 0,
+      limit: offsetPagination,
+      page: page
+    };
+
+    setLoader({ ...loader, submit: true });
+    post_auth_data("portal/private", convertToPayload("get-user-available-api", payload), {})
+      .then((response) => {
+        setLoader({ ...loader, submit: false });
+        if (response.data.satus) {
+          setAvailableAPIs(response.data.result || [])
+          const totalCount = response?.data?.totalRecords ?? response?.data?.result?.length ?? 0;
+          setAvailableTotalPages(Math.ceil(totalCount / offsetPagination))
+          setAvailableCurrentPage(page)
+        } else {
+          error_swal_toast(response.data.message || "Something went wrong");
+        }
+      })
+      .catch((error) => {
+        setLoader({ ...loader, submit: false });
+        error_swal_toast(error.message || "Something went wrong");
+        console.error("Error during profile update:", error);
+      });
+  };
 
   const handleSubmit = (values) => {
     const payload = {
@@ -112,10 +183,9 @@ function Profile() {
       .then((response) => {
         setLoader({ ...loader, page: false });
         if (response.data.status) {
-          console.log(response.data.data[0]);
           setFullName(response.data.data[0].fullname || "");
           setEmailId(response.data.data[0].emailid || "");
-          setProfileImage(response.data.data[0].profileImage || "");
+          setProfileImage(response.data.data[0].profile_img || "");
           Profileform.setValues({
             fullname: response.data.data[0].fullname || "",
             mobileno: response.data.data[0].mobileno || "",
@@ -182,6 +252,13 @@ function Profile() {
     }
   });
 };
+// const handleCheckboxChange = (id) => {
+//   setSelectedAPIs((prevSelected) =>
+//     prevSelected.includes(id)
+//       ? prevSelected.filter((apiId) => apiId !== id) // remove if already selected
+//       : [...prevSelected, id] // add if newly selected
+//   );
+// };
 
 
   return (
@@ -195,7 +272,7 @@ function Profile() {
   <li className="nav-item" role="presentation">
     <button className="nav-link active w-100 text-start text-sidebar" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Basic Details</button>
   </li>
-  <li class="nav-item" role="presentation">
+  <li className="nav-item" role="presentation">
     <button className="nav-link  w-100 text-start text-sidebar" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Available APIs</button>
   </li>
   <li className="nav-item" role="presentation">
@@ -507,13 +584,13 @@ function Profile() {
   <div className="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
     <div className="card-bg  p-4 mt-4">
 <div className="card p-3">
-<h4 class="mb-0">Available APIs</h4>
+<h4 className="mb-0">Available APIs</h4>
 <div className="mt-3 ">
 <div className="api-table-container">
     <table className="custom-table-new">
       <thead className="custom-thead-new">
         <tr className="custom-tr-new">
-          <th className="custom-th-new"><input type="checkbox"/></th>
+          <th className="custom-th-new"></th>
           <th className="custom-th-new">API Name</th>
           <th className="custom-th-new">API Description</th>
         </tr>
@@ -561,23 +638,28 @@ function Profile() {
         </tr>
       </tbody> */}
       <tbody>
-        {availableAPIs.map((api, index) => (
-          <tr key={index} className="custom-tr-new">
+        {availableAPIs.length > 0 && availableAPIs.map((api, index) => (
+          <tr key={api.id} className="custom-tr-new">
             <td className="custom-td-new">
               <input
                 type="checkbox"
-                checked={selectedAPIs.includes(api.name)}
-                onChange={(e) => handleCheckboxChange(api.name, e.target.checked)}
+                checked={selectedAPIs.includes(api.apiname)}
+                onChange={(e) => handleCheckboxChange(api.apiname, e.target.checked)}
               />
             </td>
-            <td className="custom-td-new">{api.name}</td>
+            <td className="custom-td-new">{api.apiname}</td>
             <td className="custom-td-new">{api.description}</td>
           </tr>
         ))}
       </tbody>
     </table>
-
-    <button className="btn-request" onClick={sendingMail}>Request Access</button>
+        {availableTotalPages > 1 && (
+        <PaginateComponent
+          currentPage={availableCurrentPage}
+          totalPages={availableTotalPages}
+          onChange={(page) => availableAPIList(page)}
+        />)}
+    {availableAPIs.length > 0 && <button className="btn-request" onClick={sendingMail}>Request Access</button>}
   </div>
 </div>
 </div>
@@ -586,7 +668,7 @@ function Profile() {
   <div className="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
      <div className="card-bg  p-4 mt-4">
 <div className="card p-3">
-<h4 class="mb-0">Accessible APIs</h4>
+<h4 className="mb-0">Accessible APIs</h4>
 <div className="mt-3 ">
 <div className="api-table-container">
     <table className="custom-table-new">
@@ -598,49 +680,20 @@ function Profile() {
         </tr>
       </thead>
       <tbody>
-        <tr className="custom-tr-new">
-          {/* <td className="custom-td-new"><input type="checkbox"/></td> */}
-          <td className="custom-td-new">Perform Otp SignIn With VIN</td>
-          <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
+       {accessibleApi.length > 0 && accessibleApi.map((item, index) => (
+        <tr key={item.id} className="custom-tr-new">
+          <td className="custom-td-new">{item.apiname}</td>
+          <td className="custom-td-new">{item.description}</td>
         </tr>
-        <tr className="custom-tr-new">
-          {/* <td className="custom-td-new"><input type="checkbox"/></td> */}
-          <td className="custom-td-new">Otp Login Verification Request</td>
-          <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
-        </tr>
-        <tr className="custom-tr-new">
-          {/* <td className="custom-td-new"><input type="checkbox"/></td> */}
-          <td className="custom-td-new">Get All States</td>
-          <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
-        </tr>
-        <tr className="custom-tr-new">
-          {/* <td className="custom-td-new"><input type="checkbox"/></td> */}
-          <td className="custom-td-new">Models By Brand</td>
-          <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
-        </tr>
-        <tr className="custom-tr-new">
-          {/* <td className="custom-td-new"><input type="checkbox"/></td> */}
-          <td className="custom-td-new">Generate Token</td>
-          <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
-        </tr>
-        <tr className="custom-tr-new">
-          {/* <td className="custom-td-new"><input type="checkbox"/></td> */}
-          <td className="custom-td-new">Perform Otp SignIn With VIN</td>
-          <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
-        </tr>
-        <tr className="custom-tr-new">
-          {/* <td className="custom-td-new"><input type="checkbox"/></td> */}
-          <td className="custom-td-new">Otp Login Verification Request</td>
-          <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
-        </tr>
-        <tr className="custom-tr-new">
-          {/* <td className="custom-td-new"><input type="checkbox"/></td> */}
-          <td className="custom-td-new">Get All States</td>
-          <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
-        </tr>
+       ))}
       </tbody>
     </table>
-
+      {accessibleTotalPages > 1 && (
+      <PaginateComponent
+        currentPage={accessibleCurrentPage}
+        totalPages={accessibleTotalPages}
+        onChange={(page) => accessibleAPIList(page)}
+      />)}
     {/* <button className="btn-request">Try it</button> */}
   </div>
 </div>
