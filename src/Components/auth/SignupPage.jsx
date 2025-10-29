@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { LoaderWight } from "../../Loader";
 import { signUpOtpEmail, adminNotificationEmail } from "../../emailTemplate";
 import { encrypt, decrypt } from "../../Utils";
+import { signUpVerifyEmail } from "../../emailTemplate";
 
 function SignupPage({ setModalName, setShow }) {
   const [loader, setLoader] = useState(false)
@@ -39,8 +40,9 @@ function SignupPage({ setModalName, setShow }) {
     },
     validationSchema: signupFormSchema,
     onSubmit: (values) => {
-      sendOtp(values.emailId);
-      setOtpEmail(values.emailId);
+      verifyOtpAndRegister(values)
+      // sendOtp(values.emailId);
+      // setOtpEmail(values.emailId);
       // setShowOtpModal(true);
     },
 
@@ -59,58 +61,62 @@ function SignupPage({ setModalName, setShow }) {
     // const otpPayload = JSON.stringify({ otp, expiry: Date.now() + 90 * 1000 });
     const otpPayload = JSON.stringify({ otp, expiry: Date.now() + 10 * 60 * 1000 }); // 10 minutes = 600,000 ms
     const encryptedOtp = encrypt(otpPayload);
+    const encryptedEmail = encodeURIComponent(encrypt(email))
     localStorage.setItem('pweoriwpepedaldssdcds', encryptedOtp);
-
+    const verifyLink = `https://apidocs.bajajauto.com/email-verify/${encryptedEmail}`
     const firstName = signupForm.values.fullName.split(" ")[0] || "User"; // extract first name
-    const emailBody = signUpOtpEmail({ firstName: firstName, otp: otp });
+    // const emailBody = signUpOtpEmail({ firstName: firstName, otp: otp });
+    const emailBody = signUpVerifyEmail({ firstName: firstName, verifyLink: verifyLink });
+    
 
     try {
       setLoader(true)
-      await sendEmail({ body: emailBody, toRecepients: [email], subject: String("OTP for Email Verification"), contentType: String('text/html') });
-      success_swal_toast("OTP has been sent to your email!");
+      await sendEmail({ body: emailBody, toRecepients: [email], subject: String("Email Verification"), contentType: String('text/html') });
+      // success_swal_toast("OTP has been sent to your email!");
       // setShowOtpModal(true);
       setOtpSent(true);
       setLoader(false)
     } catch (err) {
       setLoader(false)
-      error_swal_toast("Failed to send OTP email.");
+      // error_swal_toast("Failed to send OTP email.");
+      error_swal_toast("Failed to send email.");
     }
-    console.log("Generated OTP:", otp); // debug
+    // console.log("Generated OTP:", otp); // debug
   };
 
   const verifyOtpAndRegister = async (values) => {
     // const stored = JSON.parse(localStorage.getItem("signupOtp"));
 
-    const encryptedOtp = localStorage.getItem('pweoriwpepedaldssdcds');
-    const decrypted = decrypt(encryptedOtp);
-    const stored = decrypted ? JSON.parse(decrypted) : null;
+    // const encryptedOtp = localStorage.getItem('pweoriwpepedaldssdcds');
+    // const decrypted = decrypt(encryptedOtp);
+    // const stored = decrypted ? JSON.parse(decrypted) : null;
 
-    if (!stored || Date.now() > stored.expiry) {
-      error_swal_toast("OTP expired or invalid");
-      return;
-    }
+    // if (!stored || Date.now() > stored.expiry) {
+    //   error_swal_toast("OTP expired or invalid");
+    //   return;
+    // }
     // console.log(values.fullName, values.mobileNo, values.emailId, values.userPassword)
-    if (!stored) return error_swal_toast("OTP not generated or expired.");
+    // if (!stored) return error_swal_toast("OTP not generated or expired.");
     // if (!stored) {
     //   error_swal_toast("OTP not generated or expired.");
     //   verifyOtpAndRegister(false);
     //   return;
     // }
 
-    if (Date.now() > stored.expiry) {
-      error_swal_toast("OTP expired. Please request again.");
-      localStorage.removeItem("pweoriwpepedaldssdcds");
-      // setShowOtpModal(false);
-      setOtpSent(false);
-      return;
-    }
+    // if (Date.now() > stored.expiry) {
+    //   error_swal_toast("OTP expired. Please request again.");
+    //   localStorage.removeItem("pweoriwpepedaldssdcds");
+    //   // setShowOtpModal(false);
+    //   setOtpSent(false);
+    //   return;
+    // }
 
-    if (values.enteredOtp !== stored.otp) {
-      error_swal_toast("Invalid OTP. Try again.");
-      return;
-    }
+    // if (values.enteredOtp !== stored.otp) {
+    //   error_swal_toast("Invalid OTP. Try again.");
+    //   return;
+    // }
 
-    localStorage.removeItem("pweoriwpepedaldssdcds"); // remove OTP after success
+    // localStorage.removeItem("pweoriwpepedaldssdcds"); // remove OTP after success
     setLoader(true);
 
     try {
@@ -122,7 +128,7 @@ function SignupPage({ setModalName, setShow }) {
         emailId: String(values.emailId),
         userPassword: String(values.userPassword),
       }
-      console.log(payload)
+      // console.log(payload)
       const res = await post_data("portal/public", convertToPayload("register-user", payload), {});
       // setLoader(false);
       if (res?.data?.status) {
@@ -140,6 +146,8 @@ function SignupPage({ setModalName, setShow }) {
         })
         const subject = "Action Required - New User Login Request for BAJAJ API Developer Portal"
         await sendEmail({ body: emailBody, toRecepients: [adminEmail], subject: subject, contentType: 'text/html' });
+        await sendOtp(values.emailId);
+        setOtpEmail(values.emailId);
         setModalName("login");
         // setShowOtpModal(false);
         setOtpSent(false)
@@ -254,7 +262,7 @@ function SignupPage({ setModalName, setShow }) {
               <div className="text-center">
                 <button type="submit" className="btn btn-primary w-100"
                   onClick={signupForm.handleSubmit} disabled={loader} >
-                  Send OTP
+                  Sign Up
                 </button>
                 <div className="mt-3">
                   Have an account?&nbsp; &nbsp;
@@ -266,81 +274,92 @@ function SignupPage({ setModalName, setShow }) {
           </FormikProvider>
         </>
       ) : (
-        <div className="my-4 w-100">
-          <h3>Enter OTP</h3>
-          <p>OTP sent on <b>{otpEmail}</b></p>
-          <div className="position-relative my-3">
-            <input
-              type={showPassword ? "text" : "password"}
-              name="enteredOtp"
-              className="form-control pe-5"
-              placeholder="Enter OTP"
-              value={signupForm.values.enteredOtp}
-              onChange={(e) => signupForm.setFieldValue("enteredOtp", e.target.value)}
-            />
-            <i
-              className={`fa ${showPassword ? "fa-eye-slash" : "fa-eye"} position-absolute top-50 end-0 translate-middle-y me-3`}
-              role="button"
-              onClick={() => setShowPassword(!showPassword)}
-            ></i>
-          </div>
-          {/* <div className="d-flex justify-content-between pb-3">
-            <div><b>{formatTime(otpCountdown)}</b></div>
-            <div>
-              <button
-                className="btn btn-link p-0"
-                disabled={!canResendOtp}
-                onClick={handleResendOtp}
-              >
-                Resend OTP
-              </button>
-            </div>
-          </div> */}
-          <div className="d-flex justify-content-between pb-3">
-            {resendCountdown > 0 ? (
-              <>
-                <div><b>{formatTime(resendCountdown)}</b></div>
-                <div>
-                  <button className="btn btn-link p-0" disabled>Resend OTP</button>
-                </div>
-              </>
-            ) : (
-              <div className="text-end w-100">
-                <button
-                  className="btn btn-link p-0"
-                  disabled={!canResendOtp}
-                  onClick={handleResendOtp}
-                >
-                  Resend OTP
-                </button>
-              </div>
-            )}
-          </div>
-          <button
-            className="btn btn-primary w-100"
-            onClick={() => verifyOtpAndRegister(signupForm.values)}
-            // onClick={async () => {
-            //   setLoader(true);
-            //   await verifyOtpAndRegister(signupForm.values);
-            //   setLoader(false); // optionally
-            // }}
-            // disabled={loader}
-            disabled={loader || !signupForm.values.enteredOtp}
-          >
-            {loader ? <LoaderWight /> : "Verify & Login"}
-          </button>
+        // <div className="my-4 w-100">
+        //   <h3>Enter OTP</h3>
+        //   <p>OTP sent on <b>{otpEmail}</b></p>
+        //   <div className="position-relative my-3">
+        //     <input
+        //       type={showPassword ? "text" : "password"}
+        //       name="enteredOtp"
+        //       className="form-control pe-5"
+        //       placeholder="Enter OTP"
+        //       value={signupForm.values.enteredOtp}
+        //       onChange={(e) => signupForm.setFieldValue("enteredOtp", e.target.value)}
+        //     />
+        //     <i
+        //       className={`fa ${showPassword ? "fa-eye-slash" : "fa-eye"} position-absolute top-50 end-0 translate-middle-y me-3`}
+        //       role="button"
+        //       onClick={() => setShowPassword(!showPassword)}
+        //     ></i>
+        //   </div>
+        //   {/* <div className="d-flex justify-content-between pb-3">
+        //     <div><b>{formatTime(otpCountdown)}</b></div>
+        //     <div>
+        //       <button
+        //         className="btn btn-link p-0"
+        //         disabled={!canResendOtp}
+        //         onClick={handleResendOtp}
+        //       >
+        //         Resend OTP
+        //       </button>
+        //     </div>
+        //   </div> */}
+        //   <div className="d-flex justify-content-between pb-3">
+        //     {resendCountdown > 0 ? (
+        //       <>
+        //         <div><b>{formatTime(resendCountdown)}</b></div>
+        //         <div>
+        //           <button className="btn btn-link p-0" disabled>Resend OTP</button>
+        //         </div>
+        //       </>
+        //     ) : (
+        //       <div className="text-end w-100">
+        //         <button
+        //           className="btn btn-link p-0"
+        //           disabled={!canResendOtp}
+        //           onClick={handleResendOtp}
+        //         >
+        //           Resend OTP
+        //         </button>
+        //       </div>
+        //     )}
+        //   </div>
+        //   <button
+        //     className="btn btn-primary w-100"
+        //     onClick={() => verifyOtpAndRegister(signupForm.values)}
+        //     // onClick={async () => {
+        //     //   setLoader(true);
+        //     //   await verifyOtpAndRegister(signupForm.values);
+        //     //   setLoader(false); // optionally
+        //     // }}
+        //     // disabled={loader}
+        //     disabled={loader || !signupForm.values.enteredOtp}
+        //   >
+        //     {loader ? <LoaderWight /> : "Verify & Login"}
+        //   </button>
 
-          <div className="mt-3 text-center">
-            <Link
-              className="text-primary"
-              onClick={() => {
-                setOtpSent(false);
-                signupForm.setFieldValue("enteredOtp", "");
-              }}
-            >
-              Back to Sign Up
-            </Link>
-          </div>
+        //   <div className="mt-3 text-center">
+        //     <Link
+        //       className="text-primary"
+        //       onClick={() => {
+        //         setOtpSent(false);
+        //         signupForm.setFieldValue("enteredOtp", "");
+        //       }}
+        //     >
+        //       Back to Sign Up
+        //     </Link>
+        //   </div>
+        // </div>
+        <div className="d-flex flex-column align-items-center justify-content-center text-center my-5 w-100" style={{ minHeight: "250px" }}>
+          <span className="mb-3 fs-1 text-primary">
+            {/* <i className="fa-solid fa-envelope"></i> */}
+            <i className="fa-solid fa-circle-check"></i>
+          </span>
+          <p className="mb-5 fw-medium">
+            Kindly check your mailbox, a verification link has been shared to your email.
+          </p>
+          {/* <p className="fw-1">This page will be reloaded automatically Once you click the verfication link.</p> */}
+          {/* <i class="fa-solid fa-rotate-right"></i> */}
         </div>
       )}
 

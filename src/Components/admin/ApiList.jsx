@@ -103,6 +103,33 @@ function ApiList() {
             })
         }
 
+    const confirm_swal_call = (cat) => {
+        const callback = (resolve, reject) => {
+            toggleStatus(cat, resolve, reject);
+        }
+        confirm_swal_with_text(callback, `Are you sure <br/> you want to ${cat.isenabled ? 'disable' : 'enable'} ?`)
+    }
+    const toggleStatus = (data, resolve, reject) => {
+        let payload = {
+            api_id: data.id,
+            isenabled: !data.isenabled,
+        }
+        post_auth_data("portal/private", convertToPayload('toggle-api', payload), {})
+            .then((response) => {
+                if (response.data.status) {
+                    resolve();
+                    getApiList();
+                } else {
+                    reject();
+                    error_swal_toast(response.data.message || "something went wrong");
+                }
+            }).catch((error) => {
+                reject();
+                error_swal_toast(error.message || "something went wrong");
+                console.error("Error during signup:", error);
+            })
+    }
+
     useEffect(() => {
         getApiList();
         getCategoryList();
@@ -199,7 +226,8 @@ function ApiList() {
                                             <Form.Check // prettier-ignore
                                                 type="switch"
                                                 id="custom-switch"
-                                                // checked={api.isenabled}
+                                                checked={api.isenabled}
+                                                onChange={() => confirm_swal_call(api)}
                                             />
                                             <button className="btn btn-primary btn-sm mx-2" title="Edit Category" onClick={() => { navigate('/master/update-api/' + api.uniqueid) }}>
                                                 <i className="fa fa-pencil" ></i>
