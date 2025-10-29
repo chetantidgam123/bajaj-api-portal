@@ -132,7 +132,7 @@ function SignupPage({ setModalName, setShow }) {
       const res = await post_data("portal/public", convertToPayload("register-user", payload), {});
       // setLoader(false);
       if (res?.data?.status) {
-        success_swal_toast(res.data.message || "User registered successfully");
+        // success_swal_toast(res.data.message || "User registered successfully");
         const adminEmail = "ctidgam1997@gmail.com";
         // const adminEmail = "meshramsagar715@gmail.com"
         // const adminName = "Chetan";
@@ -148,9 +148,9 @@ function SignupPage({ setModalName, setShow }) {
         await sendEmail({ body: emailBody, toRecepients: [adminEmail], subject: subject, contentType: 'text/html' });
         await sendOtp(values.emailId);
         setOtpEmail(values.emailId);
-        setModalName("login");
+        // setModalName("login");
         // setShowOtpModal(false);
-        setOtpSent(false)
+        // setOtpSent(false)
         signupForm.resetForm();
         setLoader(false);
       } else if (res?.data?.errors) {
@@ -355,6 +355,7 @@ function SignupPage({ setModalName, setShow }) {
             {/* <i className="fa-solid fa-envelope"></i> */}
             <i className="fa-solid fa-circle-check"></i>
           </span>
+          <p>User Registered Succesfully</p>
           <p className="mb-5 fw-medium">
             Kindly check your mailbox, a verification link has been shared to your email.
           </p>
