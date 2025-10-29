@@ -21,6 +21,7 @@ function Sidebard() {
   const [sidebarData, setSidebarData] = useState([]);
 
   const checkLogin = (collection_id, category_id, api_id) => {
+    console.log(collection_id)
     if (!getTokenData()) {
       setShowModal(true);
       return;
@@ -101,7 +102,7 @@ function Sidebard() {
               : "col-xl-3 col-lg-3 col-md-3 col-sm-2 col-2"
               } d-flex justify-content-center`}
           >
-            <div className="circle-arrow toggle" onClick={toggleSidebar}>
+            <div className="circle-arrow toggle d-none" onClick={toggleSidebar}>
               <i
                 className={`fa-solid ${isClosed ? "fa-arrow-right" : "fa-arrow-left"}`}
                 role="button"
@@ -197,7 +198,7 @@ function Sidebard() {
                         <button
                           className="span-btn w-100 border-0 bg-none text-start" style={{ background: 'none' }}
                           onClick={() => {
-                            checkLogin(item.reord_uuid, 0, api.uniqueid);
+                            checkLogin(item.record_uuid, 0, api.uniqueid);
 
                           }}
                         >

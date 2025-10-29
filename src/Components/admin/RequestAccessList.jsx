@@ -11,7 +11,7 @@ function RequestAccessList() {
     const [reqAccList, setReqAccList] = useState([]);
     // const [loadingList, setLoadingList] = useState(false);
     const [loadingButtons, setLoadingButtons] = useState({}); // per-button loading
-    const [search, SetSearch] = useState({ status: '', input: '' });
+    const [search, SetSearch] = useState({ status: -1, input: '' });
     const [loader, setLoader] = useState({ pageloader: false })
     const [totalPages, setTotalPages] = useState(1)
     const [currentPage, setCurrentPage] = useState(1)
@@ -233,7 +233,13 @@ function RequestAccessList() {
         setLoader({ ...loader, pageloader: true });
         const payload = {
             apiType: "get-all-api-request",
-            requestPayload: { application_name: "", limit: "20", page: page.toString(), status: filters.status, searchtxt: filters.input },
+            requestPayload: {
+                application_name: "",
+                limit: "20",
+                page: page.toString(),
+                approved_status: filters.status,
+                searchtxt: filters.input
+            },
             requestHeaders: {},
             uriParams: {},
             additionalParam: "",
