@@ -205,6 +205,40 @@ const availableAPIList = async(page = 1) => {
     reader.readAsDataURL(file);
   };
 
+  const multipleAPIReq = async() => {
+    if (selectedAPIs.length === 0) {
+      error_swal_toast("Please select at least one API");
+      return;
+    }
+    setLoader((prev) => ({ ...prev, submit: true }));
+    // const payL = {
+    //   api_id: selectedAPIs.map((api) => api.id),
+    //   application_name: selectedAPIs.map((api) => api.application_name)
+    // }
+    const payL = {
+      apis: selectedAPIs.map((api) => ({
+        api_id: String(api.uniqueid),
+        application_name: api.apiname, // or just applicationName variable
+      })),
+    };
+    post_auth_data("portal/private", convertToPayload("request-multiple-api-access", payL), {})
+    .then((res) => {
+      setLoader((prev) => ({ ...prev, submit: false }));
+      if(res.data.status) {
+        console.log(res.data)
+        sendingMail()
+      } else {
+        setLoader((prev) => ({ ...prev, submit: false }));
+        error_swal_toast(res.data.message || "something went wrong");
+      }
+    }).catch((error) => {
+      setLoader((prev) => ({ ...prev, submit: false }));
+      error_swal_toast(error.message || "something went wrong");
+      console.log("Error during signup:", error)
+    })
+  }
+
+
   const getUserData = () => {
     setLoader({ ...loader, page: true });
     post_auth_data("portal/private", convertToPayload("get-user-by-id", { user_id: getJwtData().sub }), {})
@@ -271,22 +305,28 @@ const availableAPIList = async(page = 1) => {
   success_swal_toast("Request sent successfully!");
 };
 
-  const handleCheckboxChange = (apiName, isChecked) => {
-  setSelectedAPIs((prev) => {
-    if (isChecked) {
-      return [...prev, apiName];
-    } else {
-      return prev.filter((name) => name !== apiName);
-    }
-  });
-};
-// const handleCheckboxChange = (id) => {
-//   setSelectedAPIs((prevSelected) =>
-//     prevSelected.includes(id)
-//       ? prevSelected.filter((apiId) => apiId !== id) // remove if already selected
-//       : [...prevSelected, id] // add if newly selected
-//   );
+//   const handleCheckboxChange = (apiName, isChecked) => {
+//   setSelectedAPIs((prev) => {
+//     if (isChecked) {
+//       return [...prev, apiName];
+//     } else {
+//       return prev.filter((name) => name !== apiName);
+//     }
+//   });
 // };
+const handleCheckboxChange = (api, isChecked) => {
+  setSelectedAPIs((prev) => {
+    if(isChecked) {
+      return [...prev.filter((item) => item.id !== api.id), api]; // store full object
+    } else {
+      return prev.filter((item) => item.id !== api.id);
+    }
+  }
+    // prevSelected.includes(id)
+    //   ? prevSelected.filter((apiId) => apiId !== id) // remove if already selected
+    //   : [...prevSelected, id] // add if newly selected
+  );
+};
 
 
   return (
@@ -710,8 +750,10 @@ const availableAPIList = async(page = 1) => {
             <td className="custom-td-new">
               <input
                 type="checkbox"
-                checked={selectedAPIs.includes(api.apiname)}
-                onChange={(e) => handleCheckboxChange(api.apiname, e.target.checked)}
+                // checked={selectedAPIs.includes(api.apiname)}
+                checked={selectedAPIs.some((item) => item.id === api.id)}
+                onChange={(e) => handleCheckboxChange(api, e.target.checked)}
+                // onChange={(e) => handleCheckboxChange(api.apiname, e.target.checked)}
               />
             </td>
             <td className="custom-td-new">{api.apiname}</td>
@@ -726,7 +768,7 @@ const availableAPIList = async(page = 1) => {
           totalPages={availableTotalPages}
           onChange={(page) => availableAPIList(page)}
         />)}
-    {availableAPIs.length > 0 && <button className="btn-request" onClick={sendingMail}>Request Access</button>}
+    {availableAPIs.length > 0 && <button className="btn-request" onClick={multipleAPIReq}>Request Access</button>}
   </div>
 </div>
 </div>
