@@ -1,15 +1,12 @@
-import { useEffect } from "react";
+import { useEffect,useRef } from "react";
 import { post_auth_data } from "../../ApiServices";
-import { getJwtData, offsetPagination } from "../../Utils";
-import { useNavigate } from "react-router-dom";
-import { convertToPayload, setTokenData } from "../../Utils";
+import { getJwtData, offsetPagination, scrollToTop, sendEmail, convertToPayload } from "../../Utils";
 import { FormikProvider, useFormik } from "formik";
 import { profileFormSchema } from "../../Schema";
 import { Form } from "react-bootstrap";
 import { error_swal_toast, success_swal_toast } from "../../SwalServices";
 import { useState } from "react";
 import { LoaderWight, PageLoaderBackdrop } from "../../Loader";
-import { sendEmail } from "../../Utils";
 import { ApiListRequestEmail } from "../../emailTemplate";
 import PaginateComponent from "../common/Pagination";
 
@@ -37,7 +34,15 @@ function Profile() {
  const [accessibleCurrentPage, setAccessibleCurrentPage] = useState(1);
  const [accessibleTotalPages, setAccessibleTotalPages] = useState(1);
 
-  const navigate = useNavigate();
+ const [activeTab, setActiveTab] = useState("home");
+  const hasFetched = useRef({
+    available: false,
+    accessible: false,
+  });
+
+  useEffect(() => {
+    scrollToTop()
+  }, [])
 
   const Profileform = useFormik({
     initialValues: {
@@ -62,11 +67,32 @@ function Profile() {
     },
   });
 
-  useEffect(() => {
-    availableAPIList()
-    accessibleAPIList()
-  }, [])
+useEffect(() => {
+  if (activeTab === "available" && !hasFetched.current.available) {
+    hasFetched.current.available = true;
+    availableAPIList();
+  }
 
+  if (activeTab === "accessible" && !hasFetched.current.accessible) {
+    hasFetched.current.accessible = true;
+    accessibleAPIList();
+  }
+}, [activeTab]);
+
+
+// useEffect(() => {
+//   if (activeTab === "available") {
+//     availableAPIList();
+//   }
+
+//   if (activeTab === "accessible") {
+//     accessibleAPIList();
+//   }
+
+//   if (activeTab === "home") {
+//     getUserData();
+//   }
+// }, [activeTab]);
 const accessibleAPIList = async(page = 1) => {
     const payload = {
       category_id: 0,
@@ -75,21 +101,23 @@ const accessibleAPIList = async(page = 1) => {
       page: page
     };
 
-    setLoader({ ...loader, submit: true });
+    setLoader(prev => ({ ...prev, page: true }));
+
     post_auth_data("portal/private", convertToPayload("get-all-accessble-api", payload), {})
       .then((response) => {
-        setLoader({ ...loader, submit: false });
+        setLoader(prev => ({ ...prev, page: false }));
         if (response.data.satus) {
           setAccessibleApi(response.data.result)
           const totalCount = response?.data?.totalRecords ?? response?.data?.result?.length ?? 0;
           setAccessibleTotalPages(Math.ceil(totalCount / offsetPagination))
           setAccessibleCurrentPage(page);
         } else {
+          setLoader(prev => ({ ...prev, page: false }));
           error_swal_toast(response.data.message || "Something went wrong");
         }
       })
       .catch((error) => {
-        setLoader({ ...loader, submit: false });
+        setLoader(prev => ({ ...prev, page: false }));
         error_swal_toast(error.message || "Something went wrong");
         console.error("Error during profile update:", error);
       });
@@ -103,26 +131,26 @@ const availableAPIList = async(page = 1) => {
       limit: offsetPagination,
       page: page
     };
-
-    setLoader({ ...loader, submit: true });
+    setLoader(prev => ({ ...prev, page: true }));
     post_auth_data("portal/private", convertToPayload("get-user-available-api", payload), {})
       .then((response) => {
-        setLoader({ ...loader, submit: false });
+        setLoader(prev => ({ ...prev, page: false }));
         if (response.data.satus) {
           setAvailableAPIs(response.data.result || [])
           const totalCount = response?.data?.totalRecords ?? response?.data?.result?.length ?? 0;
           setAvailableTotalPages(Math.ceil(totalCount / offsetPagination))
           setAvailableCurrentPage(page)
         } else {
+          setLoader(prev => ({ ...prev, page: false }));
           error_swal_toast(response.data.message || "Something went wrong");
         }
       })
       .catch((error) => {
-        setLoader({ ...loader, submit: false });
+        setLoader(prev => ({ ...prev, page: false }));
         error_swal_toast(error.message || "Something went wrong");
         console.error("Error during profile update:", error);
       });
-  };
+};
 
   const handleSubmit = (values) => {
     const payload = {
@@ -270,13 +298,52 @@ const availableAPIList = async(page = 1) => {
 <h3>My Profile</h3>
 <ul className="nav nav-pills mb-3 flex-direction-column pt-3" id="pills-tab" role="tablist">
   <li className="nav-item" role="presentation">
-    <button className="nav-link active w-100 text-start text-sidebar" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Basic Details</button>
+    {/* <button className="nav-link active w-100 text-start text-sidebar" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Basic Details</button> */}
+    <button
+      className={`nav-link w-100 text-start text-sidebar ${activeTab === "home" ? "active" : ""}`}
+      id="pills-home-tab"
+      data-bs-toggle="pill"
+      data-bs-target="#pills-home"
+      type="button"
+      role="tab"
+      aria-controls="pills-home"
+      aria-selected={activeTab === "home"}
+      onClick={() => setActiveTab("home")}
+    >
+      Basic Details
+    </button>
   </li>
   <li className="nav-item" role="presentation">
-    <button className="nav-link  w-100 text-start text-sidebar" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Available APIs</button>
+    {/* <button className="nav-link  w-100 text-start text-sidebar" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Available APIs</button> */}
+    <button
+      className={`nav-link w-100 text-start text-sidebar ${activeTab === "available" ? "active" : ""}`}
+      id="pills-profile-tab"
+      data-bs-toggle="pill"
+      data-bs-target="#pills-profile"
+      type="button"
+      role="tab"
+      aria-controls="pills-profile"
+      aria-selected={activeTab === "available"}
+      onClick={() => setActiveTab("available")}
+    >
+      Available APIs
+    </button>
   </li>
   <li className="nav-item" role="presentation">
-    <button className="nav-link  w-100 text-start text-sidebar" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Accessible APIs</button>
+    {/* <button className="nav-link  w-100 text-start text-sidebar" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Accessible APIs</button> */}
+    <button
+      className={`nav-link w-100 text-start text-sidebar ${activeTab === "accessible" ? "active" : ""}`}
+      id="pills-contact-tab"
+      data-bs-toggle="pill"
+      data-bs-target="#pills-contact"
+      type="button"
+      role="tab"
+      aria-controls="pills-contact"
+      aria-selected={activeTab === "accessible"}
+      onClick={() => setActiveTab("accessible")}
+    >
+      Accessible APIs
+    </button>
   </li>
 </ul>
 
@@ -664,6 +731,7 @@ const availableAPIList = async(page = 1) => {
 </div>
 </div>
     </div>
+    {loader.page && <PageLoaderBackdrop />}
   </div>
   <div className="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
      <div className="card-bg  p-4 mt-4">
@@ -699,6 +767,7 @@ const availableAPIList = async(page = 1) => {
 </div>
 </div>
     </div>
+    {loader.page && <PageLoaderBackdrop />}
   </div>
 </div>
 
