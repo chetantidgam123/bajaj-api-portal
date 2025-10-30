@@ -31,6 +31,7 @@ function HomePageContent() {
     const [tryitModalDesc, setTryitModalDesc] = useState('')
     const [bodyRequestSample, setBodyRequestSample] = useState('')
     const [hasTriedApi, setHasTriedApi] = useState(false);
+    const [btnName, setBtnName] = useState('Request Access')
     const location = useLocation();
     useEffect(() => {
         chekParamParameter()
@@ -47,7 +48,8 @@ function HomePageContent() {
         }
         if (api_id) {
             obj.uniqueid = api_id
-            getAuthDataById('get-api-by-id', obj)
+            checkAccess();
+            getAuthDataById('get-api-by-id', obj);
             return
         }
         if (category_id) {
@@ -126,9 +128,19 @@ function HomePageContent() {
         setTryitLoader(true)
         post_auth_data("portal/private", convertToPayload('check-api-access', payload), {})
             .then(async (response) => {
-                if(response.data.status) {
-                    setTryitLoader(false);
-                    navigate(`/try-api/${collection_id}/${category_id}/${api_id}`)
+                if (response.data.status) {
+                    if (response.data.status_code == 0) {
+                        setBtnName('Access Pending')
+                    }
+                    if (response.data.status_code == 1) {
+                        setBtnName('Try it')
+                    }
+                    if (response.data.status_code == 2) {
+                        setBtnName('Request Access')
+                    }
+                    // navigate(`/try-api/${collection_id}/${category_id}/${api_id}`)
+                } else {
+                    setBtnName('Request Access')
                 }
             }).catch((error) => {
                 setTryitLoader(false)
@@ -142,6 +154,14 @@ function HomePageContent() {
             })
     }
 
+    const routeTryIt = () => {
+        if (btnName == 'Try it') {
+            navigate(`/try-api/${collection_id}/${category_id}/${api_id}`)
+        } else if (btnName == 'Request Access') {
+            sendRequest();
+        }
+    }
+
     const sendRequest = async () => {
         const tokendata = getTokenData();
         const payload = {
@@ -153,6 +173,7 @@ function HomePageContent() {
             .then(async (response) => {
                 setRequestLoader(false);
                 if (response.data.status) {
+                    setBtnName('Access Pending')
                     console.log("inside status condition 1", tokendata.emailid)
                     setOpenTryitModal(false);
                     success_swal_toast(response.data.message);
@@ -219,9 +240,12 @@ function HomePageContent() {
                                                 // Case 1: before try -> only Try it aligned right
                                                 api_id && (<button
                                                     className="btn btn-outline-primary px-3"
-                                                    onClick={checkAccess}
-                                                    disabled={tryitLoader}>
-                                                    {tryitLoader ? "Loading..." : "Try it"}
+                                                    onClick={routeTryIt}
+                                                    disabled={requestLoader}>
+                                                    {/* {tryitLoader ? "Loading..." : "Try it"} */}
+                                                    {
+                                                        btnName
+                                                    }
                                                 </button>)
                                             }
                                         </div>
