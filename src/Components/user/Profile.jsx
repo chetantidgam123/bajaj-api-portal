@@ -1,4 +1,4 @@
-import { useEffect,useRef } from "react";
+import { useEffect, useRef } from "react";
 import { post_auth_data } from "../../ApiServices";
 import { getJwtData, offsetPagination, scrollToTop, sendEmail, convertToPayload } from "../../Utils";
 import { FormikProvider, useFormik } from "formik";
@@ -18,23 +18,23 @@ function Profile() {
   const [isEditing, setIsEditing] = useState(false);
   const [selectedAPIs, setSelectedAPIs] = useState([]);
 
-//   const [availableAPIs, setAvailableAPIs] = useState([
-//   { name: "Perform Otp SignIn With VIN", description: "Lorem ipsum dolor sit amet" },
-//   { name: "Otp Login Verification Request", description: "Lorem ipsum dolor sit amet" },
-//   { name: "Get All States", description: "Lorem ipsum dolor sit amet" },
-//   { name: "Models By Brand", description: "Lorem ipsum dolor sit amet" },
-//   { name: "Generate Token", description: "Lorem ipsum dolor sit amet" },
-// ]);
- const [availableAPIs, setAvailableAPIs] = useState([])
- const [accessibleApi, setAccessibleApi] = useState([])
+  //   const [availableAPIs, setAvailableAPIs] = useState([
+  //   { name: "Perform Otp SignIn With VIN", description: "Lorem ipsum dolor sit amet" },
+  //   { name: "Otp Login Verification Request", description: "Lorem ipsum dolor sit amet" },
+  //   { name: "Get All States", description: "Lorem ipsum dolor sit amet" },
+  //   { name: "Models By Brand", description: "Lorem ipsum dolor sit amet" },
+  //   { name: "Generate Token", description: "Lorem ipsum dolor sit amet" },
+  // ]);
+  const [availableAPIs, setAvailableAPIs] = useState([])
+  const [accessibleApi, setAccessibleApi] = useState([])
 
- const [availableCurrentPage, setAvailableCurrentPage] = useState(1);
- const [availableTotalPages, setAvailableTotalPages] = useState(1);
+  const [availableCurrentPage, setAvailableCurrentPage] = useState(1);
+  const [availableTotalPages, setAvailableTotalPages] = useState(1);
 
- const [accessibleCurrentPage, setAccessibleCurrentPage] = useState(1);
- const [accessibleTotalPages, setAccessibleTotalPages] = useState(1);
+  const [accessibleCurrentPage, setAccessibleCurrentPage] = useState(1);
+  const [accessibleTotalPages, setAccessibleTotalPages] = useState(1);
 
- const [activeTab, setActiveTab] = useState("home");
+  const [activeTab, setActiveTab] = useState("home");
   const hasFetched = useRef({
     available: false,
     accessible: false,
@@ -67,33 +67,33 @@ function Profile() {
     },
   });
 
-useEffect(() => {
-  if (activeTab === "available" && !hasFetched.current.available) {
-    hasFetched.current.available = true;
-    availableAPIList();
-  }
+  useEffect(() => {
+    if (activeTab === "available" && !hasFetched.current.available) {
+      hasFetched.current.available = true;
+      availableAPIList();
+    }
 
-  if (activeTab === "accessible" && !hasFetched.current.accessible) {
-    hasFetched.current.accessible = true;
-    accessibleAPIList();
-  }
-}, [activeTab]);
+    if (activeTab === "accessible" && !hasFetched.current.accessible) {
+      hasFetched.current.accessible = true;
+      accessibleAPIList();
+    }
+  }, [activeTab]);
 
 
-// useEffect(() => {
-//   if (activeTab === "available") {
-//     availableAPIList();
-//   }
+  // useEffect(() => {
+  //   if (activeTab === "available") {
+  //     availableAPIList();
+  //   }
 
-//   if (activeTab === "accessible") {
-//     accessibleAPIList();
-//   }
+  //   if (activeTab === "accessible") {
+  //     accessibleAPIList();
+  //   }
 
-//   if (activeTab === "home") {
-//     getUserData();
-//   }
-// }, [activeTab]);
-const accessibleAPIList = async(page = 1) => {
+  //   if (activeTab === "home") {
+  //     getUserData();
+  //   }
+  // }, [activeTab]);
+  const accessibleAPIList = async (page = 1) => {
     const payload = {
       category_id: 0,
       subcategory_id: 0,
@@ -123,8 +123,8 @@ const accessibleAPIList = async(page = 1) => {
       });
   };
 
-  
-const availableAPIList = async(page = 1) => {
+
+  const availableAPIList = async (page = 1) => {
     const payload = {
       category_id: 0,
       subcategory_id: 0,
@@ -150,7 +150,7 @@ const availableAPIList = async(page = 1) => {
         error_swal_toast(error.message || "Something went wrong");
         console.error("Error during profile update:", error);
       });
-};
+  };
 
   const handleSubmit = (values) => {
     const payload = {
@@ -205,7 +205,7 @@ const availableAPIList = async(page = 1) => {
     reader.readAsDataURL(file);
   };
 
-  const multipleAPIReq = async() => {
+  const multipleAPIReq = async () => {
     if (selectedAPIs.length === 0) {
       error_swal_toast("Please select at least one API");
       return;
@@ -222,20 +222,20 @@ const availableAPIList = async(page = 1) => {
       })),
     };
     post_auth_data("portal/private", convertToPayload("request-multiple-api-access", payL), {})
-    .then((res) => {
-      setLoader((prev) => ({ ...prev, submit: false }));
-      if(res.data.status) {
-        console.log(res.data)
-        sendingMail()
-      } else {
+      .then((res) => {
         setLoader((prev) => ({ ...prev, submit: false }));
-        error_swal_toast(res.data.message || "something went wrong");
-      }
-    }).catch((error) => {
-      setLoader((prev) => ({ ...prev, submit: false }));
-      error_swal_toast(error.message || "something went wrong");
-      console.log("Error during signup:", error)
-    })
+        if (res.data.status) {
+          setSelectedAPIs([])
+          sendingMail()
+        } else {
+          setLoader((prev) => ({ ...prev, submit: false }));
+          error_swal_toast(res.data.message || "something went wrong");
+        }
+      }).catch((error) => {
+        setLoader((prev) => ({ ...prev, submit: false }));
+        error_swal_toast(error.message || "something went wrong");
+        console.log("Error during signup:", error)
+      })
   }
 
 
@@ -282,427 +282,426 @@ const availableAPIList = async(page = 1) => {
     getUserData();
   }, []);
 
- const sendingMail = async () => {
-  if (selectedAPIs.length === 0) {
-    error_swal_toast("Please select at least one API to request access.");
-    return;
-  }
-  const userName = fullName;
-  const subject = "APIs Approval Is In Process"; 
-  const userEmail = emailId;
-  const emailBody = ApiListRequestEmail({
-    status: "Requested",
-    selectedAPIs,
-  });
-
-  await sendEmail({
-    body: emailBody,
-    toRecepients: [userEmail],
-    subject,
-    contentType: "text/html"
-  });
-
-  success_swal_toast("Request sent successfully!");
-};
-
-//   const handleCheckboxChange = (apiName, isChecked) => {
-//   setSelectedAPIs((prev) => {
-//     if (isChecked) {
-//       return [...prev, apiName];
-//     } else {
-//       return prev.filter((name) => name !== apiName);
-//     }
-//   });
-// };
-const handleCheckboxChange = (api, isChecked) => {
-  setSelectedAPIs((prev) => {
-    if(isChecked) {
-      return [...prev.filter((item) => item.id !== api.id), api]; // store full object
-    } else {
-      return prev.filter((item) => item.id !== api.id);
+  const sendingMail = async () => {
+    if (selectedAPIs.length === 0) {
+      error_swal_toast("Please select at least one API to request access.");
+      return;
     }
-  }
-    // prevSelected.includes(id)
-    //   ? prevSelected.filter((apiId) => apiId !== id) // remove if already selected
-    //   : [...prevSelected, id] // add if newly selected
-  );
-};
+    const userName = fullName;
+    const subject = "APIs Approval Is In Process";
+    const userEmail = emailId;
+    const emailBody = ApiListRequestEmail({
+      status: "Requested",
+      selectedAPIs,
+    });
+
+    await sendEmail({
+      body: emailBody,
+      toRecepients: [userEmail],
+      subject,
+      contentType: "text/html"
+    });
+
+    success_swal_toast("Request sent successfully!");
+  };
+
+  //   const handleCheckboxChange = (apiName, isChecked) => {
+  //   setSelectedAPIs((prev) => {
+  //     if (isChecked) {
+  //       return [...prev, apiName];
+  //     } else {
+  //       return prev.filter((name) => name !== apiName);
+  //     }
+  //   });
+  // };
+  const handleCheckboxChange = (api, isChecked) => {
+    setSelectedAPIs((prev) => {
+      if (isChecked) {
+        return [...prev.filter((item) => item.id !== api.id), api]; // store full object
+      } else {
+        return prev.filter((item) => item.id !== api.id);
+      }
+    }
+      // prevSelected.includes(id)
+      //   ? prevSelected.filter((apiId) => apiId !== id) // remove if already selected
+      //   : [...prevSelected, id] // add if newly selected
+    );
+  };
 
 
   return (
-    <>
     <div className="2">
-<div className="row">
-<div className="col-xl-3 col-lg-3 col-md-4 col-sm-12 col-12  mt-4">
-<div className="card p-4 sidebar-bg-color min-height-100">
-<h3>My Profile</h3>
-<ul className="nav nav-pills mb-3 flex-direction-column pt-3" id="pills-tab" role="tablist">
-  <li className="nav-item" role="presentation">
-    {/* <button className="nav-link active w-100 text-start text-sidebar" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Basic Details</button> */}
-    <button
-      className={`nav-link w-100 text-start text-sidebar ${activeTab === "home" ? "active" : ""}`}
-      id="pills-home-tab"
-      data-bs-toggle="pill"
-      data-bs-target="#pills-home"
-      type="button"
-      role="tab"
-      aria-controls="pills-home"
-      aria-selected={activeTab === "home"}
-      onClick={() => setActiveTab("home")}
-    >
-      Basic Details
-    </button>
-  </li>
-  <li className="nav-item" role="presentation">
-    {/* <button className="nav-link  w-100 text-start text-sidebar" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Available APIs</button> */}
-    <button
-      className={`nav-link w-100 text-start text-sidebar ${activeTab === "available" ? "active" : ""}`}
-      id="pills-profile-tab"
-      data-bs-toggle="pill"
-      data-bs-target="#pills-profile"
-      type="button"
-      role="tab"
-      aria-controls="pills-profile"
-      aria-selected={activeTab === "available"}
-      onClick={() => setActiveTab("available")}
-    >
-      Available APIs
-    </button>
-  </li>
-  <li className="nav-item" role="presentation">
-    {/* <button className="nav-link  w-100 text-start text-sidebar" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Accessible APIs</button> */}
-    <button
-      className={`nav-link w-100 text-start text-sidebar ${activeTab === "accessible" ? "active" : ""}`}
-      id="pills-contact-tab"
-      data-bs-toggle="pill"
-      data-bs-target="#pills-contact"
-      type="button"
-      role="tab"
-      aria-controls="pills-contact"
-      aria-selected={activeTab === "accessible"}
-      onClick={() => setActiveTab("accessible")}
-    >
-      Accessible APIs
-    </button>
-  </li>
-</ul>
+      <div className="row">
+        <div className="col-xl-3 col-lg-3 col-md-4 col-sm-12 col-12  mt-4">
+          <div className="card p-4 sidebar-bg-color min-height-100">
+            <h3>My Profile</h3>
+            <ul className="nav nav-pills mb-3 flex-direction-column pt-3" id="pills-tab" role="tablist">
+              <li className="nav-item" role="presentation">
+                {/* <button className="nav-link active w-100 text-start text-sidebar" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Basic Details</button> */}
+                <button
+                  className={`nav-link w-100 text-start text-sidebar ${activeTab === "home" ? "active" : ""}`}
+                  id="pills-home-tab"
+                  data-bs-toggle="pill"
+                  data-bs-target="#pills-home"
+                  type="button"
+                  role="tab"
+                  aria-controls="pills-home"
+                  aria-selected={activeTab === "home"}
+                  onClick={() => setActiveTab("home")}
+                >
+                  Basic Details
+                </button>
+              </li>
+              <li className="nav-item" role="presentation">
+                {/* <button className="nav-link  w-100 text-start text-sidebar" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Available APIs</button> */}
+                <button
+                  className={`nav-link w-100 text-start text-sidebar ${activeTab === "available" ? "active" : ""}`}
+                  id="pills-profile-tab"
+                  data-bs-toggle="pill"
+                  data-bs-target="#pills-profile"
+                  type="button"
+                  role="tab"
+                  aria-controls="pills-profile"
+                  aria-selected={activeTab === "available"}
+                  onClick={() => setActiveTab("available")}
+                >
+                  Available APIs
+                </button>
+              </li>
+              <li className="nav-item" role="presentation">
+                {/* <button className="nav-link  w-100 text-start text-sidebar" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Accessible APIs</button> */}
+                <button
+                  className={`nav-link w-100 text-start text-sidebar ${activeTab === "accessible" ? "active" : ""}`}
+                  id="pills-contact-tab"
+                  data-bs-toggle="pill"
+                  data-bs-target="#pills-contact"
+                  type="button"
+                  role="tab"
+                  aria-controls="pills-contact"
+                  aria-selected={activeTab === "accessible"}
+                  onClick={() => setActiveTab("accessible")}
+                >
+                  Accessible APIs
+                </button>
+              </li>
+            </ul>
 
-</div>
-</div>
-<div className="col-xl-9 col-lg-9 col-md-8 col-sm-12 col-12">
-  <div className="tab-content" id="pills-tabContent">
-  <div className="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab"> <div className="card-new p-4 mt-4">
-        <FormikProvider value={Profileform}>
-          <Form onSubmit={Profileform.handleSubmit}>
-            <div className="card-bg card-gradient">
-              <div className="row d-flex justify-content-between">
-                <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 p-3 d-flex">
-                  <img className="profileImage" src={Profileform.values.profile_img || "/assets/img/userImage.png"} />
-                  <div className="d-flex flex-column justify-content-center ms-3">
-                    <h5 className="profileHeaders">{fullName}</h5>
-                    <span className="text-white">{emailId}</span>
+          </div>
+        </div>
+        <div className="col-xl-9 col-lg-9 col-md-8 col-sm-12 col-12">
+          <div className="tab-content" id="pills-tabContent">
+            <div className="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab"> <div className="card-new p-4 mt-4">
+              <FormikProvider value={Profileform}>
+                <Form onSubmit={Profileform.handleSubmit}>
+                  <div className="card-bg card-gradient">
+                    <div className="row d-flex justify-content-between">
+                      <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 p-3 d-flex">
+                        <img className="profileImage" src={Profileform.values.profile_img || "/assets/img/userImage.png"} />
+                        <div className="d-flex flex-column justify-content-center ms-3">
+                          <h5 className="profileHeaders">{fullName}</h5>
+                          <span className="text-white">{emailId}</span>
+                        </div>
+                      </div>
+                      <div className="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 d-flex justify-content-end align-items-center">
+                        <input
+                          type="file"
+                          className="d-none"
+                          id="profileImageInput"
+                          onChange={(e) => uploadProfileImage(e.target.files[0])}
+                        />
+                        <label
+                          htmlFor="profileImageInput"
+                          className="btn btn-upload "
+                        >
+                          <i className="fa fa-upload"></i> Upload New Photo
+                        </label>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 d-flex justify-content-end align-items-center">
-                  <input
-                    type="file"
-                    className="d-none"
-                    id="profileImageInput"
-                    onChange={(e) => uploadProfileImage(e.target.files[0])}
-                  />
-                  <label
-                    htmlFor="profileImageInput"
-                    className="btn btn-upload "
+
+                  <div
+                    className="w-100 d-flex flex-column card-bg mt-3"
+                  // onSubmit={Profileform.handleSubmit}
                   >
-                    <i className="fa fa-upload"></i> Upload New Photo
-                  </label>
-                </div>
-              </div>
-            </div>
+                    <p className=" color-blue mt-3 font-600 mb-2">Personal Details</p>
 
-            <div
-              className="w-100 d-flex flex-column card-bg mt-3"
-              // onSubmit={Profileform.handleSubmit}
-            >
-              <p className=" color-blue mt-3 font-600 mb-2">Personal Details</p>
+                    <div className="row">
+                      <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
+                        <input
+                          type="text"
+                          className="form-control p-3"
+                          id="fullname"
+                          name="fullname"
+                          placeholder="Enter Full Name"
+                          value={Profileform.values.fullname}
+                          onChange={Profileform.handleChange}
+                          onBlur={Profileform.handleBlur}
+                          disabled={!isEditing}
+                        />
+                        {Profileform.touched.fullname &&
+                          Profileform.errors.fullname && (
+                            <div className="text-danger mt-1">
+                              {Profileform.errors.fullname}
+                            </div>
+                          )}
+                      </div>
 
-              <div className="row">
-                <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
-                  <input
-                    type="text"
-                    className="form-control p-3"
-                    id="fullname"
-                    name="fullname"
-                    placeholder="Enter Full Name"
-                    value={Profileform.values.fullname}
-                    onChange={Profileform.handleChange}
-                    onBlur={Profileform.handleBlur}
-                    disabled={!isEditing}
-                  />
-                  {Profileform.touched.fullname &&
-                    Profileform.errors.fullname && (
-                      <div className="text-danger mt-1">
-                        {Profileform.errors.fullname}
+                      <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
+                        <input
+                          type="text"
+                          className="form-control p-3"
+                          id="mobileno"
+                          name="mobileno"
+                          placeholder="Enter Phone No."
+                          value={Profileform.values.mobileno}
+                          onChange={(e) =>
+                            handlePhoneInput("mobileno", e.target.value)
+                          }
+                          onBlur={Profileform.handleBlur}
+                          disabled={true}
+                        />
+                        {Profileform.touched.mobileno &&
+                          Profileform.errors.mobileno && (
+                            <div className="text-danger mt-1">
+                              {Profileform.errors.mobileno}
+                            </div>
+                          )}
                       </div>
-                    )}
-                </div>
+                      <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
+                        <input
+                          type="text"
+                          className="form-control p-3"
+                          id="mobileno2"
+                          name="mobileno2"
+                          placeholder="Alt. Phone No."
+                          value={Profileform.values.mobileno2}
+                          onChange={(e) =>
+                            handlePhoneInput("mobileno2", e.target.value)
+                          }
+                          onBlur={Profileform.handleBlur}
+                          disabled={!isEditing}
+                        />
+                        {Profileform.touched.mobileno2 &&
+                          Profileform.errors.mobileno2 && (
+                            <div className="text-danger mt-1">
+                              {Profileform.errors.mobileno2}
+                            </div>
+                          )}
+                      </div>
+                      <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
+                        <input
+                          type="text"
+                          className="form-control p-3"
+                          id="emailid"
+                          name="emailid"
+                          placeholder="Enter Email ID"
+                          value={Profileform.values.emailid}
+                          onChange={Profileform.handleChange}
+                          onBlur={Profileform.handleBlur}
+                          disabled={!isEditing}
+                        />
+                        {Profileform.touched.emailid &&
+                          Profileform.errors.emailid && (
+                            <div className="text-danger mt-1">
+                              {Profileform.errors.emailid}
+                            </div>
+                          )}
+                      </div>
+                    </div>
+                    <p className="color-blue font-600 mt-xl-5 mt-lg-4 mt-md-3 mt-sm-2 mt-1 mb-2">
+                      Company Details
+                    </p>
+                    <div className="row">
+                      <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
+                        <input
+                          type="text"
+                          className="form-control p-3"
+                          id="company_name"
+                          name="company_name"
+                          placeholder="Enter Company Name"
+                          value={Profileform.values.company_name}
+                          onChange={Profileform.handleChange}
+                          onBlur={Profileform.handleBlur}
+                          disabled={!isEditing}
+                        />
+                        {Profileform.touched.company_name &&
+                          Profileform.errors.company_name && (
+                            <div className="text-danger mt-1">
+                              {Profileform.errors.company_name}
+                            </div>
+                          )}
+                      </div>
+                      <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
+                        <input
+                          type="text"
+                          className="form-control p-3"
+                          id="company_email"
+                          name="company_email"
+                          placeholder="Enter Company Email"
+                          value={Profileform.values.company_email}
+                          onChange={Profileform.handleChange}
+                          onBlur={Profileform.handleBlur}
+                          disabled={!isEditing}
+                        />
+                        {Profileform.touched.company_email &&
+                          Profileform.errors.company_email && (
+                            <div className="text-danger mt-1">
+                              {Profileform.errors.company_email}
+                            </div>
+                          )}
+                      </div>
+                      <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
+                        <input
+                          type="text"
+                          className="form-control p-3"
+                          id="company_mobile"
+                          name="company_mobile"
+                          placeholder="Enter Official Phone No."
+                          value={Profileform.values.company_mobile}
+                          onChange={(e) =>
+                            handlePhoneInput("company_mobile", e.target.value)
+                          }
+                          onBlur={Profileform.handleBlur}
+                          disabled={!isEditing}
+                        />
+                        {Profileform.touched.company_mobile &&
+                          Profileform.errors.company_mobile && (
+                            <div className="text-danger mt-1">
+                              {Profileform.errors.company_mobile}
+                            </div>
+                          )}
+                      </div>
+                      <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
+                        <input
+                          type="text"
+                          className="form-control p-3"
+                          id="company_office_mobile"
+                          name="company_office_mobile"
+                          placeholder="Alt. Official Phone No."
+                          value={Profileform.values.company_office_mobile}
+                          onChange={(e) =>
+                            handlePhoneInput("company_office_mobile", e.target.value)
+                          }
+                          onBlur={Profileform.handleBlur}
+                          disabled={!isEditing}
+                        />
+                        {Profileform.touched.company_office_mobile &&
+                          Profileform.errors.company_office_mobile && (
+                            <div className="text-danger mt-1">
+                              {Profileform.errors.company_office_mobile}
+                            </div>
+                          )}
+                      </div>
+                      <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
+                        <input
+                          type="text"
+                          className="form-control p-3"
+                          id="company_address"
+                          name="company_address"
+                          placeholder="Enter Company Address"
+                          value={Profileform.values.company_address}
+                          onChange={Profileform.handleChange}
+                          onBlur={Profileform.handleBlur}
+                          disabled={!isEditing}
+                        />
+                        {Profileform.touched.company_address &&
+                          Profileform.errors.company_address && (
+                            <div className="text-danger mt-1">
+                              {Profileform.errors.company_address}
+                            </div>
+                          )}
+                      </div>
+                    </div>
+                    <h5 className="font-600 mt-xl-5 mt-lg-4 mt-md-3 mt-sm-2 mt-1 mb-2">
+                      Credentials
+                    </h5>
 
-                <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
-                  <input
-                    type="text"
-                    className="form-control p-3"
-                    id="mobileno"
-                    name="mobileno"
-                    placeholder="Enter Phone No."
-                    value={Profileform.values.mobileno}
-                    onChange={(e) =>
-                      handlePhoneInput("mobileno", e.target.value)
-                    }
-                    onBlur={Profileform.handleBlur}
-                    disabled={true}
-                  />
-                  {Profileform.touched.mobileno &&
-                    Profileform.errors.mobileno && (
-                      <div className="text-danger mt-1">
-                        {Profileform.errors.mobileno}
+                    <div className="row">
+                      <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
+                        <input type="text" className="form-control p-3" id="clientId"
+                          name="clientId" placeholder="Client ID" value={Profileform.values.clientId}
+                          onChange={Profileform.handleChange} onBlur={Profileform.handleBlur} disabled />
+                        {Profileform.touched.clientId &&
+                          Profileform.errors.clientId && (
+                            <div className="text-danger mt-1">
+                              {Profileform.errors.clientId}
+                            </div>
+                          )}
                       </div>
-                    )}
-                </div>
-                <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
-                  <input
-                    type="text"
-                    className="form-control p-3"
-                    id="mobileno2"
-                    name="mobileno2"
-                    placeholder="Alt. Phone No."
-                    value={Profileform.values.mobileno2}
-                    onChange={(e) =>
-                      handlePhoneInput("mobileno2", e.target.value)
-                    }
-                    onBlur={Profileform.handleBlur}
-                    disabled={!isEditing}
-                  />
-                  {Profileform.touched.mobileno2 &&
-                    Profileform.errors.mobileno2 && (
-                      <div className="text-danger mt-1">
-                        {Profileform.errors.mobileno2}
+                      <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
+                        <input
+                          type="text"
+                          className="form-control p-3"
+                          id="clientSecret"
+                          name="clientSecret"
+                          placeholder="Client Secret"
+                          value={Profileform.values.clientSecret}
+                          onChange={Profileform.handleChange}
+                          onBlur={Profileform.handleBlur} disabled />
+                        {Profileform.touched.clientSecret &&
+                          Profileform.errors.clientSecret && (
+                            <div className="text-danger mt-1">
+                              {Profileform.errors.clientSecret}
+                            </div>
+                          )}
                       </div>
-                    )}
-                </div>
-                <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
-                  <input
-                    type="text"
-                    className="form-control p-3"
-                    id="emailid"
-                    name="emailid"
-                    placeholder="Enter Email ID"
-                    value={Profileform.values.emailid}
-                    onChange={Profileform.handleChange}
-                    onBlur={Profileform.handleBlur}
-                    disabled={!isEditing}
-                  />
-                  {Profileform.touched.emailid &&
-                    Profileform.errors.emailid && (
-                      <div className="text-danger mt-1">
-                        {Profileform.errors.emailid}
-                      </div>
-                    )}
-                </div>
-              </div>
-              <p className="color-blue font-600 mt-xl-5 mt-lg-4 mt-md-3 mt-sm-2 mt-1 mb-2">
-                Company Details
-              </p>
-              <div className="row">
-                <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
-                  <input
-                    type="text"
-                    className="form-control p-3"
-                    id="company_name"
-                    name="company_name"
-                    placeholder="Enter Company Name"
-                    value={Profileform.values.company_name}
-                    onChange={Profileform.handleChange}
-                    onBlur={Profileform.handleBlur}
-                    disabled={!isEditing}
-                  />
-                  {Profileform.touched.company_name &&
-                    Profileform.errors.company_name && (
-                      <div className="text-danger mt-1">
-                        {Profileform.errors.company_name}
-                      </div>
-                    )}
-                </div>
-                <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
-                  <input
-                    type="text"
-                    className="form-control p-3"
-                    id="company_email"
-                    name="company_email"
-                    placeholder="Enter Company Email"
-                    value={Profileform.values.company_email}
-                    onChange={Profileform.handleChange}
-                    onBlur={Profileform.handleBlur}
-                    disabled={!isEditing}
-                  />
-                  {Profileform.touched.company_email &&
-                    Profileform.errors.company_email && (
-                      <div className="text-danger mt-1">
-                        {Profileform.errors.company_email}
-                      </div>
-                    )}
-                </div>
-                <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
-                  <input
-                    type="text"
-                    className="form-control p-3"
-                    id="company_mobile"
-                    name="company_mobile"
-                    placeholder="Enter Official Phone No."
-                    value={Profileform.values.company_mobile}
-                    onChange={(e) =>
-                      handlePhoneInput("company_mobile", e.target.value)
-                    }
-                    onBlur={Profileform.handleBlur}
-                    disabled={!isEditing}
-                  />
-                  {Profileform.touched.company_mobile &&
-                    Profileform.errors.company_mobile && (
-                      <div className="text-danger mt-1">
-                        {Profileform.errors.company_mobile}
-                      </div>
-                    )}
-                </div>
-                <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
-                  <input
-                    type="text"
-                    className="form-control p-3"
-                    id="company_office_mobile"
-                    name="company_office_mobile"
-                    placeholder="Alt. Official Phone No."
-                    value={Profileform.values.company_office_mobile}
-                    onChange={(e) =>
-                      handlePhoneInput("company_office_mobile", e.target.value)
-                    }
-                    onBlur={Profileform.handleBlur}
-                    disabled={!isEditing}
-                  />
-                  {Profileform.touched.company_office_mobile &&
-                    Profileform.errors.company_office_mobile && (
-                      <div className="text-danger mt-1">
-                        {Profileform.errors.company_office_mobile}
-                      </div>
-                    )}
-                </div>
-                <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
-                  <input
-                    type="text"
-                    className="form-control p-3"
-                    id="company_address"
-                    name="company_address"
-                    placeholder="Enter Company Address"
-                    value={Profileform.values.company_address}
-                    onChange={Profileform.handleChange}
-                    onBlur={Profileform.handleBlur}
-                    disabled={!isEditing}
-                  />
-                  {Profileform.touched.company_address &&
-                    Profileform.errors.company_address && (
-                      <div className="text-danger mt-1">
-                        {Profileform.errors.company_address}
-                      </div>
-                    )}
-                </div>
-              </div>
-              <h5 className="font-600 mt-xl-5 mt-lg-4 mt-md-3 mt-sm-2 mt-1 mb-2">
-                Credentials
-              </h5>
-
-              <div className="row">
-                <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
-                  <input type="text" className="form-control p-3" id="clientId"
-                    name="clientId" placeholder="Client ID" value={Profileform.values.clientId}
-                    onChange={Profileform.handleChange} onBlur={Profileform.handleBlur} disabled />
-                  {Profileform.touched.clientId &&
-                    Profileform.errors.clientId && (
-                      <div className="text-danger mt-1">
-                        {Profileform.errors.clientId}
-                      </div>
-                    )}
-                </div>
-                <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
-                  <input
-                    type="text"
-                    className="form-control p-3"
-                    id="clientSecret"
-                    name="clientSecret"
-                    placeholder="Client Secret"
-                    value={Profileform.values.clientSecret}
-                    onChange={Profileform.handleChange}
-                    onBlur={Profileform.handleBlur} disabled />
-                  {Profileform.touched.clientSecret &&
-                    Profileform.errors.clientSecret && (
-                      <div className="text-danger mt-1">
-                        {Profileform.errors.clientSecret}
-                      </div>
-                    )}
-                </div>
-              </div>
-              {/* <div className="d-flex justify-content-end mt-3">
+                    </div>
+                    {/* <div className="d-flex justify-content-end mt-3">
                 <button className="btn btn-primary profilePageButton px-3" type="submit" disabled={loader.submit}>
                   Submit {loader.submit && <LoaderWight />}
                 </button>
               </div> */}
-             <div className="d-flex justify-content-end mt-3">
-              {!isEditing ? (
-                <button
-                  type="button"
-                  className="btn btn-secondary profilePageButton px-3"
-                  onClick={(e) => {e.preventDefault(); setIsEditing(true)}}
-                >
-                  Edit
-                </button>
-              ) : (
-                <>
-                  <button
-                    className="btn btn-primary profilePageButton px-3 me-2"
-                    type="submit"
-                    disabled={loader.submit}
-                  >
-                    Save {loader.submit && <LoaderWight />}
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-outline-secondary profilePageButton px-3"
-                    onClick={() => {
-                      getUserData(); // reload old data
-                      setIsEditing(false); // disable edit mode
-                    }}
-                  >
-                    Cancel
-                  </button>
-                </>
-              )}
-            </div>
-            </div>
-          </Form>
-        </FormikProvider>
-        {loader.page && <PageLoaderBackdrop />}
-      </div></div>
-  <div className="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-    <div className="card-bg  p-4 mt-4">
-<div className="card p-3">
-<h4 className="mb-0">Available APIs</h4>
-<div className="mt-3 ">
-<div className="api-table-container">
-    <table className="custom-table-new">
-      <thead className="custom-thead-new">
-        <tr className="custom-tr-new">
-          <th className="custom-th-new"></th>
-          <th className="custom-th-new">API Name</th>
-          <th className="custom-th-new">API Description</th>
-        </tr>
-      </thead>
-      {/* <tbody>
+                    <div className="d-flex justify-content-end mt-3">
+                      {!isEditing ? (
+                        <button
+                          type="button"
+                          className="btn btn-secondary profilePageButton px-3"
+                          onClick={(e) => { e.preventDefault(); setIsEditing(true) }}
+                        >
+                          Edit
+                        </button>
+                      ) : (
+                        <>
+                          <button
+                            className="btn btn-primary profilePageButton px-3 me-2"
+                            type="submit"
+                            disabled={loader.submit}
+                          >
+                            Save {loader.submit && <LoaderWight />}
+                          </button>
+                          <button
+                            type="button"
+                            className="btn btn-outline-secondary profilePageButton px-3"
+                            onClick={() => {
+                              getUserData(); // reload old data
+                              setIsEditing(false); // disable edit mode
+                            }}
+                          >
+                            Cancel
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </Form>
+              </FormikProvider>
+              {loader.page && <PageLoaderBackdrop />}
+            </div></div>
+            <div className="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+              <div className="card-bg  p-4 mt-4">
+                <div className="card p-3">
+                  <h4 className="mb-0">Available APIs</h4>
+                  <div className="mt-3 ">
+                    <div className="api-table-container">
+                      <table className="custom-table-new">
+                        <thead className="custom-thead-new">
+                          <tr className="custom-tr-new">
+                            <th className="custom-th-new"></th>
+                            <th className="custom-th-new">API Name</th>
+                            <th className="custom-th-new">API Description</th>
+                          </tr>
+                        </thead>
+                        {/* <tbody>
         <tr className="custom-tr-new">
           <td className="custom-td-new"><input type="checkbox"/></td>
           <td className="custom-td-new">Perform Otp SignIn With VIN</td>
@@ -744,80 +743,78 @@ const handleCheckboxChange = (api, isChecked) => {
           <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
         </tr>
       </tbody> */}
-      <tbody>
-        {availableAPIs.length > 0 && availableAPIs.map((api, index) => (
-          <tr key={api.id} className="custom-tr-new">
-            <td className="custom-td-new">
-              <input
-                type="checkbox"
-                // checked={selectedAPIs.includes(api.apiname)}
-                checked={selectedAPIs.some((item) => item.id === api.id)}
-                onChange={(e) => handleCheckboxChange(api, e.target.checked)}
-                // onChange={(e) => handleCheckboxChange(api.apiname, e.target.checked)}
-              />
-            </td>
-            <td className="custom-td-new">{api.apiname}</td>
-            <td className="custom-td-new">{api.description}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-        {availableTotalPages > 1 && (
-        <PaginateComponent
-          currentPage={availableCurrentPage}
-          totalPages={availableTotalPages}
-          onChange={(page) => availableAPIList(page)}
-        />)}
-    {availableAPIs.length > 0 && <button className="btn-request" onClick={multipleAPIReq}>Request Access</button>}
-  </div>
-</div>
-</div>
-    </div>
-    {loader.page && <PageLoaderBackdrop />}
-  </div>
-  <div className="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-     <div className="card-bg  p-4 mt-4">
-<div className="card p-3">
-<h4 className="mb-0">Accessible APIs</h4>
-<div className="mt-3 ">
-<div className="api-table-container">
-    <table className="custom-table-new">
-      <thead className="custom-thead-new">
-        <tr className="custom-tr-new">
-          {/* <th className="custom-th-new"><input type="checkbox"/></th> */}
-          <th className="custom-th-new">API Name</th>
-          <th className="custom-th-new">API Description</th>
-        </tr>
-      </thead>
-      <tbody>
-       {accessibleApi.length > 0 && accessibleApi.map((item, index) => (
-        <tr key={item.id} className="custom-tr-new">
-          <td className="custom-td-new">{item.apiname}</td>
-          <td className="custom-td-new">{item.description}</td>
-        </tr>
-       ))}
-      </tbody>
-    </table>
-      {accessibleTotalPages > 1 && (
-      <PaginateComponent
-        currentPage={accessibleCurrentPage}
-        totalPages={accessibleTotalPages}
-        onChange={(page) => accessibleAPIList(page)}
-      />)}
-    {/* <button className="btn-request">Try it</button> */}
-  </div>
-</div>
-</div>
-    </div>
-    {loader.page && <PageLoaderBackdrop />}
-  </div>
-</div>
+                        <tbody>
+                          {availableAPIs.length > 0 && availableAPIs.map((api, index) => (
+                            <tr key={api.id} className="custom-tr-new">
+                              <td className="custom-td-new">
+                                <input
+                                  type="checkbox"
+                                  // checked={selectedAPIs.includes(api.apiname)}
+                                  checked={selectedAPIs.some((item) => item.id === api.id)}
+                                  onChange={(e) => handleCheckboxChange(api, e.target.checked)}
+                                // onChange={(e) => handleCheckboxChange(api.apiname, e.target.checked)}
+                                />
+                              </td>
+                              <td className="custom-td-new">{api.apiname}</td>
+                              <td className="custom-td-new">{api.description}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                      {availableTotalPages > 1 && (
+                        <PaginateComponent
+                          currentPage={availableCurrentPage}
+                          totalPages={availableTotalPages}
+                          onChange={(page) => availableAPIList(page)}
+                        />)}
+                      {availableAPIs.length > 0 && <button className="btn-request" onClick={multipleAPIReq}>Request Access</button>}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {loader.page && <PageLoaderBackdrop />}
+            </div>
+            <div className="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+              <div className="card-bg  p-4 mt-4">
+                <div className="card p-3">
+                  <h4 className="mb-0">Accessible APIs</h4>
+                  <div className="mt-3 ">
+                    <div className="api-table-container">
+                      <table className="custom-table-new">
+                        <thead className="custom-thead-new">
+                          <tr className="custom-tr-new">
+                            {/* <th className="custom-th-new"><input type="checkbox"/></th> */}
+                            <th className="custom-th-new">API Name</th>
+                            <th className="custom-th-new">API Description</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {accessibleApi.length > 0 && accessibleApi.map((item, index) => (
+                            <tr key={item.id} className="custom-tr-new">
+                              <td className="custom-td-new">{item.apiname}</td>
+                              <td className="custom-td-new">{item.description}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                      {accessibleTotalPages > 1 && (
+                        <PaginateComponent
+                          currentPage={accessibleCurrentPage}
+                          totalPages={accessibleTotalPages}
+                          onChange={(page) => accessibleAPIList(page)}
+                        />)}
+                      {/* <button className="btn-request">Try it</button> */}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {loader.page && <PageLoaderBackdrop />}
+            </div>
+          </div>
 
-</div>
-</div>
+        </div>
+      </div>
     </div>
-     
-    </>
   );
 }
 
