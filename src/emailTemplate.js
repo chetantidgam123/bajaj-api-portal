@@ -228,6 +228,7 @@ const adminNotificationEmail = (data) => {
                     <p style='color:#455056;font-size:15px;margin:0 0 10px 0;'>
                       <strong>User Name:</strong> ${data.userName}<br/>
                       <strong>Email ID:</strong> ${data.userEmail}<br/>
+                      <strong>Mobile No:</strong> ${data.mobileNo}<br/>
                       <strong>Requested On:</strong> ${data.requestedOn}
                     </p>
                     <br/>
@@ -319,7 +320,6 @@ const generateApiApprovalEmail = ({ userName, userId, loginLink, status }) => {
       
       <div class="details">
           <p><strong>API Name:</strong> BAJAJ API</p>
-          <p><strong>User ID:</strong> ${userId}</p>
           <p><strong>Access Status:</strong> ${status}</p>
       </div>
 
@@ -387,5 +387,5 @@ export {
   apiRequestUser,
   generateApiApprovalEmail,
   ApiListRequestEmail,
-  signUpVerifyEmail 
+  signUpVerifyEmail
 }

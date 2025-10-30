@@ -11,48 +11,49 @@ import { post_auth_data, post_data } from '../../ApiServices';
 import { PageLoaderBackdrop, Loader } from '../../Loader';
 import EditableBody from '../user/UtilComponent/EditableBody'
 import { ErrorMessage, FieldArray, Form, FormikProvider, useFormik } from 'formik';
+import { api_decrypt, api_encrypt, encKey } from '../../enc_dec';
 const env = import.meta.env
 function ApiPlayGround() {
-    const navigate = useNavigate();
     const { collection_id, category_id, api_id } = useParams();
-    const [show, setShow] = useState(false)
-    const [show1, setShow1] = useState(false)
     const [apiData, setApiData] = useState(null);
     const [description, setDescription] = useState('');
     const [title, setTitle] = useState('');
     const [clientCreds, setClientCreds] = useState({});
     const [responsData, setResponsData] = useState({ resbody: {}, resschema: {} });
-    const [statusCode, setStatusCode] = useState(0);
-    const [modalData, setModalData] = useState({ header: [], body: {}, resbody: {} })
     const [loader, setLoader] = useState(false);
     const [isOpen, setIsOpen] = useState(true);
 
     const [isEncrypted, setIsEncrypted] = useState(false);
-    const [responseBox, setResponseBox] = useState('');
-
-    const location = useLocation();
+    const [isEncryptedRes, setIsEncryptedRes] = useState(true);
     useEffect(() => {
         chekParamParameter()
-        getClientCredentials()
     }, [api_id, collection_id, category_id])
 
-    const getClientCredentials = () => {
+    const getClientCredentials = (headArray = []) => {
         const payload = {
             "query": "SELECT client_id,client_secret FROM user_api_cred WHERE user_id = (SELECT id from usermaster WHERE emailid ='" + getTokenData().emailid + "')",
             "message": "Get user credentials"
         }
         post_data(env.VITE_POSTGRE_ENDPOINT, payload, {})
             .then(async (response) => {
-                setClientCreds(response.data.data[0])
+                setClientCreds(response.data.data[0]);
+                let a = headArray.map((item) => {
+                    if (item.key == 'client_id') {
+                        item.value = response.data.data[0].client_id || ''
+                    }
+                    if (item.key == 'client_secret') {
+                        item.value = response.data.data[0].client_secret || ''
+                    }
+                    if (item.key == 'grant_type') {
+                        item.value = "CLIENT_CEDENTIALS"
+                    }
+                    return item
+                })
+                console.log(a)
+                headersForm.setValues({ parameters: a })
             }).catch((error) => {
                 console.log(error)
-                // error_swal_toast(error.message)
             })
-    }
-
-    const dynamicAPIReference = (data) => {
-        console.log(data);
-
     }
 
     const chekParamParameter = () => {
@@ -63,7 +64,6 @@ function ApiPlayGround() {
         if (api_id) {
             obj.uniqueid = api_id
             getAuthDataById('get-api-by-id', obj)
-            return
         }
     }
 
@@ -77,7 +77,11 @@ function ApiPlayGround() {
                     setTitle(response.data.data.subcategoryname || response.data.data.apiname || '');
                     if (api_id) {
                         setApiData(response.data.data);
-                        setBodyRequestSample(JSON.parse(response.data.data.reqsample))
+                        let reqSample = JSON.parse(response.data.data.reqsample)
+                        // if(reqSample == '' || reqSample == {}){
+                        //     setShowBody(false)
+                        // }
+                        setBodyRequestSample(reqSample)
                         headersForm.setValues({ parameters: JSON.parse(response.data.data.reqheader?.value || '[]') })
                         parameterForm.setValues({ parameters: JSON.parse(response.data.data.query_params?.value || '[]') })
                         uriparameterForm.setValues({ parameters: JSON.parse(response.data.data.uri_params?.value || '[]') })
@@ -88,6 +92,7 @@ function ApiPlayGround() {
                                 break; // stop after first match
                             }
                         }
+                        getClientCredentials(JSON.parse(response.data.data.reqheader?.value || '[]'));
 
                     }
                 } else {
@@ -149,76 +154,62 @@ function ApiPlayGround() {
     }
 
     const [bodyRequestSample, setBodyRequestSample] = useState('')
+    const [bodyResSample, setBodyResSample] = useState('')
+    const handleResChange = (language) => {
+        setBodyResSample(language);
+    }
     const handleBodyChange = (language) => {
         setBodyRequestSample(language);
     }
     const createApiRqe = () => {
-        console.log(urlencodedForm.values.parameters)
-        console.log(headersForm.values.parameters)
-        console.log(parameterForm.values.parameters)
-        console.log(uriparameterForm.values.parameters)
-        let header = [
-            {
-                "key": "client_id",
-                "value": clientCreds.client_id || '',
-                "description": ""
-            },
-            {
-                "key": "client_secret",
-                "value": clientCreds.client_secret || '',
-                "description": ""
-            }
-        ]
-        let a = [...headersForm.values.parameters, header]
-        console.log(a)
-        let json = {
-            "base_url": "",
-            "endpoint": "",
-            "encData": {},
-            "plain_payload": "",
-            "queryParams": {},
-            "uriParams": {},
-            "headers": {
-                "encKey": "",
-                "token": "",
-                "x-oauth-token": "",
-                "client_id": "",
-                "client_secret": "",
-                "cookie": ""
-            }
-        }
-        if (bodyType == 'raw') {
-            try {
-                JSON.parse(bodyRequestSample)
-            } catch (error) {
-                error_swal_toast('Invalid json data')
+        let responces = JSON.parse(apiData.responses?.value || []);
+        for (let key of responces) {
+            if (key.code == 200) {
+                setBodyResSample(JSON.stringify({ "encData": api_encrypt(key.resbody, encKey) }, null, 2))
             }
         }
     }
 
     // Mock encrypt/decrypt logic
-        const handleEncryptDecrypt = () => {
-            if (!bodyRequestSample) {
-                error_swal_toast("No body content to process");
-                return;
-            }
+    const handleEncryptDecrypt = () => {
+        if (!bodyRequestSample) {
+            error_swal_toast("No body content to process");
+            return;
+        }
 
-            if (!isEncrypted) {
-                // Simulate encryption (for now)
-                const encrypted = btoa(bodyRequestSample); // base64 mock encryption
-                setResponseBox(encrypted);
-                setIsEncrypted(true);
+        try {
+            if (isEncrypted) {
+                setBodyRequestSample((api_decrypt(JSON.parse(bodyRequestSample)?.encData, encKey)))
+                setIsEncrypted(false);
             } else {
+                setBodyRequestSample(JSON.stringify({ "encData": api_encrypt(bodyRequestSample, encKey) }, null, 2))
+                setIsEncrypted(true);
                 // Simulate decryption
-                try {
-                    const decrypted = atob(responseBox);
-                    setResponseBox(decrypted);
-                    setIsEncrypted(false);
-                } catch (error) {
-                    error_swal_toast("Failed to decrypt: Invalid data");
-                }
             }
-        };
+        } catch (error) {
+            console.log(error)
+            error_swal_toast("Failed to decrypt: Invalid data");
+        }
+    };
+    const handleEncryptDecryptRes = () => {
+        if (!bodyResSample) {
+            error_swal_toast("No body content to process");
+            return;
+        }
+
+        try {
+            if (isEncryptedRes) {
+                setBodyResSample((api_decrypt(JSON.parse(bodyResSample)?.encData, encKey)))
+                setIsEncryptedRes(false);
+            } else {
+                setBodyResSample(JSON.stringify({ "encData": api_encrypt(bodyResSample, encKey) }, null, 2))
+                setIsEncryptedRes(true);
+            }
+        } catch (error) {
+            console.log(error)
+            error_swal_toast("Failed to decrypt: Invalid data");
+        }
+    };
 
     return (
         <div className="home-container bg-white p-3">
@@ -273,7 +264,7 @@ function ApiPlayGround() {
                                                 <th>Key</th>
                                                 <th>Value</th>
                                                 <th>description</th>
-                                                <th></th>
+                                                {/* <th></th> */}
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -298,7 +289,7 @@ function ApiPlayGround() {
                                                                 value={parameterForm.values.parameters[index].description} />
                                                             <ErrorMessage name={`parameters[${index}].description`} component="small" className='text-danger' />
                                                         </td>
-                                                        <td className="d-flex align-items-center justify-content-center">
+                                                        <td className="d-flex align-items-center justify-content-center d-none">
                                                             <button type="buttn" className="btn btn-danger btn-sm" title="remove" onClick={() => { arrayHelper.remove(index) }}>
                                                                 <i className="fa fa-trash"></i>
                                                             </button>
@@ -330,7 +321,7 @@ function ApiPlayGround() {
                                                 <th>Key</th>
                                                 <th>Value</th>
                                                 <th>description</th>
-                                                <th></th>
+                                                {/* <th></th> */}
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -355,7 +346,7 @@ function ApiPlayGround() {
                                                                 value={uriparameterForm.values.parameters[index].description} />
                                                             <ErrorMessage name={`parameters[${index}].description`} component="small" className='text-danger' />
                                                         </td>
-                                                        <td className="d-flex align-items-center justify-content-center">
+                                                        <td className="d-flex align-items-center justify-content-center d-none">
                                                             <button type="buttn" className="btn btn-danger btn-sm" title="remove" onClick={() => { arrayHelper.remove(index) }}>
                                                                 <i className="fa fa-trash"></i>
                                                             </button>
@@ -379,7 +370,7 @@ function ApiPlayGround() {
                                     <thead>
                                         <tr>
                                             <th colSpan={5}>
-                                                <div className="text-end">
+                                                <div className="text-end d-none">
                                                     <button className="btn btn-primary" type="button" onClick={() => { handleAddParam(arrayHelper) }}>Add Parameter</button>
                                                 </div>
                                             </th>
@@ -388,7 +379,7 @@ function ApiPlayGround() {
                                             <th>Key</th>
                                             <th>Value</th>
                                             <th>description</th>
-                                            <th></th>
+                                            {/* <th></th> */}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -413,7 +404,7 @@ function ApiPlayGround() {
                                                             value={headersForm.values.parameters[index].description} />
                                                         <ErrorMessage name={`parameters[${index}].description`} component="small" className='text-danger' />
                                                     </td>
-                                                    <td className="d-flex align-items-center justify-content-center">
+                                                    <td className="d-flex align-items-center justify-content-center d-none">
                                                         <button type="buttn" className="btn btn-danger btn-sm" title="remove" onClick={() => { arrayHelper.remove(index) }}>
                                                             <i className="fa fa-trash"></i>
                                                         </button>
@@ -429,35 +420,35 @@ function ApiPlayGround() {
                 </div>
                 <div className="tab-pane fade" id="pills-three" role="tabpanel" aria-labelledby="pills-three-tab">
                     <div className='w-full d-flex justify-content-between'>
-                    <div className='d-flex mb-2'>
-                        <div className="form-check">
-                            <input className="form-check-input" type="radio" name="flexRadioDefault" checked={bodyType == 'form_data'} id="form_data" onChange={(e) => { handleBody(e, 'form_data') }} />
-                            <label className="form-check-label" role='button' htmlFor="form_data">
-                                form-data
-                            </label>
-                        </div>
-                        <div className="form-check ms-4">
-                            <input className="form-check-input" type="radio" name="flexRadioDefault" checked={bodyType == 'urlencoded'} id="urlencoded" onChange={(e) => { handleBody(e, 'urlencoded') }} />
-                            <label className="form-check-label" role='button' htmlFor="urlencoded">
-                                x-www-form-urlencoded
-                            </label>
-                        </div>
-                        <div className="form-check ms-4">
-                            <input className="form-check-input" type="radio" checked={bodyType == 'raw'} name="flexRadioDefault" id="raw" onChange={(e) => { handleBody(e, 'raw') }} />
-                            <label className="form-check-label" role='button' htmlFor="raw">
-                                raw
-                            </label>
-                        </div>
-                        </div>
-                            <div>
-                                <button
-                                    type="button"
-                                    className="btn btn-outline-secondary btn-sm ms-3 mb-1"
-                                    onClick={handleEncryptDecrypt}
-                                >
-                                    {isEncrypted ? "Decrypt" : "Encrypt"}
-                                </button>
+                        <div className='d-flex mb-2'>
+                            <div className="form-check">
+                                <input className="form-check-input" type="radio" name="flexRadioDefault" checked={bodyType == 'form_data'} id="form_data" onChange={(e) => { handleBody(e, 'form_data') }} />
+                                <label className="form-check-label" role='button' htmlFor="form_data">
+                                    form-data
+                                </label>
                             </div>
+                            <div className="form-check ms-4">
+                                <input className="form-check-input" type="radio" name="flexRadioDefault" checked={bodyType == 'urlencoded'} id="urlencoded" onChange={(e) => { handleBody(e, 'urlencoded') }} />
+                                <label className="form-check-label" role='button' htmlFor="urlencoded">
+                                    x-www-form-urlencoded
+                                </label>
+                            </div>
+                            <div className="form-check ms-4">
+                                <input className="form-check-input" type="radio" checked={bodyType == 'raw'} name="flexRadioDefault" id="raw" onChange={(e) => { handleBody(e, 'raw') }} />
+                                <label className="form-check-label" role='button' htmlFor="raw">
+                                    raw
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <button
+                                type="button"
+                                className="btn btn-outline-secondary btn-sm ms-3 mb-1"
+                                onClick={handleEncryptDecrypt}
+                            >
+                                {isEncrypted ? "Decrypt" : "Encrypt"}
+                            </button>
+                        </div>
                     </div>
                     {bodyType == 'form_data' && <div className="bodybox">Cooming soon</div>}
                     {bodyType == 'urlencoded' && <div className="bodybox">
@@ -469,7 +460,7 @@ function ApiPlayGround() {
                                         <thead>
                                             <tr>
                                                 <th colSpan={5}>
-                                                    <div className="text-end">
+                                                    <div className="text-end d-none">
                                                         <button className="btn btn-primary" type="button" onClick={() => { handleAddParam(arrayHelper) }}>Add Parameter</button>
                                                     </div>
                                                 </th>
@@ -478,7 +469,7 @@ function ApiPlayGround() {
                                                 <th>Key</th>
                                                 <th>Value</th>
                                                 <th>description</th>
-                                                <th></th>
+                                                {/* <th></th> */}
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -503,7 +494,7 @@ function ApiPlayGround() {
                                                                 value={urlencodedForm.values.parameters[index].description} />
                                                             <ErrorMessage name={`parameters[${index}].description`} component="small" className='text-danger' />
                                                         </td>
-                                                        <td className="d-flex align-items-center justify-content-center">
+                                                        <td className="d-flex align-items-center justify-content-center d-none">
                                                             <button type="buttn" className="btn btn-danger btn-sm" title="remove" onClick={() => { arrayHelper.remove(index) }}>
                                                                 <i className="fa fa-trash"></i>
                                                             </button>
@@ -547,35 +538,16 @@ function ApiPlayGround() {
                     <img src={dots} className='ms-2' alt="" style={{ width: '20px', height: '20px' }} />
                 </div>
                 <div className="tab-content" id="pills-tabContent">
+                    <div className='text-end'>
+                        <button
+                            type="button"
+                            className="btn btn-outline-secondary btn-sm ms-3 mb-1"
+                            onClick={handleEncryptDecryptRes}>
+                            {isEncryptedRes ? "Decrypt" : "Encrypt"}
+                        </button>
+                    </div>
                     <div className="tab-pane fade show active" id="pills-onenew" role="tabpanel" aria-labelledby="pills-onenew-tab">
-                        <EditableBody curl={
-                            [
-
-                            'id' - '1',<br></br>,
-                            'name' - 'Google Pixel 6 Pro',<br></br>,
-                            'name' - 'Google Pixel 6 Pro',<br></br>,
-                            'name' - 'Google Pixel 6 Pro',<br></br>,
-                            'name' - 'Google Pixel 6 Pro',<br></br>,
-                            'name' - 'Google Pixel 6 Pro',<br></br>,
-                            'name' - 'Google Pixel 6 Pro',
-
-                            ]
-                        }  />
-                        {/* <span className="badge bg-secondary mb-2"> { } JSON  <i className="fa-solid fa-angle-down"></i></span>
-
-                        <p>
-                            [
-
-                            'id' - '1',<br></br>
-                            'name' - 'Google Pixel 6 Pro',<br></br>
-                            'name' - 'Google Pixel 6 Pro',<br></br>
-                            'name' - 'Google Pixel 6 Pro',<br></br>
-                            'name' - 'Google Pixel 6 Pro',<br></br>
-                            'name' - 'Google Pixel 6 Pro',<br></br>
-                            'name' - 'Google Pixel 6 Pro',
-
-                            ]
-                        </p> */}
+                        <EditableBody curl={bodyResSample} onChange={handleResChange} />
                     </div>
                     <div className="tab-pane fade" id="pills-twonew" role="tabpanel" aria-labelledby="pills-twonew-tab">.2..</div>
 

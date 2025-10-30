@@ -10,14 +10,16 @@ const EditableBody = ({ curl, onChange }) => {
       <AceEditor
         mode="sh"
         theme="monokai"
-        value={typeof curl === "string" ? curl : ""} 
-        onChange={(value) => onChange(value)} 
+        value={typeof curl === "string" ? curl : ""}
+        onChange={(value) => onChange(value)}
         fontSize={14}
         width="100%"
         height="100%"
         showPrintMargin={false}
         showGutter={true}
         highlightActiveLine={true}
+        readOnly={true}
+        wrapEnabled={true}
         setOptions={{
           enableBasicAutocompletion: true,
           enableLiveAutocompletion: true,
@@ -29,7 +31,7 @@ const EditableBody = ({ curl, onChange }) => {
 };
 
 EditableBody.propTypes = {
-  curl: PropTypes.string, 
+  curl: PropTypes.string,
   onChange: PropTypes.func.isRequired,
 };
 

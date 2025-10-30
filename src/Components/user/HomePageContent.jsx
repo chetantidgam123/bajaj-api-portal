@@ -156,7 +156,8 @@ function HomePageContent() {
 
     const routeTryIt = () => {
         if (btnName == 'Try it') {
-            navigate(`/try-api/${collection_id}/${category_id}/${api_id}`)
+            window.open(`/try-api/${collection_id}/${category_id}/${api_id}`, '_blank');
+            // navigate(`/try-api/${collection_id}/${category_id}/${api_id}`)
         } else if (btnName == 'Request Access') {
             sendRequest();
         }
