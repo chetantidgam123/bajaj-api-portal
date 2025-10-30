@@ -345,10 +345,10 @@ const ApiListRequestEmail = ({ status, selectedAPIs }) => {
 
   const rows = selectedAPIs
     .map(
-      (apiName, index) => `
+      (api, index) => `
       <tr>
         <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">${index + 1}</td>
-        <td style="padding: 8px; border: 1px solid #ddd;">${apiName}</td>
+        <td style="padding: 8px; border: 1px solid #ddd;">${api.apiname}</td>
         <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">${status}</td>
       </tr>
     `
