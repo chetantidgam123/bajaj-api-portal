@@ -182,7 +182,7 @@ function RequestAccessList() {
                     request_id: item.request_id || item.id || ""
                 }));
                 setReqAccList(dataWithReqId);
-                setTotalPages(Math.ceil(response.data.totaltotalRecords / offsetPagination))
+                setTotalPages(Math.ceil(response.data.totalRecords / offsetPagination))
             } else {
                 error_swal_toast(response.data.message || "Failed to fetch list");
             }
