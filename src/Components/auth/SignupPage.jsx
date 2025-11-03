@@ -9,9 +9,9 @@ import FloatingInputLabel from "../user/UtilComponent/FloatingInputLabel";
 import { Link, useLocation } from "react-router-dom";
 import { error_swal_toast, success_swal_toast } from "../../SwalServices";
 import { useEffect, useState } from "react";
-import { LoaderWight } from "../../Loader";
+import { LoaderWight, Loader } from "../../Loader";
 import { signUpOtpEmail, adminNotificationEmail } from "../../emailTemplate";
-import { encrypt, decrypt } from "../../Utils";
+import { encrypt, decrypt, adminEmail, verifyBaseLink } from "../../Utils";
 import { signUpVerifyEmail } from "../../emailTemplate";
 
 function SignupPage({ setModalName, setShow }) {
@@ -63,7 +63,8 @@ function SignupPage({ setModalName, setShow }) {
     const encryptedOtp = encrypt(otpPayload);
     const encryptedEmail = encodeURIComponent(encrypt(email))
     localStorage.setItem('pweoriwpepedaldssdcds', encryptedOtp);
-    const verifyLink = `https://apidocs.bajajauto.com/email-verify/${encryptedEmail}`
+    const verifyLink = `${verifyBaseLink}/${encryptedEmail}`
+    // console.log(verifyLink)
     const firstName = signupForm.values.fullName.split(" ")[0] || "User"; // extract first name
     // const emailBody = signUpOtpEmail({ firstName: firstName, otp: otp });
     const emailBody = signUpVerifyEmail({ firstName: firstName, verifyLink: verifyLink });
@@ -133,15 +134,14 @@ function SignupPage({ setModalName, setShow }) {
       // setLoader(false);
       if (res?.data?.status) {
         // success_swal_toast(res.data.message || "User registered successfully");
-        const adminEmail = "ctidgam1997@gmail.com";
-        // const adminEmail = "meshramsagar715@gmail.com"
+        // const adminEmail = "ctidgam1997@gmail.com";
         // const adminName = "Chetan";
         // const currentDateTime = new Date().toLocaleString();
         const emailBody = adminNotificationEmail({
           adminName: "Admin",
           userName: values.fullName,
           userEmail: values.emailId,
-          mobileno: values.mobileNo,
+          mobileNo: values.mobileNo,
           requestedOn: new Date().toLocaleString()
         })
         const subject = "Action Required - New User Login Request for BAJAJ API Developer Portal"
@@ -262,7 +262,7 @@ function SignupPage({ setModalName, setShow }) {
               <div className="text-center">
                 <button type="submit" className="btn btn-primary w-100"
                   onClick={signupForm.handleSubmit} disabled={loader} >
-                  Sign Up
+                  Sign Up {loader && <Loader />}
                 </button>
                 <div className="mt-3">
                   Have an account?&nbsp; &nbsp;
