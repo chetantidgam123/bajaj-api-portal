@@ -162,11 +162,10 @@ function RequestAccessList() {
         const payload = {
             apiType: "get-all-api-request",
             requestPayload: {
-                application_name: "",
+                application_name: filters.input,
                 limit: "20",
                 page: page.toString(),
                 approved_status: filters.status,
-                searchtxt: filters.input
             },
             requestHeaders: {},
             uriParams: {},
@@ -196,7 +195,7 @@ function RequestAccessList() {
     };
 
     const refresh = () => {
-        const resetSearch = { input: "", status: "" };
+        const resetSearch = { input: "", status: "-1" };
         SetSearch(resetSearch)
         fetchRequestList(1, resetSearch);
     }
@@ -220,7 +219,7 @@ function RequestAccessList() {
                     <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-2">
                         <div className="form-group mt-2">
                             <input type="email" name="email" className="form-control p-3" id="exampleInputEmail1"
-                                aria-describedby="emailHelp" placeholder="Search" value={search.input}
+                                aria-describedby="emailHelp" placeholder="Search Application Name" value={search.input}
                                 onChange={(e) => { SetSearch({ ...search, input: (e.target.value).trim() }) }} />
                         </div>
                     </div>
@@ -237,7 +236,7 @@ function RequestAccessList() {
                                     SetSearch({ ...search, status: value })
                                 }}
                             >
-                                <option value="" disabled hidden>Select Status</option>
+                                <option value="">Select Status</option>
                                 <option value={0}>Pending</option>
                                 <option value={1}>Approved</option>
                                 <option value={2}>Rejected</option>
