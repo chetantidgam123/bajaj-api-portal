@@ -5,6 +5,7 @@ import { error_swal_toast, success_swal_toast } from './SwalServices';
 const TOKEN_KEY = 'ff591090-0805-4282-8493-e9435a4d3d67';
 const OTP_KEY = 'otff591090-0805-4282-8493-e9435a4d3pp';
 const offsetPagination = 20;
+const adminEmail = 'ctidgam1997@gmail.com'
 const setTokenData = (data) => {
     const temp = JSON.stringify(data);
     let enc = encrypt(temp);
@@ -347,6 +348,7 @@ const getInitials = (name) => {
 
 
 export {
+    adminEmail,
     OTP_KEY,
     availableApi,
     isError,

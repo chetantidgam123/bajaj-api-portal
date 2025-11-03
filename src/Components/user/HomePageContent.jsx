@@ -5,7 +5,7 @@ import LangCurlExecuteComp from './LangCurlExecuteComp';
 import SyntaxHighLighter from './SyntaxHighLighter';
 import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm'
-import { arrayIndex, convertToPayload, copyToClipboard, getTokenData, scrollToTop, sendEmail, trucateString } from '../../Utils';
+import { adminEmail, arrayIndex, convertToPayload, copyToClipboard, getTokenData, scrollToTop, sendEmail, trucateString } from '../../Utils';
 import GetStarted from './GetStarted';
 import { error_swal_toast, success_swal_toast } from '../../SwalServices';
 import { post_auth_data, post_data } from '../../ApiServices';
@@ -178,7 +178,6 @@ function HomePageContent() {
                     console.log("inside status condition 1", tokendata.emailid)
                     setOpenTryitModal(false);
                     success_swal_toast(response.data.message);
-                    const adminEmail = "ctidgam1997@gmail.com"
                     console.log("inside status condition 2", tokendata.emailid)
                     const emailBody = generateApiRequestEmail({
                         adminName: "Admin",
