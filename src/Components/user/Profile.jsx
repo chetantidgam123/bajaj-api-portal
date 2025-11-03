@@ -137,7 +137,8 @@ function Profile() {
         setLoader(prev => ({ ...prev, page: false }));
         if (response.data.satus) {
           setAvailableAPIs(response.data.result || [])
-          const totalCount = response?.data?.totalRecords ?? response?.data?.result?.length ?? 0;
+          // const totalCount = response?.data?.totalRecords ?? response?.data?.result?.length ?? 0;
+          const totalCount = response?.data?.totalRecords;
           setAvailableTotalPages(Math.ceil(totalCount / offsetPagination))
           setAvailableCurrentPage(page)
         } else {
@@ -225,8 +226,9 @@ function Profile() {
       .then((res) => {
         setLoader((prev) => ({ ...prev, submit: false }));
         if (res.data.status) {
-          setSelectedAPIs([])
-          sendingMail()
+          setSelectedAPIs([]);
+          sendingMail();
+          availableAPIList();
         } else {
           setLoader((prev) => ({ ...prev, submit: false }));
           error_swal_toast(res.data.message || "something went wrong");
@@ -699,6 +701,7 @@ function Profile() {
                             <th className="custom-th-new"></th>
                             <th className="custom-th-new">API Name</th>
                             <th className="custom-th-new">API Description</th>
+                            <th className="custom-th-new">Status</th>
                           </tr>
                         </thead>
                         {/* <tbody>
@@ -757,6 +760,7 @@ function Profile() {
                               </td>
                               <td className="custom-td-new">{api.apiname}</td>
                               <td className="custom-td-new">{api.description}</td>
+                              <td className="custom-td-new">{api.approved_status === 0 && "Requested"}</td>
                             </tr>
                           ))}
                         </tbody>

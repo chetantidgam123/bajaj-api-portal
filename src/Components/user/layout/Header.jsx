@@ -7,6 +7,7 @@ import ForgotPassword from "../../auth/ForgotPassword";
 import ResetPassword from "../../auth/ResetPasswrd";
 import { getTokenData, getInitials } from "../../../Utils";
 import { confirm_swal_with_text,success_swal_toast } from "../../../SwalServices";
+// import NotificationBell from "./Notification";
 
 function Header() {
   const [fullName, setFullName] = useState('');
@@ -140,6 +141,10 @@ function Header() {
                 Sign In 
               </button>
             )}
+
+            {/* <div className="fs-2 me-3" style={{ color: '#007bff' }}>
+              <NotificationBell />
+            </div> */}
 
             {/* Profile Dropdown (when user is logged in) */}
             {getTokenData() && (
