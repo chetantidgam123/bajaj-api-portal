@@ -68,7 +68,7 @@ function SignupPage({ setModalName, setShow }) {
     const firstName = signupForm.values.fullName.split(" ")[0] || "User"; // extract first name
     // const emailBody = signUpOtpEmail({ firstName: firstName, otp: otp });
     const emailBody = signUpVerifyEmail({ firstName: firstName, verifyLink: verifyLink });
-    
+
 
     try {
       setLoader(true)
@@ -133,10 +133,6 @@ function SignupPage({ setModalName, setShow }) {
       const res = await post_data("portal/public", convertToPayload("register-user", payload), {});
       // setLoader(false);
       if (res?.data?.status) {
-        // success_swal_toast(res.data.message || "User registered successfully");
-        // const adminEmail = "ctidgam1997@gmail.com";
-        // const adminName = "Chetan";
-        // const currentDateTime = new Date().toLocaleString();
         const emailBody = adminNotificationEmail({
           adminName: "Admin",
           userName: values.fullName,

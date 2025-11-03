@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { error_swal_toast, success_swal_toast } from "../../SwalServices";
-import { post_auth_data } from "../../ApiServices";
+import { post_auth_data, post_data } from "../../ApiServices";
 import { PageLoaderBackdrop } from "../../Loader";
-import { offsetPagination, sendEmail } from "../../Utils";
+import { arrayIndex, convertToPayload, getTokenData, offsetPagination, sendEmail } from "../../Utils";
 import { generateApiApprovalEmail } from "../../emailTemplate";
 import PaginateComponent from "../common/Pagination";
 
@@ -58,11 +58,11 @@ function RequestAccessList() {
         });
     };
     const checkClientId = (user) => {
-        if (user?.client_credentials_id > 0) {
-            toggleStatus(user, 1, user.client_id, user.client_secret);
-        } else {
-            approve_swal_call(user)
-        }
+        toggleStatus(user, 1, user.client_id, user.client_secret);
+        // if (user?.client_credentials_id > 0) {
+        // } else {
+        //     approve_swal_call(user)
+        // }
     }
 
     const toggleStatus = async (user, status, client_id = "", client_secret = "") => {
@@ -89,12 +89,13 @@ function RequestAccessList() {
                 user_id: user?.user_id?.toString() || "",
                 status: status.toString(),
                 request_id: request_id.toString(),
+                "appInstanceId": applicationList.filter((item) => item.name == user.application_name)[0].id || '00000000',
+                "company_name": getTokenData()?.company_name || ''
             },
             requestHeaders: {},
             uriParams: {},
             additionalParam: "",
         };
-
         try {
             const response = await post_auth_data("portal/private", payload, {});
             if (response.data.status) {
@@ -199,9 +200,31 @@ function RequestAccessList() {
         SetSearch(resetSearch)
         fetchRequestList(1, resetSearch);
     }
+    const [applicationList, setApplicationList] = useState([]);
+    const getApplicationList = () => {
+        post_data("portal/public", convertToPayload('getPlatformApps', { "env_id": "f79233ef-d46b-4d66-83e4-e7b0c7b7c442" }), {})
+            .then((response) => {
+                console.log(response)
+                setLoader({ ...loader, pageloader: false })
+                let _a = response.data.instances || []
+                _a = _a.map((app) => {
+                    let obj = {
+                        id: app.id,
+                        name: app.assetId,
+                    }
+                    return obj
+                })
+                setApplicationList(_a)
+            }).catch((error) => {
+                setLoader({ ...loader, pageloader: false })
+                setApplicationList([])
+                error_swal_toast(error.message || error);
+            })
+    }
 
     useEffect(() => {
         fetchRequestList();
+        getApplicationList()
     }, []);
 
     return (
@@ -214,14 +237,24 @@ function RequestAccessList() {
                 </div>
             </div>
             <div className="mt-4">
-                <label for="exampleInputEmail1">Filters</label>
+                <label htmlFor="exampleInputEmail1">Filters</label>
                 <div className="row align-items-center">
                     <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-2">
-                        <div className="form-group mt-2">
+                        <select className="form-select position-relative" id="application_name" name="application_name"
+                            value={search.input}
+                            onChange={(e) => { SetSearch({ ...search, input: (e.target.value) }) }}>
+                            <option value="">Select app</option>
+                            {
+                                applicationList.map((m, i) => (
+                                    <option key={arrayIndex('application_name', i)} value={m.name}>{m.name}</option>
+                                ))
+                            }
+                        </select>
+                        {/* <div className="form-group mt-2">
                             <input type="email" name="email" className="form-control p-3" id="exampleInputEmail1"
                                 aria-describedby="emailHelp" placeholder="Search Application Name" value={search.input}
                                 onChange={(e) => { SetSearch({ ...search, input: (e.target.value).trim() }) }} />
-                        </div>
+                        </div> */}
                     </div>
                     <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-2">
                         <div className="form-group mt-2">
