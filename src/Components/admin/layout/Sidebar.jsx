@@ -118,7 +118,7 @@ function Sidebar() {
           <Accordion.Item eventKey="1" className="mb-2 position-relative">
             <Accordion.Header>
               <i className="fa-brands fa-microsoft"></i>
-              <span className="link-name ms-2">Api Management</span>
+              <span className="link-name ms-2">API Management</span>
             </Accordion.Header>
             <Accordion.Body className="px-4 py-2">
               <ul className="admin-sidebar-ul mb-0 px-0 py-1">
@@ -128,7 +128,7 @@ function Sidebar() {
                       }`}
                     to="/master/api-list"
                   >
-                    Api List
+                    API List
                   </Link>
                 </li>
                 <li className="list-style-none">
