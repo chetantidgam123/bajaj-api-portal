@@ -22,7 +22,7 @@ function UserList() {
     const [search, SetSearch] = useState({ status: '', input: '' });
     const handleClose = () => { setShow(false); UserForm.resetForm(); };
     const handleShow = () => setShow(true);
-    const isSmallScreen = useMediaQuery({maxWidth : 991})
+    const isSmallScreen = useMediaQuery({ maxWidth: 991 })
     const UserForm = useFormik({
         initialValues: {
             fullName: "",
@@ -74,19 +74,19 @@ function UserList() {
     const deleteuser = (user, resolve, reject) => {
         let payload = { "userid": user.id }
         post_auth_data("portal/private", convertToPayload('delete-user', payload), {})
-        .then((res) => {
-            if(res.data.status) {
-                console.log(res.data)
-                success_swal_toast(res.data.message);
-                getUserList();
-                resolve();
-            } else {
+            .then((res) => {
+                if (res.data.status) {
+                    console.log(res.data)
+                    success_swal_toast(res.data.message);
+                    getUserList();
+                    resolve();
+                } else {
+                    reject();
+                    error_swal_toast(res.data.message || "something went wrong");
+                }
+            }).catch((error) => {
                 reject();
-                error_swal_toast(res.data.message || "something went wrong");
-            }
-        }).catch((error) => {
-            reject();
-            console.error("Error during delete:", error);
+                console.error("Error during delete:", error);
             })
     }
 
@@ -96,7 +96,7 @@ function UserList() {
         }
         confirm_swal_with_text(callback, `Are you sure <br/> you want to ${user.approved_status == 0 ? 'approve' : 'restrict'} user?`)
     }
-    const toggleStatus = async(user, resolve, reject) => {
+    const toggleStatus = async (user, resolve, reject) => {
         let payload = {
             "record_uuid": user.record_uuid,
             "approved_status": user.approved_status == 0 ? 1 : 0
@@ -117,15 +117,15 @@ function UserList() {
                         LoginURL: "https://apidocs.bajajauto.com/"
                     });
                     sendEmail({ body: emailBody, toRecepients: [userEmail], subject: subject, contentType: 'text/html' })
-                    .then(() => { 
-                        getUserList();
-                        resolve();
-                    })
-                    .catch(emailError => {
-                        console.error("Error sending email:", emailError);
-                        reject();
-                        error_swal_toast("Email sending failed");
-                    });
+                        .then(() => {
+                            getUserList();
+                            resolve();
+                        })
+                        .catch(emailError => {
+                            console.error("Error sending email:", emailError);
+                            reject();
+                            error_swal_toast("Email sending failed");
+                        });
                     // getUserList();
                     // resolve();
                 } else {
@@ -173,10 +173,11 @@ function UserList() {
         <div className="mx-2 card-admin-main">
             <div className="card-body card-bg">
                 <div className="row justify-content-between">
-                 <div className="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+                    <div className="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
                         <h4 className="mb-2">Users</h4>
                     </div>
-                   <div className="col-xl-2 col-lg-3 col-md-6 col-sm-12 col-12 d-flex justify-content-xl-end justify-content-lg-end justify-content-md-center justify-content-sm-center justify-content-center">
+                    <div className="col-xl-2 col-lg-3 col-md-6 col-sm-12 col-12 d-flex justify-content-xl-end 
+                   justify-content-lg-end justify-content-md-center justify-content-sm-center justify-content-center d-none">
                         <button className="btn btn-primary px-3 py-2" onClick={handleShow}>
                             Add User</button>
                     </div>
@@ -184,13 +185,13 @@ function UserList() {
             </div>
 
             <div className="mt-4">
-                <label for="exampleInputEmail1">Filters</label>
+                <label htmlFor="exampleInputEmail1">Filters</label>
                 <div className="row align-items-center">
                     <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-2">
                         <div className="form-group mt-2">
                             <input type="email" name="email" className="form-control p-3" id="exampleInputEmail1"
                                 aria-describedby="emailHelp" placeholder="Enter email/Phone Number"
-                                value={search.input} 
+                                value={search.input}
                                 onChange={(e) => { SetSearch({ ...search, input: (e.target.value).trim() }) }} />
                         </div>
                     </div>
@@ -220,7 +221,7 @@ function UserList() {
                     </div>
                 </div>
             </div>
-            <div  className={isSmallScreen ? "table-responsive" : ""}>
+            <div className={isSmallScreen ? "table-responsive" : ""}>
                 <table className="table table-bordered custom-table table-striped">
                     <thead className="text-truncate">
                         <tr>
