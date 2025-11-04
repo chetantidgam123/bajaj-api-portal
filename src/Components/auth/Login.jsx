@@ -8,7 +8,7 @@ import FloatingInputLabel from "../user/UtilComponent/FloatingInputLabel";
 import PropTypes from 'prop-types';
 import { error_swal_toast, success_swal_toast } from "../../SwalServices";
 import { useState, useEffect } from "react";
-import { LoaderWight } from "../../Loader";
+import { LoaderWight, Loader } from "../../Loader";
 import { loginOtpEmail } from "../../emailTemplate";
 import { BasicLoader } from "../../Loader";
 import { encrypt, decrypt } from "../../Utils";
@@ -209,7 +209,7 @@ function Login({ setModalName, setShow }) {
                         </div>
                         <div className="text-center">
                             <button type="button" className="btn btn-blue w-100" onClick={Loginform.handleSubmit} disabled={loader}>
-                                Sign In {loader && <LoaderWight />}
+                                Sign In {loader && <Loader />}
                             </button>
                             <div className="mt-3">
                                 New to our product? <Link className="text-primary" onClick={() => { setModalName('signup'); Loginform.resetForm(); }}>Sign Up</Link>

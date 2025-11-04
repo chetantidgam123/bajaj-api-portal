@@ -113,7 +113,7 @@ function RequestAccessList() {
                 const userId = user.id
                 if (status === 1) {
                     // ✅ APPROVED
-                    const subject = "Login Approval Granted for BAJAJ API Access";
+                    const subject = "Approval Granted for BAJAJ API Access";
                     const emailBody = generateApiApprovalEmail({
                         status: "Approved",
                         userName,
@@ -305,7 +305,7 @@ function RequestAccessList() {
                     <tbody>
                         {reqAccList.length > 0 && reqAccList.map((user, index) => (
                             <tr key={user.request_id || index}>
-                                <td>{index + 1}</td>
+                                <td>{user.sr_no}</td>
                                 <td>{user.fullname}</td>
                                 <td>{user.apiname}</td>
                                 <td>{user.application_name}</td>

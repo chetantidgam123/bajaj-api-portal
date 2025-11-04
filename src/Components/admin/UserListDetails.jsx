@@ -99,7 +99,7 @@ const UserDetails = () => {
           <Card>
             <Card.Header className="d-flex justify-content-between align-items-center">
               <h4 className="mb-0">User Details</h4>
-              <div>
+              {/* <div>
                 {!editMode ? (
                   <Button variant="primary" onClick={() => setEditMode(true)}>
                     Edit
@@ -112,7 +112,7 @@ const UserDetails = () => {
                     Cancel
                   </Button>
                 )}
-              </div>
+              </div> */}
             </Card.Header>
             <Card.Body>
               {loader.page ? (

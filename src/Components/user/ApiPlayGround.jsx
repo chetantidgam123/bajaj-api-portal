@@ -22,6 +22,7 @@ function ApiPlayGround() {
     const [responsData, setResponsData] = useState({ resbody: {}, resschema: {} });
     const [loader, setLoader] = useState(false);
     const [isOpen, setIsOpen] = useState(true);
+    const [respCode, setRespCode] = useState([])
 
     const [isEncrypted, setIsEncrypted] = useState(false);
     const [isEncryptedRes, setIsEncryptedRes] = useState(true);
@@ -73,6 +74,7 @@ function ApiPlayGround() {
             .then(async (response) => {
                 setLoader(false);
                 if (response.data.status) {
+                    setRespCode(response.data.data.responses.value)
                     setDescription(response.data.data.description || '');
                     setTitle(response.data.data.subcategoryname || response.data.data.apiname || '');
                     if (api_id) {
@@ -526,7 +528,7 @@ function ApiPlayGround() {
                         </li>
                     </ul>
                 </div>
-                <div className='col-xl-4 col-lg-4 col-md-9 col-sm-8 col-8 d-flex align-items-center'>
+                {/* <div className='col-xl-4 col-lg-4 col-md-9 col-sm-8 col-8 d-flex align-items-center'>
                     <span className="badge bg-success">200 OK</span>
                     <div className='grey-dot ms-2'></div>
                     <span className='ms-2'>1.16 KB</span>
@@ -551,6 +553,48 @@ function ApiPlayGround() {
                     </div>
                     <div className="tab-pane fade" id="pills-twonew" role="tabpanel" aria-labelledby="pills-twonew-tab">.2..</div>
 
+                </div> */}
+                <div className='col-xl-4 col-lg-4 col-md-9 col-sm-8 col-8 d-flex align-items-center justify-content-end'>
+                    <div className='text-end'>
+                        <span className="badge bg-success">200 OK</span>
+                        {/* <div className='grey-dot ms-2'></div>
+                        <span className='ms-2'>1.16 KB</span>
+                        <div className='grey-dot ms-2'></div> */}
+                     {/* <div className="dropdown">
+                        <button
+                            className="btn btn-light btn-sm dropdown-toggle"
+                            type="button"
+                            id="respCodeDropdown"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                        >
+                            {respCode?.code || "Select Code"}
+                        </button>
+                        <ul>
+                        {respCode.length > 0 && respCode.map((item, index) => (
+                            <li>{item.code}</li>
+                        ))}
+                        </ul>
+                        <ul className="dropdown-menu" aria-labelledby="respCodeDropdown">
+                            <li><span className="dropdown-item-text fw-bold">Response Info</span></li>
+                            <li><hr className="dropdown-divider" /></li>
+                            <li><span className="dropdown-item-text">Code: {respCode?.code || "N/A"}</span></li>
+                            <li><span className="dropdown-item-text">Status: {respCode?.status || "Success"}</span></li>
+                        </ul>
+                    </div> */}
+                    </div>
+                    <button
+                        type="button"
+                        className="btn btn-outline-secondary btn-sm ms-3"
+                        onClick={handleEncryptDecryptRes}>
+                        {isEncryptedRes ? "Decrypt" : "Encrypt"}
+                    </button>
+                </div>
+
+                <div className="tab-content" id="pills-tabContent">
+                    <div className="tab-pane fade show active" id="pills-onenew" role="tabpanel" aria-labelledby="pills-onenew-tab">
+                        <EditableBody curl={bodyResSample} onChange={handleResChange} />
+                    </div>
                 </div>
             </div>
             <div className='border-top'></div>

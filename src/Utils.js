@@ -4,6 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import { error_swal_toast, success_swal_toast } from './SwalServices';
 const TOKEN_KEY = 'ff591090-0805-4282-8493-e9435a4d3d67';
 const OTP_KEY = 'otff591090-0805-4282-8493-e9435a4d3pp';
+const verifyBaseLink = 'https://apidocs.bajajauto.com/email-verify';
 const offsetPagination = 20;
 const adminEmail = 'ctidgam1997@gmail.com'
 const setTokenData = (data) => {
@@ -349,6 +350,7 @@ const getInitials = (name) => {
 
 export {
     adminEmail,
+    verifyBaseLink,
     OTP_KEY,
     availableApi,
     isError,
