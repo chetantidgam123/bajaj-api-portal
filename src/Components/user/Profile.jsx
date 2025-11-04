@@ -752,15 +752,14 @@ function Profile() {
                               <td className="custom-td-new">
                                 <input
                                   type="checkbox"
-                                  // checked={selectedAPIs.includes(api.apiname)}
-                                  checked={selectedAPIs.some((item) => item.id === api.id)}
+                                  checked={api.approved_status == 0}
+                                  disabled={api.approved_status == 0}
                                   onChange={(e) => handleCheckboxChange(api, e.target.checked)}
-                                // onChange={(e) => handleCheckboxChange(api.apiname, e.target.checked)}
                                 />
                               </td>
                               <td className="custom-td-new">{api.apiname}</td>
                               <td className="custom-td-new">{api.description}</td>
-                              <td className="custom-td-new">{api.approved_status === 0 && "Requested"}</td>
+                              <td className="custom-td-new">{api.approved_status == 0 && "Requested"}</td>
                             </tr>
                           ))}
                         </tbody>

@@ -89,8 +89,8 @@ function RequestAccessList() {
                 user_id: user?.user_id?.toString() || "",
                 status: status.toString(),
                 request_id: request_id.toString(),
-                "appInstanceId": applicationList.filter((item) => item.name == user.application_name)[0].id || '00000000',
-                "company_name": getTokenData()?.company_name || ''
+                "appInstanceId": applicationList.find(item => item.name == user.application_name)?.id || '00000000',
+                "company_name": user.company_name || 'portal' + new Date().toString()
             },
             requestHeaders: {},
             uriParams: {},
