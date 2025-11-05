@@ -68,7 +68,7 @@ function UserList() {
         const callback = (resolve, reject) => {
             deleteuser(user, resolve, reject)
         }
-        confirm_swal_with_text(callback, `Are you sure <br/> you want to delete`)
+        confirm_swal_with_text(callback, `Are you sure <br/> you want to delete?`)
     }
 
     const deleteuser = (user, resolve, reject) => {
@@ -227,7 +227,7 @@ function UserList() {
                         <tr>
                             <th>Sr. No</th>
                             <th>Full Name</th>
-                            <th>Email Id</th>
+                            <th>Email ID</th>
                             <th>Mobile Number</th>
                             <th> Status</th>
                             <th>Created Date</th>

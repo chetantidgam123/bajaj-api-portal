@@ -239,7 +239,7 @@ function RequestAccessList() {
             <div className="mt-4">
                 <label htmlFor="exampleInputEmail1">Filters</label>
                 <div className="row align-items-center">
-                    <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-2">
+                    <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-0">
                         <select className="form-select position-relative" id="application_name" name="application_name"
                             value={search.input}
                             onChange={(e) => { SetSearch({ ...search, input: (e.target.value) }) }}>
@@ -276,7 +276,7 @@ function RequestAccessList() {
                             </select>
                         </div>
                     </div>
-                    <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                    <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-1">
                         <button className="btn btn-primary profilePageButton px-3 search-btn" onClick={() => { fetchRequestList(1) }}>Search </button>
                         <button className="btn btn-outline-primary ms-2 profilePageButton px-3 search-btn" onClick={() => refresh()}><i className="fas fa-sync-alt"></i> </button>
                     </div>

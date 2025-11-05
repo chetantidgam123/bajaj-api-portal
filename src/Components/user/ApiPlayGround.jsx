@@ -12,6 +12,8 @@ import { PageLoaderBackdrop, Loader } from '../../Loader';
 import EditableBody from '../user/UtilComponent/EditableBody'
 import { ErrorMessage, FieldArray, Form, FormikProvider, useFormik } from 'formik';
 import { api_decrypt, api_encrypt, encKey } from '../../enc_dec';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 const env = import.meta.env
 function ApiPlayGround() {
     const { collection_id, category_id, api_id } = useParams();
@@ -23,12 +25,19 @@ function ApiPlayGround() {
     const [loader, setLoader] = useState(false);
     const [isOpen, setIsOpen] = useState(true);
     const [respCode, setRespCode] = useState([])
+    const [selectedCode, setSelectedCode] = useState("");
 
     const [isEncrypted, setIsEncrypted] = useState(false);
     const [isEncryptedRes, setIsEncryptedRes] = useState(true);
     useEffect(() => {
         chekParamParameter()
     }, [api_id, collection_id, category_id])
+
+    useEffect(() => {
+        if (Array.isArray(respCode) && respCode.length > 0 && !selectedCode) {
+            setSelectedCode(respCode[0].code);
+        }
+    }, [respCode, selectedCode]);
 
     const getClientCredentials = (headArray = []) => {
         const payload = {
@@ -50,7 +59,7 @@ function ApiPlayGround() {
                     }
                     return item
                 })
-                console.log(a)
+                // console.log(a)
                 headersForm.setValues({ parameters: a })
             }).catch((error) => {
                 console.log(error)
@@ -74,7 +83,8 @@ function ApiPlayGround() {
             .then(async (response) => {
                 setLoader(false);
                 if (response.data.status) {
-                    setRespCode(response.data.data.responses.value)
+                    const respArr = JSON.parse(response.data.data.responses.value);
+                    setRespCode(respArr);
                     setDescription(response.data.data.description || '');
                     setTitle(response.data.data.subcategoryname || response.data.data.apiname || '');
                     if (api_id) {
@@ -166,7 +176,7 @@ function ApiPlayGround() {
     const createApiRqe = () => {
         let responces = JSON.parse(apiData.responses?.value || []);
         for (let key of responces) {
-            if (key.code == 200) {
+            if (key.code == selectedCode) {
                 setBodyResSample(JSON.stringify({ "encData": api_encrypt(key.resbody, encKey) }, null, 2))
             }
         }
@@ -555,8 +565,10 @@ function ApiPlayGround() {
 
                 </div> */}
                 <div className='col-xl-4 col-lg-4 col-md-9 col-sm-8 col-8 d-flex align-items-center justify-content-end'>
-                    <div className='text-end'>
-                        <span className="badge bg-success">200 OK</span>
+                    <div className='text-end d-flex align-items-center"'>
+                        <div className='me-3 mt-1'>
+                            <span className="badge bg-success">200 OK</span>
+                        </div>
                         {/* <div className='grey-dot ms-2'></div>
                         <span className='ms-2'>1.16 KB</span>
                         <div className='grey-dot ms-2'></div> */}
@@ -582,6 +594,12 @@ function ApiPlayGround() {
                             <li><span className="dropdown-item-text">Status: {respCode?.status || "Success"}</span></li>
                         </ul>
                     </div> */}
+                        <DropdownButton id="dropdown-basic-button" variant="light" size="sm" align="end" title={selectedCode || "Responses"} className="no-border-dropdown">
+                            {/* <Dropdown.Item href="#/action-2">Another action</Dropdown.Item> */}
+                            {respCode.length > 0 && respCode.map((item, index) => (
+                                <Dropdown.Item key={index} onClick={() => setSelectedCode(item.code)}>{item.code}</Dropdown.Item>
+                            ))}
+                        </DropdownButton>
                     </div>
                     <button
                         type="button"
