@@ -3,6 +3,7 @@ import SyntaxHighLighter from "./SyntaxHighLighter"
 import { useEffect, useState } from "react"
 import PropTypes from 'prop-types';
 import { Badge } from "react-bootstrap";
+import { scrollToTop } from "../../Utils";
 function LangCurlExecuteComp({ apiData, setStatusCode,bodyReqSample,tryit=false }) {
     const [sampleRes, setSampleRes] = useState(null);
     const [sampleReq, setSampleReq] = useState(null);
@@ -31,6 +32,9 @@ function LangCurlExecuteComp({ apiData, setStatusCode,bodyReqSample,tryit=false 
             setSampleRes({});
         }
     }
+    useEffect(() => {
+        scrollToTop()
+    }, [])
     useEffect(() => {
         console.log(apiData)
         generateLangReq('curl')

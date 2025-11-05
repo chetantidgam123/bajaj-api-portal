@@ -323,7 +323,7 @@ useEffect(() => {
             </div>
             <FooterHome />
 
-            <Modal size="lg" show={show} onHide={() => setShow(false)} centered>
+            <Modal size="lg" show={show} onHide={() => setShow(false)} backdrop="static" keyboard={false} centered>
                 <Modal.Header closeButton className="border-bottom-0 py-0"></Modal.Header>
                 <Modal.Body className="pt-0">
                     <div className="col-12 px-3">

@@ -360,7 +360,8 @@ function HomePageContent() {
                                     <button onClick={() => { copyToClipboard(responsData.resbody || '{}') }} className='span-btn-cirlce-btn'><img src="/assets/img/copy.png" alt="copy" /></button>
                                 </div>
                             </div>
-                            <SyntaxHighLighter wrapLongLines={true} lineProps={{ style: { wordBreak: 'break-all', whiteSpace: 'pre-wrap' } }} jsonString={responsData.resbody || '{}'} />
+                            {/* <SyntaxHighLighter wrapLongLines={true} lineProps={{ style: { wordBreak: 'break-all', whiteSpace: 'pre-wrap' } }} jsonString={responsData.resbody || '{}'} /> */}
+                            <SyntaxHighLighter wrapLongLines={true} lineProps={{ style: { wordBreak: 'break-all', whiteSpace: 'pre-wrap' } }} jsonString={JSON.stringify(responsData.resbody) || '{}'} />
                         </div>
                     </div>}
                     {api_id && apiData && Object.keys(responsData.resschema.properties || {}).length > 0 &&

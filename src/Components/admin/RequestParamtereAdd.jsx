@@ -87,7 +87,7 @@ function RequestParamtereAdd({ modalvalue, setShow, modalType, apiForm }) {
                                                 <ErrorMessage name={`parameters[${index}].description`} component="small" className='text-danger' />
                                             </td>
                                             <td className="d-flex align-items-center justify-content-center">
-                                                <button type="buttn" className="btn btn-danger btn-sm" title="remove" onClick={() => { arrayHelper.remove(index) }}>
+                                                <button type="button" className="btn btn-danger btn-sm" title="remove" onClick={() => { arrayHelper.remove(index) }}>
                                                     <i className="fa fa-trash"></i>
                                                 </button>
                                             </td>
