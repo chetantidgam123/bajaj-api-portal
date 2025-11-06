@@ -19,6 +19,7 @@ const UserList = lazy(() => import("../Components/admin/UserList"));
 const PageNotFound = lazy(() => import("../Components/admin/PageNotFound"));
 const UserListDetails = lazy(() => import("../Components/admin/UserListDetails"))
 const Reports = lazy(() => import("../Components/admin/Reports"))
+const APIanalytics = lazy(() => import("../Components/admin/APIanalytics"));
 
 /***  Master Entry Start ***/
 const SuggestApi = lazy(() =>
@@ -196,6 +197,14 @@ const routes = [
         element: (
           <PrivateRoute>
             <Reports />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/api-usage-analytics",
+        element: (
+          <PrivateRoute>
+            <APIanalytics />
           </PrivateRoute>
         ),
       },

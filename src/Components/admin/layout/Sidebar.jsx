@@ -199,6 +199,28 @@ function Sidebar() {
               </ul>
             </Accordion.Body>
           </Accordion.Item>
+          
+          {/* API Usage Analytics */}
+          <Accordion.Item eventKey="4" className="my-2 position-relative">
+            <Accordion.Header>
+              <i className="fa-brands fa-microsoft"></i>
+              <span className="link-name ms-2">API Usage Analytics</span>
+            </Accordion.Header>
+            <Accordion.Body className="px-4 py-2">
+              <ul className="admin-sidebar-ul mb-0 px-0 py-1">
+                <li className="list-style-none">
+                  <Link
+                    className={`admin-sidebar-li mb-2 ${currentPath === "/master/api-usage-analytics" ? "active-tab" : ""
+                      }`}
+                    to="/master/api-usage-analytics"
+                     onClick={handleUserListClick}
+                  >
+                    API Usage Analytics
+                  </Link>
+                </li>
+              </ul>
+            </Accordion.Body>
+          </Accordion.Item>
 
           {/* Contact Us */}
           <Accordion.Item eventKey="3" className="mb-2 position-relative">
