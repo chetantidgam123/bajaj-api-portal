@@ -10,6 +10,7 @@ import { confirm_swal_with_text, error_swal_toast, success_swal_toast } from '..
 import { LoaderWight, PageLoaderBackdrop } from '../../Loader';
 import generateSchema from "generate-schema";
 import { useNavigate, useParams } from 'react-router-dom';
+import { object } from 'yup';
 
 function CreateApi() {
     const { api_id } = useParams();
@@ -45,6 +46,22 @@ function CreateApi() {
         // validationSchema: createApiSchema,
         onSubmit: (values) => {
             let obj = values;
+            const escapeQuotes = (text) => text ? text.replaceAll("'", "''") : text;
+            const eReturn = (arr) => {
+                let val = arr.map((item) => ({
+                    ...item,
+                    key: escapeQuotes(item.key),
+                    value: escapeQuotes(item.value),
+                    description: escapeQuotes(item.description)
+                }))
+                return val
+            }
+            obj.reqbody = eReturn(obj.reqbody);
+            obj.query_params = eReturn(obj.query_params);
+            obj.uri_params = eReturn(obj.uri_params);
+            obj.reqheader = eReturn(obj.reqheader);
+            obj.resheader = eReturn(obj.resheader);
+            console.log(obj.reqsample)
             obj.categoryid = Number(obj.categoryid)
             if (api_id) {
                 obj.uniqueid = api_id
@@ -91,7 +108,6 @@ function CreateApi() {
         },
         // validationSchema: createApiSchema,
         onSubmit: (values) => {
-            console.log(values)
             let obj = {
                 ...values,
                 code: Number(values.code),
