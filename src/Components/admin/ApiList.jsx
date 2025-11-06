@@ -4,9 +4,8 @@ import { Form } from "react-bootstrap";
 import { post_auth_data } from "../../ApiServices";
 import { arrayIndex, convertToPayload, offsetPagination } from "../../Utils";
 import { useNavigate } from "react-router-dom";
-import { error_swal_toast } from "../../SwalServices";
 import { PageLoaderBackdrop } from "../../Loader";
-import { confirm_swal_with_text,success_swal_toast } from "../../SwalServices";
+import { confirm_swal_with_text, success_swal_toast, error_swal_toast } from "../../SwalServices";
 import PaginateComponent from "../common/Pagination";
 function ApiList() {
     const [apiList, setApiList] = useState([]);
@@ -25,7 +24,7 @@ function ApiList() {
         post_auth_data("portal/private", convertToPayload('get-all-apis', {
             categoryid: catId,
             subcategoryid: subCatId,
-            offset: ((page - 1) * offsetPagination),
+            page: page,
             limit: offsetPagination
         }), {})
             .then((response) => {
@@ -78,17 +77,17 @@ function ApiList() {
     }
 
     const confirm_swall_call_delete = (apil) => {
-            const callback = (resolve, reject) => {
-                deleteApi(apil, resolve, reject)
-            }
-            confirm_swal_with_text(callback, `Are you sure <br/> you want to delete`)
+        const callback = (resolve, reject) => {
+            deleteApi(apil, resolve, reject)
         }
-    
-        const deleteApi = (apil, resolve, reject) => {
-            let payload = { "api_id": apil.id }
-            post_auth_data("portal/private", convertToPayload('delete-api', payload), {})
+        confirm_swal_with_text(callback, `Are you sure <br/> you want to delete`)
+    }
+
+    const deleteApi = (apil, resolve, reject) => {
+        let payload = { "api_id": apil.id }
+        post_auth_data("portal/private", convertToPayload('delete-api', payload), {})
             .then((res) => {
-                if(res.data.status) {
+                if (res.data.status) {
                     console.log(res.data)
                     success_swal_toast(res.data.message);
                     getApiList()
@@ -101,7 +100,7 @@ function ApiList() {
                 reject();
                 console.error("Error during delete:", error);
             })
-        }
+    }
 
     const confirm_swal_call = (cat) => {
         const callback = (resolve, reject) => {
@@ -145,11 +144,11 @@ function ApiList() {
     }, [categoryId])
 
     const refresh = () => {
-      const resetCategory = 0;
-      const resetSubCategory = 0;
-      setCategoryId(resetCategory);
-      setSubCategoryId(resetSubCategory);
-      getApiList(1, resetCategory, resetSubCategory);
+        const resetCategory = 0;
+        const resetSubCategory = 0;
+        setCategoryId(resetCategory);
+        setSubCategoryId(resetSubCategory);
+        getApiList(1, resetCategory, resetSubCategory);
     }
 
     return (
@@ -232,7 +231,7 @@ function ApiList() {
                                             <button className="btn btn-primary btn-sm mx-2" title="Edit Category" onClick={() => { navigate('/master/update-api/' + api.uniqueid) }}>
                                                 <i className="fa fa-pencil" ></i>
                                             </button>
-                                            <button className="btn btn-danger btn-sm" title="Delete Category" onClick={() =>  confirm_swall_call_delete(api)}>
+                                            <button className="btn btn-danger btn-sm" title="Delete Category" onClick={() => confirm_swall_call_delete(api)}>
                                                 <i className="fa fa-trash"></i>
                                             </button>
                                         </div>
