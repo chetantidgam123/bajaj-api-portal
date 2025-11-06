@@ -690,7 +690,7 @@ function CreateApi() {
                 </Modal.Body>
             </Modal>
 
-            <Modal size="xl" show={show} onHide={() => setShow(false)} centered>
+            <Modal size="xl" show={show} onHide={() => setShow(false)} backdrop="static" keyboard={false} centered>
                 <Modal.Header closeButton className="border-bottom-0">
                     <h3>Request Parameter</h3>
                 </Modal.Header>
