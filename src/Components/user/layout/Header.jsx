@@ -6,7 +6,7 @@ import Login from "../../auth/Login";
 import ForgotPassword from "../../auth/ForgotPassword";
 import ResetPassword from "../../auth/ResetPasswrd";
 import { getTokenData, getInitials } from "../../../Utils";
-import { confirm_swal_with_text,success_swal_toast } from "../../../SwalServices";
+import { confirm_swal_with_text, success_swal_toast } from "../../../SwalServices";
 // import NotificationBell from "./Notification";
 
 function Header() {
@@ -30,23 +30,23 @@ function Header() {
   //   navigate("/");
   // };
   const logout = () => {
-  confirm_swal_with_text(async (resolve) => {
-    try {
-      // Clear local storage or token
-      localStorage.clear();
+    confirm_swal_with_text(async (resolve) => {
+      try {
+        // Clear local storage or token
+        localStorage.clear();
 
-      // Optional: show success message
-      success_swal_toast("You have been logged out!");
+        // Optional: show success message
+        success_swal_toast("You have been logged out!");
 
-      // Navigate to homepage or login
-      navigate("/");
+        // Navigate to homepage or login
+        navigate("/");
 
-      resolve(true);
-    } catch (err) {
-      console.error("Logout error:", err);
-    }
-  }, "Are you sure you want to logout?");
-};
+        resolve(true);
+      } catch (err) {
+        console.error("Logout error:", err);
+      }
+    }, "Are you sure you want to logout?");
+  };
 
   return (
     <div className="header">
@@ -63,7 +63,7 @@ function Header() {
 
           {/* Toggle Button for mobile */}
           <button
-            className="navbar-toggler"
+            className="navbar-toggler d-none"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbarCenterContent"
@@ -76,7 +76,7 @@ function Header() {
 
           {/* Collapsible Content */}
           <div
-            className="collapse navbar-collapse justify-content-center"
+            className="collapse navbar-collapse justify-content-center d-xl-block d-lg-block d-md-block d-sm-none d-none"
             id="navbarCenterContent"
           >
             {/* Center: Links */}
@@ -125,6 +125,10 @@ function Header() {
 
           {/* Right Section (Login / Profile / Notifications) */}
           <div className="d-flex justify-content-center align-items-center">
+            <div className='d-xl-none d-lg-none d-md-block d-sm-block d-block me-2'>
+              <i class="fa-solid fa-bars btn-mobile-blue" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample"></i>
+            </div>
+
             {/* Sign In button (when no user is logged in) */}
             {!getTokenData() && (
               <button
@@ -138,7 +142,7 @@ function Header() {
                   color: "#ffffff",
                 }}
               >
-                Sign In 
+                Sign In
               </button>
             )}
 
@@ -293,6 +297,45 @@ function Header() {
           </div>
         </Modal.Body>
       </Modal>
+
+      <div class="offcanvas offcanvas-start d-xl-none d-lg-none d-md-block d-sm-block d-block" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasExampleLabel">
+            <Link
+              className="navbar-brand d-flex align-items-center justify-content-start"
+              to="/"
+            >
+              <img
+                src="/assets/img/logo.png"
+                alt="Logo"
+                className="logo-img ms-4"
+              />
+            </Link>
+          </h5>
+          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+ <ul className="navbar-nav mb-2 mb-lg-0">
+              {getTokenData()?.role == 1 && (
+                <li className="nav-item">
+                  <Link className="nav-link" to="/master">
+                    Admin
+                  </Link>
+                </li>
+              )}
+              <li className="nav-item">
+                <Link className="nav-link" to="/api/0">
+                  Explore API
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/faq">
+                  FAQ
+                </Link>
+              </li>
+            </ul>
+        </div>
+      </div>
     </div>
   );
 }
