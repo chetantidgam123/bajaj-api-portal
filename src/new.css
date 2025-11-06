@@ -1337,3 +1337,23 @@ button {
 .sidebar_entity-user.close .accordion-item small{
     color:  #0683fc;
 } 
+.btn-mobile-blue{
+    background-color: #0683fc;
+    color: white;
+    padding:  10px;
+    border-radius: 10px;
+}
+
+@media (max-width : 768px){
+    .sidebar_entity{
+        display: none;
+    }
+    .sidebar_entity.close~.entity_mainSection {
+    left: 0px; 
+    width: 100%;
+}
+.entity_mainSection{
+    left: 0px;
+    width: 100%;
+}
+}
