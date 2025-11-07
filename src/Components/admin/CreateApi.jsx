@@ -70,13 +70,13 @@ function CreateApi() {
             obj.responses = obj.responses.map((e) => {
                 let _o = {
                     ...e,
-                    reqbody: e.reqbody,
+                    reqbody: escapeQuotes(e.reqbody),
                     reqschema: e.reqschema,
-                    resbody: e.resbody,
+                    resbody: escapeQuotes(e.resbody),
                     resschema: e.resschema
                 }
                 if (e.code == 200) {
-                    obj.reqsample = e.reqbody
+                    obj.reqsample = escapeQuotes(e.reqbody)
                     obj.reqschema = e.reqschema
                 }
                 return _o
