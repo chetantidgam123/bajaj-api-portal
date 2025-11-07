@@ -391,6 +391,7 @@ li{
     border-radius: 1em;
     height: 84vh;
     padding: 20px;
+    overflow-y: auto;
 }
 
 .sidebar_entity-user.close {
@@ -1356,4 +1357,20 @@ button {
     left: 0px;
     width: 100%;
 }
+.width-50{
+    width: 50px;
+}
+.sidebar_entity-user{
+    display: none;
+}
+.entity_mainSection_user{
+        width: calc(100% - 50px);
+}
+.center-content {
+    flex: auto;
+}
+}
+
+.height-84vh{
+    height: 84vh;
 }
