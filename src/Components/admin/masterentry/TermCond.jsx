@@ -149,7 +149,7 @@ function TermCond() {
       .then(async (response) => {
         setLoader({ pageloader: false });
         if (response.data.status) {
-          success_swal_toast(`Policy ${term.isenabled ? "disabled" : "enabled"} successfully.`);
+          success_swal_toast(`Terms & Condition ${term.isenabled ? "disabled" : "enabled"} successfully.`);
           getAllTermCon(currentPage);
         } else {
           error_swal_toast(response.data.message)
