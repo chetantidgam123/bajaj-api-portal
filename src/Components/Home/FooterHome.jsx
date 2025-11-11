@@ -1,8 +1,62 @@
+import { useState } from "react"
 import { Link } from "react-router-dom"
+import { useFormik } from "formik";
+import { post_data } from "../../ApiServices";
+import { convertToPayload } from "../../Utils";
+import { error_swal_toast,success_swal_toast } from "../../SwalServices";
+import { footerContactSchema } from "../../Schema";
 
 function FooterHome() {
-    return (
 
+  const [loader, setLoader] = useState(false);
+
+  // ✅ your same useFormik structure, just fixed
+  const contactForm = useFormik({
+    initialValues: {
+      fullname: "",
+      emailid: "",
+      mobileno: "",
+      description: "",
+    },
+    validationSchema: footerContactSchema,
+    onSubmit: async (values, { resetForm }) => {
+      try {
+        setLoader(true);
+        const payload = convertToPayload("add-contact-us", values);
+        const response = await post_data("portal/public", payload, {});
+        console.log(response);
+        success_swal_toast("Message sent successfully!");
+        resetForm();
+      } catch (error) {
+        error_swal_toast(error.message || "Failed to send message");
+      } finally {
+        setLoader(false);
+      }
+    },
+  });
+
+    //  const getApplicationList = () => {
+    //     post_data("portal/public", convertToPayload('getPlatformApps', { "env_id": "f79233ef-d46b-4d66-83e4-e7b0c7b7c442" }), {})
+    //         .then((response) => {
+    //             console.log(response)
+    //             setLoader({ ...loader, pageloader: false })
+    //             let _a = response.data.instances || []
+    //             _a = _a.map((app) => {
+    //                 let obj = {
+    //                     id: app.id,
+    //                     name: app.assetId,
+    //                 }
+    //                 return obj
+    //             })
+    //             setApplicationList(_a)
+    //         }).catch((error) => {
+    //             setLoader({ ...loader, pageloader: false })
+    //             setApplicationList([])
+    //             error_swal_toast(error.message || error);
+    //         })
+    // }
+
+    return (
         <>
             <div className="modal fade" id="exampleModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered modal-lg">
@@ -41,22 +95,42 @@ function FooterHome() {
                                     </ul>
                                     <div className="tab-content" id="pills-tabContent">
                                         <div className="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-                                            <form action=" ">
+                                            <form onSubmit={contactForm.handleSubmit}>
                                                 <div className="mb-3 mt-4">
-                                                    <input type="text" className="form-control p-3" id="footerfullname" placeholder="Enter Full Name" />
+                                                    <input type="text" name="fullname" className="form-control p-3" id="fullname" placeholder="Enter Full Name" value={contactForm.values.fullname} onChange={contactForm.handleChange} onBlur={contactForm.handleBlur}/>
+                                                    {contactForm.touched.fullname && contactForm.errors.fullname && (
+                                                        <div className="text-danger">
+                                                            {contactForm.errors.fullname}
+                                                        </div>
+                                                    )}
                                                 </div>
                                                 <div className="mb-3">
-                                                    <input type="text" className="form-control p-3" id="footeremail" placeholder="Enter Email ID" />
+                                                    <input type="text" name="emailid" className="form-control p-3" id="emailid" placeholder="Enter Email ID" value={contactForm.values.emailid} onChange={contactForm.handleChange} onBlur={contactForm.handleBlur}/>
+                                                    {contactForm.touched.emailid && contactForm.errors.emailid && (
+                                                        <div className="text-danger">
+                                                            {contactForm.errors.emailid}
+                                                        </div>
+                                                    )}
                                                 </div>
                                                 <div className="mb-3">
-                                                    <input type="text" className="form-control p-3" id="footerphone" placeholder="Phone Number" />
+                                                    <input type="text" name="mobileno" className="form-control p-3" id="mobileno" placeholder="Phone Number" value={contactForm.values.mobileno} onChange={contactForm.handleChange} onBlur={contactForm.handleBlur}/>
+                                                    {contactForm.touched.mobileno && contactForm.errors.mobileno && (
+                                                        <div className="text-danger">
+                                                            {contactForm.errors.mobileno}
+                                                        </div>
+                                                    )}
                                                 </div>
                                                 <div className="mb-3">
-                                                    <textarea className="form-control p-3" id="exampleFormControlTextarea1" rows="3" placeholder="Type here"></textarea>
+                                                    <textarea className="form-control p-3" name="description" id="description" rows="3" placeholder="Type here" value={contactForm.values.description} onChange={contactForm.handleChange} onBlur={contactForm.handleBlur}></textarea>
+                                                    {contactForm.touched.description && contactForm.errors.description && (
+                                                        <div className="text-danger">
+                                                            {contactForm.errors.description}
+                                                        </div>
+                                                    )}
                                                 </div>
                                                 <div className="d-flex justify-content-center pb-4">
-
-                                                    <button type="button" className="btn btn-blue w-100">Submit </button>
+                                                    {/* <button type="button" className="btn btn-blue w-100">Submit </button> */}
+                                                     <button type="submit" className="btn btn-blue w-100" disabled={loader}>{loader ? "Submitting..." : "Submit"} </button>
                                                 </div>
                                             </form>
                                         </div>
