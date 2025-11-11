@@ -1,19 +1,62 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { PageLoaderBackdrop } from "../../../Loader"
+import { error_swal_toast } from "../../../SwalServices"
+import { arrayIndex, offsetPagination } from "../../../Utils"
+import { post_auth_data } from "../../../ApiServices"
+import PaginateComponent from "../../common/Pagination"
+import { Form } from "react-bootstrap";
 
 function SuggestApi(){
     const[suggApiList, setSuggApiList]= useState([])
     const [loader, setLoader] = useState({ pageloader: false })
+    const [currentPage, setCurrentPage] = useState(1)
+    const [totalPages, setTotalPages] = useState(1);
+
+    const contactList = async (page = 1) => {
+        setCurrentPage(page);
+        setLoader({ ...loader, pageloader: true })
+        const payload = {
+            apiType: "get-all-contact-us",
+            requestPayload: {
+                search_text: "",
+                limit: offsetPagination.toString(),
+                page: page.toString(),
+            },
+            requestHeaders: {},
+            uriParams: {},
+            additionalParam: "",
+        };
+        try {
+            // setLoadingList(true);
+            const response = await post_auth_data("portal/private", payload, {});
+            if (response.data.status) {
+                setLoader({ ...loader, pageloader: false })
+                setSuggApiList(response.data.data)
+                setTotalPages(Math.ceil(response.data.totalRecords / offsetPagination))
+            } else {
+                setLoader({ ...loader, pageloader: false })
+                setSuggApiList([])
+                error_swal_toast(response.data.message || "Failed to fetch list");
+            }
+        } catch (error) {
+            setLoader({ ...loader, pageloader: false })
+            error_swal_toast(error.message || "API call failed");
+        } finally {
+           setLoader(false);
+        }
+    };
+
+    useEffect(() => {
+        contactList();
+    }, [])
 
     return(
  <div className="mx-2 card-admin-main">
     <div className="card-body card-bg">
- <div className="d-flex justify-content-between my-2">
-                <h4 className="">Suggested Api List</h4>
-                
-            </div>
+        <div className="d-flex justify-content-between my-2">
+            <h4 className="">Suggested Api List</h4>   
+        </div>
     </div>
-           
            <div className="table-responsive">
             <table className="table table-bordered custom-table table-striped mt-3 ">
                 <thead className="text-truncate">
@@ -22,20 +65,20 @@ function SuggestApi(){
                         <th>Full Name</th>
                         <th>Email Id</th>
                         <th>Mobile Number</th>
-                        
-                        <th>Created Date</th>
-                        <th>Action</th>
+                        <th>Description</th>
+                        {/* <th>Action</th> */}
                     </tr>
                 </thead>
                 <tbody>
                     {
-                        suggApiList.length > 0 ?( suggApiList.map((user, index) => (
+                       suggApiList && suggApiList.length > 0 ?( suggApiList.map((user, index) => (
                             <tr key={arrayIndex('user', index)}>
                                 <td>{user.sr_no || index + 1}</td>
                                 <td>{user.fullname}</td>
                                 <td>{user.emailid}</td>
                                 <td>{user.mobileno}</td>
-                                <td>{user.approved_status}</td>
+                                <td>{user.description}</td>
+                                {/* <td>{user.approved_status}</td>
                                 <td>{moment().format('DD-MMM-yyyy')}</td>
                                 <td>
                                     <div className="d-flex">
@@ -52,13 +95,20 @@ function SuggestApi(){
                                             <i className="fa fa-trash"></i>
                                         </button>
                                     </div>
-                                </td>
+                                </td> */}
                             </tr>
                         ))):(<td colSpan={6} className="text-center">No data found</td>)
                     }
 
                 </tbody>
             </table>
+            
+            <PaginateComponent 
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={(page) => contactList(page)}
+            />
+            {loader.pageloader && <PageLoaderBackdrop />}
             </div>
             {/* <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
@@ -115,7 +165,7 @@ function SuggestApi(){
                     </Button>
                 </Modal.Footer>
             </Modal> */}
-            {loader.pageloader && <PageLoaderBackdrop />}
+            {/* {loader.pageloader && <PageLoaderBackdrop />} */}
         </div>
     )
 }

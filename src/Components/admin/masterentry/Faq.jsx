@@ -59,10 +59,10 @@ function Faq() {
   };
 
   const handleSubmitAnswer = () => {
-    if (!answer.trim()) {
-      error_swal_toast("Answer cannot be empty!");
-      return;
-    }
+    // if (!answer.trim()) {
+    //   error_swal_toast("Answer cannot be empty!");
+    //   return;
+    // }
 
     const payload = {
       ans: answer,

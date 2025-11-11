@@ -215,7 +215,7 @@ function ApiList() {
                         {
                             apiList.map((api, i) => (
                                 <tr key={arrayIndex('api', i)}>
-                                    <td>{i + 1}</td>
+                                    <td>{api.sr_no}</td>
                                     <td>{api.apiname}</td>
                                     <td>{api.categoryname}</td>
                                     <td>{api.subcategoryname}</td>

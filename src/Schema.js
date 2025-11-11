@@ -133,3 +133,10 @@ export const faqSchema = yup.object().shape({
   que: yup.string().trim().matches(/^[A-Za-z\s.,!?'"()-]+$/, "Only letters and basic punctuation allowed").required("Please enter your question"),
   // ans: yup.string().trim(), // optional
 });
+
+export const footerContactSchema = yup.object({
+    fullname: yup.string().required("Full Name is required"),
+    emailid: yup.string().email("Invalid email address").required("Email is required"),
+    mobileno: yup.string().matches(/^[0-9]{10}$/, "Mobile number must be 10 digits").required("Mobile number is required"),
+    description: yup.string().required("Description is required"),
+});
