@@ -4,21 +4,21 @@ import { error_swal_toast } from "../../../SwalServices"
 import { arrayIndex, offsetPagination } from "../../../Utils"
 import { post_auth_data } from "../../../ApiServices"
 import PaginateComponent from "../../common/Pagination"
-import { Form } from "react-bootstrap";
 
 function SuggestApi(){
     const[suggApiList, setSuggApiList]= useState([])
     const [loader, setLoader] = useState({ pageloader: false })
     const [currentPage, setCurrentPage] = useState(1)
     const [totalPages, setTotalPages] = useState(1);
+    const [search, setSearch] = useState("");
 
-    const contactList = async (page = 1) => {
+    const contactList = async (page = 1, searchText = search) => {
         setCurrentPage(page);
         setLoader({ ...loader, pageloader: true })
         const payload = {
             apiType: "get-all-contact-us",
             requestPayload: {
-                search_text: "",
+                search_text: searchText,
                 limit: offsetPagination.toString(),
                 page: page.toString(),
             },
@@ -46,6 +46,12 @@ function SuggestApi(){
         }
     };
 
+    const refresh = () => {
+        const resetSearch = "";
+        setSearch(resetSearch)
+        contactList(1, resetSearch);
+    }
+
     useEffect(() => {
         contactList();
     }, [])
@@ -57,6 +63,22 @@ function SuggestApi(){
             <h4 className="">Suggested Api List</h4>   
         </div>
     </div>
+         <div className="mt-4">
+                <label className="form-label fw-semibold" htmlFor="exampleInputEmail1">Filters</label>
+                <div className="d-flex flex-wrap align-items-center justify-content-between gap-2 mt-0">
+                    <div className="flex-grow-1" style={{ maxWidth: "400px" }}>
+                         <input type="text" name="search" className="form-control p-3" id="exampleInputEmail1"
+                            placeholder="Enter Name"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value.trim())}
+                        />
+                    </div>
+                    <div className="d-flex align-items-center gap-2 mt-3">
+                        <button className="btn btn-primary profilePageButton px-4" onClick={() => { contactList(1) }}>Search </button>
+                        <button className="btn btn-outline-primary profilePageButton px-4" onClick={() => refresh()}><i className="fas fa-sync-alt"></i> </button>
+                    </div>
+                </div>
+            </div>
            <div className="table-responsive">
             <table className="table table-bordered custom-table table-striped mt-3 ">
                 <thead className="text-truncate">
