@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState,useEffect  } from "react"
 import { Link } from "react-router-dom"
 import { useFormik } from "formik";
 import { post_data } from "../../ApiServices";
@@ -34,6 +34,24 @@ function FooterHome() {
       }
     },
   });
+
+  useEffect(() => {
+  const modal = document.getElementById("exampleModal");
+
+  const handleModalClose = () => {
+    contactForm.resetForm(); // ✅ clears Formik fields and errors
+  };
+
+  if (modal) {
+    modal.addEventListener("hidden.bs.modal", handleModalClose);
+  }
+
+  return () => {
+    if (modal) {
+      modal.removeEventListener("hidden.bs.modal", handleModalClose);
+    }
+  };
+}, [contactForm]);
 
     //  const getApplicationList = () => {
     //     post_data("portal/public", convertToPayload('getPlatformApps', { "env_id": "f79233ef-d46b-4d66-83e4-e7b0c7b7c442" }), {})
