@@ -361,7 +361,7 @@ function HomePageContent() {
                                 </div>
                             </div>
                             {/* <SyntaxHighLighter wrapLongLines={true} lineProps={{ style: { wordBreak: 'break-all', whiteSpace: 'pre-wrap' } }} jsonString={responsData.resbody || '{}'} /> */}
-                            <SyntaxHighLighter wrapLongLines={true} lineProps={{ style: { wordBreak: 'break-all', whiteSpace: 'pre-wrap' } }} jsonString={JSON.stringify(responsData.resbody) || '{}'} />
+                            <SyntaxHighLighter wrapLongLines={true} lineProps={{ style: { wordBreak: 'break-all', whiteSpace: 'pre-wrap' } }} jsonString={typeof (responsData?.resbody) == 'object' ? JSON.stringify(responsData?.resbody || {}) : (responsData?.resbody || '{}')} />
                         </div>
                     </div>}
                     {api_id && apiData && Object.keys(responsData.resschema.properties || {}).length > 0 &&
