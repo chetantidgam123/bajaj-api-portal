@@ -255,7 +255,7 @@ function Sidebar() {
           </Accordion.Item>
 
           {/* Request Access */}
-          <Accordion.Item eventKey="4" className="mb-2 position-relative">
+          <Accordion.Item eventKey="6" className="mb-2 position-relative">
             <Accordion.Header>
               <i className="fa-brands fa-microsoft"></i>
               <span className="link-name ms-2">Request Access Management</span>

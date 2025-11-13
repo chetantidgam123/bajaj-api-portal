@@ -704,56 +704,15 @@ function Profile() {
                             <th className="custom-th-new">Status</th>
                           </tr>
                         </thead>
-                        {/* <tbody>
-        <tr className="custom-tr-new">
-          <td className="custom-td-new"><input type="checkbox"/></td>
-          <td className="custom-td-new">Perform Otp SignIn With VIN</td>
-          <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
-        </tr>
-        <tr className="custom-tr-new">
-          <td className="custom-td-new"><input type="checkbox"/></td>
-          <td className="custom-td-new">Otp Login Verification Request</td>
-          <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
-        </tr>
-        <tr className="custom-tr-new">
-          <td className="custom-td-new"><input type="checkbox"/></td>
-          <td className="custom-td-new">Get All States</td>
-          <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
-        </tr>
-        <tr className="custom-tr-new">
-          <td className="custom-td-new"><input type="checkbox"/></td>
-          <td className="custom-td-new">Models By Brand</td>
-          <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
-        </tr>
-        <tr className="custom-tr-new">
-          <td className="custom-td-new"><input type="checkbox"/></td>
-          <td className="custom-td-new">Generate Token</td>
-          <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
-        </tr>
-        <tr className="custom-tr-new">
-          <td className="custom-td-new"><input type="checkbox"/></td>
-          <td className="custom-td-new">Perform Otp SignIn With VIN</td>
-          <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
-        </tr>
-        <tr className="custom-tr-new">
-          <td className="custom-td-new"><input type="checkbox"/></td>
-          <td className="custom-td-new">Otp Login Verification Request</td>
-          <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
-        </tr>
-        <tr className="custom-tr-new">
-          <td className="custom-td-new"><input type="checkbox"/></td>
-          <td className="custom-td-new">Get All States</td>
-          <td className="custom-td-new">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</td>
-        </tr>
-      </tbody> */}
                         <tbody>
                           {availableAPIs.length > 0 && availableAPIs.map((api, index) => (
                             <tr key={api.id} className="custom-tr-new">
                               <td className="custom-td-new">
                                 <input
                                   type="checkbox"
-                                  checked={api.approved_status == 0}
-                                  disabled={api.approved_status == 0}
+                                  // checked={api.approved_status == 0}
+                                  defaultChecked={Number(api.approved_status) === 0}
+                                  disabled={Number(api.approved_status) === 0}  
                                   onChange={(e) => handleCheckboxChange(api, e.target.checked)}
                                 />
                               </td>
@@ -764,13 +723,17 @@ function Profile() {
                           ))}
                         </tbody>
                       </table>
-                      {availableTotalPages > 1 && (
+                    </div>
+                    <div className="d-flex justify-content-between align-items-center">
+                      <div className="mt-3">
+                        {availableTotalPages > 1 && (
                         <PaginateComponent
                           currentPage={availableCurrentPage}
                           totalPages={availableTotalPages}
-                          onChange={(page) => availableAPIList(page)}
+                          onPageChange={(page) => availableAPIList(page)}
                         />)}
-                      {availableAPIs.length > 0 && <button className="btn-request" onClick={multipleAPIReq}>Request Access</button>}
+                      </div>
+                      {availableAPIs.length > 0 && <button className="btn-request mb-1" onClick={multipleAPIReq}>Request Access</button>}
                     </div>
                   </div>
                 </div>
@@ -804,7 +767,7 @@ function Profile() {
                         <PaginateComponent
                           currentPage={accessibleCurrentPage}
                           totalPages={accessibleTotalPages}
-                          onChange={(page) => accessibleAPIList(page)}
+                          onPageChange={(page) => accessibleAPIList(page)}
                         />)}
                       {/* <button className="btn-request">Try it</button> */}
                     </div>
