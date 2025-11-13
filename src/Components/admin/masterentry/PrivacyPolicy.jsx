@@ -279,7 +279,7 @@ function PrivacyPolicy() {
         <PaginateComponent
           currentPage={currentPage}
           totalPages={totalPages}
-          onChange={(page) => { getAllPolicies(page); }}  // Fetch policies for the selected page
+          onPageChange={(page) => { getAllPolicies(page); }}  // Fetch policies for the selected page
         />
       </div>
 

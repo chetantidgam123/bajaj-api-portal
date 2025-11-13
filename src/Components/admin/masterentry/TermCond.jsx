@@ -282,7 +282,7 @@ function TermCond() {
           <PaginateComponent
             currentPage={currentPage}
             totalPages={totalPages}
-            onChange={(page) => getAllTermCon(page)}
+            onPageChange={(page) => getAllTermCon(page)}
           />
 
         </div>
