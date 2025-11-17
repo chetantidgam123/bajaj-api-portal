@@ -246,7 +246,7 @@ function ApiPlayGround() {
                 </li>
 
                 <li className="nav-item px-3" role="presentation">
-                    <button className="nav-link try-api-tab " id="pills-two-tab" data-bs-toggle="pill" data-bs-target="#pills-two" type="button" role="tab" aria-controls="pills-two" aria-selected="false"> Headers (8)</button>
+                    <button className="nav-link try-api-tab " id="pills-two-tab" data-bs-toggle="pill" data-bs-target="#pills-two" type="button" role="tab" aria-controls="pills-two" aria-selected="false"> Headers </button>
                 </li>
                 <li className="nav-item px-3" role="presentation">
                     <button className="nav-link try-api-tab body-dot" id="pills-three-tab" data-bs-toggle="pill" data-bs-target="#pills-three" type="button" role="tab" aria-controls="pills-three" aria-selected="false">
@@ -534,7 +534,7 @@ function ApiPlayGround() {
                             <button className="nav-link  try-api-tab active" id="pills-onenew-tab" data-bs-toggle="pill" data-bs-target="#pills-onenew" type="button" role="tab" aria-controls="pills-onenew" aria-selected="true">Body</button>
                         </li>
                         <li className="nav-item px-3" role="presentation">
-                            <button className="nav-link try-api-tab " id="pills-new-tab" data-bs-toggle="pill" data-bs-target="#pills-new" type="button" role="tab" aria-controls="pills-new" aria-selected="false">Header (8)</button>
+                            <button className="nav-link try-api-tab " id="pills-new-tab" data-bs-toggle="pill" data-bs-target="#pills-new" type="button" role="tab" aria-controls="pills-new" aria-selected="false">Header </button>
                         </li>
                     </ul>
                 </div>
@@ -618,18 +618,18 @@ function ApiPlayGround() {
             <div className='border-top'></div>
             <div>
                 {/* Console Header */}
-                <span className=' pb-1' style={{ cursor: 'pointer' }} data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
+                {/* <span className=' pb-1' style={{ cursor: 'pointer' }} data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
                     <i className="fa-solid fa-code me-2 text-secondary"></i>
                     <span className=''>Console</span>
-                </span>
+                </span> */}
                 <div className="offcanvas offcanvas-bottom bottom-backdrop" tabIndex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
                     <div className="offcanvas-header ">
                         <div className=" row d-flex w-100 align-items-center justify-content-between mb-2">
                             <div className='col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12'>
-                                <span className='border-bottom-blue pb-1'>
+                                {/* <span className='border-bottom-blue pb-1'>
                                     <i className="fa-solid fa-code me-2 text-secondary"></i>
                                     <span className=''>Console</span>
-                                </span>
+                                </span> */}
                             </div>
                             <div className='col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 d-flex align-items-center justify-content-end'>
                                 <span className='me-2 mb-0'>All Logs <i className="fa-solid fa-angle-down"></i></span>

@@ -4,10 +4,11 @@ import { post_data } from '../../ApiServices';
 import { convertToPayload, decrypt } from '../../Utils';
 import { error_swal_toast } from '../../SwalServices';
 import { useParams } from 'react-router-dom';
+import { PageLoaderBackdrop } from '../../Loader';
 
 function VerifyEmail() {
 
-   const [verifyMail, setVerifyMail] = useState(false)
+   const [verifyMail, setVerifyMail] = useState(null)
    const { emailid } = useParams();
    const email = decrypt(decodeURIComponent(emailid));
 
@@ -33,11 +34,14 @@ useEffect(() => {
   return (
     <div className="d-flex flex-column align-items-center justify-content-center text-center" style={{ height: '100vh' }}>
       <img src={logo} alt="Company Logo" width="120" className="mb-3" />
-      {
+      {/* {
         verifyMail ? 
         <h3>Email is verified successfully</h3> :
         <h3>Email verification Failed</h3>
-      }
+      } */}
+      {verifyMail === null && <PageLoaderBackdrop />} 
+      {verifyMail === true && <h3>Email is verified successfully</h3>}
+      {verifyMail === false && <h3>Email verification Failed</h3>}
     </div>
   );
 }
