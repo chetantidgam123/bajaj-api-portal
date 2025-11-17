@@ -2,7 +2,7 @@ import React from 'react'
 
 function APIanalytics() {
   return (
-    <div>APIanalytics</div>
+    <div>API analytics</div>
   )
 }
 

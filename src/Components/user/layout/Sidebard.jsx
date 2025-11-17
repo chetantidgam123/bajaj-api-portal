@@ -91,325 +91,325 @@ function Sidebard() {
 
   return (
     <>
-   
-    <div className={`sidebar_entity-user height-84vh main-layout ${isClosed ? "close" : ""}`}>
-      <div className="sidebar-user ">
-        <div className="row">
-          <div className="col-xl-9 col-lg-9 col-md-9 col-sm-10 col-10">
-            <h4 className="heading-hide heading-display text-white">Explore Api</h4>
-          </div>
-          <div
-            className={`${isClosed
-              ? "col-xl-12 col-lg-12 col-md-12 col-sm-2 col-2"
-              : "col-xl-3 col-lg-3 col-md-3 col-sm-2 col-2"
-              } d-flex justify-content-center`}
-          >
-            <div className="circle-arrow toggle d-none" onClick={toggleSidebar}>
-              <i
-                className={`fa-solid ${isClosed ? "fa-arrow-right" : "fa-arrow-left"}`}
-                role="button"
-              ></i>
+
+      <div className={`sidebar_entity-user height-84vh main-layout ${isClosed ? "close" : ""}`}>
+        <div className="sidebar-user ">
+          <div className="row">
+            <div className="col-xl-9 col-lg-9 col-md-9 col-sm-10 col-10">
+              <h4 className="heading-hide heading-display text-white">Explore Api</h4>
             </div>
-          </div>
-
-          {/* Main Accordion */}
-          <Accordion
-            className="mt-2 explore"
-            activeKey={activeKey}
-            onSelect={(key) => setActiveKey(key)}
-            alwaysOpen={false}
-          >
-            {sidebarData.map((item, i) => (
-              <Accordion.Item
-                className="position-relative"
-                key={arrayIndex("acc", i)}
-                eventKey={i}
-              >
-                <Accordion.Header
-                  className={
-                    item.subcategories.length <= 0 &&
-                      item.apis_category.length <= 0
-                      ? "disabled"
-                      : ""
-                  }
-                  onClick={() => {
-                    navigate("/api/" + item.record_uuid);
-                  }}
-                >
-                  <img
-                    src={`/assets/img/${i == activeKey ? "visualization.png" : "visualization-2.png"
-                      }`}
-                    alt="NA"
-                    style={{ height: "15px", width: "15px" }}
-                  />
-                  <span className="link-name ms-2">{item.categoryname}</span>
-                </Accordion.Header>
-
-                {/* Subcategories */}
-                {item.subcategories.length > 0 && (
-                  <Accordion.Body className="p-0">
-                    <Accordion
-                      activeKey={subActiveKey}
-                      onSelect={(key) => setSubActiveKey(key)}
-                      alwaysOpen={false}
-                    >
-                      {item.subcategories.map((cItem, ci) => (cItem.isenabled && !cItem.isdeleted) ? ((
-                        <Accordion.Item key={arrayIndex("acc_c", ci)} eventKey={ci} style={{ border: "none" }}>
-                          <Accordion.Header
-                            onClick={() => {
-                              checkLogin(item.record_uuid, cItem.record_uuid, 0);
-                            }}
-                          >
-                            {cItem.subcategoryname}
-                          </Accordion.Header>
-
-                          {cItem.apis.length > 0 && (
-                            <Accordion.Body className="p-0 ">
-                              {cItem.apis.map((sItem, si) => (sItem.isenabled && !sItem.isdeleted) ? (
-                                <ApiList
-                                  key={arrayIndex("acc_Si", si)}
-                                  si={si}
-                                  cItem={cItem}
-                                  item={item}
-                                  sItem={sItem}
-                                  returnClass={returnClass}
-                                  setActiveKey={setActiveKey}
-                                  setSubActiveKey={setSubActiveKey}
-                                  isClosed={isClosed}
-                                />
-                              ) : null)}
-                            </Accordion.Body>
-                          )}
-                        </Accordion.Item>
-                      )) : null)}
-                    </Accordion>
-                  </Accordion.Body>
-                )}
-
-                {/* API Categories */}
-                {item.apis_category.length > 0 && (
-                  <Accordion.Body className="p-0">
-                    {item.apis_category.map((api, si) => (api.isenabled && !api.isdeleted) ? (
-                      <div
-                        key={arrayIndex("acc_Si", si)}
-                        className={returnClass(
-                          item.apis_category.length - 1 == si,
-                          api_id && api.uniqueid == api_id
-                        )}
-                      >
-                        <button
-                          className="span-btn w-100 border-0 bg-none text-start" style={{ background: 'none' }}
-                          onClick={() => {
-                            checkLogin(item.record_uuid, 0, api.uniqueid);
-
-                          }}
-                        >
-                          <Badge
-                            pill
-                            bg=""
-                            className={`me-2 badge-${api.apimethod.toLowerCase()}`}
-                          >
-                            {api.apimethod}
-                          </Badge>
-                          <small className=" text-start text-white">{api.apiname}</small>
-                        </button>
-                      </div>
-                    ) : null)}
-                  </Accordion.Body>
-                )}
-              </Accordion.Item>
-            ))}
-          </Accordion>
-        </div>
-
-        {/* Modal */}
-        <Modal
-          size="lg"
-          show={showModal}
-          onHide={() => setShowModal(false)}
-          centered
-        >
-          <Modal.Header closeButton className="border-bottom-0 py-0"></Modal.Header>
-          <Modal.Body className="pt-0">
-            <div className="col-12 px-3">
-              <div className="row">
-                <div className="col-xl-5 col-lg-5 col-md-5 col-12 signUpsideBanner">
-                  <img src="/assets/img/Bajaj Logo.png" alt="NA" className="mt-2" />
-                  <div className="authContent">
-                    <h1 className="title">
-                      Welcome to Bajaj API Developer Portal.
-                    </h1>
-                    <p>
-                      Your one-stop destination for accessing, integrating, and
-                      managing powerful APIs that drive seamless digital
-                      experiences.
-                    </p>
-                  </div>
-                </div>
-                <div className="col-xl-7 col-lg-7 col-md-7 col-12 ps-4">
-                  {modalName === "signup" && (
-                    <SignupPage
-                      setModalName={setModalName}
-                      setShow={setShowModal}
-                    />
-                  )}
-                  {modalName === "login" && (
-                    <Login setModalName={setModalName} setShow={setShowModal} />
-                  )}
-                  {modalName === "forget-pass" && (
-                    <ForgotPassword
-                      setModalName={setModalName}
-                      setShow={setShowModal}
-                    />
-                  )}
-                  {modalName === "reset-pass" && (
-                    <ResetPassword
-                      setModalName={setModalName}
-                      setShow={setShowModal}
-                    />
-                  )}
-                </div>
+            <div
+              className={`${isClosed
+                ? "col-xl-12 col-lg-12 col-md-12 col-sm-2 col-2"
+                : "col-xl-3 col-lg-3 col-md-3 col-sm-2 col-2"
+                } d-flex justify-content-center`}
+            >
+              <div className="circle-arrow toggle d-none" onClick={toggleSidebar}>
+                <i
+                  className={`fa-solid ${isClosed ? "fa-arrow-right" : "fa-arrow-left"}`}
+                  role="button"
+                ></i>
               </div>
             </div>
-          </Modal.Body>
-        </Modal>
-      </div>
-    </div>
-    <div>
-       <div className='d-xl-none d-lg-none d-md-block d-sm-block d-block width-50'>
-                        <i class="fa-solid fa-bars btn-mobile-blue" data-bs-toggle="offcanvas" href="#offcanvasExampleside" role="button" aria-controls="offcanvasExampleside"></i>
-                    </div>
-  <div class="offcanvas offcanvas-start d-xl-none d-lg-none d-md-block d-sm-block d-block" tabindex="-1" id="offcanvasExampleside" aria-labelledby="offcanvasExampleLabelside">
-                        <div class="offcanvas-header">
-                            <h5 class="offcanvas-title" id="offcanvasExampleLabelside">
-                                   <Link
-                                              className="navbar-brand d-flex align-items-center justify-content-start"
-                                              to="/"
-                                            >
-                                              <img
-                                                src="/assets/img/logo.png"
-                                                alt="Logo"
-                                                className="logo-img ms-4"
-                                              />
-                                            </Link>
-                            </h5>
-                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                        </div>
-                        <div class="offcanvas-body main-layout py-0">
-                           <div className="sidebar-user p-0 ">
-                           {/* Main Accordion */}
-          <Accordion
-            className="mt-2 explore"
-            activeKey={activeKey}
-            onSelect={(key) => setActiveKey(key)}
-            alwaysOpen={false}
-          >
-            {sidebarData.map((item, i) => (
-              <Accordion.Item
-                className="position-relative"
-                key={arrayIndex("acc", i)}
-                eventKey={i}
-              >
-                <Accordion.Header
-                  className={
-                    item.subcategories.length <= 0 &&
-                      item.apis_category.length <= 0
-                      ? "disabled"
-                      : ""
-                  }
-                  onClick={() => {
-                    navigate("/api/" + item.record_uuid);
-                  }}
-                >
-                  <img
-                    src={`/assets/img/${i == activeKey ? "visualization.png" : "visualization-2.png"
-                      }`}
-                    alt="NA"
-                    style={{ height: "15px", width: "15px" }}
-                  />
-                  <span className="link-name ms-2">{item.categoryname}</span>
-                </Accordion.Header>
 
-                {/* Subcategories */}
-                {item.subcategories.length > 0 && (
-                  <Accordion.Body className="p-0">
-                    <Accordion
-                      activeKey={subActiveKey}
-                      onSelect={(key) => setSubActiveKey(key)}
-                      alwaysOpen={false}
-                    >
-                      {item.subcategories.map((cItem, ci) => (cItem.isenabled && !cItem.isdeleted) ? ((
-                        <Accordion.Item key={arrayIndex("acc_c", ci)} eventKey={ci} style={{ border: "none" }}>
-                          <Accordion.Header
+            {/* Main Accordion */}
+            <Accordion
+              className="mt-2 explore"
+              activeKey={activeKey}
+              onSelect={(key) => setActiveKey(key)}
+              alwaysOpen={false}
+            >
+              {sidebarData.map((item, i) => (
+                <Accordion.Item
+                  className="position-relative"
+                  key={arrayIndex("acc", i)}
+                  eventKey={i}
+                >
+                  <Accordion.Header
+                    className={
+                      item.subcategories.length <= 0 &&
+                        item.apis_category.length <= 0
+                        ? "disabled"
+                        : ""
+                    }
+                    onClick={() => {
+                      navigate("/api/" + item.record_uuid);
+                    }}
+                  >
+                    <img
+                      src={`/assets/img/${i == activeKey ? "visualization.png" : "visualization-2.png"
+                        }`}
+                      alt="NA"
+                      style={{ height: "15px", width: "15px" }}
+                    />
+                    <span className="link-name ms-2">{item.categoryname}</span>
+                  </Accordion.Header>
+
+                  {/* Subcategories */}
+                  {item.subcategories.length > 0 && (
+                    <Accordion.Body className="p-0">
+                      <Accordion
+                        activeKey={subActiveKey}
+                        onSelect={(key) => setSubActiveKey(key)}
+                        alwaysOpen={false}
+                      >
+                        {item.subcategories.map((cItem, ci) => (cItem.isenabled && !cItem.isdeleted) ? ((
+                          <Accordion.Item key={arrayIndex("acc_c", ci)} eventKey={ci} style={{ border: "none" }}>
+                            <Accordion.Header
+                              onClick={() => {
+                                checkLogin(item.record_uuid, cItem.record_uuid, 0);
+                              }}
+                            >
+                              {cItem.subcategoryname}
+                            </Accordion.Header>
+
+                            {cItem.apis.length > 0 && (
+                              <Accordion.Body className="p-0 ">
+                                {cItem.apis.map((sItem, si) => (sItem.isenabled && !sItem.isdeleted) ? (
+                                  <ApiList
+                                    key={arrayIndex("acc_Si", si)}
+                                    si={si}
+                                    cItem={cItem}
+                                    item={item}
+                                    sItem={sItem}
+                                    returnClass={returnClass}
+                                    setActiveKey={setActiveKey}
+                                    setSubActiveKey={setSubActiveKey}
+                                    isClosed={isClosed}
+                                  />
+                                ) : null)}
+                              </Accordion.Body>
+                            )}
+                          </Accordion.Item>
+                        )) : null)}
+                      </Accordion>
+                    </Accordion.Body>
+                  )}
+
+                  {/* API Categories */}
+                  {item.apis_category.length > 0 && (
+                    <Accordion.Body className="p-0">
+                      {item.apis_category.map((api, si) => (api.isenabled && !api.isdeleted) ? (
+                        <div
+                          key={arrayIndex("acc_Si", si)}
+                          className={returnClass(
+                            item.apis_category.length - 1 == si,
+                            api_id && api.uniqueid == api_id
+                          )}
+                        >
+                          <button
+                            className="span-btn w-100 border-0 bg-none text-start" style={{ background: 'none' }}
                             onClick={() => {
-                              checkLogin(item.record_uuid, cItem.record_uuid, 0);
+                              checkLogin(item.record_uuid, 0, api.uniqueid);
+
                             }}
                           >
-                            {cItem.subcategoryname}
-                          </Accordion.Header>
-
-                          {cItem.apis.length > 0 && (
-                            <Accordion.Body className="p-0 ">
-                              {cItem.apis.map((sItem, si) => (sItem.isenabled && !sItem.isdeleted) ? (
-                                <ApiList
-                                  key={arrayIndex("acc_Si", si)}
-                                  si={si}
-                                  cItem={cItem}
-                                  item={item}
-                                  sItem={sItem}
-                                  returnClass={returnClass}
-                                  setActiveKey={setActiveKey}
-                                  setSubActiveKey={setSubActiveKey}
-                                  isClosed={isClosed}
-                                />
-                              ) : null)}
-                            </Accordion.Body>
-                          )}
-                        </Accordion.Item>
-                      )) : null)}
-                    </Accordion>
-                  </Accordion.Body>
-                )}
-
-                {/* API Categories */}
-                {item.apis_category.length > 0 && (
-                  <Accordion.Body className="p-0">
-                    {item.apis_category.map((api, si) => (api.isenabled && !api.isdeleted) ? (
-                      <div
-                        key={arrayIndex("acc_Si", si)}
-                        className={returnClass(
-                          item.apis_category.length - 1 == si,
-                          api_id && api.uniqueid == api_id
-                        )}
-                      >
-                        <button
-                          className="span-btn w-100 border-0 bg-none text-start" style={{ background: 'none' }}
-                          onClick={() => {
-                            checkLogin(item.record_uuid, 0, api.uniqueid);
-
-                          }}
-                        >
-                          <Badge
-                            pill
-                            bg=""
-                            className={`me-2 badge-${api.apimethod.toLowerCase()}`}
-                          >
-                            {api.apimethod}
-                          </Badge>
-                          <small className=" text-start text-white">{api.apiname}</small>
-                        </button>
-                      </div>
-                    ) : null)}
-                  </Accordion.Body>
-                )}
-              </Accordion.Item>
-            ))}
-          </Accordion>
-          </div>
+                            <Badge
+                              pill
+                              bg=""
+                              className={`me-2 badge-${api.apimethod.toLowerCase()}`}
+                            >
+                              {api.apimethod}
+                            </Badge>
+                            <small className=" text-start text-white">{api.apiname}</small>
+                          </button>
                         </div>
+                      ) : null)}
+                    </Accordion.Body>
+                  )}
+                </Accordion.Item>
+              ))}
+            </Accordion>
+          </div>
+
+          {/* Modal */}
+          <Modal
+            size="lg"
+            show={showModal}
+            onHide={() => setShowModal(false)}
+            centered
+          >
+            <Modal.Header closeButton className="border-bottom-0 py-0"></Modal.Header>
+            <Modal.Body className="pt-0">
+              <div className="col-12 px-3">
+                <div className="row">
+                  <div className="col-xl-5 col-lg-5 col-md-5 col-12 signUpsideBanner">
+                    <img src="/assets/img/Bajaj Logo.png" alt="NA" className="mt-2" />
+                    <div className="authContent">
+                      <h1 className="title">
+                        Welcome to Bajaj API Developer Portal.
+                      </h1>
+                      <p>
+                        Your one-stop destination for accessing, integrating, and
+                        managing powerful APIs that drive seamless digital
+                        experiences.
+                      </p>
                     </div>
-    </div>
-     </>
+                  </div>
+                  <div className="col-xl-7 col-lg-7 col-md-7 col-12 ps-4">
+                    {modalName === "signup" && (
+                      <SignupPage
+                        setModalName={setModalName}
+                        setShow={setShowModal}
+                      />
+                    )}
+                    {modalName === "login" && (
+                      <Login setModalName={setModalName} setShow={setShowModal} />
+                    )}
+                    {modalName === "forget-pass" && (
+                      <ForgotPassword
+                        setModalName={setModalName}
+                        setShow={setShowModal}
+                      />
+                    )}
+                    {modalName === "reset-pass" && (
+                      <ResetPassword
+                        setModalName={setModalName}
+                        setShow={setShowModal}
+                      />
+                    )}
+                  </div>
+                </div>
+              </div>
+            </Modal.Body>
+          </Modal>
+        </div>
+      </div>
+      <div>
+        <div className='d-xl-none d-lg-none d-md-block d-sm-block d-block width-50'>
+          <i class="fa-solid fa-bars btn-mobile-blue" data-bs-toggle="offcanvas" href="#offcanvasExampleside" role="button" aria-controls="offcanvasExampleside"></i>
+        </div>
+        <div class="offcanvas offcanvas-start d-xl-none d-lg-none d-md-block d-sm-block d-block" tabindex="-1" id="offcanvasExampleside" aria-labelledby="offcanvasExampleLabelside">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasExampleLabelside">
+              <Link
+                className="navbar-brand d-flex align-items-center justify-content-start"
+                to="/"
+              >
+                <img
+                  src="/assets/img/logo.png"
+                  alt="Logo"
+                  className="logo-img ms-4"
+                />
+              </Link>
+            </h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body main-layout py-0">
+            <div className="sidebar-user p-0 ">
+              {/* Main Accordion */}
+              <Accordion
+                className="mt-2 explore"
+                activeKey={activeKey}
+                onSelect={(key) => setActiveKey(key)}
+                alwaysOpen={false}
+              >
+                {sidebarData.map((item, i) => (
+                  <Accordion.Item
+                    className="position-relative"
+                    key={arrayIndex("acc", i)}
+                    eventKey={i}
+                  >
+                    <Accordion.Header
+                      className={
+                        item.subcategories.length <= 0 &&
+                          item.apis_category.length <= 0
+                          ? "disabled"
+                          : ""
+                      }
+                      onClick={() => {
+                        navigate("/api/" + item.record_uuid);
+                      }}
+                    >
+                      <img
+                        src={`/assets/img/${i == activeKey ? "visualization.png" : "visualization-2.png"
+                          }`}
+                        alt="NA"
+                        style={{ height: "15px", width: "15px" }}
+                      />
+                      <span className="link-name ms-2">{item.categoryname}</span>
+                    </Accordion.Header>
+
+                    {/* Subcategories */}
+                    {item.subcategories.length > 0 && (
+                      <Accordion.Body className="p-0">
+                        <Accordion
+                          activeKey={subActiveKey}
+                          onSelect={(key) => setSubActiveKey(key)}
+                          alwaysOpen={false}
+                        >
+                          {item.subcategories.map((cItem, ci) => (cItem.isenabled && !cItem.isdeleted) ? ((
+                            <Accordion.Item key={arrayIndex("acc_c", ci)} eventKey={ci} style={{ border: "none" }}>
+                              <Accordion.Header
+                                onClick={() => {
+                                  checkLogin(item.record_uuid, cItem.record_uuid, 0);
+                                }}
+                              >
+                                {cItem.subcategoryname}
+                              </Accordion.Header>
+
+                              {cItem.apis.length > 0 && (
+                                <Accordion.Body className="p-0 ">
+                                  {cItem.apis.map((sItem, si) => (sItem.isenabled && !sItem.isdeleted) ? (
+                                    <ApiList
+                                      key={arrayIndex("acc_Si", si)}
+                                      si={si}
+                                      cItem={cItem}
+                                      item={item}
+                                      sItem={sItem}
+                                      returnClass={returnClass}
+                                      setActiveKey={setActiveKey}
+                                      setSubActiveKey={setSubActiveKey}
+                                      isClosed={isClosed}
+                                    />
+                                  ) : null)}
+                                </Accordion.Body>
+                              )}
+                            </Accordion.Item>
+                          )) : null)}
+                        </Accordion>
+                      </Accordion.Body>
+                    )}
+
+                    {/* API Categories */}
+                    {item.apis_category.length > 0 && (
+                      <Accordion.Body className="p-0">
+                        {item.apis_category.map((api, si) => (api.isenabled && !api.isdeleted) ? (
+                          <div
+                            key={arrayIndex("acc_Si", si)}
+                            className={returnClass(
+                              item.apis_category.length - 1 == si,
+                              api_id && api.uniqueid == api_id
+                            )}
+                          >
+                            <button
+                              className="span-btn w-100 border-0 bg-none text-start" style={{ background: 'none' }}
+                              onClick={() => {
+                                checkLogin(item.record_uuid, 0, api.uniqueid);
+
+                              }}
+                            >
+                              <Badge
+                                pill
+                                bg=""
+                                className={`me-2 badge-${api.apimethod.toLowerCase()}`}
+                              >
+                                {api.apimethod}
+                              </Badge>
+                              <small className=" text-start text-white">{api.apiname}</small>
+                            </button>
+                          </div>
+                        ) : null)}
+                      </Accordion.Body>
+                    )}
+                  </Accordion.Item>
+                ))}
+              </Accordion>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 
