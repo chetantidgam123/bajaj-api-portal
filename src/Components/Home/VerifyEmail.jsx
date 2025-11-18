@@ -40,8 +40,18 @@ useEffect(() => {
         <h3>Email verification Failed</h3>
       } */}
       {verifyMail === null && <PageLoaderBackdrop />} 
-      {verifyMail === true && <h3>Email is verified successfully</h3>}
-      {verifyMail === false && <h3>Email verification Failed</h3>}
+      {verifyMail === true && (
+        <div>
+          <h3>Email is verified successfully</h3>
+          <p>Your account is in Approval process from Bajaj Admin.</p>
+        </div>
+      )}
+      {verifyMail === false && (
+        <div>
+          <h3>Email verification Failed</h3>
+          <p>Please try again.</p>
+        </div>
+      )}
     </div>
   );
 }
