@@ -6,7 +6,7 @@ import Login from "../../auth/Login";
 import ForgotPassword from "../../auth/ForgotPassword";
 import ResetPassword from "../../auth/ResetPasswrd";
 import { getTokenData, getInitials } from "../../../Utils";
-import { confirm_swal_with_text, success_swal_toast } from "../../../SwalServices";
+import { confirm_swal_with, confirm_swal_with_text, success_swal_toast } from "../../../SwalServices";
 // import NotificationBell from "./Notification";
 
 function Header() {
@@ -48,6 +48,13 @@ function Header() {
     }, "Are you sure you want to logout?");
   };
 
+  const confirm_swal_call = () => {
+      const callback = (resolve, reject) => {
+          resolve();
+      }
+      confirm_swal_with(callback, `To access the APIs your account is in Approval Process`)
+  } 
+
   return (
     <div className="header">
       <nav className="navbar navbar-expand-lg py-0">
@@ -88,10 +95,19 @@ function Header() {
                   </Link>
                 </li>
               )}
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <Link className="nav-link" to="/api/0">
                   Explore API
                 </Link>
+              </li> */}
+              <li className="nav-item">
+                {getTokenData()?.approved_status === 1 ? (
+                  <Link className="nav-link" to="/api/0">Explore API</Link>
+                ) : (
+                  <span className="nav-link" style={{cursor: "pointer"}} onClick={() => confirm_swal_call()}>
+                    Explore API
+                  </span>
+                )}
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/faq">
@@ -126,7 +142,7 @@ function Header() {
           {/* Right Section (Login / Profile / Notifications) */}
           <div className="d-flex justify-content-center align-items-center">
             <div className='d-xl-none d-lg-none d-md-block d-sm-block d-block me-2'>
-              <i class="fa-solid fa-bars btn-mobile-blue" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample"></i>
+              <i className="fa-solid fa-bars btn-mobile-blue" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample"></i>
             </div>
 
             {/* Sign In button (when no user is logged in) */}
@@ -180,12 +196,12 @@ function Header() {
                     </Link>
                   )} */}
 
-                  <Link
+                  {getTokenData()?.approved_status === 1 && <Link
                     style={{ textDecoration: "none", color: "#212529" }}
                     to="/user/profile"
                   >
                     <Dropdown.Item as="span">Profile</Dropdown.Item>
-                  </Link>
+                  </Link>}
 
                   <Dropdown.Item
                     as="button"
@@ -298,9 +314,9 @@ function Header() {
         </Modal.Body>
       </Modal>
 
-      <div class="offcanvas offcanvas-start d-xl-none d-lg-none d-md-block d-sm-block d-block" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-        <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasExampleLabel">
+      <div className="offcanvas offcanvas-start d-xl-none d-lg-none d-md-block d-sm-block d-block" tabIndex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+        <div className="offcanvas-header">
+          <h5 className="offcanvas-title" id="offcanvasExampleLabel">
             <Link
               className="navbar-brand d-flex align-items-center justify-content-start"
               to="/"
@@ -312,9 +328,9 @@ function Header() {
               />
             </Link>
           </h5>
-          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
-        <div class="offcanvas-body">
+        <div className="offcanvas-body">
  <ul className="navbar-nav mb-2 mb-lg-0">
               {getTokenData()?.role == 1 && (
                 <li className="nav-item">

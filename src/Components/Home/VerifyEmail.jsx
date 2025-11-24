@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom';
 import { PageLoaderBackdrop } from '../../Loader';
 
 function VerifyEmail() {
-
+   const baseUrl = import.meta.env.VITE_APP_BASE_URL;
    const [verifyMail, setVerifyMail] = useState(null)
    const { emailid } = useParams();
    const email = decrypt(decodeURIComponent(emailid));
@@ -30,6 +30,17 @@ function VerifyEmail() {
 useEffect(() => {
     getVerifyMail()
 }, [])
+
+  // 🔥 Auto redirect after success
+useEffect(() => {
+  if (verifyMail === true) {
+    const timer = setTimeout(() => {
+      window.location.href = `${baseUrl}?openLogin=true`;
+    }, 3000); // 3 seconds
+
+    return () => clearTimeout(timer);
+  }
+}, [verifyMail]);
     
   return (
     <div className="d-flex flex-column align-items-center justify-content-center text-center" style={{ height: '100vh' }}>
@@ -43,7 +54,18 @@ useEffect(() => {
       {verifyMail === true && (
         <div>
           <h3>Email is verified successfully</h3>
-          <p>Your account is in Approval process from Bajaj Admin.</p>
+          <p>
+            You will be redirected to Login Page within a few seconds.
+            If not, click the button below.
+          </p>
+          <a
+            href={`${baseUrl}?openLogin=true`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-primary"
+          >
+            Click Here
+          </a>
         </div>
       )}
       {verifyMail === false && (

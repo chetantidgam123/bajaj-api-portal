@@ -135,7 +135,7 @@ function Profile() {
     post_auth_data("portal/private", convertToPayload("get-user-available-api", payload), {})
       .then((response) => {
         setLoader(prev => ({ ...prev, page: false }));
-        if (response.data.satus) {
+        if (response.data.status) {
           setAvailableAPIs(response.data.result || [])
           // const totalCount = response?.data?.totalRecords ?? response?.data?.result?.length ?? 0;
           const totalCount = response?.data?.totalRecords;
@@ -219,7 +219,7 @@ function Profile() {
     const payL = {
       apis: selectedAPIs.map((api) => ({
         api_id: String(api.uniqueid),
-        application_name: api.apiname, // or just applicationName variable
+        application_name: api.apiname.trim(), // or just applicationName variable
       })),
     };
     post_auth_data("portal/private", convertToPayload("request-multiple-api-access", payL), {})
@@ -354,8 +354,7 @@ function Profile() {
                   Basic Details
                 </button>
               </li>
-              <li className="nav-item" role="presentation">
-                {/* <button className="nav-link  w-100 text-start text-sidebar" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Available APIs</button> */}
+              {/* <li className="nav-item" role="presentation">
                 <button
                   className={`nav-link w-100 text-start text-sidebar ${activeTab === "available" ? "active" : ""}`}
                   id="pills-profile-tab"
@@ -369,7 +368,7 @@ function Profile() {
                 >
                   Available APIs
                 </button>
-              </li>
+              </li> */}
               <li className="nav-item" role="presentation">
                 {/* <button className="nav-link  w-100 text-start text-sidebar" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Accessible APIs</button> */}
                 <button
@@ -383,7 +382,7 @@ function Profile() {
                   aria-selected={activeTab === "accessible"}
                   onClick={() => setActiveTab("accessible")}
                 >
-                  Accessible APIs
+                  My APIs
                 </button>
               </li>
             </ul>
@@ -689,7 +688,7 @@ function Profile() {
               </FormikProvider>
               {loader.page && <PageLoaderBackdrop />}
             </div></div>
-            <div className="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+            {/* <div className="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
               <div className="card-bg  p-4 mt-4">
                 <div className="card p-3">
                   <h4 className="mb-0">Available APIs</h4>
@@ -739,7 +738,7 @@ function Profile() {
                 </div>
               </div>
               {loader.page && <PageLoaderBackdrop />}
-            </div>
+            </div> */}
             <div className="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
               <div className="card-bg  p-4 mt-4">
                 <div className="card p-3">

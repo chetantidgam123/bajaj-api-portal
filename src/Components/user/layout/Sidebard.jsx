@@ -7,7 +7,7 @@ import ForgotPassword from "../../auth/ForgotPassword";
 import ResetPassword from "../../auth/ResetPasswrd";
 import SignupPage from "../../auth/SignupPage";
 import { post_data } from "../../../ApiServices";
-import { error_swal_toast } from "../../../SwalServices";
+import { confirm_swal_with, error_swal_toast } from "../../../SwalServices";
 import PropTypes from "prop-types";
 
 function Sidebard() {
@@ -42,6 +42,13 @@ function Sidebard() {
     const activeClass = isapiId ? " activeApi" : "";
     return baseClass + activeClass;
   };
+
+  const confirm_swal_call = () => {
+    const callback = (resolve, reject) => {
+        resolve();
+    }
+    confirm_swal_with(callback, `To access the APIs your Account is in Approval Process`)
+  } 
 
   const getSidebarlist = () => {
     post_data("portal/public", convertToPayload("get-sidebar-list", {}), {})
@@ -132,9 +139,28 @@ function Sidebard() {
                         ? "disabled"
                         : ""
                     }
+                    // onClick={() => {
+                    //   navigate("/api/" + item.record_uuid);
+                    // }}
                     onClick={() => {
-                      navigate("/api/" + item.record_uuid);
+                      if(getTokenData()?.approved_status === 1) {
+                        navigate("/api/" + item.record_uuid);
+                      } else {
+                        confirm_swal_call()
+                      }
                     }}
+                    //  onClick={(e) => {
+                    //   // STOP ACCORDION FROM OPENING
+                    //   e.stopPropagation();
+                    //   e.preventDefault();
+                    //   // Also stop React-Bootstrap from detecting toggle event
+                    //   e.nativeEvent.stopImmediatePropagation?.();
+                    //   if (getTokenData()?.approved_status !== 1) {
+                    //     confirm_swal_call();
+                    //     return;
+                    //   }
+                    //   navigate("/api/" + item.record_uuid);
+                    // }}
                   >
                     <img
                       src={`/assets/img/${i == activeKey ? "visualization.png" : "visualization-2.png"
@@ -146,7 +172,7 @@ function Sidebard() {
                   </Accordion.Header>
 
                   {/* Subcategories */}
-                  {item.subcategories.length > 0 && (
+                  {getTokenData()?.approved_status === 1 && item.subcategories.length > 0 && (
                     <Accordion.Body className="p-0">
                       <Accordion
                         activeKey={subActiveKey}
@@ -187,7 +213,7 @@ function Sidebard() {
                   )}
 
                   {/* API Categories */}
-                  {item.apis_category.length > 0 && (
+                  {getTokenData()?.approved_status === 1 && item.apis_category.length > 0 && (
                     <Accordion.Body className="p-0">
                       {item.apis_category.map((api, si) => (api.isenabled && !api.isdeleted) ? (
                         <div
@@ -277,11 +303,11 @@ function Sidebard() {
       </div>
       <div>
         <div className='d-xl-none d-lg-none d-md-block d-sm-block d-block width-50'>
-          <i class="fa-solid fa-bars btn-mobile-blue" data-bs-toggle="offcanvas" href="#offcanvasExampleside" role="button" aria-controls="offcanvasExampleside"></i>
+          <i className="fa-solid fa-bars btn-mobile-blue" data-bs-toggle="offcanvas" href="#offcanvasExampleside" role="button" aria-controls="offcanvasExampleside"></i>
         </div>
-        <div class="offcanvas offcanvas-start d-xl-none d-lg-none d-md-block d-sm-block d-block" tabindex="-1" id="offcanvasExampleside" aria-labelledby="offcanvasExampleLabelside">
-          <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasExampleLabelside">
+        <div className="offcanvas offcanvas-start d-xl-none d-lg-none d-md-block d-sm-block d-block" tabIndex="-1" id="offcanvasExampleside" aria-labelledby="offcanvasExampleLabelside">
+          <div className="offcanvas-header">
+            <h5 className="offcanvas-title" id="offcanvasExampleLabelside">
               <Link
                 className="navbar-brand d-flex align-items-center justify-content-start"
                 to="/"
@@ -293,9 +319,9 @@ function Sidebard() {
                 />
               </Link>
             </h5>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
           </div>
-          <div class="offcanvas-body main-layout py-0">
+          <div className="offcanvas-body main-layout py-0">
             <div className="sidebar-user p-0 ">
               {/* Main Accordion */}
               <Accordion

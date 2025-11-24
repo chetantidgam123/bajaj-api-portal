@@ -102,6 +102,14 @@ const settings = {
         AOS.refresh();
     }, []);
 
+useEffect(() => {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("openLogin") === "true") {
+    setModalName("login");   // Open login popup
+    setShow(true);           // Show modal
+  }
+}, []);
+
 const getURLIds = async() => {
     try {
         const res = await post_data("portal/public", convertToPayload("get-sidebar-list", {}), {})
