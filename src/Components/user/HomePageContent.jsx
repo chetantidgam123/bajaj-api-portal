@@ -7,7 +7,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm'
 import { adminEmail, arrayIndex, convertToPayload, copyToClipboard, getJwtData, getTokenData, offsetPagination, scrollToTop, sendEmail, trucateString } from '../../Utils';
 import GetStarted from './GetStarted';
-import { error_swal_toast, success_swal_toast, confirm_swal_with } from '../../SwalServices';
+import { error_swal_toast, success_swal_toast, confirm_swal_success } from '../../SwalServices';
 import { post_auth_data, post_data } from '../../ApiServices';
 import { PageLoaderBackdrop, Loader, LoaderWight } from '../../Loader';
 import { ApiListRequestEmail, generateApiRequestEmail } from '../../emailTemplate';
@@ -42,7 +42,6 @@ function HomePageContent() {
     const [btnName, setBtnName] = useState('Request Access')
     const location = useLocation();
     const tokenData = getTokenData();
-    console.log(tokenData)
     useEffect(() => {
         chekParamParameter()
     }, [api_id, collection_id, category_id])
@@ -225,7 +224,7 @@ function HomePageContent() {
             setApiModalShow(true)
             availableAPIList()
         }
-        confirm_swal_with(callback, `Thank you for requesting access. More APIs are available — click below to view them.`)
+        confirm_swal_success(callback, `Thank you for requesting access. More APIs are available — click below to view them.`)
     }
 
     const availableAPIList = async (page = 1) => {
