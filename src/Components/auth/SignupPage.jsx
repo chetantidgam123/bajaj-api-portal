@@ -357,7 +357,7 @@ function SignupPage({ setModalName, setShow }) {
           </p>
           <p>Your account is in Approval process from Bajaj Admin.</p>
           {/* <p className="fw-1">This page will be reloaded automatically Once you click the verfication link.</p> */}
-          {/* <i class="fa-solid fa-rotate-right"></i> */}
+          {/* <i className="fa-solid fa-rotate-right"></i> */}
         </div>
       )}
 

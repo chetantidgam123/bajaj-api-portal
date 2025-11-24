@@ -263,7 +263,7 @@ function UserList() {
                                                 </Dropdown> */}
                                                 <Dropdown
                                                     align="end"
-                                                    popperConfig={{
+                                                    popperconfig={{
                                                         strategy: 'fixed',
                                                         modifiers: [
                                                             { name: 'flip', options: { fallbackPlacements: ['top', 'bottom'] } },

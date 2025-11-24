@@ -5,16 +5,24 @@ import LangCurlExecuteComp from './LangCurlExecuteComp';
 import SyntaxHighLighter from './SyntaxHighLighter';
 import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm'
-import { adminEmail, arrayIndex, convertToPayload, copyToClipboard, getTokenData, scrollToTop, sendEmail, trucateString } from '../../Utils';
+import { adminEmail, arrayIndex, convertToPayload, copyToClipboard, getJwtData, getTokenData, offsetPagination, scrollToTop, sendEmail, trucateString } from '../../Utils';
 import GetStarted from './GetStarted';
-import { error_swal_toast, success_swal_toast } from '../../SwalServices';
+import { error_swal_toast, success_swal_toast, confirm_swal_with } from '../../SwalServices';
 import { post_auth_data, post_data } from '../../ApiServices';
 import { PageLoaderBackdrop, Loader, LoaderWight } from '../../Loader';
-import { generateApiRequestEmail } from '../../emailTemplate';
+import { ApiListRequestEmail, generateApiRequestEmail } from '../../emailTemplate';
 import { apiRequestUser } from '../../emailTemplate';
+import PaginateComponent from '../common/Pagination';
 function HomePageContent() {
     const navigate = useNavigate();
     const { collection_id, category_id, api_id } = useParams();
+    const [apiModalShow, setApiModalShow] = useState(false);
+    const [availableAPIs, setAvailableAPIs] = useState([])
+    const [availableCurrentPage, setAvailableCurrentPage] = useState(1);
+    const [availableTotalPages, setAvailableTotalPages] = useState(1);
+    const [selectedAPIs, setSelectedAPIs] = useState([]);
+    const [fullName, setFullName] = useState("");
+    const [emailId, setEmailId] = useState("");
     const [show, setShow] = useState(false)
     const [show1, setShow1] = useState(false)
     const [apiData, setApiData] = useState(null);
@@ -33,6 +41,8 @@ function HomePageContent() {
     const [hasTriedApi, setHasTriedApi] = useState(false);
     const [btnName, setBtnName] = useState('Request Access')
     const location = useLocation();
+    const tokenData = getTokenData();
+    console.log(tokenData)
     useEffect(() => {
         chekParamParameter()
     }, [api_id, collection_id, category_id])
@@ -123,6 +133,10 @@ function HomePageContent() {
         }
     }, [statusCode])
 
+      useEffect(() => {
+        getUserData();
+      }, []);
+
     const checkAccess = () => {
         const payload = { api_id: api_id }
         setTryitLoader(true)
@@ -175,10 +189,9 @@ function HomePageContent() {
                 setRequestLoader(false);
                 if (response.data.status) {
                     setBtnName('Access Pending')
-                    console.log("inside status condition 1", tokendata.emailid)
                     setOpenTryitModal(false);
-                    success_swal_toast(response.data.message);
-                    console.log("inside status condition 2", tokendata.emailid)
+                    // success_swal_toast(response.data.message);
+                    confirm_swal_call()
                     const emailBody = generateApiRequestEmail({
                         adminName: "Admin",
                         apiName: apiData.apiname,
@@ -187,14 +200,12 @@ function HomePageContent() {
                         requestDate: new Date().toLocaleString(),
                         loginLink: "https://apidocs.bajajauto.com/"
                     })
-                    console.log("inside status condition 3", tokendata.emailid)
                     const subject = "Approval Required - User API Access Request"
                     await sendEmail({ body: emailBody, toRecepients: [adminEmail], subject: subject, contentType: 'text/html' });
                     const emailBody2 = apiRequestUser({
                         apiName: apiData.apiname,
                         userName: tokendata.fullname
                     })
-                    console.log("inside status condition 4", tokendata.emailid);
                     const userMail = tokendata.emailid
                     // const userMail = "sagarmeshram532@gmail.com"
                     await sendEmail({ body: emailBody2, toRecepients: [userMail], subject: "Bajaj Developer API Usage Details - Your Request", contentType: 'text/html' })
@@ -207,6 +218,131 @@ function HomePageContent() {
             })
     };
 
+    
+    const confirm_swal_call = () => {
+        const callback = (resolve) => {
+            resolve();
+            setApiModalShow(true)
+            availableAPIList()
+        }
+        confirm_swal_with(callback, `Thank you for requesting access. More APIs are available — click below to view them.`)
+    }
+
+    const availableAPIList = async (page = 1) => {
+        const payload = {
+          category_id: 0,
+          subcategory_id: 0,
+          limit: offsetPagination,
+          page: page
+        };
+        // setLoader(prev => ({ ...prev, page: true }));
+        setLoader(true)
+        post_auth_data("portal/private", convertToPayload("get-user-available-api", payload), {})
+          .then((response) => {
+            // setLoader(prev => ({ ...prev, page: false }));
+            setLoader(false)
+            if (response.data.status) {
+              setAvailableAPIs(response.data.result || [])
+              // const totalCount = response?.data?.totalRecords ?? response?.data?.result?.length ?? 0;
+              const totalCount = response?.data?.totalRecords;
+              setAvailableTotalPages(Math.ceil(totalCount / offsetPagination))
+              setAvailableCurrentPage(page)
+            } else {
+            //   setLoader(prev => ({ ...prev, page: false }));
+            setLoader(false)
+              error_swal_toast(response.data.message || "Something went wrong");
+            }
+          })
+          .catch((error) => {
+            // setLoader(prev => ({ ...prev, page: false }));
+            setLoader(false)
+            error_swal_toast(error.message || "Something went wrong");
+            console.error("Error during profile update:", error);
+          });
+    };
+
+      const getUserData = () => {
+        setLoader(true);
+        post_auth_data("portal/private", convertToPayload("get-user-by-id", { user_id: getJwtData().sub }), {})
+          .then((response) => {
+            setLoader(false);
+            if (response.data.status) {
+              setFullName(response.data.data[0].fullname || "");
+              setEmailId(response.data.data[0].emailid || "");
+            } else {
+              error_swal_toast(response.data.message || "something went wrong");
+            }
+          })
+          .catch((error) => {
+            setLoader(false);
+            console.error("Error during signup:", error);
+          });
+      };
+
+      const sendingMail = async () => {
+        if (selectedAPIs.length === 0) {
+          error_swal_toast("Please select at least one API to request access.");
+          return;
+        }
+        const userName = fullName;
+        const subject = "APIs Approval Is In Process";
+        const userEmail = emailId;
+        const emailBody = ApiListRequestEmail({
+          status: "Requested",
+          selectedAPIs,
+        });
+    
+        await sendEmail({
+          body: emailBody,
+          toRecepients: [userEmail],
+          subject,
+          contentType: "text/html"
+        });
+    
+        success_swal_toast("Request sent successfully!");
+      };
+
+    const multipleAPIReq = async () => {
+    if (selectedAPIs.length === 0) {
+        error_swal_toast("Please select at least one API");
+        return;
+    }
+    setLoader(true);
+    const payL = {
+        apis: selectedAPIs.map((api) => ({
+        api_id: String(api.uniqueid),
+        application_name: api.apiname, // or just applicationName variable
+        })),
+    };
+    post_auth_data("portal/private", convertToPayload("request-multiple-api-access", payL), {})
+        .then((res) => {
+        setLoader(false);
+        if (res.data.status) {
+            setSelectedAPIs([]);
+            sendingMail();
+            availableAPIList();
+            setApiModalShow(false)
+        } else {
+            setLoader(false);
+            error_swal_toast(res.data.message || "something went wrong");
+        }
+        }).catch((error) => {
+        setLoader(false);
+        error_swal_toast(error.message || "something went wrong");
+        console.log("Error during signup:", error)
+        })
+    }
+
+    const handleCheckboxChange = (api, isChecked) => {
+        setSelectedAPIs((prev) => {
+            if (isChecked) {
+                return [...prev.filter((item) => item.id !== api.id), api]; // store full object
+            } else {
+                return prev.filter((item) => item.id !== api.id);
+            }
+            }
+        );
+    };
 
     useEffect(() => {
         if (category_id && !getTokenData()) {
@@ -537,6 +673,63 @@ function HomePageContent() {
 
                 </Modal.Body>
             </Modal>
+
+    <Modal size='xl' show={apiModalShow} onHide={() => setApiModalShow(false)} animation={false}>
+        <Modal.Header closeButton>
+          <Modal.Title>Available Apis List</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+            <div className="mt-3 ">
+                <div className="api-table-container">
+                    <table className="custom-table-new">
+                    <thead className="custom-thead-new">
+                        <tr className="custom-tr-new">
+                        <th className="custom-th-new"></th>
+                        <th className="custom-th-new">API Name</th>
+                        <th className="custom-th-new">API Description</th>
+                        <th className="custom-th-new">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {availableAPIs.length > 0 && availableAPIs.map((api, index) => (
+                        <tr key={api.id} className="custom-tr-new">
+                            <td className="custom-td-new">
+                            <input
+                                type="checkbox"
+                                // checked={api.approved_status == 0}
+                                defaultChecked={Number(api.approved_status) === 0}
+                                disabled={Number(api.approved_status) === 0}  
+                                onChange={(e) => handleCheckboxChange(api, e.target.checked)}
+                            />
+                            </td>
+                            <td className="custom-td-new">{api.apiname}</td>
+                            <td className="custom-td-new">{api.description}</td>
+                            <td className="custom-td-new">{api.approved_status == 0 && "Requested"}</td>
+                        </tr>
+                        ))}
+                    </tbody>
+                    </table>
+                </div>
+                <div className="d-flex justify-content-between align-items-center">
+                    <div className="mt-3">
+                    {availableTotalPages > 1 && (
+                    <PaginateComponent
+                        currentPage={availableCurrentPage}
+                        totalPages={availableTotalPages}
+                        onPageChange={(page) => availableAPIList(page)}
+                    />)}
+                    </div>
+                    {availableAPIs.length > 0 && <button className="btn-request mb-1" onClick={multipleAPIReq}>Request Access</button>}
+                </div>
+                {loader.page && <PageLoaderBackdrop />}
+            </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setApiModalShow(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+    </Modal>
             {
                 loader && <PageLoaderBackdrop />
             }
