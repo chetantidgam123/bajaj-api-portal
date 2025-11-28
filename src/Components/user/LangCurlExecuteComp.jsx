@@ -36,7 +36,6 @@ function LangCurlExecuteComp({ apiData, setStatusCode,bodyReqSample,tryit=false 
         scrollToTop()
     }, [])
     useEffect(() => {
-        console.log(apiData)
         generateLangReq('curl')
         const firstCode = JSON.parse(apiData.responses?.value || '[]')[0]?.code;
         if (firstCode) {

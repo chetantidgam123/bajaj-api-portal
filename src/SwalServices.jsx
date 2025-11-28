@@ -69,6 +69,39 @@ const confirm_swal_with = (callback, title) => {
     });
 };
 
+const confirm_swal_success = (callback, title) => {
+    Swal.fire({
+        html: `<div className="modal-body">
+  <div className="d-flex justify-content-center">
+      <img src="/assets/img/success.png" alt="">
+  </div>
+  <p className="text-center mt-3 px-4 letter-spacing roboto-medium font-18 ">${title}</p>
+  </div>
+  <div className="border-top"></div>`,
+
+        customClass: {
+            confirmButton: 'btn btn-primary py-2'
+        },
+
+        allowOutsideClick: false,
+        confirmButtonText: 'Click Here',   // 👈 Only one button now
+        padding: 20,
+        showLoaderOnConfirm: true,
+
+        preConfirm: async () => {
+            const response = await new Promise((res, rej) => {
+                callback(res, rej)
+            });
+            return response;
+        }
+    })
+    .then(() => {})
+    .catch(err => {
+        console.log(err);
+        Swal.close();
+    });
+};
+
 
 const success_swal_toast = (msg) => {
     Swal.fire({
@@ -164,6 +197,7 @@ const threeButtonModel = (callback, sendForApproval) => {
 
 export {
     confirm_swal_with,
+    confirm_swal_success,
     confirm_swal_with_text,
     success_swal_toast,
     error_swal_toast,
