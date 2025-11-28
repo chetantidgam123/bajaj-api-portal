@@ -217,7 +217,7 @@ function CategoryList() {
                             <th>Sr. No</th>
                             <th>Category  Name</th>
                             <th>Created Date</th>
-                            <th>Action</th>
+                            <th className="text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -228,7 +228,7 @@ function CategoryList() {
                                     <td>{cat.categoryname}</td>
                                     <td>{moment(cat.createddate).format('DD-MMM-yyyy')}</td>
                                     <td>
-                                        <div className="d-flex">
+                                        <div className="d-flex justify-content-center">
                                             <Form.Check // prettier-ignore
                                                 type="switch"
                                                 id="custom-switch"

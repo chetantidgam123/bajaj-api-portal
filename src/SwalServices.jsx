@@ -39,10 +39,15 @@ const confirm_swal_with_text = (callback, title) => {
 const confirm_swal_with = (callback, title) => {
     Swal.fire({
         html: `<div className="modal-body">
-  <div className="d-flex justify-content-center">
-      <img src="/assets/img/info-circle.png" alt="">
+  <div className="d-flex justify-content-center mb-4">
+     <img
+  src="/assets/img/info-circle.png"
+  alt=""
+  className="margin-bottom-swal"
+  style={{ marginBottom: "20px !important" }}
+/>
   </div>
-  <p className="text-center mt-3 px-4 letter-spacing roboto-medium font-18 ">${title}</p>
+  <p className="text-center px-4 letter-spacing roboto-medium font-18 mt-5">${title}</p>
   </div>
   <div className="border-top"></div>`,
 
