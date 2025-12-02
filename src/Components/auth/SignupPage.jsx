@@ -352,7 +352,7 @@ function SignupPage({ setModalName, setShow }) {
             <i className="fa-solid fa-circle-check"></i>
           </span>
           <p>User Registered Succesfully</p>
-          <p className="mb-5 fw-medium">
+          <p className=" fw-medium">
             Kindly check your mailbox, a verification link has been shared to your email.
           </p>
           {/* <p>Your account is in Approval process from Bajaj Admin.</p> */}

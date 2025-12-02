@@ -680,7 +680,7 @@ function HomePageContent() {
         <Modal.Body>
             <div className="mt-3 ">
                 <div className="api-table-container">
-                    <table className="custom-table-new">
+                    <table className="custom-table-new table-bordered">
                     <thead className="custom-thead-new">
                         <tr className="custom-tr-new">
                         <th className="custom-th-new"></th>

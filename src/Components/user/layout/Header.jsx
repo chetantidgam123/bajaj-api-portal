@@ -63,7 +63,7 @@ function Header() {
       const callback = (resolve, reject) => {
           resolve();
       }
-      confirm_swal_with(callback, `To access the APIs your account is in Approval Process`)
+      confirm_swal_with(callback, `To access the APIs your account is in Approval Process mt-5`)
   } 
 
   return (
