@@ -4,6 +4,7 @@ export const signupFormSchema = yup.object().shape({
   fullName: yup.string().trim().min(3, "Full name must be at least 3 characters").required("mandatory field*"),
   companyName: yup.string()
   .min(2, "Company name must be at least 2 characters")
+  .max(25, "at most 25 characters are allowed")
   .required("Company name is required"),
   emailId: yup
     .string()
@@ -107,7 +108,7 @@ export const categoryFormSchema = yup.object().shape({
   categoryid: yup.number(),
 });
 export const subCategoryFormSchema = yup.object().shape({
-  subcategoryname: yup.string().required("sub category is required"),
+  subcategoryname: yup.string().required("Sub Category is Required"),
   categoryid: yup.number().required("category is required"),
   description: yup.string(),
   isenabled: yup.boolean(),

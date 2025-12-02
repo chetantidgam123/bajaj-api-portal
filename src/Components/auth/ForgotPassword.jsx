@@ -70,15 +70,17 @@ function ForgotPassword({ setModalName, setShowLogin }) {
             }
             {isLinkSent &&
                 <div className="d-flex align-item-center loginModalHeight">
-                    <div className="linktext">
+                    <div className="linktext" style={{height: "initial"}}>
                         <img src="/assets/img/success.png" alt="NA" className="my-3" />
                         <p className="mb-2">
                             Kindly check your mail box, a reset link has been shared over the mail <b>{forgotPasswordForm.values.emailId}</b>.
                         </p>
                         <button className="btn btn-primary" onClick={() => { setIsLinkSent(false) }}>Change Email</button>
-                        <div className="d-flex justify-content-between mt-3">
-                            <small className="" style={{ fontSize: '0.95em' }} >Haven't received link?</small>
-                            <small><button className="span-btn text-primary bg-light" onClick={forgotPasswordForm.handleSubmit} disabled={loader.emailSend}>Resend Link {loader.emailSend && <Loader />}</button></small>
+                        <div className="d-flex justify-content-between mt-2 mb-2 align-items-center">
+                            <span style={{ fontSize: "0.95em" }}>Haven't received link?</span>
+                            <button className="btn btn-link text-decoration-none" onClick={forgotPasswordForm.handleSubmit} disabled={loader.emailSend} style={{ fontSize: "0.95em" }}>Resend Link {loader.emailSend && <Loader />}</button>
+                            {/* <small className="" style={{ fontSize: '0.95em' }} >Haven't received link?</small> */}
+                            {/* <small><button className="span-btn text-primary bg-light" onClick={forgotPasswordForm.handleSubmit} disabled={loader.emailSend}>Resend Link {loader.emailSend && <Loader />}</button></small> */}
                         </div>
                     </div>
                 </div>

@@ -1093,3 +1093,8 @@ border-radius: 20px !important;
     .min-height-100{
         min-height: 100%;
     }
+
+    .ck-content h6 {
+        color: #000 !important;
+        font-size: 0.9rem !important;
+    }

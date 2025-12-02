@@ -7,7 +7,7 @@ import { createUserSchema } from "../../Schema";
 import { post_auth_data, post_data } from "../../ApiServices";
 import { arrayIndex, convertToPayload, getTokenData, offsetPagination, sendEmail } from "../../Utils";
 import { ErrorMessage, FormikProvider, useFormik } from "formik";
-import { confirm_swal_with_text, error_swal_toast, success_swal_toast } from "../../SwalServices";
+import { confirm_swal_with_text, error_swal_toast, success_swal_toast, swall_success_animation } from "../../SwalServices";
 import { PageLoaderBackdrop } from "../../Loader";
 import PaginateComponent from "../common/Pagination";
 import { Link } from "react-router-dom";
@@ -94,7 +94,7 @@ function UserList() {
         const callback = (resolve, reject) => {
             toggleStatus(user, resolve, reject)
         }
-        confirm_swal_with_text(callback, `Are you sure <br/> you want to ${user.approved_status == 0 ? 'approve' : 'restrict'} user?`)
+        swall_success_animation(callback, `Are you sure you want to ${user.approved_status == 0 ? 'approve' : 'restrict'} user?`, user.approved_status == 0 ? 'Approve' : 'Restrict')
     }
     const toggleStatus = async (user, resolve, reject) => {
         let payload = {
@@ -104,7 +104,7 @@ function UserList() {
         post_auth_data("portal/private", convertToPayload('approve-user', payload), {})
             .then((response) => {
                 if (response.data.status) {
-                    success_swal_toast(response.data.message);
+                    // success_swal_toast(response.data.message);
                     const subject = "BAJAJ Developer Portal-Website Access Granted";
                     const userName = user.fullname;
                     const userEmail = user.emailid;
@@ -276,6 +276,14 @@ function UserList() {
                                                         variant="link"
                                                         bsPrefix="p-0 border-0 bg-transparent"
                                                         id="dropdown-basic"
+                                                        style={{
+                                                            width: "40px",
+                                                            height: "35px",
+                                                            display: "flex",
+                                                            alignItems: "center",
+                                                            justifyContent: "center",
+                                                            cursor: "pointer",
+                                                        }}
                                                     >
                                                         <i className="fa-solid fa-ellipsis-vertical"></i>
                                                     </Dropdown.Toggle>

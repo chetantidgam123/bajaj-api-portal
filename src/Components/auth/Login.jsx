@@ -12,6 +12,7 @@ import { LoaderWight, Loader } from "../../Loader";
 import { loginOtpEmail } from "../../emailTemplate";
 import { BasicLoader } from "../../Loader";
 import { encrypt, decrypt } from "../../Utils";
+import Swal from "sweetalert2";
 
 // Generate 6-digit OTP
 const generateOtp = () => Math.floor(100000 + Math.random() * 900000).toString();
@@ -27,6 +28,36 @@ function Login({ setModalName, setShow }) {
     const [canResendOtp, setCanResendOtp] = useState(false);
     const [backendTokenData, setBackendTokenData] = useState(null); // store token data temporarily
     const navigate = useNavigate();
+
+    const show_error_swal_ = (message) => {
+        Swal.fire({
+        html: `<div className="modal-body">
+    <div className="d-flex justify-content-center">
+        <img src="/assets/home/img/error-circle.png" alt="">
+    </div>
+    <p className="text-center mt-3 px-2 letter-spacing font-24 font-400 text-dark font-family mt-3 mb-0">${message}</p>
+    <div class="text-center mt-3">
+        <button id="signupLink" class="btn btn-primary px-4 py-2">Sign Up</button>
+    </div>
+</div>
+<div className="border-top d-none"></div>`,
+        // confirmButtonText: '<button type="button" className="btn">Ok</button>',
+        // confirmButtonText: 'OK',
+        showConfirmButton: false,
+        customClass: { confirmButton: 'btn-violet-outline btn-hover-fill py-2' },
+        didOpen: () => {
+            // Attach event listener AFTER alert opens
+            const link = document.getElementById("signupLink");
+            if (link) {
+                link.addEventListener("click", () => {
+                    Swal.close(); // close SweetAlert
+                    setModalName("signup");
+                    Loginform.resetForm();
+                });
+            }
+        }
+    });
+}
 
     const Loginform = useFormik({
         initialValues: {
@@ -112,7 +143,9 @@ function Login({ setModalName, setShow }) {
                 console.log("Generated OTP:", otp);
             } else {
                 setLoader(false);
-                error_swal_toast(res.data.message || "Invalid credentials");
+                if(res.data.message === "Invalid Credentials.")
+                    show_error_swal_("You dont have account please Signup to continue.");
+                else error_swal_toast(res.data.message || "Invalid credentials");
             }
         } catch (err) {
             setLoader(false);
@@ -227,8 +260,15 @@ function Login({ setModalName, setShow }) {
                             className="form-control pe-5"
                             placeholder="Enter OTP"
                             value={Loginform.values.enteredOtp}
-                            onChange={(e) => Loginform.setFieldValue("enteredOtp", e.target.value)}
-                        />
+                            maxLength="6"
+                            // onChange={(e) => Loginform.setFieldValue("enteredOtp", e.target.value)}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                if (/^\d*$/.test(value)) {
+                                    Loginform.setFieldValue("enteredOtp", value);
+                                    }
+                                }}
+                            />
                         <i
                             className={`fa ${showPassword ? "fa-eye-slash" : "fa-eye"} position-absolute top-50 end-0 translate-middle-y me-3`}
                             role="button"
