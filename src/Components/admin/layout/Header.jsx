@@ -3,7 +3,7 @@ import { Accordion, Dropdown } from 'react-bootstrap'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useState } from "react";
 import { getTokenData, getInitials } from "../../../Utils";
-import { confirm_swal_with_text, success_swal_toast } from '../../../SwalServices';
+import { confirm_swal_with_text, success_swal_toast, swall_logout_animate } from '../../../SwalServices';
 const Sidebar = React.lazy(() => import('./Sidebar'));
 
 function Header() {
@@ -18,23 +18,34 @@ function Header() {
     //     localStorage.clear();
     //     navigate('/')
     // }
+    // const logout = () => {
+    //     confirm_swal_with_text(async (resolve) => {
+    //         try {
+    //             // Clear local storage or token
+    //             localStorage.clear();
+
+    //             // Optional: show success message
+    //             success_swal_toast("You have been logged out!");
+
+    //             // Navigate to homepage or login
+    //             navigate("/");
+
+    //             resolve(true);
+    //         } catch (err) {
+    //             console.error("Logout error:", err);
+    //         }
+    //     }, "Are you sure you want to logout?");
+    // }
     const logout = () => {
-        confirm_swal_with_text(async (resolve) => {
-            try {
-                // Clear local storage or token
-                localStorage.clear();
-
-                // Optional: show success message
-                success_swal_toast("You have been logged out!");
-
-                // Navigate to homepage or login
-                navigate("/");
-
-                resolve(true);
-            } catch (err) {
-                console.error("Logout error:", err);
-            }
-        }, "Are you sure you want to logout?");
+      swall_logout_animate(() => {
+        try {
+            localStorage.clear();
+            success_swal_toast("You have been logged out!");
+            navigate("/");
+        } catch (err) {
+          console.error("Logout error:", err);
+        }
+      });
     }
     const [fullName, setFullName] = useState('');
 

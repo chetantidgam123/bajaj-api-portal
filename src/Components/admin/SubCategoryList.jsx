@@ -298,7 +298,7 @@ function SubCategoryList() {
                     onPageChange={(page) => getSubCategoryList(page, dropCatInput)}
                 />
             </div>
-            <Modal show={show} onHide={handleClose}>
+            <Modal size="lg" show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>{isEdit ? 'Update' : 'Add'} Sub Category</Modal.Title>
                 </Modal.Header>
@@ -352,7 +352,7 @@ function SubCategoryList() {
                                     "heading",              // Heading (H1, H2, H3...)
                                     "|",
                                     "bold", "italic", "underline", "strikethrough",
-                                    "link",
+                                    // "link",
                                     "|",
                                     "bulletedList", "numberedList", "blockQuote",
                                     "|",

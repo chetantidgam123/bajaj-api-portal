@@ -5,7 +5,7 @@ import LangCurlExecuteComp from './LangCurlExecuteComp';
 import SyntaxHighLighter from './SyntaxHighLighter';
 import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm'
-import { adminEmail, arrayIndex, convertToPayload, copyToClipboard, getJwtData, getTokenData, offsetPagination, scrollToTop, sendEmail, trucateString } from '../../Utils';
+import { adminEmail, arrayIndex, convertToPayload, copyToClipboard, getJwtData, getTokenData, offsetPaginationten, scrollToTop, sendEmail, trucateString } from '../../Utils';
 import GetStarted from './GetStarted';
 import { error_swal_toast, success_swal_toast, confirm_swal_success } from '../../SwalServices';
 import { post_auth_data, post_data } from '../../ApiServices';
@@ -132,9 +132,9 @@ function HomePageContent() {
         }
     }, [statusCode])
 
-      useEffect(() => {
-        getUserData();
-      }, []);
+    //   useEffect(() => {
+    //     getUserData();
+    //   }, []);
 
     const checkAccess = () => {
         const payload = { api_id: api_id }
@@ -231,7 +231,7 @@ function HomePageContent() {
         const payload = {
           category_id: 0,
           subcategory_id: 0,
-          limit: offsetPagination,
+          limit: offsetPaginationten,
           page: page
         };
         // setLoader(prev => ({ ...prev, page: true }));
@@ -244,7 +244,7 @@ function HomePageContent() {
               setAvailableAPIs(response.data.result || [])
               // const totalCount = response?.data?.totalRecords ?? response?.data?.result?.length ?? 0;
               const totalCount = response?.data?.totalRecords;
-              setAvailableTotalPages(Math.ceil(totalCount / offsetPagination))
+              setAvailableTotalPages(Math.ceil(totalCount / offsetPaginationten))
               setAvailableCurrentPage(page)
             } else {
             //   setLoader(prev => ({ ...prev, page: false }));
