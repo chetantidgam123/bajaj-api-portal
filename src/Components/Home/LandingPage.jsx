@@ -173,13 +173,13 @@ useEffect(() => {
 
                     <div className='row mt-4 border-relative' data-aos="fade-up">
                         <div className='col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 d-flex justify-content-center'>
-                            <button className='btn btn-outline-primary px-3 bg-white'>Step 1</button>
+                            <button className='btn btn-outline-primary px-3 bg-white hoverstep-btn'>Step 1</button>
                         </div>
                         <div className='col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 d-flex justify-content-center'>
                             <button className='btn btn-primary px-3'>Step 2</button>
                         </div>
                         <div className='col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 d-flex justify-content-center'>
-                            <button className='btn btn-outline-primary px-3 bg-white'>Step 3</button>
+                            <button className='btn btn-outline-primary px-3 bg-white hoverstep-btn'>Step 3</button>
                         </div>
                     </div>
                     <div className='border-dashed'></div>

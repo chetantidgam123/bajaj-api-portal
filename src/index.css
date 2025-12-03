@@ -1151,4 +1151,7 @@ margin-bottom: 20px !important;
     color: #333;
 }
 
+.hoverstep-btn:hover{
+    color: #006AD0 !important;
+}
 
