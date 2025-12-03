@@ -274,7 +274,7 @@ function UserList() {
                                                     <Dropdown.Toggle
                                                         as="button"
                                                         variant="link"
-                                                        bsPrefix="p-0 border-0 bg-transparent"
+                                                        bsPrefix="border-0 bg-transparent action-dropdown-toggle"
                                                         id="dropdown-basic"
                                                     >
                                                         <i className="fa-solid fa-ellipsis-vertical"></i>

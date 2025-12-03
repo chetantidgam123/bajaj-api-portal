@@ -101,7 +101,14 @@ function Header() {
                 </Link>
               </li> */}
               <li className="nav-item">
-                {getTokenData()?.approved_status === 1 ? (
+                {!getTokenData() ? (
+                  <span className="nav-link" style={{cursor: "pointer"}} onClick={() => {
+                    setModalName("signup");
+                    setShow(true);
+                  }}>
+                    Explore API
+                  </span>
+                ) : getTokenData()?.approved_status === 1 ? (
                   <Link className="nav-link" to="/api/0">Explore API</Link>
                 ) : (
                   <span className="nav-link" style={{cursor: "pointer"}} onClick={() => confirm_swal_call()}>
@@ -340,9 +347,20 @@ function Header() {
                 </li>
               )}
               <li className="nav-item">
-                <Link className="nav-link" to="/api/0">
-                  Explore API
-                </Link>
+                {!getTokenData() ? (
+                  <span className="nav-link" style={{cursor: "pointer"}} data-bs-dismiss="offcanvas" onClick={() => {
+                    setModalName("signup");
+                    setShow(true);
+                  }}>
+                    Explore API
+                  </span>
+                ) : getTokenData()?.approved_status === 1 ? (
+                  <Link className="nav-link" to="/api/0">Explore API</Link>
+                ) : (
+                  <span className="nav-link" style={{cursor: "pointer"}} data-bs-dismiss="offcanvas" onClick={() => confirm_swal_call()}>
+                    Explore API
+                  </span>
+                )}
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/faq">

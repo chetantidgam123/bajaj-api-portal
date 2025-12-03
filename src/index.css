@@ -579,7 +579,7 @@ h6 {
 
 .otherFooterDiv p,
 h6 {
-    color: white !important;
+    color: black !important;
     margin-bottom: 0.5rem;
 }
 
@@ -1096,3 +1096,59 @@ border-radius: 20px !important;
     .margin-bottom-swal{
 margin-bottom: 20px !important;
     }
+
+/* Subcategory Modal Width */
+.subcategory-modal-width {
+    max-width: 650px !important;
+}
+
+/* Subcategory Modal Dropdown Styling */
+.subcategory-modal-width .form-select {
+    font-size: 15px;
+    padding: 10px 12px;
+    height: auto;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+}
+
+.subcategory-modal-width .form-select:focus {
+    border-color: #006AD0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 106, 208, 0.15);
+    
+}
+
+.subcategory-modal-width .form-select option {
+    font-size: 16px;
+    padding: 12px 15px;
+    line-height: 2;
+    color: #333;
+    background-color: #fff;
+    border-bottom: 1px solid #006AD0;
+}
+
+.subcategory-modal-width .form-select {
+    font-size: 16px;
+}
+
+.subcategory-modal-width .form-select option:hover {
+    background-color: #E8F4FF;
+}
+
+/* Action Dropdown Toggle - 3 dots button */
+.action-dropdown-toggle {
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+}
+
+.action-dropdown-toggle:hover {
+    background-color: #f0f0f0;
+}
+
+.action-dropdown-toggle i.fa-ellipsis-vertical {
+    font-size: 18px;
+    color: #333;
+}
+
+

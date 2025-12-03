@@ -107,7 +107,7 @@ export const categoryFormSchema = yup.object().shape({
   categoryid: yup.number(),
 });
 export const subCategoryFormSchema = yup.object().shape({
-  subcategoryname: yup.string().required("sub category is required"),
+  subcategoryname: yup.string().required("Sub Category is required"),
   categoryid: yup.number().required("category is required"),
   description: yup.string(),
   isenabled: yup.boolean(),
