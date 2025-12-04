@@ -377,7 +377,7 @@ function SubCategoryList() {
                                     "heading",              // Heading (H1, H2, H3...)
                                     "|",
                                     "bold", "italic", "underline", "strikethrough",
-                                    "link",
+                                    // "link",
                                     "|",
                                     "bulletedList", "numberedList", "blockQuote",
                                     "|",

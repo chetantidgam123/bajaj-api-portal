@@ -619,6 +619,7 @@ function Profile() {
 
                     <div className="row">
                       <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
+                        <label htmlFor="clientId" className="mb-2">Client Id: </label>
                         <input type="text" className="form-control p-3" id="clientId"
                           name="clientId" placeholder="Client ID" value={Profileform.values.clientId}
                           onChange={Profileform.handleChange} onBlur={Profileform.handleBlur} disabled />
@@ -630,6 +631,7 @@ function Profile() {
                           )}
                       </div>
                       <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
+                        <label htmlFor="clientId" className="mb-2">Client Secret Key: </label>
                         <input
                           type="text"
                           className="form-control p-3"
@@ -743,7 +745,7 @@ function Profile() {
             <div className="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
               <div className="card-bg  p-4 mt-4">
                 <div className="card p-3">
-                  <h4 className="mb-0">Accessible APIs</h4>
+                  <h4 className="mb-0">My APIs</h4>
                   <div className="mt-3 ">
                     <div className="api-table-container">
                       <table className="custom-table-new">
