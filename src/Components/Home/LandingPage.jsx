@@ -118,9 +118,9 @@ const getURLIds = async() => {
            console.log(res.data.data)
         }
     } catch(error) {
-        error_swal_toast(response.data.message);
+        console.log(error.message)
+        error_swal_toast(error.message);
     }
-
 }
 
 useEffect(() => {
