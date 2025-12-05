@@ -47,7 +47,7 @@ function Sidebard() {
     const callback = (resolve, reject) => {
         resolve();
     }
-    confirm_swal_with(callback, `To access the APIs your Account is in Approval Process mt-5`)
+    confirm_swal_with(callback, `To access the APIs your Account is in Approval Process`)
   } 
 
   const getSidebarlist = () => {

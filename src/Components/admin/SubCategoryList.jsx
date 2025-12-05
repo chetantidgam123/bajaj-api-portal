@@ -112,7 +112,7 @@ function SubCategoryList() {
         const callback = (resolve, reject) => {
             deleteSubCategory(scat, resolve, reject);
         }
-        confirm_swal_with_text(callback, `Are you sure <br/> you want to delete this subcategory?`)
+        confirm_swal_with_text(callback, `Are you sure <br/> you want to delete this ${scat.subcategoryname}?`)
     }
 
     const deleteSubCategory = (scat, resolve, reject) => {
@@ -172,6 +172,31 @@ function SubCategoryList() {
         setIsEdit(true);
         setShow(true);
     }
+
+    const confirm_swal_call_edit = (scat) => {
+        const callback = (resolve, reject) => {
+            openEditModal(scat);
+            resolve();
+        }
+        confirm_swal_with_text(callback, `Are you sure <br/> you want to edit this ${scat.subcategoryname}?`)
+    }
+
+    const confirm_swal_call_update = () => {
+        const callback = (resolve, reject) => {
+            subcategoryForm.handleSubmit();
+            resolve();
+        }
+        confirm_swal_with_text(callback, `Are you sure <br/> you want to update this ${subcategoryForm.values.subcategoryname}?`)
+    }
+
+    const handleFormSubmit = () => {
+        if (isEdit) {
+            confirm_swal_call_update();
+        } else {
+            subcategoryForm.handleSubmit();
+        }
+    }
+
     const confirm_swal_call = (cat) => {
         const callback = (resolve, reject) => {
             toggleStatus(cat, resolve, reject);
@@ -279,7 +304,7 @@ function SubCategoryList() {
                                                 checked={scat.isenabled}
                                                 onChange={() => { confirm_swal_call(scat) }}
                                             />
-                                            <button className="btn btn-primary btn-sm mx-2" title="Edit User" onClick={() => { openEditModal(scat); }}>
+                                            <button className="btn btn-primary btn-sm mx-2" title="Edit Subcategory" onClick={() => { confirm_swal_call_edit(scat); }}>
                                                 <i className="fa fa-pencil" ></i>
                                             </button>
                                             <button className="btn btn-danger btn-sm" title="Delete Subcategory" onClick={() => confirm_swal_call_delete(scat)}>
@@ -298,7 +323,7 @@ function SubCategoryList() {
                     onPageChange={(page) => getSubCategoryList(page, dropCatInput)}
                 />
             </div>
-            <Modal size="lg" show={show} onHide={handleClose}>
+            <Modal show={show} onHide={handleClose} dialogClassName="subcategory-modal-width">
                 <Modal.Header closeButton>
                     <Modal.Title>{isEdit ? 'Update' : 'Add'} Sub Category</Modal.Title>
                 </Modal.Header>
@@ -385,7 +410,7 @@ function SubCategoryList() {
                     <Button variant="secondary" type="button" onClick={handleClose}>
                         Cancel
                     </Button>
-                    <Button variant="primary" type="button" onClick={subcategoryForm.handleSubmit} disabled={loader.submit}>
+                    <Button variant="primary" type="button" onClick={handleFormSubmit} disabled={loader.submit}>
                         {isEdit ? 'Update' : 'Add'} {loader.submit && <LoaderWight />}
                     </Button>
                 </Modal.Footer>

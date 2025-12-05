@@ -11,7 +11,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import '../../../src/new.css'
 import { post_data } from '../../ApiServices';
-import { arrayIndex, availableApi, convertToPayload, scrollToTop } from '../../Utils';
+import { arrayIndex, availableApi, convertToPayload, scrollToTop, getTokenData } from '../../Utils';
 import { useNavigate, Link } from 'react-router-dom';
 import { error_swal_toast } from '../../SwalServices';
 
@@ -142,7 +142,14 @@ useEffect(() => {
                                     <p className='text-start text-white'>— your one-stop destination for accessing, integrating, and managing powerful APIs that drive seamless digital experiences. Whether you're building customer journeys, or partner integrations, our APIs offer secure, scalable, and easy-to-use solutions to accelerate your development.</p>
                                 </div>
                                 <div className='d-flex justify-content-start mt-3'>
-                                    <button className='btn btn-blue p-3' onClick={() => { navigate('/get-started') }}>Get Started </button>
+                                    <button className='btn btn-blue p-3' onClick={() => {
+                                        if (!getTokenData()) {
+                                            setModalName("signup");
+                                            setShow(true);
+                                        } else {
+                                            navigate('/get-started');
+                                        }
+                                    }}>Get Started </button>
                                 </div>
                             </div>
                         </div>
@@ -166,13 +173,13 @@ useEffect(() => {
 
                     <div className='row mt-4 border-relative' data-aos="fade-up">
                         <div className='col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 d-flex justify-content-center'>
-                            <button className='btn btn-outline-primary px-3 bg-white'>Step 1</button>
+                            <button className='btn btn-outline-primary px-3 bg-white hoverstep-btn'>Step 1</button>
                         </div>
                         <div className='col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 d-flex justify-content-center'>
                             <button className='btn btn-primary px-3'>Step 2</button>
                         </div>
                         <div className='col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 d-flex justify-content-center'>
-                            <button className='btn btn-outline-primary px-3 bg-white'>Step 3</button>
+                            <button className='btn btn-outline-primary px-3 bg-white hoverstep-btn'>Step 3</button>
                         </div>
                     </div>
                     <div className='border-dashed'></div>
@@ -302,7 +309,14 @@ useEffect(() => {
           <div
             role="button"
             key={index}
-            onClick={() => navigate(card.routePath)}
+            onClick={() => {
+              if (!getTokenData()) {
+                setModalName("signup");
+                setShow(true);
+              } else {
+                navigate(card.routePath);
+              }
+            }}
             className="p-3"
             data-aos="zoom-in"
           >
@@ -323,7 +337,14 @@ useEffect(() => {
     </div>
 
                     <div className='d-flex justify-content-center mt-4'>
-                        <button className='btn btn-blue p-3' onClick={() => { navigate('api/f054d44c-65cf-49d5-9a68-eef138cd5453') }}>
+                        <button className='btn btn-blue p-3' onClick={() => {
+                                if (!getTokenData()) {
+                                    setModalName("signup");
+                                    setShow(true);
+                                } else {
+                                    navigate('api/f054d44c-65cf-49d5-9a68-eef138cd5453');
+                                }
+                            }}>
                             View All APIs
                         </button>
                     </div>

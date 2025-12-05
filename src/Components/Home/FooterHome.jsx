@@ -1,14 +1,21 @@
 import { useState,useEffect  } from "react"
 import { Link } from "react-router-dom"
+import { Modal } from "react-bootstrap";
 import { useFormik } from "formik";
 import { post_data } from "../../ApiServices";
-import { convertToPayload } from "../../Utils";
+import { convertToPayload, getTokenData } from "../../Utils";
 import { error_swal_toast,success_swal_toast } from "../../SwalServices";
 import { footerContactSchema } from "../../Schema";
+import SignupPage from "../auth/SignupPage";
+import Login from "../auth/Login";
+import ForgotPassword from "../auth/ForgotPassword";
+import ResetPassword from "../auth/ResetPasswrd";
 
 function FooterHome() {
 
   const [loader, setLoader] = useState(false);
+  const [show, setShow] = useState(false);
+  const [modalName, setModalName] = useState("");
 
   // ✅ your same useFormik structure, just fixed
   const contactForm = useFormik({
@@ -195,7 +202,17 @@ function FooterHome() {
                     <div className="container my-3">
                         <ul className="">
                             {/* <li><Link to={"/user/profile"}>Documentation</Link></li> */}
-                            <li><Link to={"/api/0"}>Documentation</Link></li>
+                            <li>
+                              {!getTokenData() ? (
+                                <Link to="#" onClick={(e) => {
+                                  e.preventDefault();
+                                  setModalName("signup");
+                                  setShow(true);
+                                }}>Documentation</Link>
+                              ) : (
+                                <Link to={"/api/0"}>Documentation</Link>
+                              )}
+                            </li>
                             <li><Link to={"/Contactus"} data-bs-toggle="modal" data-bs-target="#exampleModal">Contact Us</Link></li>
                             <li><Link to={"/SupportCenter"}>Support Center</Link></li>
                             <li><Link to={""}>About Us</Link></li>
@@ -211,6 +228,47 @@ function FooterHome() {
                 </div>
             </div>
 
+            {/* Auth Modal */}
+            <Modal size="lg" show={show} onHide={() => setShow(false)} centered>
+              <Modal.Header closeButton className="border-bottom-0 py-0"></Modal.Header>
+              <Modal.Body className="pt-0">
+                <div className="col-12 px-3">
+                  <div className="row">
+                    <div className="col-xl-5 col-lg-5 col-md-5 col-12 signUpsideBanner">
+                      <img
+                        src="/assets/img/Bajaj Logo.png"
+                        alt="NA"
+                        className="mt-2"
+                      />
+                      <div className="authContent">
+                        <h1 className="title">
+                          Welcome to Bajaj API Developer Portal.
+                        </h1>
+                        <p>
+                          Your one-stop destination for accessing, integrating, and
+                          managing powerful APIs that drive seamless digital
+                          experiences.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="col-xl-7 col-lg-7 col-md-7 col-12 ps-4">
+                      {modalName == "signup" && (
+                        <SignupPage setModalName={setModalName} setShow={setShow} />
+                      )}
+                      {modalName == "login" && (
+                        <Login setModalName={setModalName} setShow={setShow} />
+                      )}
+                      {modalName == "forget-pass" && (
+                        <ForgotPassword setModalName={setModalName} setShow={setShow} />
+                      )}
+                      {modalName == "reset-pass" && (
+                        <ResetPassword setModalName={setModalName} setShow={setShow} />
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </Modal.Body>
+            </Modal>
 
         </>
     )

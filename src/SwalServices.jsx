@@ -2,17 +2,13 @@ import Swal from "sweetalert2";
 
 const confirm_swal_with_text = (callback, title) => {
     Swal.fire({
-        html: `<div className="modal-body">
-  <div className="d-flex justify-content-center">
-      <img src="/assets/img/info-circle.png" alt="">
-  </div>
-  <p className="text-center mt-3 px-4 letter-spacing roboto-medium font-18 ">${title}</p>
-  </div>
-  <div className="border-top"></div>`,
+        icon: 'warning',
+        html: `<p class="text-center mt-3 px-4 letter-spacing roboto-medium font-18">${title}</p>`,
         reverseButtons: true,
         customClass: {
-            confirmButton: 'btn btn-primary  py-2',
-            cancelButton: 'btn btn-danger py-2'
+            confirmButton: 'btn btn-primary py-2',
+            cancelButton: 'btn btn-danger py-2',
+            icon: 'swal-icon-animated'
         },
         allowOutsideClick: false,
         cancelButtonText: 'Cancel',
@@ -38,28 +34,16 @@ const confirm_swal_with_text = (callback, title) => {
 
 const confirm_swal_with = (callback, title) => {
     Swal.fire({
-        html: `<div className="modal-body">
-  <div className="d-flex justify-content-center mb-4">
-     <img
-  src="/assets/img/info-circle.png"
-  alt=""
-  className="margin-bottom-swal"
-  style={{ marginBottom: "20px !important" }}
-/>
-  </div>
-  <p className="text-center px-4 letter-spacing roboto-medium font-18 mt-5">${title}</p>
-  </div>
-  <div className="border-top"></div>`,
-
+        icon: 'info',
+        html: `<p class="text-center px-4 letter-spacing roboto-medium font-18">${title}</p>`,
         customClass: {
-            confirmButton: 'btn btn-primary py-2'
+            confirmButton: 'btn btn-primary py-2',
+            icon: 'swal-icon-animated'
         },
-
         allowOutsideClick: false,
-        confirmButtonText: 'Click Here',   // 👈 Only one button now
+        confirmButtonText: 'Click Here',
         padding: 20,
         showLoaderOnConfirm: true,
-
         preConfirm: async () => {
             const response = await new Promise((res, rej) => {
                 callback(res, rej)
@@ -161,22 +145,18 @@ function show_success_swal_ok(message) {
 }
 const threeButtonModel = (callback, sendForApproval) => {
     Swal.fire({
-        html: `<div className="modal-body p-0 ttt">
-  <div className="d-flex justify-content-center">
-      <img src="/assets/home/img/info-circle.png" alt="">
-  </div>
-  <p className="text-center mt-3 pb-2 px-4 letter-spacing font-24 font-400 text-dark font-family">Please confirm the action you want<br>to continue.</p>
-  </div>
-  <div className="border-top"></div>`,
+        icon: 'info',
+        html: `<p class="text-center mt-3 pb-2 px-4 letter-spacing font-24 font-400 text-dark font-family">Please confirm the action you want<br>to continue.</p>`,
         reverseButtons: true,
         showDenyButton: true,
         allowOutsideClick: false,
         showCancelButton: true,
         customClass: {
             container: "threeButtonContainer",
-            denyButton: 'btn-violet-outline btn-hover-fill threeButtonSwal  py-2 mt-3',
+            denyButton: 'btn-violet-outline btn-hover-fill threeButtonSwal py-2 mt-3',
             confirmButton: 'btn-violet-outline btn-hover-fill threeButtonSwal py-2 mt-3',
-            cancelButton: 'btn-violet-outline btn-hover-fill threeButtonSwal py-2 mt-3'
+            cancelButton: 'btn-violet-outline btn-hover-fill threeButtonSwal py-2 mt-3',
+            icon: 'swal-icon-animated'
         },
         cancelButtonText: 'Discard Changes',
         confirmButtonText: 'Continue Editing',
@@ -184,12 +164,6 @@ const threeButtonModel = (callback, sendForApproval) => {
         padding: 20,
         showLoaderOnDeny: true,
         preDeny: async () => {
-            // try {
-            //   const res = await sendForApproval();
-            //   return true;
-            // } catch (error) {
-            //   return true;
-            // }
             const responce = await new Promise((res, rej) => {
                 sendForApproval(res, rej)
             })

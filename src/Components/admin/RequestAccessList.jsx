@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { error_swal_toast, success_swal_toast } from "../../SwalServices";
+import { confirm_swal_with_text, error_swal_toast, success_swal_toast } from "../../SwalServices";
 import { post_auth_data, post_data } from "../../ApiServices";
 import { PageLoaderBackdrop } from "../../Loader";
 import { arrayIndex, convertToPayload, getTokenData, offsetPagination, sendEmail } from "../../Utils";
@@ -63,6 +63,14 @@ function RequestAccessList() {
         // } else {
         //     approve_swal_call(user)
         // }
+    }
+
+    const confirm_approve_swal_call = (user) => {
+        const callback = (resolve, reject) => {
+            checkClientId(user);
+            resolve();
+        }
+        confirm_swal_with_text(callback, `Are you sure <br/> you want to approve this ${user.apiname} request?`)
     }
 
     const toggleStatus = async (user, status, client_id = "", client_secret = "") => {
@@ -340,7 +348,7 @@ function RequestAccessList() {
                                         <button
                                             className="btn btn-success btn-sm mx-2"
                                             title="Approve request"
-                                            onClick={() => { checkClientId(user) }}
+                                            onClick={() => { confirm_approve_swal_call(user) }}
                                             disabled={loadingButtons[user.request_id]?.approve || user.approved_status === 1}
                                         >
                                             {loadingButtons[user.request_id]?.approve ? (

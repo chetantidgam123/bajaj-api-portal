@@ -379,7 +379,7 @@ li{
 
 /* sidebar css */
 .entity_mainSection_user {
-    height: 100vh;
+    min-height: auto;
     left: 10px;
     position: relative;
     transition: all .5s ease;
@@ -416,7 +416,6 @@ li{
     display: flex;
     flex-direction: row;
     /* sidebar left, content right */
-    height: 100vh;
 }
 
 .sidebar_entity-user.close .heading-hide {

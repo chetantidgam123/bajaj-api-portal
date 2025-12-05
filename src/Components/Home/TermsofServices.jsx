@@ -1,7 +1,7 @@
 import { useEffect,useState } from "react"
 import Header from "../user/layout/Header"
 import FooterHome from "./FooterHome"
-import { scrollToTop,convertToPayload } from "../../Utils"
+import { scrollToTop,convertToPayload, getTokenData } from "../../Utils"
 import { error_swal_toast } from "../../SwalServices"
 import { post_data } from "../../ApiServices"
 import { PageLoaderBackdrop } from "../../Loader"
@@ -23,13 +23,17 @@ function TermsofServices() {
         if (response.data.status) {
           const result = response.data.result;
           setTermCon(Array.isArray(result) ? result : [result]);
-          setLoader(false)
         } else {
-            error_swal_toast(response.data.message || "something went wrong");
+            if (getTokenData()) {
+              error_swal_toast(response.data.message || "something went wrong");
+            }
         }
+        setLoader(false)
     }).catch((error) => {
         setLoader(false)
-        error_swal_toast(error.message || "something went wrong");
+        if (getTokenData()) {
+          error_swal_toast(error.message || "something went wrong");
+        }
         console.error("Error during signup:", error);
     })
   };

@@ -259,22 +259,29 @@ function Login({ setModalName, setShow }) {
                             name="enteredOtp"
                             className="form-control pe-5"
                             placeholder="Enter OTP"
+                            maxLength={6}
                             value={Loginform.values.enteredOtp}
-                            maxLength="6"
-                            // onChange={(e) => Loginform.setFieldValue("enteredOtp", e.target.value)}
                             onChange={(e) => {
-                                const value = e.target.value;
-                                if (/^\d*$/.test(value)) {
+                                const value = e.target.value.replace(/[^0-9]/g, '');
+                                if (value.length <= 6) {
                                     Loginform.setFieldValue("enteredOtp", value);
-                                    }
-                                }}
-                            />
+                                }
+                            }}
+                            onKeyPress={(e) => {
+                                if (!/[0-9]/.test(e.key)) {
+                                    e.preventDefault();
+                                }
+                            }}
+                        />
                         <i
                             className={`fa ${showPassword ? "fa-eye-slash" : "fa-eye"} position-absolute top-50 end-0 translate-middle-y me-3`}
                             role="button"
                             onClick={() => setShowPassword(!showPassword)}
                         ></i>
                     </div>
+                    {Loginform.values.enteredOtp && Loginform.values.enteredOtp.length < 6 && (
+                        <div className="text-danger small mb-2">OTP must be 6 digits</div>
+                    )}
                     <div className="d-flex justify-content-between pb-3">
                         {/* <div><b>{formatTime(otpCountdown)}</b></div> */}
                         <div>{!canResendOtp && <b>{formatTime(resendCountdown)}</b>}</div>
@@ -294,7 +301,7 @@ function Login({ setModalName, setShow }) {
                             setBasicLoader(true)
                             verifyOtpAndLogin()
                         }}
-                        disabled={basicLoader}
+                        disabled={basicLoader || Loginform.values.enteredOtp.length !== 6}
                     >
                         {/* {loader ? <LoaderWight /> : "Verify & Login"} */}
                         Verify & Login {basicLoader && <LoaderWight />}
