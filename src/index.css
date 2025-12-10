@@ -1064,7 +1064,7 @@ border-radius: 20px !important;
     }
 
     .custom-td-new {
-      border-bottom: 1px solid #e8f4fc;
+      border: none;
       color: #333;
       font-size: 14px;
       text-align: left;
@@ -1085,7 +1085,7 @@ border-radius: 20px !important;
     }
 
     .custom-tr-new:last-child .custom-td-new {
-      border-bottom: none;
+      border: none;
     }
 
     .btn-request {
