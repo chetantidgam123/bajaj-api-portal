@@ -143,6 +143,30 @@ function CategoryList() {
         }) 
     }
 
+    const confirm_swal_call_edit = (cat) => {
+        const callback = (resolve, reject) => {
+            openEditModal(cat);
+            resolve();
+        }
+        confirm_swal_with_text(callback, `Are you sure <br/> you want to edit this ${cat.categoryname}?`)
+    }
+
+    const confirm_swal_call_update = () => {
+        const callback = (resolve, reject) => {
+            categoryForm.handleSubmit();
+            resolve();
+        }
+        confirm_swal_with_text(callback, `Are you sure <br/> you want to update this ${categoryForm.values.categoryName}?`)
+    }
+
+    const handleFormSubmit = () => {
+        if (isEdit) {
+            confirm_swal_call_update();
+        } else {
+            categoryForm.handleSubmit();
+        }
+    }
+
     const confirm_swal_call = (cat) => {
         const callback = (resolve, reject) => {
             toggleStatus(cat, resolve, reject);
@@ -235,7 +259,7 @@ function CategoryList() {
                                                 checked={cat.isenabled}
                                                 onChange={() => { confirm_swal_call(cat) }}
                                             />
-                                            <button className="btn btn-primary btn-sm mx-2" title="Edit User" onClick={() => { openEditModal(cat); }}>
+                                            <button className="btn btn-primary btn-sm mx-2" title="Edit User" onClick={() => { confirm_swal_call_edit(cat); }}>
                                                 <i className="fa fa-pencil" ></i>
                                             </button>
                                             <button className="btn btn-danger btn-sm" title="Delete User" onClick={() => confirm_swal_call_delete(cat)}>
@@ -320,7 +344,7 @@ function CategoryList() {
                     <Button variant="secondary" type="button" onClick={handleClose}>
                         Cancel
                     </Button>
-                    <Button variant="primary" type="button" onClick={categoryForm.handleSubmit} disabled={loader.submit}>
+                    <Button variant="primary" type="button" onClick={handleFormSubmit} disabled={loader.submit}>
                         {isEdit ? 'Update' : 'Add'} {loader.submit && <LoaderWight />}
                     </Button>
                 </Modal.Footer>

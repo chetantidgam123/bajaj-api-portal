@@ -53,6 +53,7 @@ const routes = [
 
             { path: "/api/:collection_id", element: <HomePageContent /> },
             { path: "/collection-api/:collection_id/:api_id", element: <HomePageContent /> },
+            { path: "/collection-api/:collection_id/:category_id/:api_id", element: <HomePageContent /> },
             { path: "/api/:collection_id/:category_id", element: <HomePageContent /> },
             { path: "/api/:collection_id/:category_id/:api_id", element: <HomePageContent /> },
             { path: "/user/reset-password/:token", element: <HomePageContent /> },

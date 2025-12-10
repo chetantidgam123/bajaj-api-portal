@@ -262,6 +262,22 @@ function CreateApi() {
         }
         confirm_swal_with_text(callback, `Are you sure <br/> you want to remove sample?`)
     }
+
+    const confirm_swal_call_update = () => {
+        const callback = (resolve, reject) => {
+            apiForm.handleSubmit();
+            resolve();
+        }
+        confirm_swal_with_text(callback, `Are you sure <br/> you want to update this ${apiForm.values.apiname}?`)
+    }
+
+    const handleFormSubmit = () => {
+        if (api_id) {
+            confirm_swal_call_update();
+        } else {
+            apiForm.handleSubmit();
+        }
+    }
     const handleAddSampleModal = () => {
         sampelForm.resetForm();
         setShowSampleModal(true);
@@ -617,7 +633,7 @@ function CreateApi() {
                         </div>
                     </div>
                     <div className='text-end'>
-                        <button className='btn btn-primary' onClick={apiForm.handleSubmit} type='button' disabled={loader.submit}>Submit {loader.submit && <LoaderWight />}</button>
+                        <button className='btn btn-primary' onClick={handleFormSubmit} type='button' disabled={loader.submit}>Submit {loader.submit && <LoaderWight />}</button>
                     </div>
                 </Form>
             </FormikProvider>

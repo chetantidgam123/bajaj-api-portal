@@ -1045,29 +1045,43 @@ border-radius: 20px !important;
     .custom-table-new {
       width: 100%;
       border-collapse: collapse;
+      border-radius: 8px;
+      overflow: hidden;
     }
 
     .custom-thead-new {
-      background-color: #f9fafc !important;
+      background: linear-gradient(135deg, #0d6efd 0%, #0099ff 100%) !important;
     }
 
     .custom-th-new {
       font-weight: 600;
-      color: #555;
+      color: #fff;
       font-size: 15px;
-      border-bottom: 1px solid #e5e9f2;
+      border-bottom: none;
       text-align: left;
-      padding: 12px 15px;
+      padding: 14px 15px;
       vertical-align: middle;
     }
 
     .custom-td-new {
-      border-bottom: 1px solid #f1f1f1;
+      border-bottom: 1px solid #e8f4fc;
       color: #333;
       font-size: 14px;
       text-align: left;
-      padding: 12px 15px;
+      padding: 14px 15px;
       vertical-align: middle;
+    }
+
+    .custom-table-new tbody .custom-tr-new:nth-child(odd) {
+      background-color: #f0f7ff;
+    }
+
+    .custom-table-new tbody .custom-tr-new:nth-child(even) {
+      background-color: #ffffff;
+    }
+
+    .custom-table-new tbody .custom-tr-new:hover {
+      background-color: #e3f0ff;
     }
 
     .custom-tr-new:last-child .custom-td-new {
