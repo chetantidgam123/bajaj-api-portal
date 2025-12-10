@@ -19,7 +19,6 @@ function Sidebard() {
   const { api_id } = useParams();
   const [isClosed, setIsClosed] = useState(false); // sidebar toggle
   const [sidebarData, setSidebarData] = useState([]);
-  const [catId, setCatId] = useState();
 
   const checkLogin = (collection_id, category_id, api_id) => {
     console.log(collection_id)
@@ -32,7 +31,7 @@ function Sidebard() {
         setActiveKey(null)
         setSubActiveKey(null)
       }
-      navigate("/collection-api/" + collection_id + "/"+ catId + "/" + api_id);
+      navigate("/collection-api/" + collection_id + "/" + api_id);
     } else {
       navigate("/api/" + collection_id + "/" + category_id);
     }
@@ -124,10 +123,7 @@ function Sidebard() {
             <Accordion
               className="mt-2 explore"
               activeKey={activeKey}
-              onSelect={(key) => {
-                setActiveKey(key);
-                setSubActiveKey(null); // Reset subcategory when main category changes
-              }}
+              onSelect={(key) => setActiveKey(key)}
               alwaysOpen={false}
             >
               {sidebarData.map((item, i) => (
@@ -147,7 +143,6 @@ function Sidebard() {
                     //   navigate("/api/" + item.record_uuid);
                     // }}
                     onClick={() => {
-                      setSubActiveKey(null); // Reset subcategory when clicking main category
                       if(getTokenData()?.approved_status === 1) {
                         navigate("/api/" + item.record_uuid);
                       } else {
@@ -185,10 +180,9 @@ function Sidebard() {
                         alwaysOpen={false}
                       >
                         {item.subcategories.map((cItem, ci) => (cItem.isenabled && !cItem.isdeleted) ? ((
-                          <Accordion.Item key={arrayIndex("acc_c", ci)} eventKey={`${i}-${ci}`} style={{ border: "none" }}>
+                          <Accordion.Item key={arrayIndex("acc_c", ci)} eventKey={ci} style={{ border: "none" }}>
                             <Accordion.Header
                               onClick={() => {
-                                setCatId(cItem.record_uuid);
                                 checkLogin(item.record_uuid, cItem.record_uuid, 0);
                               }}
                             >
@@ -333,10 +327,7 @@ function Sidebard() {
               <Accordion
                 className="mt-2 explore"
                 activeKey={activeKey}
-                onSelect={(key) => {
-                  setActiveKey(key);
-                  setSubActiveKey(null); // Reset subcategory when main category changes
-                }}
+                onSelect={(key) => setActiveKey(key)}
                 alwaysOpen={false}
               >
                 {sidebarData.map((item, i) => (
@@ -353,7 +344,6 @@ function Sidebard() {
                           : ""
                       }
                       onClick={() => {
-                        setSubActiveKey(null); // Reset subcategory when clicking main category
                         navigate("/api/" + item.record_uuid);
                       }}
                     >
@@ -375,7 +365,7 @@ function Sidebard() {
                           alwaysOpen={false}
                         >
                           {item.subcategories.map((cItem, ci) => (cItem.isenabled && !cItem.isdeleted) ? ((
-                            <Accordion.Item key={arrayIndex("acc_c", ci)} eventKey={`${i}-${ci}`} style={{ border: "none" }}>
+                            <Accordion.Item key={arrayIndex("acc_c", ci)} eventKey={ci} style={{ border: "none" }}>
                               <Accordion.Header
                                 onClick={() => {
                                   checkLogin(item.record_uuid, cItem.record_uuid, 0);
