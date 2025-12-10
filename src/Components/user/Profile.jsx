@@ -9,8 +9,18 @@ import { useState } from "react";
 import { LoaderWight, PageLoaderBackdrop } from "../../Loader";
 import { ApiListRequestEmail } from "../../emailTemplate";
 import PaginateComponent from "../common/Pagination";
+import { useNavigate } from "react-router-dom";
+
+const copyToClipboard = (text, label) => {
+  navigator.clipboard.writeText(text).then(() => {
+    success_swal_toast(`${label} copied!`);
+  }).catch(() => {
+    error_swal_toast("Failed to copy");
+  });
+};
 
 function Profile() {
+  const navigate = useNavigate();
   const [loader, setLoader] = useState({ page: false, submit: false });
   const [fullName, setFullName] = useState("");
   const [emailId, setEmailId] = useState("");
@@ -330,6 +340,21 @@ function Profile() {
     );
   };
 
+  const handleTryIt = (api) => {
+    // Navigate to try-api page - ApiPlayGround only uses api_id (uniqueid) to fetch data
+    // The collection_id and category_id are just for URL consistency but not used for data fetching
+    // Using 0 as placeholder since the ApiPlayGround component only uses uniqueid
+    const apiId = api.uniqueid;
+    window.open(`/try-api/0/0/${apiId}`, '_blank');
+  };
+
+  const getStatusLabel = (item) => {
+    // For Accessible APIs (My APIs), all items in this list are approved since they have access
+    // The approved_status field in this context represents the API access approval status
+    // If the API is in the accessible list, it means the user's access request was approved
+    return <span className="badge bg-success">Approved</span>;
+  };
+
 
   return (
     <div className="2">
@@ -619,10 +644,20 @@ function Profile() {
 
                     <div className="row">
                       <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
-                        <label htmlFor="clientId" className="mb-2">Client Id: </label>
-                        <input type="text" className="form-control p-3" id="clientId"
-                          name="clientId" placeholder="Client ID" value={Profileform.values.clientId}
-                          onChange={Profileform.handleChange} onBlur={Profileform.handleBlur} disabled />
+                        <label className="form-label" htmlFor="clientId">Client Id:</label>
+                        <div className="input-group">
+                          <input type="text" className="form-control p-3" id="clientId"
+                            name="clientId" placeholder="Client ID" value={Profileform.values.clientId}
+                            onChange={Profileform.handleChange} onBlur={Profileform.handleBlur} disabled />
+                          <button
+                            type="button"
+                            className="btn btn-outline-secondary"
+                            onClick={() => copyToClipboard(Profileform.values.clientId, "Client ID")}
+                            title="Copy Client ID"
+                          >
+                            <i className="fa fa-copy"></i>
+                          </button>
+                        </div>
                         {Profileform.touched.clientId &&
                           Profileform.errors.clientId && (
                             <div className="text-danger mt-1">
@@ -631,16 +666,26 @@ function Profile() {
                           )}
                       </div>
                       <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12  mt-xl-3 mt-lg-2 mt-md-1 mt-sm-1 mt-1">
-                        <label htmlFor="clientId" className="mb-2">Client Secret Key: </label>
-                        <input
-                          type="text"
-                          className="form-control p-3"
-                          id="clientSecret"
-                          name="clientSecret"
-                          placeholder="Client Secret"
-                          value={Profileform.values.clientSecret}
-                          onChange={Profileform.handleChange}
-                          onBlur={Profileform.handleBlur} disabled />
+                        <label className="form-label" htmlFor="clientSecret">Client Secret Key:</label>
+                        <div className="input-group">
+                          <input
+                            type="text"
+                            className="form-control p-3"
+                            id="clientSecret"
+                            name="clientSecret"
+                            placeholder="Client Secret"
+                            value={Profileform.values.clientSecret}
+                            onChange={Profileform.handleChange}
+                            onBlur={Profileform.handleBlur} disabled />
+                          <button
+                            type="button"
+                            className="btn btn-outline-secondary"
+                            onClick={() => copyToClipboard(Profileform.values.clientSecret, "Client Secret")}
+                            title="Copy Client Secret"
+                          >
+                            <i className="fa fa-copy"></i>
+                          </button>
+                        </div>
                         {Profileform.touched.clientSecret &&
                           Profileform.errors.clientSecret && (
                             <div className="text-danger mt-1">
@@ -648,7 +693,7 @@ function Profile() {
                             </div>
                           )}
                       </div>
-                      
+
                     </div>
                     {/* <div className="d-flex justify-content-end mt-3">
                 <button className="btn btn-primary profilePageButton px-3" type="submit" disabled={loader.submit}>
@@ -754,6 +799,8 @@ function Profile() {
                             {/* <th className="custom-th-new"><input type="checkbox"/></th> */}
                             <th className="custom-th-new">API Name</th>
                             <th className="custom-th-new">API Description</th>
+                            <th className="custom-th-new">Status</th>
+                            <th className="custom-th-new">Action</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -761,6 +808,15 @@ function Profile() {
                             <tr key={item.id} className="custom-tr-new">
                               <td className="custom-td-new">{item.apiname}</td>
                               <td className="custom-td-new">{item.description}</td>
+                              <td className="custom-td-new">{getStatusLabel(item)}</td>
+                              <td className="custom-td-new">
+                                <button
+                                  className="btn btn-primary btn-sm"
+                                  onClick={() => handleTryIt(item)}
+                                >
+                                  Try it
+                                </button>
+                              </td>
                             </tr>
                           ))}
                         </tbody>

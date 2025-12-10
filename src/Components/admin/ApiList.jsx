@@ -102,6 +102,14 @@ function ApiList() {
             })
     }
 
+    const confirm_swal_call_edit = (api) => {
+        const callback = (resolve, reject) => {
+            navigate('/master/update-api/' + api.uniqueid);
+            resolve();
+        }
+        confirm_swal_with_text(callback, `Are you sure <br/> you want to edit this ${api.apiname}?`)
+    }
+
     const confirm_swal_call = (cat) => {
         const callback = (resolve, reject) => {
             toggleStatus(cat, resolve, reject);
@@ -228,7 +236,7 @@ function ApiList() {
                                                 checked={api.isenabled}
                                                 onChange={() => confirm_swal_call(api)}
                                             />
-                                            <button className="btn btn-primary btn-sm mx-2" title="Edit Category" onClick={() => { navigate('/master/update-api/' + api.uniqueid) }}>
+                                            <button className="btn btn-primary btn-sm mx-2" title="Edit Category" onClick={() => { confirm_swal_call_edit(api) }}>
                                                 <i className="fa fa-pencil" ></i>
                                             </button>
                                             <button className="btn btn-danger btn-sm" title="Delete Category" onClick={() => confirm_swall_call_delete(api)}>
