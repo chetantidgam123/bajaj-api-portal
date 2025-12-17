@@ -94,8 +94,8 @@ function HomePageContent() {
         post_auth_data("portal/private", convertToPayload(url, payload), {})
             .then(async (response) => {
                 setLoader(false);
-                if (response.data.status) {
-                    setDescription(response.data.data.description || '');
+                if (response.status) {
+                    setDescription(response.description || '');
                     setTitle(response.data.data.subcategoryname || response.data.data.apiname || '');
                     if (api_id) {
                         setApiData(response.data.data);
