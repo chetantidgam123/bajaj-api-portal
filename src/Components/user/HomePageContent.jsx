@@ -361,7 +361,7 @@ function HomePageContent() {
                                         <h4 className='mb-0'>{title || 'Get Started'}</h4>
                                         <div
                                             className="description-content"
-                                            dangerouslySetInnerHTML={{ __html: description?.replace(/<\/?p>/g, '') || '' }}
+                                            dangerouslySetInnerHTML={{ __html: description || '' }}
                                         />
                                     </div>
                                     <div className={api_id ? 'col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12' : ''}>
