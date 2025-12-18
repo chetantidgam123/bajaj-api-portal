@@ -147,7 +147,7 @@ function HomePageContent() {
                     }
                     if (response.data.status_code == 1) {
                         setBtnName('Try it')
-                    }
+                    } 
                     if (response.data.status_code == 2) {
                         setBtnName('Request Access')
                     }
@@ -157,7 +157,7 @@ function HomePageContent() {
                 }
             }).catch((error) => {
                 setTryitLoader(false)
-                console.log(error)
+                console.log(error) 
                 setHasTriedApi(true)
                 if (!api_id) {
                     navigate('/')
@@ -359,15 +359,10 @@ function HomePageContent() {
                                 <div className='row align-items-center'>
                                     <div className={api_id ? 'col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12' : 'col-12'}>
                                         <h4 className='mb-0'>{title || 'Get Started'}</h4>
-                                        <ReactMarkdown
-                                            remarkPlugins={[remarkGfm]}
-                                            components={{
-                                                h1: ({ node, ...props }) => <h5 {...props} />, // all h1 become h3
-                                                h2: ({ node, ...props }) => <h5 {...props} />, // all h2 become h4
-                                                h3: ({ node, ...props }) => <h5 {...props} />, // all h2 become h4
-                                            }}
-                                        >{description}
-                                        </ReactMarkdown>
+                                        <div
+                                            className="description-content"
+                                            dangerouslySetInnerHTML={{ __html: description?.replace(/<\/?p>/g, '') || '' }}
+                                        />
                                     </div>
                                     <div className={api_id ? 'col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12' : ''}>
                                         <div className="d-flex justify-content-end">
