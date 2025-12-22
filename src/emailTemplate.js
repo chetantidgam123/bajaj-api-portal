@@ -76,6 +76,7 @@ const accessGrantedEmail = (data) => {
 }
 
 const generateApiRequestEmail = (data) => {
+     console.log("data in email template", data);
   return `
 <!DOCTYPE html>
 <html lang="en">
@@ -131,7 +132,7 @@ const generateApiRequestEmail = (data) => {
     <p>A new API access request has been submitted and requires your approval. Please review the details below:</p>
     <div class="details">
         <p><strong>Requested By (User):</strong> ${data.userName}</p>
-        <p><strong>API Name:</strong> BAJAJ API</p>
+        <p><strong>API Name:</strong> ${data.apiName}</p>
         <p><strong>Request Date:</strong> ${data.requestDate}</p>
     </div>
     <p style='color:#ffffff;font-size:13px;text-align:left;background:linear-gradient(180deg,#0087FF 0%,#0052A4 100%);padding:20px;'>For any Production issue, please send an email to: <a href='mailto:apigwsupport@bajajauto.co.in' style='color:white;'>apigwsupport@bajajauto.co.in</a></p>
@@ -141,6 +142,7 @@ const generateApiRequestEmail = (data) => {
 `};
 
 const apiRequestUser = (data) => {
+  console.log("data in email template144:", data);
   return `
 <!DOCTYPE html>
 <html lang="en">
@@ -185,7 +187,7 @@ const apiRequestUser = (data) => {
   <div class="container">
       <div><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG4lo39vSLS1FaLIpr1XKrjiebmWX-3fRErA&s' width='200px' style='margin-bottom:20px;' /></div>
       <p>Dear ${data.userName},</p>
-      <p>Thank you for reaching out to us with your request regarding API usage "<strong>BAJAJ API</strong>". We have received your query and our team is currently reviewing the details.</p>
+      <p>Thank you for reaching out to us with your request regarding API usage "<strong>${data.apiName}</strong>". We have received your query and our team is currently reviewing the details.</p>
       <p>We will share the necessary credentials and usage instructions to help you get started soon.</p>
       <p class="footer">Best Regards,<br/>The API Support Team</p>
        <p style='color:#ffffff;font-size:13px;text-align:left;background:linear-gradient(180deg,#0087FF 0%,#0052A4 100%);padding:20px;'>For any Production issue, please send an email to: <a href='mailto:apigwsupport@bajajauto.co.in' style='color:white;'>apigwsupport@bajajauto.co.in</a></p>
@@ -251,7 +253,8 @@ const adminNotificationEmail = (data) => {
   `
 }
 
-const generateApiApprovalEmail = ({ userName, userId, loginLink, status }) => {
+const generateApiApprovalEmail = ({ userName, userId, loginLink, status,apiName }) => {
+  console.log("data in email template approval:", { userName, userId, loginLink, status,apiName });
   const isApproved = status?.toLowerCase() === "approved";
   return `
 <!DOCTYPE html>
@@ -316,10 +319,10 @@ const generateApiApprovalEmail = ({ userName, userId, loginLink, status }) => {
   <div class="container">
       <div><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG4lo39vSLS1FaLIpr1XKrjiebmWX-3fRErA&s' width='200px' style='margin-bottom:20px;' /></div>
       <p>Dear ${userName},</p>
-      <p>Your login request for accessing the <strong>BAJAJ API</strong> has been ${isApproved ? `successfully approved. You can now use your registered credentials to log in and start accessing the API services` : `rejected`}.</p>
+      <p>Your login request for accessing the <strong>BAJAJ API Portal</strong> has been ${isApproved ? `successfully approved. You can now use your registered credentials to log in and start accessing the API services` : `rejected`}.</p>
       
       <div class="details">
-          <p><strong>API Name:</strong> BAJAJ API</p>
+          <p><strong>API Name:</strong> ${apiName}</p>
           <p><strong>Access Status:</strong> ${status}</p>
       </div>
 

@@ -283,9 +283,9 @@ function HomePageContent() {
           error_swal_toast("Please select at least one API to request access.");
           return;
         }
-        const userName = fullName;
+        const userName = tokenData.fullname;
         const subject = "APIs Approval Is In Process";
-        const userEmail = emailId;
+        const userEmail = tokenData.emailid;
         const emailBody = ApiListRequestEmail({
           status: "Requested",
           selectedAPIs,

@@ -58,6 +58,7 @@ function RequestAccessList() {
         });
     };
     const checkClientId = (user) => {
+        
         toggleStatus(user, 1, user.client_id, user.client_secret);
         // if (user?.client_credentials_id > 0) {
         // } else {
@@ -121,6 +122,7 @@ function RequestAccessList() {
                 const userName = user.fullname
                 const userEmail = user?.emailid || ""
                 const userId = user.id
+                console.log("userEmail:", user ,status );
                 if (status === 1) {
                     // ✅ APPROVED
                     const subject = "Approval Granted for BAJAJ API Access";
@@ -128,7 +130,8 @@ function RequestAccessList() {
                         status: "Approved",
                         userName,
                         userId,
-                        loginLink: "https://apidocs.bajajauto.com/"
+                        loginLink: "https://apidocs.bajajauto.com/",
+                        apiName: user.apiname
                     });
                     await sendEmail({
                         body: emailBody,
@@ -143,6 +146,7 @@ function RequestAccessList() {
                         status: "Rejected",
                         userName,
                         userId,
+                        apiName: user.apiname
                     })
                     await sendEmail({
                         body: emailBody,
