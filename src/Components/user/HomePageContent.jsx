@@ -94,8 +94,8 @@ function HomePageContent() {
         post_auth_data("portal/private", convertToPayload(url, payload), {})
             .then(async (response) => {
                 setLoader(false);
-                if (response.data.status) {
-                    setDescription(response.data.data.description || '');
+                if (response.status) {
+                    setDescription(response.description || '');
                     setTitle(response.data.data.subcategoryname || response.data.data.apiname || '');
                     if (api_id) {
                         setApiData(response.data.data);
@@ -147,7 +147,7 @@ function HomePageContent() {
                     }
                     if (response.data.status_code == 1) {
                         setBtnName('Try it')
-                    }
+                    } 
                     if (response.data.status_code == 2) {
                         setBtnName('Request Access')
                     }
@@ -157,7 +157,7 @@ function HomePageContent() {
                 }
             }).catch((error) => {
                 setTryitLoader(false)
-                console.log(error)
+                console.log(error) 
                 setHasTriedApi(true)
                 if (!api_id) {
                     navigate('/')
@@ -359,15 +359,10 @@ function HomePageContent() {
                                 <div className='row align-items-center'>
                                     <div className={api_id ? 'col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12' : 'col-12'}>
                                         <h4 className='mb-0'>{title || 'Get Started'}</h4>
-                                        <ReactMarkdown
-                                            remarkPlugins={[remarkGfm]}
-                                            components={{
-                                                h1: ({ node, ...props }) => <h5 {...props} />, // all h1 become h3
-                                                h2: ({ node, ...props }) => <h5 {...props} />, // all h2 become h4
-                                                h3: ({ node, ...props }) => <h5 {...props} />, // all h2 become h4
-                                            }}
-                                        >{description}
-                                        </ReactMarkdown>
+                                        <div
+                                            className="description-content"
+                                            dangerouslySetInnerHTML={{ __html: description || '' }}
+                                        />
                                     </div>
                                     <div className={api_id ? 'col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12' : ''}>
                                         <div className="d-flex justify-content-end">
