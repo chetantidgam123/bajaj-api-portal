@@ -76,6 +76,7 @@ const accessGrantedEmail = (data) => {
 }
 
 const generateApiRequestEmail = (data) => {
+     console.log("data in email template", data);
   return `
 <!DOCTYPE html>
 <html lang="en">
@@ -131,7 +132,7 @@ const generateApiRequestEmail = (data) => {
     <p>A new API access request has been submitted and requires your approval. Please review the details below:</p>
     <div class="details">
         <p><strong>Requested By (User):</strong> ${data.userName}</p>
-        <p><strong>API Name:</strong> BAJAJ API</p>
+        <p><strong>API Name:</strong> ${data.apiName}</p>
         <p><strong>Request Date:</strong> ${data.requestDate}</p>
     </div>
     <p style='color:#ffffff;font-size:13px;text-align:left;background:linear-gradient(180deg,#0087FF 0%,#0052A4 100%);padding:20px;'>For any Production issue, please send an email to: <a href='mailto:apigwsupport@bajajauto.co.in' style='color:white;'>apigwsupport@bajajauto.co.in</a></p>
@@ -141,6 +142,7 @@ const generateApiRequestEmail = (data) => {
 `};
 
 const apiRequestUser = (data) => {
+  console.log("data in email template144:", data);
   return `
 <!DOCTYPE html>
 <html lang="en">
@@ -251,7 +253,8 @@ const adminNotificationEmail = (data) => {
   `
 }
 
-const generateApiApprovalEmail = ({ userName, userId, loginLink, status }) => {
+const generateApiApprovalEmail = ({ userName, userId, loginLink, status,apiName }) => {
+  console.log("data in email template approval:", { userName, userId, loginLink, status,apiName });
   const isApproved = status?.toLowerCase() === "approved";
   return `
 <!DOCTYPE html>
@@ -319,7 +322,7 @@ const generateApiApprovalEmail = ({ userName, userId, loginLink, status }) => {
       <p>Your login request for accessing the <strong>BAJAJ API</strong> has been ${isApproved ? `successfully approved. You can now use your registered credentials to log in and start accessing the API services` : `rejected`}.</p>
       
       <div class="details">
-          <p><strong>API Name:</strong> BAJAJ API</p>
+          <p><strong>API Name:</strong> ${apiName}</p>
           <p><strong>Access Status:</strong> ${status}</p>
       </div>
 
