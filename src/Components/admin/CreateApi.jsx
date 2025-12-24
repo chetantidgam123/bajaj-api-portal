@@ -1,5 +1,4 @@
 import { ErrorMessage, FormikProvider, useFormik } from 'formik';
-// import { createApiSchema } from '../../Schema';
 import { Form, Modal } from 'react-bootstrap';
 import { apiMethods, arrayIndex, convertToPayload, offsetPagination, statusCodes } from '../../Utils';
 import { useEffect, useState } from 'react';
@@ -10,7 +9,6 @@ import { confirm_swal_with_text, error_swal_toast, success_swal_toast } from '..
 import { LoaderWight, PageLoaderBackdrop } from '../../Loader';
 import generateSchema from "generate-schema";
 import { useNavigate, useParams } from 'react-router-dom';
-import { object } from 'yup';
 
 function CreateApi() {
     const { api_id } = useParams();

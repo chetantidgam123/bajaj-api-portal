@@ -26,7 +26,6 @@ const CategoryDescription = () => {
   };
 
   return (
-    <>
       <div className="mx-2 card-admin-main">
         <div className="card-body card-bg">
           <div className="row justify-content-between">
@@ -184,7 +183,6 @@ const CategoryDescription = () => {
           </Form>
         </Modal>
       </div>
-    </>
   );
 };
 

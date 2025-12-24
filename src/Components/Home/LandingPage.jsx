@@ -11,8 +11,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import '../../../src/new.css'
 import { post_data } from '../../ApiServices';
-import { arrayIndex, availableApi, convertToPayload, scrollToTop, getTokenData } from '../../Utils';
-import { useNavigate, Link } from 'react-router-dom';
+import { availableApi, convertToPayload, scrollToTop, getTokenData, arrayIndex } from '../../Utils';
+import { useNavigate } from 'react-router-dom';
 import { error_swal_toast } from '../../SwalServices';
 
 import AOS from "aos";
@@ -45,8 +45,6 @@ function LandingPage() {
   const [modalName, setModalName] = useState("");
   const navigate = useNavigate();
   const [current, setCurrent] = useState(0);
-  const slidesToShow = 3;
-  const [sidebarItem, setSidebarItem] = useState([])
 
     useEffect(() => {
         AOS.init({ duration: 1000, once: true }); // initialize AOS
@@ -114,7 +112,6 @@ const getURLIds = async() => {
     try {
         const res = await post_data("portal/public", convertToPayload("get-sidebar-list", {}), {})
         if(res.data.status) {
-           setSidebarItem(res.data.data)
            console.log(res.data.data)
         }
     } catch(error) {
@@ -308,7 +305,7 @@ useEffect(() => {
         {availableApi.map((card, index) => (
           <div
             role="button"
-            key={index}
+            key={arrayIndex("availApi", index)}
             onClick={() => {
               if (!getTokenData()) {
                 setModalName("signup");
