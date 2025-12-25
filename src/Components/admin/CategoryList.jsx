@@ -9,7 +9,7 @@ import { useFormik } from "formik";
 import { confirm_swal_with_text, error_swal_toast, success_swal_toast } from "../../SwalServices";
 import { LoaderWight, PageLoaderBackdrop } from "../../Loader";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { ClassicEditor, Essentials, Bold, Italic, Underline, Strikethrough, Heading, Link, List, BlockQuote, Table, Undo, Paragraph } from 'ckeditor5';
 function CategoryList() {
     const [show, setShow] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
@@ -307,20 +307,19 @@ function CategoryList() {
                         }}
                         onBlur={() => categoryForm.setFieldTouched("description", true)}
                         config={{
+                            licenseKey: 'GPL',
+                            plugins: [Essentials, Bold, Italic, Underline, Strikethrough, Heading, Link, List, BlockQuote, Table, Undo, Paragraph],
                             toolbar: [
-                                "heading",              // Heading (H1, H2, H3...)
+                                "heading",
                                 "|",
                                 "bold", "italic", "underline", "strikethrough",
                                 "link",
                                 "|",
                                 "bulletedList", "numberedList", "blockQuote",
                                 "|",
-                                "alignment",           // left, center, right, justify
-                                "insertTable",         // table insert
-                                "imageUpload",         // image upload
+                                "insertTable",
                                 "|",
                                 "undo", "redo",
-                                "removeFormat",
                             ],
                             heading: {
                                 options: [

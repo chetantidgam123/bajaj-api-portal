@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { ClassicEditor, Essentials, Bold, Italic, Underline, Strikethrough, Heading, Link, List, BlockQuote, Table, Undo, Paragraph } from 'ckeditor5';
 
 const CategoryDescription = () => {
   const [show, setShow] = useState(false);
@@ -104,6 +104,8 @@ const CategoryDescription = () => {
                   setDescription(data);
                 }}
                 config={{
+                  licenseKey: 'GPL',
+                  plugins: [Essentials, Bold, Italic, Underline, Strikethrough, Heading, Link, List, BlockQuote, Table, Undo, Paragraph],
                   toolbar: [
                     "heading",
                     "|",
@@ -117,13 +119,10 @@ const CategoryDescription = () => {
                     "numberedList",
                     "blockQuote",
                     "|",
-                    "alignment",
                     "insertTable",
-                    "imageUpload",
                     "|",
                     "undo",
                     "redo",
-                    "removeFormat",
                   ],
                   heading: {
                     options: [

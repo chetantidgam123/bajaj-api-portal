@@ -6,6 +6,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import 'ckeditor5/ckeditor5.css';
 import { BrowserRouter } from "react-router-dom";
 import RouterElement from "./routes/RouterElement";
 const root = ReactDOM.createRoot(document.getElementById("root"));
