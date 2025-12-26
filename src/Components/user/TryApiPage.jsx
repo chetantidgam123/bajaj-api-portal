@@ -37,65 +37,62 @@ function TryApiPage() {
         }
         if (api_id) {
             obj.uniqueid = api_id
-            getAuthDataById('get-api-by-id', obj)
+            getAuthDataByIds('get-api-by-id', obj)
             return
         }
         if (category_id) {
             obj.record_uuid = category_id
-            getAuthDataById('get-sub-category-by-id', obj)
+            getAuthDataByIds('get-sub-category-by-id', obj)
             return
         }
         if (collection_id && collection_id != 0) {
             obj.record_uuid = collection_id
-            getDataById('get-category-by-id', obj)
+            getDataByIds('get-category-by-id', obj)
         }
     }
-    const getDataById = (url, payload = {}) => {
+    const getDataByIds = (url, payload = {}) => {
         setLoader(true)
         post_data("portal/public", convertToPayload(url, payload), {})
-            .then(async (response) => {
+            .then(async (resp) => {
                 setLoader(false)
-                if (response.data.status) {
-                    setDescription(response.data.data.description || '');
-                    setTitle(response.data.data.categoryname || '');
+                if (resp.data.status) {
+                    setDescription(resp.data.data.description || '');
+                    setTitle(resp.data.data.categoryname || '');
                 } else {
-                    error_swal_toast(response.data.message)
+                    error_swal_toast(resp.data.message)
                 }
             }).catch((error) => {
                 setLoader(false);
-                console.log(error)
                 error_swal_toast(error.message)
-
+                console.log(error)
             })
     }
-    const getAuthDataById = (url, payload = {}) => {
+    const getAuthDataByIds = (url, payload = {}) => {
         setLoader(true);
         post_auth_data("portal/private", convertToPayload(url, payload), {})
-            .then(async (response) => {
+            .then(async (res) => {
                 setLoader(false);
-                if (response.data.status) {
-                    setDescription(response.data.data.description || '');
-                    setTitle(response.data.data.subcategoryname || response.data.data.apiname || '');
+                if (res.data.status) {
+                    setDescription(res.data.data.description || '');
+                    setTitle(res.data.data.subcategoryname || res.data.data.apiname || '');
                     if (api_id) {
-                        setApiData(response.data.data);
-                        setBodyRequestSample(JSON.parse(response.data.data.reqsample))
-                        let res = JSON.parse(response.data.data.responses.value || '[]');
+                        setApiData(res.data.data);
+                        setBodyRequestSample(JSON.parse(res.data.data.reqsample))
+                        let res = JSON.parse(res.data.data.responses.value || '[]');
                         for (const item of res) {
                             if (item.code == 200) {
                                 setResponsData({ resbody: item.resbody, resschema: JSON.parse(item.resschema) });
                                 break; // stop after first match
                             }
                         }
-
                     }
                 } else {
-                    error_swal_toast(response.data.message)
+                    error_swal_toast(res.data.message)
                 }
             }).catch((error) => {
                 setLoader(false);
                 console.log(error)
                 error_swal_toast(error.message)
-
             })
     }
 
@@ -211,27 +208,24 @@ function TryApiPage() {
                                 <Table bordered responsive='lg'>
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Data Type</th>
-                                            <th>Required/Optional</th>
-                                            <th>Description</th>
+                                           <th>Name</th>
+                                           <th>Data Type</th>
+                                           <th>Required/Optional</th>
+                                           <th>Description</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {
-                                            JSON.parse(apiData?.reqheader?.value || '[]').length > 0 ?
-                                                JSON.parse(apiData?.reqheader?.value || '[]').map((li, i) => (
-                                                    <tr key={arrayIndex('reqliheader', i)}>
-                                                        <td>{li.key}</td>
-                                                        <td>{typeof (li.value || '')}</td>
-                                                        <td>{li.isrequired ? "Required" : "Optional"}</td>
-                                                        <td>{trucateString(li.description, 25)}</td>
-                                                    </tr>
-                                                )) :
-                                                <tr>
-                                                    <td className='text-center' colSpan={4}>No header available</td>
+                                    {
+                                        JSON.parse(apiData?.reqheader?.value || '[]').length > 0 ?
+                                            JSON.parse(apiData?.reqheader?.value || '[]').map((apili, i) => (
+                                                <tr key={arrayIndex('reqliheader', i)}>
+                                                    <td>{apili.key}</td>
+                                                    <td>{typeof (apili.value || '')}</td>
+                                                    <td>{apili.isrequired ? "Required" : "Optional"}</td>
+                                                    <td>{trucateString(apili.description, 25)}</td>
                                                 </tr>
-                                        }
+                                            )) : <tr><td className='text-center' colSpan={4}>No header available</td></tr>
+                                    }
                                     </tbody>
                                 </Table>
                             </div>
@@ -265,17 +259,15 @@ function TryApiPage() {
                                     <tbody>
                                         {
                                             Object.keys(responsData.resschema.properties || {}).length > 0 ?
-                                                Object.keys(responsData.resschema?.properties || {}).map((li, i) => (
+                                                Object.keys(responsData.resschema?.properties || {}).map((respli, i) => (
                                                     <tr key={arrayIndex('reqli', i)}>
-                                                        <td>{li}</td>
-                                                        <td>{responsData.resschema?.properties[li]?.type || "string"}</td>
-                                                        <td>{responsData.resschema?.required?.includes(li) ? "Required" : "Optional"}</td>
-                                                        <td>{trucateString(li?.description, 25)}</td>
+                                                        <td>{respli}</td>
+                                                        <td>{responsData.resschema?.properties[respli]?.type || "string"}</td>
+                                                        <td>{responsData.resschema?.required?.includes(respli) ? "Required" : "Optional"}</td>
+                                                        <td>{trucateString(respli?.description, 25)}</td>
                                                     </tr>
                                                 )) :
-                                                <tr>
-                                                    <td colSpan={4} className='text-center'>No Parameter available</td>
-                                                </tr>
+                                            <tr><td colSpan={4} className='text-center'>No Parameter available</td></tr>
                                         }
                                     </tbody>
                                 </Table>
@@ -339,16 +331,16 @@ function TryApiPage() {
                             <tbody>
                                 {
                                     modalData.body.length > 0 ?
-                                        modalData.body.map((li, i) => (
+                                        modalData.body.map((modli, i) => (
                                             <tr key={arrayIndex('reqli', i)}>
-                                                <td>{li.key}</td>
-                                                <td>{typeof (li.value || '')}</td>
-                                                <td>{li.isrequired ? "Required" : "Optional"}</td>
-                                                <td>{li.description}</td>
+                                                <td>{modli.key}</td>
+                                                <td>{typeof (modli.value || '')}</td>
+                                                <td>{modli.isrequired ? "Required" : "Optional"}</td>
+                                                <td>{modli.description}</td>
                                             </tr>
                                         )) :
                                         <tr>
-                                            <td className='text-center' colSpan={4}>No Parameter available</td>
+                                          <td colSpan={4} className='text-center'>No Parameter available</td>
                                         </tr>
                                 }
 
@@ -373,16 +365,16 @@ function TryApiPage() {
                             <tbody>
                                 {
                                     Object.keys(responsData.resschema.properties || {}).length > 0 ?
-                                        Object.keys(responsData.resschema?.properties || {}).map((li, i) => (
+                                        Object.keys(responsData.resschema?.properties || {}).map((resdli, i) => (
                                             <tr key={arrayIndex('reqli', i)}>
-                                                <td>{li}</td>
-                                                <td>{responsData.resschema?.properties[li]?.type || "string"}</td>
-                                                <td>{responsData.resschema?.required?.includes(li) ? "Required" : "Optional"}</td>
-                                                <td>{responsData.resschema?.properties[li]?.description}</td>
+                                                <td>{resdli}</td>
+                                                <td>{responsData.resschema?.properties[resdli]?.type || "string"}</td>
+                                                <td>{responsData.resschema?.required?.includes(resdli) ? "Required" : "Optional"}</td>
+                                                <td>{responsData.resschema?.properties[resdli]?.description}</td>
                                             </tr>
                                         )) :
                                         <tr>
-                                            <td colSpan={4} className='text-center'>No Parameter available</td>
+                                                <td colSpan={4} className='text-center'>No Parameter available</td>
                                         </tr>
                                 }
 

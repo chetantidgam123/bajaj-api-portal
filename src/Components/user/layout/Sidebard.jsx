@@ -175,29 +175,24 @@ function Sidebard() {
                   {getTokenData()?.approved_status === 1 && item.subcategories.length > 0 && (
                     <Accordion.Body className="p-0">
                       <Accordion
-                        activeKey={subActiveKey}
                         onSelect={(key) => setSubActiveKey(key)}
                         alwaysOpen={false}
+                        activeKey={subActiveKey}
                       >
-                        {item.subcategories.map((cItem, ci) => (cItem.isenabled && !cItem.isdeleted) ? ((
+                        {item.subcategories.map((cItems, ci) => (cItems.isenabled && !cItems.isdeleted) ? ((
                           <Accordion.Item key={arrayIndex("acc_c", ci)} eventKey={ci} style={{ border: "none" }}>
-                            <Accordion.Header
-                              onClick={() => {
-                                checkLogin(item.record_uuid, cItem.record_uuid, 0);
-                              }}
-                            >
-                              {cItem.subcategoryname}
+                            <Accordion.Header onClick={() => { checkLogin(item.record_uuid, cItems.record_uuid, 0);}}>
+                              {cItems.subcategoryname}
                             </Accordion.Header>
-
-                            {cItem.apis.length > 0 && (
+                            {cItems.apis.length > 0 && (
                               <Accordion.Body className="p-0 ">
-                                {cItem.apis.map((sItem, si) => (sItem.isenabled && !sItem.isdeleted) ? (
+                                {cItems.apis.map((sItem, si) => (sItem.isenabled && !sItem.isdeleted) ? (
                                   <ApiList
                                     key={arrayIndex("acc_Si", si)}
                                     si={si}
-                                    cItem={cItem}
-                                    item={item}
+                                    cItem={cItems} 
                                     sItem={sItem}
+                                    item={item}
                                     returnClass={returnClass}
                                     setActiveKey={setActiveKey}
                                     setSubActiveKey={setSubActiveKey}
@@ -207,7 +202,8 @@ function Sidebard() {
                               </Accordion.Body>
                             )}
                           </Accordion.Item>
-                        )) : null)}
+                        )) 
+                        : null)}
                       </Accordion>
                     </Accordion.Body>
                   )}
@@ -217,27 +213,20 @@ function Sidebard() {
                     <Accordion.Body className="p-0">
                       {item.apis_category.map((api, si) => (api.isenabled && !api.isdeleted) ? (
                         <div
-                          key={arrayIndex("acc_Si", si)}
                           className={returnClass(
                             item.apis_category.length - 1 == si,
                             api_id && api.uniqueid == api_id
                           )}
+                          key={arrayIndex("acc_Si", si)}
                         >
                           <button
-                            className="span-btn w-100 border-0 bg-none text-start" style={{ background: 'none' }}
-                            onClick={() => {
-                              checkLogin(item.record_uuid, 0, api.uniqueid);
-
-                            }}
+                            style={{ background: 'none' }} className="span-btn w-100 border-0 bg-none text-start" 
+                            onClick={() => {checkLogin(item.record_uuid, 0, api.uniqueid);}}
                           >
-                            <Badge
-                              pill
-                              bg=""
-                              className={`me-2 badge-${api.apimethod.toLowerCase()}`}
-                            >
+                            <Badge pill bg="" className={`me-2 badge-${api.apimethod.toLowerCase()}`}>
                               {api.apimethod}
                             </Badge>
-                            <small className=" text-start text-white">{api.apiname}</small>
+                            <small className="text-start text-white">{api.apiname}</small>
                           </button>
                         </div>
                       ) : null)}
@@ -360,9 +349,9 @@ function Sidebard() {
                     {item.subcategories.length > 0 && (
                       <Accordion.Body className="p-0">
                         <Accordion
+                          alwaysOpen={false}
                           activeKey={subActiveKey}
                           onSelect={(key) => setSubActiveKey(key)}
-                          alwaysOpen={false}
                         >
                           {item.subcategories.map((cItem, ci) => (cItem.isenabled && !cItem.isdeleted) ? ((
                             <Accordion.Item key={arrayIndex("acc_c", ci)} eventKey={ci} style={{ border: "none" }}>
@@ -395,6 +384,7 @@ function Sidebard() {
                           )) : null)}
                         </Accordion>
                       </Accordion.Body>
+
                     )}
 
                     {/* API Categories */}
