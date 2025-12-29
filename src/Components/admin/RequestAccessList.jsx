@@ -31,6 +31,7 @@ function RequestAccessList() {
         });
     };
     const checkClientId = (user) => {
+        
         toggleStatus(user, 1, user.client_id, user.client_secret);
     }
 
@@ -75,8 +76,10 @@ function RequestAccessList() {
         };
         try {
             const response = await post_auth_data("portal/private", payload, {});
-            if (response.data.status) {
-                success_swal_toast(response.data.message)
+            console.log(response,"109");
+            if (response.data && (response.data.status === true || response.data.status === "true")) {
+                console.log("response111",response.data.message)
+                success_swal_toast(response?.data?.message || "Request processed successfully")
                 setReqAccList(prev =>
                     prev.map(item =>
                         item.request_id === request_id
@@ -88,6 +91,7 @@ function RequestAccessList() {
                 const userName = user.fullname
                 const userEmail = user?.emailid || ""
                 const userId = user.id
+                console.log("userEmail:", user ,status );
                 if (status === 1) {
                     // ✅ APPROVED
                     const subject = "Approval Granted for BAJAJ API Access";
@@ -95,7 +99,8 @@ function RequestAccessList() {
                         status: "Approved",
                         userName,
                         userId,
-                        loginLink: "https://apidocs.bajajauto.com/"
+                        loginLink: "https://apidocs.bajajauto.com/",
+                        apiName: user.apiname
                     });
                     await sendEmail({
                         body: emailBody,
@@ -110,6 +115,7 @@ function RequestAccessList() {
                         status: "Rejected",
                         userName,
                         userId,
+                        apiName: user.apiname
                     })
                     await sendEmail({
                         body: emailBody,
@@ -120,10 +126,13 @@ function RequestAccessList() {
                 }
                 fetchRequestList();
             } else {
-                error_swal_toast(response.data.message || "Something went wrong");
+                error_swal_toast(response?.message || "Something went wrong");
             }
         } catch (error) {
-            error_swal_toast(error.message || "API call failed");
+            console.log("toggleStatus Error:", error);
+            console.log("toggleStatus Error Response:", error?.response?.data);
+            const errorMsg = error?.response?.data?.message || error?.message || "API call failed";
+            error_swal_toast("Approve Error: " + errorMsg);
         } finally {
             // 🔹 Reset loading only for clicked button
             setLoadingButtons(prev => ({
@@ -153,19 +162,26 @@ function RequestAccessList() {
             // setLoadingList(true);
             const response = await post_auth_data("portal/private", payload, {});
             setLoader({ ...loader, pageloader: false })
-            if (response.data.status) {
-                const dataWithReqId = response.data.data.map(item => ({
+            if (response?.data?.status) {
+                if (response.data.data && Array.isArray(response.data.data)) {
+                    const dataWithReqId = response.data.data.map(item => ({
                     ...item,
                     request_id: item.request_id || item.id || ""
                 }));
                 setReqAccList(dataWithReqId);
                 setTotalPages(Math.ceil(response.data.totalRecords / offsetPagination))
+                } else {
+                    success_swal_toast(response?.data?.message || "Request processed successfully");
+                }
             } else {
-                error_swal_toast(response.data.message || "Failed to fetch list");
+                error_swal_toast(response?.data?.message || "Failed to fetch list");
             }
         } catch (error) {
             setLoader({ ...loader, pageloader: false })
-            error_swal_toast(error.message || "API call failed");
+            console.log("fetchRequestList Error:", error);
+            console.log("fetchRequestList Error Response:", error?.response?.data);
+            const errorMsg = error?.response?.data?.message || error?.message || "API call failed";
+            error_swal_toast("Fetch Error: " + errorMsg);
         } finally {
             setLoader({ ...loader, pageloader: false })
             // setLoadingList(false);

@@ -15,7 +15,7 @@ function Sidebard() {
   const [showModal, setShowModal] = useState(false);
   const [modalName, setModalName] = useState("login");
   const [activeKey, setActiveKey] = useState(null); // top-level active key
-  const [subActiveKey, setSubActiveKey] = useState(null); // subcategory active key
+  const [subActiveKey, setSubActiveKey] = useState(""); // subcategory active key - empty string means none open
   const { api_id } = useParams();
   const [isClosed, setIsClosed] = useState(false); // sidebar toggle
   const [sidebarData, setSidebarData] = useState([]);
@@ -29,9 +29,9 @@ function Sidebard() {
     if (api_id) {
       if (isClosed) {
         setActiveKey(null)
-        setSubActiveKey(null)
+        setSubActiveKey("")
       }
-      navigate("/collection-api/" + collection_id + "/" + api_id);
+      navigate("/collection-api/" + collection_id + "/" + category_id + "/" + api_id);
     } else {
       navigate("/api/" + collection_id + "/" + category_id);
     }
@@ -45,10 +45,10 @@ function Sidebard() {
 
   const confirm_swal_call = () => {
     const callback = (resolve, reject) => {
-        resolve();
+      resolve();
     }
     confirm_swal_with(callback, `To access the APIs your Account is in Approval Process`)
-  } 
+  }
 
   const getSidebarlist = () => {
     post_data("portal/public", convertToPayload("get-sidebar-list", {}), {})
@@ -88,10 +88,15 @@ function Sidebard() {
     getSidebarlist();
   }, []);
 
+  // Reset subActiveKey when parent accordion changes
+  useEffect(() => {
+    setSubActiveKey("");
+  }, [activeKey]);
+
   const toggleSidebar = () => {
     setIsClosed(!isClosed);
     setActiveKey(null); // collapse main accordion
-    setSubActiveKey(null); // collapse sub accordion
+    setSubActiveKey(""); // collapse sub accordion
   };
 
 
@@ -143,24 +148,24 @@ function Sidebard() {
                     //   navigate("/api/" + item.record_uuid);
                     // }}
                     onClick={() => {
-                      if(getTokenData()?.approved_status === 1) {
+                      if (getTokenData()?.approved_status === 1) {
                         navigate("/api/" + item.record_uuid);
                       } else {
                         confirm_swal_call()
                       }
                     }}
-                    //  onClick={(e) => {
-                    //   // STOP ACCORDION FROM OPENING
-                    //   e.stopPropagation();
-                    //   e.preventDefault();
-                    //   // Also stop React-Bootstrap from detecting toggle event
-                    //   e.nativeEvent.stopImmediatePropagation?.();
-                    //   if (getTokenData()?.approved_status !== 1) {
-                    //     confirm_swal_call();
-                    //     return;
-                    //   }
-                    //   navigate("/api/" + item.record_uuid);
-                    // }}
+                  //  onClick={(e) => {
+                  //   // STOP ACCORDION FROM OPENING
+                  //   e.stopPropagation();
+                  //   e.preventDefault();
+                  //   // Also stop React-Bootstrap from detecting toggle event
+                  //   e.nativeEvent.stopImmediatePropagation?.();
+                  //   if (getTokenData()?.approved_status !== 1) {
+                  //     confirm_swal_call();
+                  //     return;
+                  //   }
+                  //   navigate("/api/" + item.record_uuid);
+                  // }}
                   >
                     <img
                       src={`/assets/img/${i == activeKey ? "visualization.png" : "visualization-2.png"
@@ -171,65 +176,78 @@ function Sidebard() {
                     <span className="link-name ms-2">{item.categoryname}</span>
                   </Accordion.Header>
 
-                  {/* Subcategories */}
-                  {getTokenData()?.approved_status === 1 && item.subcategories.length > 0 && (
+                  {/* Single Accordion.Body containing both Subcategories and API Categories */}
+                  {getTokenData()?.approved_status === 1 && (item.subcategories.length > 0 || item.apis_category.length > 0) && (
                     <Accordion.Body className="p-0">
-                      <Accordion
-                        onSelect={(key) => setSubActiveKey(key)}
-                        alwaysOpen={false}
-                        activeKey={subActiveKey}
-                      >
-                        {item.subcategories.map((cItems, ci) => (cItems.isenabled && !cItems.isdeleted) ? ((
-                          <Accordion.Item key={arrayIndex("acc_c", ci)} eventKey={ci} style={{ border: "none" }}>
-                            <Accordion.Header onClick={() => { checkLogin(item.record_uuid, cItems.record_uuid, 0);}}>
-                              {cItems.subcategoryname}
-                            </Accordion.Header>
-                            {cItems.apis.length > 0 && (
-                              <Accordion.Body className="p-0 ">
-                                {cItems.apis.map((sItem, si) => (sItem.isenabled && !sItem.isdeleted) ? (
-                                  <ApiList
-                                    key={arrayIndex("acc_Si", si)}
-                                    si={si}
-                                    cItem={cItems} 
-                                    sItem={sItem}
-                                    item={item}
-                                    returnClass={returnClass}
-                                    setActiveKey={setActiveKey}
-                                    setSubActiveKey={setSubActiveKey}
-                                    isClosed={isClosed}
-                                  />
-                                ) : null)}
-                              </Accordion.Body>
-                            )}
-                          </Accordion.Item>
-                        )) 
-                        : null)}
-                      </Accordion>
-                    </Accordion.Body>
-                  )}
-
-                  {/* API Categories */}
-                  {getTokenData()?.approved_status === 1 && item.apis_category.length > 0 && (
-                    <Accordion.Body className="p-0">
-                      {item.apis_category.map((api, si) => (api.isenabled && !api.isdeleted) ? (
-                        <div
-                          className={returnClass(
-                            item.apis_category.length - 1 == si,
-                            api_id && api.uniqueid == api_id
-                          )}
-                          key={arrayIndex("acc_Si", si)}
+                      {/* Subcategories */}
+                      {item.subcategories.length > 0 && (
+                        <Accordion
+                          activeKey={subActiveKey}
+                          onSelect={(key) => setSubActiveKey(key)}
+                          alwaysOpen={false}
                         >
-                          <button
-                            style={{ background: 'none' }} className="span-btn w-100 border-0 bg-none text-start" 
-                            onClick={() => {checkLogin(item.record_uuid, 0, api.uniqueid);}}
-                          >
-                            <Badge pill bg="" className={`me-2 badge-${api.apimethod.toLowerCase()}`}>
-                              {api.apimethod}
-                            </Badge>
-                            <small className="text-start text-white">{api.apiname}</small>
-                          </button>
-                        </div>
-                      ) : null)}
+                          {item.subcategories.map((cItem, ci) => (cItem.isenabled && !cItem.isdeleted) ? ((
+                            <Accordion.Item key={arrayIndex("acc_c", ci)} eventKey={`${i}-${ci}`} style={{ border: "none" }}>
+                              <Accordion.Header
+                                onClick={() => {
+                                  checkLogin(item.record_uuid, cItem.record_uuid, 0);
+                                }}
+                              >
+                                {cItem.subcategoryname}
+                              </Accordion.Header>
+
+                              {cItem.apis.length > 0 && subActiveKey === `${i}-${ci}` && (
+                                <Accordion.Body className="p-0 ">
+                                  {cItem.apis.map((sItem, si) => (sItem.isenabled && !sItem.isdeleted) ? (
+                                    <ApiList
+                                      key={arrayIndex("acc_Si", si)}
+                                      si={si}
+                                      cItem={cItem}
+                                      item={item}
+                                      sItem={sItem}
+                                      returnClass={returnClass}
+                                      setActiveKey={setActiveKey}
+                                      setSubActiveKey={setSubActiveKey}
+                                      isClosed={isClosed}
+                                    />
+                                  ) : null)}
+                                </Accordion.Body>
+                              )}
+                            </Accordion.Item>
+                          )) : null)}
+                        </Accordion>
+                      )}
+
+                      {/* API Categories */}
+                      {item.apis_category.length > 0 && (
+                        <>
+                          {item.apis_category.map((api, si) => (api.isenabled && !api.isdeleted) ? (
+                            <div
+                              key={arrayIndex("acc_Si", si)}
+                              className={returnClass(
+                                item.apis_category.length - 1 == si,
+                                api_id && api.uniqueid == api_id
+                              )}
+                            >
+                              <button
+                                className="span-btn w-100 border-0 bg-none text-start" style={{ background: 'none' }}
+                                onClick={() => {
+                                  checkLogin(item.record_uuid, 0, api.uniqueid);
+                                }}
+                              >
+                                <Badge
+                                  pill
+                                  bg=""
+                                  className={`me-2 badge-${api.apimethod.toLowerCase()}`}
+                                >
+                                  {api.apimethod}
+                                </Badge>
+                                <small className=" text-start text-white">{api.apiname}</small>
+                              </button>
+                            </div>
+                          ) : null)}
+                        </>
+                      )}
                     </Accordion.Body>
                   )}
                 </Accordion.Item>
@@ -316,7 +334,10 @@ function Sidebard() {
               <Accordion
                 className="mt-2 explore"
                 activeKey={activeKey}
-                onSelect={(key) => setActiveKey(key)}
+                onSelect={(key) => {
+                  setActiveKey(key);
+                  setSubActiveKey("");
+                }}
                 alwaysOpen={false}
               >
                 {sidebarData.map((item, i) => (
@@ -345,77 +366,78 @@ function Sidebard() {
                       <span className="link-name ms-2">{item.categoryname}</span>
                     </Accordion.Header>
 
-                    {/* Subcategories */}
-                    {item.subcategories.length > 0 && (
+                    {/* Single Accordion.Body containing both Subcategories and API Categories */}
+                    {(item.subcategories.length > 0 || item.apis_category.length > 0) && (
                       <Accordion.Body className="p-0">
-                        <Accordion
-                          alwaysOpen={false}
-                          activeKey={subActiveKey}
-                          onSelect={(key) => setSubActiveKey(key)}
-                        >
-                          {item.subcategories.map((cItem, ci) => (cItem.isenabled && !cItem.isdeleted) ? ((
-                            <Accordion.Item key={arrayIndex("acc_c", ci)} eventKey={ci} style={{ border: "none" }}>
-                              <Accordion.Header
-                                onClick={() => {
-                                  checkLogin(item.record_uuid, cItem.record_uuid, 0);
-                                }}
-                              >
-                                {cItem.subcategoryname}
-                              </Accordion.Header>
-
-                              {cItem.apis.length > 0 && (
-                                <Accordion.Body className="p-0 ">
-                                  {cItem.apis.map((sItem, si) => (sItem.isenabled && !sItem.isdeleted) ? (
-                                    <ApiList
-                                      key={arrayIndex("acc_Si", si)}
-                                      si={si}
-                                      cItem={cItem}
-                                      item={item}
-                                      sItem={sItem}
-                                      returnClass={returnClass}
-                                      setActiveKey={setActiveKey}
-                                      setSubActiveKey={setSubActiveKey}
-                                      isClosed={isClosed}
-                                    />
-                                  ) : null)}
-                                </Accordion.Body>
-                              )}
-                            </Accordion.Item>
-                          )) : null)}
-                        </Accordion>
-                      </Accordion.Body>
-
-                    )}
-
-                    {/* API Categories */}
-                    {item.apis_category.length > 0 && (
-                      <Accordion.Body className="p-0">
-                        {item.apis_category.map((api, si) => (api.isenabled && !api.isdeleted) ? (
-                          <div
-                            key={arrayIndex("acc_Si", si)}
-                            className={returnClass(
-                              item.apis_category.length - 1 == si,
-                              api_id && api.uniqueid == api_id
-                            )}
+                        {/* Subcategories */}
+                        {item.subcategories.length > 0 && (
+                          <Accordion
+                            activeKey={subActiveKey}
+                            onSelect={(key) => setSubActiveKey(key)}
+                            alwaysOpen={false}
                           >
-                            <button
-                              className="span-btn w-100 border-0 bg-none text-start" style={{ background: 'none' }}
-                              onClick={() => {
-                                checkLogin(item.record_uuid, 0, api.uniqueid);
+                            {item.subcategories.map((cItem, ci) => (cItem.isenabled && !cItem.isdeleted) ? ((
+                              <Accordion.Item key={arrayIndex("acc_c", ci)} eventKey={`${i}-${ci}`} style={{ border: "none" }}>
+                                <Accordion.Header
+                                  onClick={() => {
+                                    checkLogin(item.record_uuid, cItem.record_uuid, 0);
+                                  }}
+                                >
+                                  {cItem.subcategoryname}
+                                </Accordion.Header>
 
-                              }}
-                            >
-                              <Badge
-                                pill
-                                bg=""
-                                className={`me-2 badge-${api.apimethod.toLowerCase()}`}
+                                {cItem.apis.length > 0 && subActiveKey === `${i}-${ci}` && (
+                                  <Accordion.Body className="p-0 ">
+                                    {cItem.apis.map((sItem, si) => (sItem.isenabled && !sItem.isdeleted) ? (
+                                      <ApiList
+                                        key={arrayIndex("acc_Si", si)}
+                                        si={si}
+                                        cItem={cItem}
+                                        item={item}
+                                        sItem={sItem}
+                                        returnClass={returnClass}
+                                        setActiveKey={setActiveKey}
+                                        setSubActiveKey={setSubActiveKey}
+                                        isClosed={isClosed}
+                                      />
+                                    ) : null)}
+                                  </Accordion.Body>
+                                )}
+                              </Accordion.Item>
+                            )) : null)}
+                          </Accordion>
+                        )}
+
+                        {/* API Categories */}
+                        {item.apis_category.length > 0 && (
+                          <>
+                            {item.apis_category.map((api, si) => (api.isenabled && !api.isdeleted) ? (
+                              <div
+                                key={arrayIndex("acc_Si", si)}
+                                className={returnClass(
+                                  item.apis_category.length - 1 == si,
+                                  api_id && api.uniqueid == api_id
+                                )}
                               >
-                                {api.apimethod}
-                              </Badge>
-                              <small className=" text-start text-white">{api.apiname}</small>
-                            </button>
-                          </div>
-                        ) : null)}
+                                <button
+                                  className="span-btn w-100 border-0 bg-none text-start" style={{ background: 'none' }}
+                                  onClick={() => {
+                                    checkLogin(item.record_uuid, 0, api.uniqueid);
+                                  }}
+                                >
+                                  <Badge
+                                    pill
+                                    bg=""
+                                    className={`me-2 badge-${api.apimethod.toLowerCase()}`}
+                                  >
+                                    {api.apimethod}
+                                  </Badge>
+                                  <small className=" text-start text-white">{api.apiname}</small>
+                                </button>
+                              </div>
+                            ) : null)}
+                          </>
+                        )}
                       </Accordion.Body>
                     )}
                   </Accordion.Item>
@@ -437,7 +459,7 @@ function ApiList({ si, cItem, item, sItem, returnClass, setActiveKey, setSubActi
     if (getTokenData()?.jwt_token) {
       if (isClosed) {
         setActiveKey(null)
-        setSubActiveKey(null)
+        setSubActiveKey("")
       }
       navigate(`/api/${record_uuid}/${crecord_uuid}/${uniqueid}`)
 

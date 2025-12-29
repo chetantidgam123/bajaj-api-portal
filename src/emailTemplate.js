@@ -76,6 +76,7 @@ const accessGrantedEmail = (data) => {
 }
 
 const generateApiRequestEmail = (data) => {
+     console.log("data in email template", data);
   return `
 <!DOCTYPE html>
 <html lang="en">
@@ -141,6 +142,7 @@ const generateApiRequestEmail = (data) => {
 `};
 
 const apiRequestUser = (data) => {
+  console.log("data in email template144:", data);
   return `
 <!DOCTYPE html>
 <html lang="en">
@@ -251,7 +253,8 @@ const adminNotificationEmail = (data) => {
   `
 }
 
-const generateApiApprovalEmail = ({ userName, userId, loginLink, status }) => {
+const generateApiApprovalEmail = ({ userName, userId, loginLink, status,apiName }) => {
+  console.log("data in email template approval:", { userName, userId, loginLink, status,apiName });
   const isApproved = status?.toLowerCase() === "approved";
   return `
 <!DOCTYPE html>
@@ -316,10 +319,10 @@ const generateApiApprovalEmail = ({ userName, userId, loginLink, status }) => {
   <div class="container">
       <div><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG4lo39vSLS1FaLIpr1XKrjiebmWX-3fRErA&s' width='200px' style='margin-bottom:20px;' /></div>
       <p>Dear ${userName},</p>
-      <p>Your login request for accessing the <strong>${data.apiName}</strong> has been ${isApproved ? `successfully approved. You can now use your registered credentials to log in and start accessing the API services` : `rejected`}.</p>
+      <p>Your login request for accessing the <strong>BAJAJ API Portal</strong> has been ${isApproved ? `successfully approved. You can now use your registered credentials to log in and start accessing the API services` : `rejected`}.</p>
       
       <div class="details">
-          <p><strong>API Name:</strong> BAJAJ API</p>
+          <p><strong>API Name:</strong> ${apiName}</p>
           <p><strong>Access Status:</strong> ${status}</p>
       </div>
 

@@ -9,7 +9,7 @@ import { useFormik } from "formik";
 import { confirm_swal_with_text, error_swal_toast, success_swal_toast } from "../../SwalServices";
 import { LoaderWight, PageLoaderBackdrop } from "../../Loader";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { ClassicEditor, Essentials, Bold, Italic, Underline, Strikethrough, Heading, Link, List, BlockQuote, Table, Undo, Paragraph } from 'ckeditor5';
 function CategoryList() {
     const [show, setShow] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
@@ -124,23 +124,23 @@ function CategoryList() {
     }
 
     const deleteCategory = (user, resolve, reject) => {
-        let payload = {"categoryid": user.id}
+        let payload = { "categoryid": user.id }
         post_auth_data("portal/private", convertToPayload("delete-category", payload), {})
-        .then((res) => {
-            if(res.data.status) {
-                console.log(res.data)
-                success_swal_toast(res.data.message || "Category deleted successfully");
-                resolve();
-                getCategoryList();
-            } else {
+            .then((res) => {
+                if (res.data.status) {
+                    console.log(res.data)
+                    success_swal_toast(res.data.message || "Category deleted successfully");
+                    resolve();
+                    getCategoryList();
+                } else {
+                    reject();
+                    error_swal_toast(res.data.message || "Failed to delete category");
+                }
+            }).catch((error) => {
                 reject();
-                error_swal_toast(res.data.message || "Failed to delete category");
-            }
-        }).catch((error) => {
-            reject();
-            error_swal_toast(error.message || "something went wrong");
-            console.error("Error during deletion:", error);
-        }) 
+                error_swal_toast(error.message || "something went wrong");
+                console.error("Error during deletion:", error);
+            })
     }
 
     const confirm_swal_call_edit = (cat) => {
@@ -203,7 +203,7 @@ function CategoryList() {
         <div className="mx-2 card-admin-main">
             <div className="card-body card-bg">
                 <div className="row justify-content-between">
-                  <div className="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+                    <div className="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
                         <h4 className="mb-2">Api Category List</h4>
                     </div>
                     <div className="col-xl-2 col-lg-3 col-md-6 col-sm-12 col-12 d-flex justify-content-xl-end justify-content-lg-end justify-content-md-center justify-content-sm-center justify-content-center">
@@ -299,49 +299,51 @@ function CategoryList() {
                     <div className="mb-2">
                         <label className="form-label" htmlFor="description">Category Description</label>
                         <CKEditor
-                        editor={ClassicEditor}
-                        data={categoryForm.values.description}
-                        onChange={(event, editor) => {
-                            const data = editor.getData();
-                            categoryForm.setFieldValue("description", data);
-                        }}
-                        onBlur={() => categoryForm.setFieldTouched("description", true)}
-                        config={
+                            editor={ClassicEditor}
+                            data={categoryForm.values.description}
+                            onChange={(event, editor) => {
+                                const data = editor.getData();
+                                categoryForm.setFieldValue("description", data);
+                            }}
+                            onBlur={() => categoryForm.setFieldTouched("description", true)}
+                            config={
+                                {
+                                    licenseKey: 'GPL',
+                                    plugins: [Essentials, Bold, Italic, Underline, Strikethrough, Heading, Link, List, BlockQuote, Table, Undo, Paragraph],
+                                    toolbar: [
+                                        "heading",              // Heading (H1, H2, H3...)
+                                        "|",
+                                        "bold", "italic", "underline", "strikethrough",
+                                        "link",
+                                        "|",
+                                        "bulletedList", "numberedList", "blockQuote",
+                                        "|",
+                                        "alignment",           // left, center, right, justify
+                                        "insertTable",         // table insert
+                                        "imageUpload",         // image upload
+                                        "|",
+                                        "undo", "redo",
+                                        "removeFormat",
+                                    ],
+                                    heading: {
+                                        options:
+                                            [
+                                                { model: "paragraph", title: "Paragraph", class: "ck-heading_paragraph" },
+                                                { model: "heading1", view: "h1", title: "Heading 1", class: "ck-heading_heading1" },
+                                                { model: "heading2", view: "h2", title: "Heading 2", class: "ck-heading_heading2" },
+                                                { model: "heading3", view: "h3", title: "Heading 3", class: "ck-heading_heading3" },
+                                                { model: "heading4", view: "h4", title: "Heading 4", class: "ck-heading_heading4" },
+                                                { model: "heading5", view: "h5", title: "Heading 5", class: "ck-heading_heading5" },
+                                                { model: "heading6", view: "h6", title: "Heading 6", class: "ck-heading_heading6" },
+                                            ],
+                                    },
+                                }}
+                        />
                         {
-                          toolbar: [
-                            "heading",              // Heading (H1, H2, H3...)
-                            "|",
-                            "bold", "italic", "underline", "strikethrough",
-                            "link",
-                            "|",
-                            "bulletedList", "numberedList", "blockQuote",
-                            "|",
-                            "alignment",           // left, center, right, justify
-                            "insertTable",         // table insert
-                            "imageUpload",         // image upload
-                            "|",
-                            "undo", "redo",
-                            "removeFormat",
-                          ],
-                          heading: {
-                            options: 
-                            [
-                                 { model: "paragraph", title: "Paragraph", class: "ck-heading_paragraph" },
-                                 { model: "heading1", view: "h1", title: "Heading 1", class: "ck-heading_heading1" },
-                                 { model: "heading2", view: "h2", title: "Heading 2", class: "ck-heading_heading2" },
-                                 { model: "heading3", view: "h3", title: "Heading 3", class: "ck-heading_heading3" },
-                                 { model: "heading4", view: "h4", title: "Heading 4", class: "ck-heading_heading4" },
-                                 { model: "heading5", view: "h5", title: "Heading 5", class: "ck-heading_heading5" },
-                                 { model: "heading6", view: "h6", title: "Heading 6", class: "ck-heading_heading6" },
-                            ],
-                          },
-                        }}
-                    />
-                    {
-                      categoryForm.touched.description && categoryForm.errors.description ? 
-                      ( <small className="text-danger">{categoryForm.errors.description}</small> ) 
-                      : null
-                    }
+                            categoryForm.touched.description && categoryForm.errors.description ?
+                                (<small className="text-danger">{categoryForm.errors.description}</small>)
+                                : null
+                        }
                     </div>
                 </Modal.Body>
                 <Modal.Footer>

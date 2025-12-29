@@ -20,7 +20,7 @@ function Sidebar({ setPageData }) {
             return;
         }
         if (api_id) {
-            navigate('/collection-api/' + collection_id + '/' + api_id);
+            navigate('/collection-api/' + collection_id + '/' + category_id + '/' + api_id);
         } else {
             navigate('/api/' + collection_id + '/' + category_id);
         }
