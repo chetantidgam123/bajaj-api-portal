@@ -63,9 +63,10 @@ function RequestParamtereAdd({ modalvalue, setShow, modalType, apiForm }) {
                                     parameterForm.values.parameters.map((param, index) => (
                                         <tr key={arrayIndex('param', index)}>
                                             <td className="">
-                                                <input type="text" className='form-control' name={`parameters[${index}].key`}
+                                                <input className='form-control' type="text" name={`parameters[${index}].key`}
+                                                    value={parameterForm.values.parameters[index].key}
                                                     onChange={parameterForm.handleChange} onBlur={parameterForm.handleBlur}
-                                                    value={parameterForm.values.parameters[index].key} />
+                                                />
                                                 <ErrorMessage name={`parameters[${index}].key`} component="small" className='text-danger' />
                                             </td>
                                             <td className="">

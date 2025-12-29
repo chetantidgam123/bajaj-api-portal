@@ -302,7 +302,7 @@ function ApiPlayGround() {
                                                             <ErrorMessage name={`parameters[${index}].description`} component="small" className='text-danger' />
                                                         </td>
                                                         <td className="d-flex align-items-center justify-content-center d-none">
-                                                            <button type="buttn" className="btn btn-danger btn-sm" title="remove" onClick={() => { arrayHelper.remove(index) }}>
+                                                            <button type="button" className="btn btn-danger btn-sm" onClick={() => { arrayHelper.remove(index) }} title="remove">
                                                                 <i className="fa fa-trash"></i>
                                                             </button>
                                                         </td>
@@ -337,34 +337,33 @@ function ApiPlayGround() {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {
-                                                uriparameterForm.values.parameters.map((param, index) => (
-                                                    <tr key={arrayIndex('uriparams', index)}>
-                                                        <td className="">
-                                                            <input type="text" className='form-control' name={`parameters[${index}].key`}
-                                                                onChange={uriparameterForm.handleChange} onBlur={uriparameterForm.handleBlur}
-                                                                value={uriparameterForm.values.parameters[index].key} />
-                                                            <ErrorMessage name={`parameters[${index}].key`} component="small" className='text-danger' />
-                                                        </td>
-                                                        <td className="">
-                                                            <input type="text" className='form-control' name={`parameters[${index}].value`}
-                                                                onChange={uriparameterForm.handleChange} onBlur={uriparameterForm.handleBlur}
-                                                                value={uriparameterForm.values.parameters[index].value} />
-                                                            <ErrorMessage name={`parameters[${index}].value`} component="small" className='text-danger' />
-                                                        </td>
-                                                        <td className="">
-                                                            <input type="text" className='form-control' name={`parameters[${index}].description`}
-                                                                onChange={uriparameterForm.handleChange} onBlur={uriparameterForm.handleBlur}
-                                                                value={uriparameterForm.values.parameters[index].description} />
-                                                            <ErrorMessage name={`parameters[${index}].description`} component="small" className='text-danger' />
-                                                        </td>
-                                                        <td className="d-flex align-items-center justify-content-center d-none">
-                                                            <button type="buttn" className="btn btn-danger btn-sm" title="remove" onClick={() => { arrayHelper.remove(index) }}>
-                                                                <i className="fa fa-trash"></i>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                ))
+                                            { uriparameterForm.values.parameters.map((param, index) => (
+                                                <tr key={arrayIndex('uriparams', index)}>
+                                                    <td className="">
+                                                        <input type="text" className='form-control' name={`parameters[${index}].key`}
+                                                            onChange={uriparameterForm.handleChange} onBlur={uriparameterForm.handleBlur}
+                                                            value={uriparameterForm.values.parameters[index].key} />
+                                                        <ErrorMessage name={`parameters[${index}].key`} component="small" className='text-danger' />
+                                                    </td>
+                                                    <td className="">
+                                                        <input type="text" className='form-control' name={`parameters[${index}].value`}
+                                                            onChange={uriparameterForm.handleChange} onBlur={uriparameterForm.handleBlur}
+                                                            value={uriparameterForm.values.parameters[index].value} />
+                                                        <ErrorMessage name={`parameters[${index}].value`} component="small" className='text-danger' />
+                                                    </td>
+                                                    <td className="">
+                                                        <input type="text" className='form-control' name={`parameters[${index}].description`}
+                                                            onChange={uriparameterForm.handleChange} onBlur={uriparameterForm.handleBlur}
+                                                            value={uriparameterForm.values.parameters[index].description} />
+                                                        <ErrorMessage className='text-danger' name={`parameters[${index}].description`} component="small" />
+                                                    </td>
+                                                    <td className="d-flex align-items-center justify-content-center d-none">
+                                                        <button title="remove" type="button" className="btn btn-danger btn-sm" onClick={() => { arrayHelper.remove(index) }}>
+                                                            <i className="fa fa-trash"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                              ))
                                             }
                                         </tbody>
                                     </table>
@@ -377,13 +376,12 @@ function ApiPlayGround() {
                     <FormikProvider value={headersForm}>
                         <Form className="api-form" autoComplete="off">
                             <FieldArray name='parameters' render={(arrayHelper) => (
-
                                 <table className="table table-bordered ">
                                     <thead>
                                         <tr>
                                             <th colSpan={5}>
                                                 <div className="text-end d-none">
-                                                    <button className="btn btn-primary" type="button" onClick={() => { handleAddParam(arrayHelper) }}>Add Parameter</button>
+                                                  <button type="button" className="btn btn-primary" onClick={() => { handleAddParam(arrayHelper) }}>Add Parameter</button>
                                                 </div>
                                             </th>
                                         </tr>
@@ -391,7 +389,6 @@ function ApiPlayGround() {
                                             <th>Key</th>
                                             <th>Value</th>
                                             <th>description</th>
-                                            {/* <th></th> */}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -417,7 +414,7 @@ function ApiPlayGround() {
                                                         <ErrorMessage name={`parameters[${index}].description`} component="small" className='text-danger' />
                                                     </td>
                                                     <td className="d-flex align-items-center justify-content-center d-none">
-                                                        <button type="buttn" className="btn btn-danger btn-sm" title="remove" onClick={() => { arrayHelper.remove(index) }}>
+                                                        <button type="button" className="btn btn-danger btn-sm" title="remove" onClick={() => { arrayHelper.remove(index) }}>
                                                             <i className="fa fa-trash"></i>
                                                         </button>
                                                     </td>
@@ -473,7 +470,7 @@ function ApiPlayGround() {
                                             <tr>
                                                 <th colSpan={5}>
                                                     <div className="text-end d-none">
-                                                        <button className="btn btn-primary" type="button" onClick={() => { handleAddParam(arrayHelper) }}>Add Parameter</button>
+                                                        <button type="button" className="btn btn-primary" onClick={() => {handleAddParam(arrayHelper)}}>Add Parameter</button>
                                                     </div>
                                                 </th>
                                             </tr>

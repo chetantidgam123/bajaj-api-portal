@@ -517,19 +517,18 @@ function HomePageContent() {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {
-                                                Object.keys(responsData.resschema.properties || {}).length > 0 ?
-                                                    Object.keys(responsData.resschema?.properties || {}).map((li, i) => (
-                                                        <tr key={arrayIndex('reqli', i)}>
-                                                            <td>{li}</td>
-                                                            <td>{responsData.resschema?.properties[li]?.type || "string"}</td>
-                                                            <td>{responsData.resschema?.required?.includes(li) ? "Required" : "Optional"}</td>
-                                                            <td>{trucateString(li?.description, 25)}</td>
-                                                        </tr>
-                                                    )) :
-                                                    <tr>
-                                                        <td colSpan={4} className='text-center'>No Parameter available</td>
+                                            { Object.keys(responsData.resschema.properties || {}).length > 0 ?
+                                                Object.keys(responsData.resschema?.properties || {}).map((resDli, i) => (
+                                                    <tr key={arrayIndex('reqli', i)}>
+                                                        <td>{resDli}</td>
+                                                        <td>{responsData.resschema?.properties[resDli]?.type || "string"}</td>
+                                                        <td>{responsData.resschema?.required?.includes(resDli) ? "Required" : "Optional"}</td>
+                                                        <td>{trucateString(resDli?.description, 25)}</td>
                                                     </tr>
+                                                )) :
+                                                <tr>
+                                                  <td className='text-center' colSpan={4}>No Parameter available</td>
+                                                </tr>
                                             }
                                         </tbody>
                                     </Table>
@@ -552,25 +551,25 @@ function HomePageContent() {
                                     <Table bordered responsive='lg'>
                                         <thead>
                                             <tr>
-                                                <th>Name</th>
-                                                <th>Data Type</th>
-                                                <th>Required/Optional</th>
-                                                <th>Description</th>
+                                              <th>Name</th>
+                                              <th>Data Type</th>
+                                              <th>Required/Optional</th>
+                                              <th>Description</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {
                                                 JSON.parse(apiData?.resheader?.value || '[]').length > 0 ?
-                                                    JSON.parse(apiData?.resheader?.value || '[]').map((li, i) => (
+                                                    JSON.parse(apiData?.resheader?.value || '[]').map((apiDli, i) => (
                                                         <tr key={arrayIndex('reqliheader', i)}>
-                                                            <td>{li.key}</td>
-                                                            <td>{li.type || "string"}</td>
-                                                            <td>{"Required"}</td>
-                                                            <td>{trucateString(li.description, 25)}</td>
+                                                             <td>{apiDli.key}</td>
+                                                             <td>{apiDli.type || "string"}</td>
+                                                             <td>{"Required"}</td>
+                                                             <td>{trucateString(apiDli.description, 25)}</td>
                                                         </tr>
                                                     )) :
                                                     <tr>
-                                                        <td colSpan={4} className='text-center'>No header available</td>
+                                                      <td colSpan={4} className='text-center'>No header available</td>
                                                     </tr>
                                             }
                                         </tbody>
@@ -583,8 +582,8 @@ function HomePageContent() {
                     <LangCurlExecuteComp apiData={apiData} setStatusCode={setStatusCode} bodyReqSample={bodyRequestSample} />
                 </div>}
             </div>
-            <Modal size="xl" show={show} onHide={() => setShow(false)} centered>
-                <Modal.Header closeButton className="border-bottom-0"><h4>Request Parameters Details :</h4></Modal.Header>
+            <Modal show={show} onHide={() => setShow(false)} centered size="xl">
+                <Modal.Header className="border-bottom-0" closeButton><h4>Request Parameters Details :</h4></Modal.Header>
                 <Modal.Body >
                     <div className="table-responsive-custom">
                         <Table bordered responsive='lg'>
@@ -599,16 +598,16 @@ function HomePageContent() {
                             <tbody>
                                 {
                                     modalData.body.length > 0 ?
-                                        modalData.body.map((li, i) => (
+                                        modalData.body.map((modli, i) => (
                                             <tr key={arrayIndex('reqli', i)}>
-                                                <td>{li.key}</td>
-                                                <td>{typeof (li.value || '')}</td>
-                                                <td>{li.isrequired ? "Required" : "Optional"}</td>
-                                                <td>{li.description}</td>
+                                                <td>{modli.key}</td>
+                                                <td>{typeof (modli.value || '')}</td>
+                                                <td>{modli.isrequired ? "Required" : "Optional"}</td>
+                                                <td>{modli.description}</td>
                                             </tr>
                                         )) :
                                         <tr>
-                                            <td className='text-center' colSpan={4}>No Parameter available</td>
+                                            <td  className='text-center' colSpan={4}>No Parameter available</td>
                                         </tr>
                                 }
 
@@ -624,10 +623,10 @@ function HomePageContent() {
                         <Table bordered responsive='lg'>
                             <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Data Type</th>
-                                    <th>Required/Optional</th>
-                                    <th>Description</th>
+                                 <th>Name</th>
+                                 <th>Data Type</th>
+                                 <th>Required/Optional</th>
+                                 <th>Description</th>
                                 </tr>
                             </thead>
                             <tbody>

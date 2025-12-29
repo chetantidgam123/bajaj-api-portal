@@ -3,44 +3,17 @@ import Swal from "sweetalert2";
 import { confirm_swal_with_text, error_swal_toast, success_swal_toast } from "../../SwalServices";
 import { post_auth_data, post_data } from "../../ApiServices";
 import { PageLoaderBackdrop } from "../../Loader";
-import { arrayIndex, convertToPayload, getTokenData, offsetPagination, sendEmail } from "../../Utils";
+import { arrayIndex, convertToPayload, offsetPagination, sendEmail } from "../../Utils";
 import { generateApiApprovalEmail } from "../../emailTemplate";
 import PaginateComponent from "../common/Pagination";
 
 function RequestAccessList() {
     const [reqAccList, setReqAccList] = useState([]);
     const [loadingButtons, setLoadingButtons] = useState({}); // per-button loading
-    const [search, SetSearch] = useState({ status: -1, input: '' });
+    const [search, setSearch] = useState({ status: -1, input: '' });
     const [loader, setLoader] = useState({ pageloader: false })
     const [totalPages, setTotalPages] = useState(1)
     const [currentPage, setCurrentPage] = useState(1)
-    // 🔹 Approve Swal
-    const approve_swal_call = (user) => {
-        Swal.fire({
-            title: "Approve Access",
-            html: `
-                <input type="text" id="client_id" className="swal2-input" placeholder="Enter Client ID" />
-                <input type="text" id="client_secret" className="swal2-input" placeholder="Enter Client Secret" />
-            `,
-            focusConfirm: false,
-            showCancelButton: true,
-            confirmButtonText: "Approve",
-            cancelButtonText: "Cancel",
-            preConfirm: () => {
-                const client_id = document.getElementById("client_id")?.value;
-                const client_secret = document.getElementById("client_secret")?.value;
-                if (!client_id || !client_secret) {
-                    Swal.showValidationMessage("Both Client ID and Secret ID are required");
-                    return false;
-                }
-                return { client_id, client_secret };
-            },
-        }).then((result) => {
-            if (result.isConfirmed) {
-                toggleStatus(user, 1, result.value.client_id, result.value.client_secret);
-            }
-        });
-    };
 
     // 🔹 Reject Swal
     const reject_swal_call = (user) => {
@@ -60,10 +33,6 @@ function RequestAccessList() {
     const checkClientId = (user) => {
         
         toggleStatus(user, 1, user.client_id, user.client_secret);
-        // if (user?.client_credentials_id > 0) {
-        // } else {
-        //     approve_swal_call(user)
-        // }
     }
 
     const confirm_approve_swal_call = (user) => {
@@ -221,7 +190,7 @@ function RequestAccessList() {
 
     const refresh = () => {
         const resetSearch = { input: "", status: "-1" };
-        SetSearch(resetSearch)
+        setSearch(resetSearch)
         fetchRequestList(1, resetSearch);
     }
     const [applicationList, setApplicationList] = useState([]);
@@ -266,7 +235,7 @@ function RequestAccessList() {
                     <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-0">
                         <select className="form-select position-relative" id="application_name" name="application_name"
                             value={search.input}
-                            onChange={(e) => { SetSearch({ ...search, input: (e.target.value) }) }}>
+                            onChange={(e) => { setSearch({ ...search, input: (e.target.value) }) }}>
                             <option value="">Select app</option>
                             {
                                 applicationList.map((m, i) => (
@@ -277,7 +246,7 @@ function RequestAccessList() {
                         {/* <div className="form-group mt-2">
                             <input type="email" name="email" className="form-control p-3" id="exampleInputEmail1"
                                 aria-describedby="emailHelp" placeholder="Search Application Name" value={search.input}
-                                onChange={(e) => { SetSearch({ ...search, input: (e.target.value).trim() }) }} />
+                                onChange={(e) => { setSearch({ ...search, input: (e.target.value).trim() }) }} />
                         </div> */}
                     </div>
                     <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-2">
@@ -288,9 +257,9 @@ function RequestAccessList() {
                                 id="exampleFormControlSelect1"
                                 value={search.status}
                                 onChange={(e) => {
-                                    // SetSearch({ ...search, status: e.target.value }) }
+                                    // setSearch({ ...search, status: e.target.value }) }
                                     const value = e.target.value === "" ? "" : Number(e.target.value);
-                                    SetSearch({ ...search, status: value })
+                                    setSearch({ ...search, status: value })
                                 }}
                             >
                                 <option value="">Select Status</option>

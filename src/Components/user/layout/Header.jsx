@@ -313,18 +313,18 @@ function Header() {
                   </p>
                 </div>
               </div>
-              <div className="col-xl-7 col-lg-7 col-md-7 col-12 ps-4">
-                {modalName == "signup" && (
-                  <SignupPage setModalName={setModalName} setShow={setShow} />
+              <div className="ps-4 col-xl-7 col-lg-7 col-md-7 col-12">
+                { modalName == "signup" && (
+                  <SignupPage setModalName={setModalName} setShow={setShow}/>
                 )}
-                {modalName == "login" && (
-                  <Login setModalName={setModalName} setShow={setShow} />
+                { modalName == "login" && (
+                  <Login setModalName={setModalName} setShow={setShow}/>
                 )}
-                {modalName == "forget-pass" && (
-                  <ForgotPassword setModalName={setModalName} setShow={setShow} />
+                { modalName == "forget-pass" && (
+                  <ForgotPassword setModalName={setModalName} setShow={setShow}/>
                 )}
-                {modalName == "reset-pass" && (
-                  <ResetPassword setModalName={setModalName} setShow={setShow} />
+                { modalName == "reset-pass" && (
+                  <ResetPassword setModalName={setModalName} setShow={setShow}/>
                 )}
               </div>
             </div>

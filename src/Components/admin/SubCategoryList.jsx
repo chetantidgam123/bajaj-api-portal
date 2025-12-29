@@ -380,11 +380,11 @@ function SubCategoryList() {
                                     "|",
                                     "bold", "italic", "underline", "strikethrough",
                                     "|",
-                                    "bulletedList", "numberedList", "blockQuote",
-                                    "|",
-                                    "insertTable",
-                                    "|",
-                                    "undo", "redo",
+                                    "bulletedList", "numberedList", "blockQuote", "|",
+                                    "alignment",           // left, center, right, justify
+                                    "insertTable",         // table insert
+                                    "imageUpload",         // image upload
+                                    "|", "undo", "redo", "removeFormat",
                                 ],
                                 heading: {
                                     options: [

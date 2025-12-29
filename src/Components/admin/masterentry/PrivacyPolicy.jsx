@@ -308,10 +308,6 @@ function PrivacyPolicy() {
           <CKEditor
             editor={ClassicEditor}
             data={exportedHTML}
-            // onChange={(event, editor) => {
-            //     const data = editor.getData();
-            //     setExportedHTML(data);
-            // }}
             onChange={(event, editor) => setExportedHTML(editor.getData())}
             config={{
               licenseKey: 'GPL',

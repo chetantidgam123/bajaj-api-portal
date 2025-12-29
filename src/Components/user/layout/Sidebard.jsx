@@ -45,10 +45,10 @@ function Sidebard() {
 
   const confirm_swal_call = () => {
     const callback = (resolve, reject) => {
-        resolve();
+      resolve();
     }
     confirm_swal_with(callback, `To access the APIs your Account is in Approval Process`)
-  } 
+  }
 
   const getSidebarlist = () => {
     post_data("portal/public", convertToPayload("get-sidebar-list", {}), {})
@@ -148,24 +148,24 @@ function Sidebard() {
                     //   navigate("/api/" + item.record_uuid);
                     // }}
                     onClick={() => {
-                      if(getTokenData()?.approved_status === 1) {
+                      if (getTokenData()?.approved_status === 1) {
                         navigate("/api/" + item.record_uuid);
                       } else {
                         confirm_swal_call()
                       }
                     }}
-                    //  onClick={(e) => {
-                    //   // STOP ACCORDION FROM OPENING
-                    //   e.stopPropagation();
-                    //   e.preventDefault();
-                    //   // Also stop React-Bootstrap from detecting toggle event
-                    //   e.nativeEvent.stopImmediatePropagation?.();
-                    //   if (getTokenData()?.approved_status !== 1) {
-                    //     confirm_swal_call();
-                    //     return;
-                    //   }
-                    //   navigate("/api/" + item.record_uuid);
-                    // }}
+                  //  onClick={(e) => {
+                  //   // STOP ACCORDION FROM OPENING
+                  //   e.stopPropagation();
+                  //   e.preventDefault();
+                  //   // Also stop React-Bootstrap from detecting toggle event
+                  //   e.nativeEvent.stopImmediatePropagation?.();
+                  //   if (getTokenData()?.approved_status !== 1) {
+                  //     confirm_swal_call();
+                  //     return;
+                  //   }
+                  //   navigate("/api/" + item.record_uuid);
+                  // }}
                   >
                     <img
                       src={`/assets/img/${i == activeKey ? "visualization.png" : "visualization-2.png"

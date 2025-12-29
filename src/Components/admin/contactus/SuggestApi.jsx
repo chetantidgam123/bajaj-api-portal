@@ -16,28 +16,20 @@ function SuggestApi() {
       category_name: "test",
     };
     setLoader({ ...loader, pageloader: true });
-    post_auth_data(
-      "portal/private",
-      convertToPayload("get-faq-list-admin", payload),
-      {}
-    )
-      .then((response) => {
+    post_auth_data("portal/private", convertToPayload("get-faq-list-admin", payload), {})
+      .then((resp) => {
         setLoader({ ...loader, pageloader: false });
-        if (response.data.status) {
-          setgetintouchList(response.data.data);
+        if (resp.data.status) {
+          setgetintouchList(resp.data.data);
         } else {
-          error_swal_toast(response.data.message || "something went wrong");
+          error_swal_toast(resp.data.message || "something went wrong");
         }
       })
-      .catch((error) => {
+      .catch((err) => {
         setLoader({ ...loader, pageloader: false });
-        console.error("Error during signup:", error);
+        console.error("Error during signup:", err);
       });
   };
-
-  //   useEffect(() => {
-  //     getFAQList();
-  //   }, []);
 
   return (
          <div className="mx-2 card-admin-main">
@@ -52,28 +44,28 @@ function SuggestApi() {
     <div className="table-responsive mt-2">
         <table className="table table-bordered custom-table table-striped mt-3">
         <thead className="text-truncate">
-          <tr>
-            <th>Sr. No</th>
-            <th>Full Name</th>
-            <th>Email Id</th>
-            <th>Mobile Number</th>
-            <th>Company Name</th>
-            <th>Question</th>
-            <th>Answer</th>
-            <th>Action</th>
-          </tr>
+            <tr>
+              <th>Sr. No</th>
+              <th>Full Name</th>
+              <th>Email Id</th>
+              <th>Mobile Number</th>
+              <th>Company Name</th>
+              <th>Question</th>
+              <th>Answer</th>
+              <th>Action</th>
+            </tr>
         </thead>
         <tbody>
           {getintouchList.length > 0 ? (
-            getintouchList.map((user, index) => (
+            getintouchList.map((userl, index) => (
               <tr key={arrayIndex("user", index)}>
-                <td>{user.sr_no || index + 1}</td>
-                <td>{user.fullname}</td>
-                <td>{user.emailid}</td>
-                <td>{user.mobileno}</td>
-                <td>{user.companyname}</td>
-                <td>{user.que}</td>
-                <td>{user.ans}</td>
+                <td>{userl.sr_no || index + 1}</td>
+                <td>{userl.fullname}</td>
+                <td>{userl.emailid}</td>
+                <td>{userl.mobileno}</td>
+                <td>{userl.companyname}</td>
+                <td>{userl.que}</td>
+                <td>{userl.ans}</td>
 
                 {/* <td>
                   <div className="d-flex">

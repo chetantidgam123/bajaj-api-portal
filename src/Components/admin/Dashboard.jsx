@@ -1,19 +1,16 @@
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import { getTokenData } from "../../Utils";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
   const [fullName, setFullName] = useState("");
-  const [emailId, setEmailId] = useState("");
-  const [userProfile, setUserImage] = useState("");
+  const [userImage, setUserImage] = useState("");
 
   const navigate = useNavigate()
 
   useEffect(() => {
     let token = getTokenData();
     setFullName(token?.fullname || "");
-    setEmailId(token?.emailid || "");
     setUserImage(token?.userImage || "");
   }, []);
 

@@ -147,8 +147,6 @@ function ApiList() {
         } else {
             setSubCategoryList([])
         }
-        // setSubCategoryId(0);
-        // getSubCategoryList();
     }, [categoryId])
 
     const refresh = () => {

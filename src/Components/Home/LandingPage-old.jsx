@@ -5,10 +5,10 @@ import SignupPage from '../auth/SignupPage';
 import Login from '../auth/Login';
 import ForgotPassword from '../auth/ForgotPassword';
 import ResetPassword from '../auth/ResetPasswrd';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import '../../../src/new.css'
 
-import { arrayIndex, availableApi, getTokenData } from '../../Utils';
+import { arrayIndex, availableApi } from '../../Utils';
 import { useNavigate } from 'react-router-dom';
 
 function LandingPage() {

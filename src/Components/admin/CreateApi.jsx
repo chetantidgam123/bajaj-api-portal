@@ -1,5 +1,4 @@
 import { ErrorMessage, FormikProvider, useFormik } from 'formik';
-// import { createApiSchema } from '../../Schema';
 import { Form, Modal } from 'react-bootstrap';
 import { apiMethods, arrayIndex, convertToPayload, offsetPagination, statusCodes } from '../../Utils';
 import { useEffect, useState } from 'react';
@@ -10,7 +9,6 @@ import { confirm_swal_with_text, error_swal_toast, success_swal_toast } from '..
 import { LoaderWight, PageLoaderBackdrop } from '../../Loader';
 import generateSchema from "generate-schema";
 import { useNavigate, useParams } from 'react-router-dom';
-import { object } from 'yup';
 
 function CreateApi() {
     const { api_id } = useParams();
@@ -186,17 +184,17 @@ function CreateApi() {
 
     const getCategoryList = () => {
         post_auth_data("portal/private", convertToPayload('get-all-categories', {}), {})
-            .then((response) => {
+            .then((respo) => {
                 setLoader({ ...loader, pageloader: false })
-                if (response.data.status) {
-                    setCategoryList(response.data.data || [])
+                if (respo.data.status) {
+                    setCategoryList(respo.data.data || [])
                 } else {
-                    error_swal_toast(response.data.message);
+                    error_swal_toast(respo.data.message);
                     setCategoryList([]);
                 }
             }).catch((error) => {
-                setLoader({ ...loader, pageloader: false })
                 setCategoryList([])
+                setLoader({ ...loader, pageloader: false })
                 error_swal_toast(error.message || error);
             })
     }
@@ -300,10 +298,10 @@ function CreateApi() {
     };
     const getApplicationList = () => {
         post_data("portal/public", convertToPayload('getPlatformApps', { "env_id": "f79233ef-d46b-4d66-83e4-e7b0c7b7c442" }), {})
-            .then((response) => {
-                console.log(response)
+            .then((res) => {
+                console.log(res)
                 setLoader({ ...loader, pageloader: false })
-                let _a = response.data.instances || []
+                let _a = res.data.instances || []
                 _a = _a.map((app) => {
                     let obj = {
                         id: app.id,
@@ -313,8 +311,8 @@ function CreateApi() {
                 })
                 setApplicationList(_a)
             }).catch((error) => {
-                setLoader({ ...loader, pageloader: false })
                 setApplicationList([])
+                setLoader({ ...loader, pageloader: false })
                 error_swal_toast(error.message || error);
             })
     }
@@ -442,14 +440,14 @@ function CreateApi() {
                                     </thead>
                                     <tbody>
                                         {
-                                            apiForm.values.query_params.map((item, i) => (
+                                            apiForm.values.query_params.map((items, i) => (
                                                 <tr key={arrayIndex('table-req-header', i)}>
-                                                    <td>{item.key}</td>
-                                                    <td>{item.value}</td>
+                                                    <td>{items.key}</td>
+                                                    <td>{items.value}</td>
                                                     <td className="d-flex align-items-center justify-content-center">
-                                                        <input style={{ height: "15px", width: "15px", margin: "5px 5px 8px 5px" }} checked={item.isrequired} type="checkbox" className='form-check' readOnly />
+                                                        <input style={{ height: "15px", width: "15px", margin: "5px 5px 8px 5px" }} checked={items.isrequired} type="checkbox" className='form-check' readOnly />
                                                     </td>
-                                                    <td>{item.description}</td>
+                                                    <td>{items.description}</td>
                                                 </tr>
                                             ))
                                         }
@@ -476,14 +474,14 @@ function CreateApi() {
                                     </thead>
                                     <tbody>
                                         {
-                                            apiForm.values.uri_params.map((item, i) => (
+                                            apiForm.values.uri_params.map((apiFitem, i) => (
                                                 <tr key={arrayIndex('table-req-header', i)}>
-                                                    <td>{item.key}</td>
-                                                    <td>{item.value}</td>
+                                                    <td>{apiFitem.key}</td>
+                                                    <td>{apiFitem.value}</td>
                                                     <td className="d-flex align-items-center justify-content-center">
-                                                        <input style={{ height: "15px", width: "15px", margin: "5px 5px 8px 5px" }} checked={item.isrequired} type="checkbox" className='form-check' readOnly />
+                                                        <input type="checkbox" className='form-check' style={{ height: "15px", width: "15px", margin: "5px 5px 8px 5px" }} checked={apiFitem.isrequired} readOnly />
                                                     </td>
-                                                    <td>{item.description}</td>
+                                                    <td>{apiFitem.description}</td>
                                                 </tr>
                                             ))
                                         }
@@ -495,7 +493,7 @@ function CreateApi() {
                     <div className="card my-3">
                         <div className=" card-header d-flex justify-content-between">
                             <h5 className="my-2">Request Parameter</h5>
-                            <button className='btn btn-primary' type='button' onClick={() => { handleModal('reqbody') }}>Add Parameter</button>
+                            <button type='button' className='btn btn-primary' onClick={() => {handleModal('reqbody')}}>Add Parameter</button>
                         </div>
                         <div className="card-body">
                             <div className='table-responsive'>
@@ -515,7 +513,7 @@ function CreateApi() {
                                                     <td>{item.key}</td>
                                                     <td>{item.value}</td>
                                                     <td className="d-flex align-items-center justify-content-center">
-                                                        <input style={{ height: "15px", width: "15px", margin: "5px 5px 8px 5px" }} checked={item.isrequired} type="checkbox" className='form-check' readOnly />
+                                                        <input style={{ width: "15px", height: "15px", margin: "5px 5px 8px 5px" }} type="checkbox" className='form-check' checked={item.isrequired} readOnly />
                                                     </td>
                                                     <td>{item.description}</td>
                                                 </tr>
@@ -545,14 +543,14 @@ function CreateApi() {
                                     </thead>
                                     <tbody>
                                         {
-                                            apiForm.values.reqheader.map((item, i) => (
+                                            apiForm.values.reqheader.map((items, i) => (
                                                 <tr key={arrayIndex('table-req-header', i)}>
-                                                    <td>{item.key}</td>
-                                                    <td>{item.value}</td>
+                                                    <td>{items.key}</td>
+                                                    <td>{items.value}</td>
                                                     <td className="d-flex align-items-center justify-content-center">
-                                                        <input style={{ height: "15px", width: "15px", margin: "5px 5px 8px 5px" }} checked={item.isrequired} type="checkbox" className='form-check' readOnly />
+                                                        <input style={{ height: "15px", width: "15px", margin: "5px 5px 8px 5px" }} checked={items.isrequired} type="checkbox" className='form-check' readOnly />
                                                     </td>
-                                                    <td>{item.description}</td>
+                                                    <td>{items.description}</td>
                                                 </tr>
                                             ))
                                         }
@@ -579,14 +577,14 @@ function CreateApi() {
                                     </thead>
                                     <tbody>
                                         {
-                                            apiForm.values.resheader.map((item, i) => (
+                                            apiForm.values.resheader.map((itemFD, i) => (
                                                 <tr key={arrayIndex('table-req-header', i)}>
-                                                    <td>{item.key}</td>
-                                                    <td>{item.value}</td>
+                                                    <td>{itemFD.key}</td>
+                                                    <td>{itemFD.value}</td>
                                                     <td className="d-flex align-items-center justify-content-center">
-                                                        <input style={{ height: "15px", width: "15px", margin: "5px 5px 8px 5px" }} checked={item.isrequired} type="checkbox" className='form-check' readOnly />
+                                                        <input style={{ height: "15px", width: "15px", margin: "5px 5px 8px 5px" }} checked={itemFD.isrequired} type="checkbox" className='form-check' readOnly />
                                                     </td>
-                                                    <td>{item.description}</td>
+                                                    <td>{itemFD.description}</td>
                                                 </tr>
                                             ))
                                         }

@@ -60,26 +60,6 @@ function FooterHome() {
   };
 }, [contactForm]);
 
-    //  const getApplicationList = () => {
-    //     post_data("portal/public", convertToPayload('getPlatformApps', { "env_id": "f79233ef-d46b-4d66-83e4-e7b0c7b7c442" }), {})
-    //         .then((response) => {
-    //             console.log(response)
-    //             setLoader({ ...loader, pageloader: false })
-    //             let _a = response.data.instances || []
-    //             _a = _a.map((app) => {
-    //                 let obj = {
-    //                     id: app.id,
-    //                     name: app.assetId,
-    //                 }
-    //                 return obj
-    //             })
-    //             setApplicationList(_a)
-    //         }).catch((error) => {
-    //             setLoader({ ...loader, pageloader: false })
-    //             setApplicationList([])
-    //             error_swal_toast(error.message || error);
-    //         })
-    // }
 
     return (
         <>

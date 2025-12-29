@@ -45,11 +45,6 @@ useEffect(() => {
   return (
     <div className="d-flex flex-column align-items-center justify-content-center text-center" style={{ height: '100vh' }}>
       <img src={logo} alt="Company Logo" width="120" className="mb-3" />
-      {/* {
-        verifyMail ? 
-        <h3>Email is verified successfully</h3> :
-        <h3>Email verification Failed</h3>
-      } */}
       {verifyMail === null && <PageLoaderBackdrop />} 
       {verifyMail === true && (
         <div>

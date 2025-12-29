@@ -3,7 +3,7 @@ import Header from "../user/layout/Header";
 import FooterHome from "./FooterHome";
 import { arrayIndex, convertToPayload } from "../../Utils";
 import { useEffect, useState } from "react";
-import { LoaderWight, PageLoaderBackdrop } from "../../Loader";
+import { PageLoaderBackdrop } from "../../Loader";
 import FloatingInputLabel from "../user/UtilComponent/FloatingInputLabel";
 import { FormikProvider, useFormik } from "formik";
 import { error_swal_toast, success_swal_toast } from "../../SwalServices";

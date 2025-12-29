@@ -308,35 +308,26 @@ function TermCond() {
           <Modal.Body>
             <Form.Group className="mb-3">
               <Form.Label>Title</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter policy title"
-                value={exportedTitle}
-                onChange={(e) => setExportedTitle(e.target.value)}
-              />
+              <Form.Control type="text" placeholder="Enter policy title" value={exportedTitle} onChange={(e) => setExportedTitle(e.target.value)} />
             </Form.Group>
             <CKEditor
-              editor={ClassicEditor}
               data={exportedHTML}
-              // onChange={(event, editor) => {
-              //     const data = editor.getData();
-              //     setExportedHTML(data);
-              // }}
+              editor={ClassicEditor}
               onChange={(event, editor) => setExportedHTML(editor.getData())}
               config={{
                 licenseKey: 'GPL',
                 plugins: [Essentials, Bold, Italic, Underline, Strikethrough, Heading, Link, List, BlockQuote, Table, Undo, Paragraph],
                 toolbar: [
-                  "heading",
-                  "|",
-                  "bold", "italic", "underline", "strikethrough",
-                  "link",
-                  "|",
+                  "heading", "|", "bold", "italic", "underline", "strikethrough",
+                  "link", "|",
                   "bulletedList", "numberedList", "blockQuote",
                   "|",
-                  "insertTable",
+                  "alignment", "insertTable",  // table insert
+                  "imageUpload",               // image upload
                   "|",
-                  "undo", "redo",
+                  "undo",
+                  "redo",
+                  "removeFormat",
                 ],
                 heading: {
                   options: [
