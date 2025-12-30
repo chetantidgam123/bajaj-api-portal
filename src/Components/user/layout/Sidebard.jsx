@@ -128,7 +128,12 @@ function Sidebard() {
             <Accordion
               className="mt-2 explore"
               activeKey={activeKey}
-              onSelect={(key) => setActiveKey(key)}
+              onSelect={(key) => {
+                // Only change arrow if user has access
+                if (getTokenData()?.approved_status === 1) {
+                  setActiveKey(key);
+                }
+              }}
               alwaysOpen={false}
             >
               {sidebarData.map((item, i) => (
@@ -177,7 +182,7 @@ function Sidebard() {
                   </Accordion.Header>
 
                   {/* Single Accordion.Body containing both Subcategories and API Categories */}
-                  {getTokenData()?.approved_status === 1 && (item.subcategories.length > 0 || item.apis_category.length > 0) && (
+                  {(item.subcategories.length > 0 || item.apis_category.length > 0) && (
                     <Accordion.Body className="p-0">
                       {/* Subcategories */}
                       {item.subcategories.length > 0 && (
@@ -335,8 +340,11 @@ function Sidebard() {
                 className="mt-2 explore"
                 activeKey={activeKey}
                 onSelect={(key) => {
-                  setActiveKey(key);
-                  setSubActiveKey("");
+                  // Only change arrow if user has access
+                  if (getTokenData()?.approved_status === 1) {
+                    setActiveKey(key);
+                    setSubActiveKey("");
+                  }
                 }}
                 alwaysOpen={false}
               >
@@ -354,7 +362,11 @@ function Sidebard() {
                           : ""
                       }
                       onClick={() => {
-                        navigate("/api/" + item.record_uuid);
+                        if (getTokenData()?.approved_status === 1) {
+                          navigate("/api/" + item.record_uuid);
+                        } else {
+                          confirm_swal_call()
+                        }
                       }}
                     >
                       <img

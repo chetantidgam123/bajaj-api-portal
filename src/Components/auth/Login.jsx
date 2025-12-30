@@ -13,6 +13,7 @@ import { loginOtpEmail } from "../../emailTemplate";
 import { BasicLoader } from "../../Loader";
 import { encrypt, decrypt } from "../../Utils";
 import Swal from "sweetalert2";
+import OtpInput from "react-otp-input";
 
 // Generate 6-digit OTP
 const generateOtp = () => Math.floor(100000 + Math.random() * 900000).toString();
@@ -253,31 +254,27 @@ function Login({ setModalName, setShow }) {
                 <div className="my-4 w-100">
                     <h4>Enter OTP</h4>
                     <p>OTP sent on <b>{otpEmail}</b></p>
-                    <div className="position-relative my-3">
-                        <input
-                            type={showPassword ? "text" : "password"}
-                            name="enteredOtp"
-                            className="form-control pe-5"
-                            placeholder="Enter OTP"
-                            maxLength={6}
+                    <div className="my-3">
+                        <OtpInput
                             value={Loginform.values.enteredOtp}
-                            onChange={(e) => {
-                                const value = e.target.value.replace(/[^0-9]/g, '');
-                                if (value.length <= 6) {
-                                    Loginform.setFieldValue("enteredOtp", value);
-                                }
+                            onChange={(otp) => Loginform.setFieldValue("enteredOtp", otp)}
+                            numInputs={6}
+                            renderSeparator={<span style={{ width: "8px" }}></span>}
+                            renderInput={(props) => <input {...props} />}
+                            inputStyle={{
+                                width: "3rem",
+                                height: "3rem",
+                                fontSize: "1.2rem",
+                                borderRadius: "8px",
+                                border: "1px solid #ced4da",
+                                textAlign: "center",
                             }}
-                            onKeyPress={(e) => {
-                                if (!/[0-9]/.test(e.key)) {
-                                    e.preventDefault();
-                                }
+                            containerStyle={{
+                                justifyContent: "center",
                             }}
+                            inputType="tel"
+                            shouldAutoFocus
                         />
-                        <i
-                            className={`fa ${showPassword ? "fa-eye-slash" : "fa-eye"} position-absolute top-50 end-0 translate-middle-y me-3`}
-                            role="button"
-                            onClick={() => setShowPassword(!showPassword)}
-                        ></i>
                     </div>
                     {Loginform.values.enteredOtp && Loginform.values.enteredOtp.length < 6 && (
                         <div className="text-danger small mb-2">OTP must be 6 digits</div>

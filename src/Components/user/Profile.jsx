@@ -341,11 +341,12 @@ function Profile() {
   };
 
   const handleTryIt = (api) => {
-    // Navigate to try-api page - ApiPlayGround only uses api_id (uniqueid) to fetch data
-    // The collection_id and category_id are just for URL consistency but not used for data fetching
-    // Using 0 as placeholder since the ApiPlayGround component only uses uniqueid
+     console.log('API item:', api);
+    // Navigate to try-api page with actual category and subcategory IDs
     const apiId = api.uniqueid;
-    window.open(`/try-api/0/0/${apiId}`, '_blank');
+    const categoryId = api.category_id || api.categoryid || api.collection_id || 0;
+    const subcategoryId = api.subcategory_id || api.subcategoryid || 0;
+    window.open(`/try-api/${categoryId}/${subcategoryId}/${apiId}`, '_blank');
   };
 
   const getStatusLabel = (item) => {

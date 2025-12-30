@@ -31,16 +31,16 @@ useEffect(() => {
     getVerifyMail()
 }, [])
 
-  // 🔥 Auto redirect after success
-useEffect(() => {
-  if (verifyMail === true) {
-    const timer = setTimeout(() => {
-      window.location.href = `${baseUrl}?openLogin=true`;
-    }, 3000); // 3 seconds
+//   // 🔥 Auto redirect after success
+// useEffect(() => {
+//   if (verifyMail === true) {
+//     const timer = setTimeout(() => {
+//       window.location.href = `${baseUrl}?openLogin=true`;
+//     }, 3000); // 3 seconds
 
-    return () => clearTimeout(timer);
-  }
-}, [verifyMail]);
+//     return () => clearTimeout(timer);
+//   }
+// }, [verifyMail]);
     
   return (
     <div className="d-flex flex-column align-items-center justify-content-center text-center" style={{ height: '100vh' }}>
