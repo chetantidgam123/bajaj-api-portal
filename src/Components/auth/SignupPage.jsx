@@ -1,6 +1,6 @@
 
 import { post_data } from "../../ApiServices";
-import { convertToPayload, sendEmail } from "../../Utils";
+import { convertToPayload, sendEmail, adminEmail, encrypt, verifyBaseLink } from "../../Utils";
 import { ErrorMessage, FormikProvider, useFormik } from "formik";
 import { signupFormSchema } from "../../Schema";
 import { Form, Modal, Button } from "react-bootstrap";
@@ -10,9 +10,7 @@ import { Link, useLocation } from "react-router-dom";
 import { error_swal_toast, success_swal_toast } from "../../SwalServices";
 import { useEffect, useState } from "react";
 import { LoaderWight, Loader } from "../../Loader";
-import { signUpOtpEmail, adminNotificationEmail } from "../../emailTemplate";
-import { encrypt, decrypt, adminEmail, verifyBaseLink } from "../../Utils";
-import { signUpVerifyEmail } from "../../emailTemplate";
+import { adminNotificationEmail, signUpVerifyEmail } from "../../emailTemplate";
 
 function SignupPage({ setModalName, setShow }) {
   const [loader, setLoader] = useState(false)
@@ -54,19 +52,9 @@ function SignupPage({ setModalName, setShow }) {
       return error_swal_toast("Please fill all required fields correctly.");
     }
 
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    // const expiry = Date.now() + 90 * 1000; // 90 sec
-    // localStorage.setItem("signupOtp", JSON.stringify({ otp, expiry }));
-
-    // const otpPayload = JSON.stringify({ otp, expiry: Date.now() + 90 * 1000 });
-    const otpPayload = JSON.stringify({ otp, expiry: Date.now() + 10 * 60 * 1000 }); // 10 minutes = 600,000 ms
-    const encryptedOtp = encrypt(otpPayload);
-    const encryptedEmail = encodeURIComponent(encrypt(email))
-    localStorage.setItem('pweoriwpepedaldssdcds', encryptedOtp);
-    const verifyLink = `${verifyBaseLink}/${encryptedEmail}`
-    // console.log(verifyLink)
+    const encryptedEmail = encodeURIComponent(encrypt(email));
+    const verifyLink = `${verifyBaseLink}/${encryptedEmail}`;
     const firstName = signupForm.values.fullName.split(" ")[0] || "User"; // extract first name
-    // const emailBody = signUpOtpEmail({ firstName: firstName, otp: otp });
     const emailBody = signUpVerifyEmail({ firstName: firstName, verifyLink: verifyLink });
 
 
@@ -226,7 +214,7 @@ function SignupPage({ setModalName, setShow }) {
   };
 
   return (
-    <div style={{ height: "30.5em", overflowY: 'auto' }}>
+    <div style={{ height: "30.5em" }}>
       {!otpSent ? (
         <>
           <h3>Sign Up</h3>
