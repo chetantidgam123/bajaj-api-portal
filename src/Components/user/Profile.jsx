@@ -430,18 +430,22 @@ function Profile() {
                         </div>
                       </div>
                       <div className="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 d-flex justify-content-end align-items-center">
-                        <input
-                          type="file"
-                          className="d-none"
-                          id="profileImageInput"
-                          onChange={(e) => uploadProfileImage(e.target.files[0])}
-                        />
-                        <label
-                          htmlFor="profileImageInput"
-                          className="btn btn-upload "
-                        >
-                          <i className="fa fa-upload"></i> Upload New Photo
-                        </label>
+                        {isEditing && (
+                          <>
+                            <input
+                              type="file"
+                              className="d-none"
+                              id="profileImageInput"
+                              onChange={(e) => uploadProfileImage(e.target.files[0])}
+                            />
+                            <label
+                              htmlFor="profileImageInput"
+                              className="btn btn-upload "
+                            >
+                              <i className="fa fa-upload"></i> Upload New Photo
+                            </label>
+                          </>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -721,7 +725,7 @@ function Profile() {
                           </button>
                           <button
                             type="button"
-                            className="btn btn-outline-secondary profilePageButton px-3"
+                            className="btn btn-secondary profilePageButton px-3"
                             onClick={() => {
                               getUserData(); // reload old data
                               setIsEditing(false); // disable edit mode
