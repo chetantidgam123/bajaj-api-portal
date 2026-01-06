@@ -214,7 +214,7 @@ function SignupPage({ setModalName, setShow }) {
   };
 
   return (
-    <div style={{ height: "30.5em" }}>
+    <div style={{ height: "35em" }}>
       {!otpSent ? (
         <>
           <h3>Sign Up</h3>
