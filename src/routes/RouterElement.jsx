@@ -48,9 +48,7 @@ const routes = [
     {
         element: <HomeLayout />,
         children: [
-            // { path: "/api", element: <HomePageContent /> },
             { path: "/get-started", element: <HomePageContent /> },
-
             { path: "/api/:collection_id", element: <HomePageContent /> },
             { path: "/collection-api/:collection_id/:api_id", element: <HomePageContent /> },
             { path: "/collection-api/:collection_id/:category_id/:api_id", element: <HomePageContent /> },

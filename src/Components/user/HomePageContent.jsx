@@ -57,7 +57,9 @@ function HomePageContent() {
         }
         if (api_id) {
             obj.uniqueid = api_id
-            checkAccess();
+            if (tokenData != null) {
+                checkAccess();
+            }
             getAuthDataById('get-api-by-id', obj);
             return
         }
@@ -91,7 +93,7 @@ function HomePageContent() {
     }
     const getAuthDataById = (url, payload = {}) => {
         setLoader(true);
-        post_auth_data("portal/private", convertToPayload(url, payload), {})
+        post_auth_data("portal/public", convertToPayload(url, payload), {})
             .then(async (response) => {
                 setLoader(false);
                 if (response.status) {
@@ -147,7 +149,7 @@ function HomePageContent() {
                     }
                     if (response.data.status_code == 1) {
                         setBtnName('Try it')
-                    } 
+                    }
                     if (response.data.status_code == 2) {
                         setBtnName('Request Access')
                     }
@@ -157,7 +159,7 @@ function HomePageContent() {
                 }
             }).catch((error) => {
                 setTryitLoader(false)
-                console.log(error) 
+                console.log(error)
                 setHasTriedApi(true)
                 if (!api_id) {
                     navigate('/')
@@ -217,7 +219,7 @@ function HomePageContent() {
             })
     };
 
-    
+
     const confirm_swal_call = () => {
         const callback = (resolve) => {
             resolve();
@@ -229,107 +231,90 @@ function HomePageContent() {
 
     const availableAPIList = async (page = 1) => {
         const payload = {
-          category_id: 0,
-          subcategory_id: 0,
-          limit: offsetPaginationten,
-          page: page
+            category_id: 0,
+            subcategory_id: 0,
+            limit: offsetPaginationten,
+            page: page
         };
         // setLoader(prev => ({ ...prev, page: true }));
         setLoader(true)
         post_auth_data("portal/private", convertToPayload("get-user-available-api", payload), {})
-          .then((response) => {
-            // setLoader(prev => ({ ...prev, page: false }));
-            setLoader(false)
-            if (response.data.status) {
-              setAvailableAPIs(response.data.result || [])
-              // const totalCount = response?.data?.totalRecords ?? response?.data?.result?.length ?? 0;
-              const totalCount = response?.data?.totalRecords;
-              setAvailableTotalPages(Math.ceil(totalCount / offsetPaginationten))
-              setAvailableCurrentPage(page)
-            } else {
-            //   setLoader(prev => ({ ...prev, page: false }));
-            setLoader(false)
-              error_swal_toast(response.data.message || "Something went wrong");
-            }
-          })
-          .catch((error) => {
-            // setLoader(prev => ({ ...prev, page: false }));
-            setLoader(false)
-            error_swal_toast(error.message || "Something went wrong");
-            console.error("Error during profile update:", error);
-          });
+            .then((response) => {
+                // setLoader(prev => ({ ...prev, page: false }));
+                setLoader(false)
+                if (response.data.status) {
+                    setAvailableAPIs(response.data.result || [])
+                    // const totalCount = response?.data?.totalRecords ?? response?.data?.result?.length ?? 0;
+                    const totalCount = response?.data?.totalRecords;
+                    setAvailableTotalPages(Math.ceil(totalCount / offsetPaginationten))
+                    setAvailableCurrentPage(page)
+                } else {
+                    //   setLoader(prev => ({ ...prev, page: false }));
+                    setLoader(false)
+                    error_swal_toast(response.data.message || "Something went wrong");
+                }
+            })
+            .catch((error) => {
+                // setLoader(prev => ({ ...prev, page: false }));
+                setLoader(false)
+                error_swal_toast(error.message || "Something went wrong");
+                console.error("Error during profile update:", error);
+            });
     };
 
-      const getUserData = () => {
-        setLoader(true);
-        post_auth_data("portal/private", convertToPayload("get-user-by-id", { user_id: getJwtData().sub }), {})
-          .then((response) => {
-            setLoader(false);
-            if (response.data.status) {
-              setFullName(response.data.data[0].fullname || "");
-              setEmailId(response.data.data[0].emailid || "");
-            } else {
-              error_swal_toast(response.data.message || "something went wrong");
-            }
-          })
-          .catch((error) => {
-            setLoader(false);
-            console.error("Error during signup:", error);
-          });
-      };
 
-      const sendingMail = async () => {
+
+    const sendingMail = async () => {
         if (selectedAPIs.length === 0) {
-          error_swal_toast("Please select at least one API to request access.");
-          return;
+            error_swal_toast("Please select at least one API to request access.");
+            return;
         }
-        const userName = tokenData.fullname;
         const subject = "APIs Approval Is In Process";
         const userEmail = tokenData.emailid;
         const emailBody = ApiListRequestEmail({
-          status: "Requested",
-          selectedAPIs,
+            status: "Requested",
+            selectedAPIs,
         });
-    
+
         await sendEmail({
-          body: emailBody,
-          toRecepients: [userEmail],
-          subject,
-          contentType: "text/html"
+            body: emailBody,
+            toRecepients: [userEmail],
+            subject,
+            contentType: "text/html"
         });
-    
+
         success_swal_toast("Request sent successfully!");
-      };
+    };
 
     const multipleAPIReq = async () => {
-    if (selectedAPIs.length === 0) {
-        error_swal_toast("Please select at least one API");
-        return;
-    }
-    setLoader(true);
-    const payL = {
-        apis: selectedAPIs.map((api) => ({
-        api_id: String(api.uniqueid),
-        application_name: api.apiname, // or just applicationName variable
-        })),
-    };
-    post_auth_data("portal/private", convertToPayload("request-multiple-api-access", payL), {})
-        .then((res) => {
-        setLoader(false);
-        if (res.data.status) {
-            setSelectedAPIs([]);
-            sendingMail();
-            availableAPIList();
-            setApiModalShow(false)
-        } else {
-            setLoader(false);
-            error_swal_toast(res.data.message || "something went wrong");
+        if (selectedAPIs.length === 0) {
+            error_swal_toast("Please select at least one API");
+            return;
         }
-        }).catch((error) => {
-        setLoader(false);
-        error_swal_toast(error.message || "something went wrong");
-        console.log("Error during signup:", error)
-        })
+        setLoader(true);
+        const payL = {
+            apis: selectedAPIs.map((api) => ({
+                api_id: String(api.uniqueid),
+                application_name: api.apiname, // or just applicationName variable
+            })),
+        };
+        post_auth_data("portal/private", convertToPayload("request-multiple-api-access", payL), {})
+            .then((res) => {
+                setLoader(false);
+                if (res.data.status) {
+                    setSelectedAPIs([]);
+                    sendingMail();
+                    availableAPIList();
+                    setApiModalShow(false)
+                } else {
+                    setLoader(false);
+                    error_swal_toast(res.data.message || "something went wrong");
+                }
+            }).catch((error) => {
+                setLoader(false);
+                error_swal_toast(error.message || "something went wrong");
+                console.log("Error during signup:", error)
+            })
     }
 
     const handleCheckboxChange = (api, isChecked) => {
@@ -339,15 +324,15 @@ function HomePageContent() {
             } else {
                 return prev.filter((item) => item.id !== api.id);
             }
-            }
+        }
         );
     };
 
-    useEffect(() => {
-        if (category_id && !getTokenData()) {
-            navigate('/');
-        }
-    }, [category_id])
+    // useEffect(() => {
+    //     if (category_id && !getTokenData()) {
+    //         navigate('/');
+    //     }
+    // }, [category_id])
 
     return (
         <div className="home-container">
@@ -368,7 +353,7 @@ function HomePageContent() {
                                         <div className="d-flex justify-content-end">
                                             {
                                                 // Case 1: before try -> only Try it aligned right
-                                                api_id && (<button
+                                                (api_id && tokenData != null) && (<button
                                                     className="btn btn-outline-primary px-3"
                                                     onClick={routeTryIt}
                                                     disabled={requestLoader}>
@@ -517,7 +502,7 @@ function HomePageContent() {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            { Object.keys(responsData.resschema.properties || {}).length > 0 ?
+                                            {Object.keys(responsData.resschema.properties || {}).length > 0 ?
                                                 Object.keys(responsData.resschema?.properties || {}).map((resDli, i) => (
                                                     <tr key={arrayIndex('reqli', i)}>
                                                         <td>{resDli}</td>
@@ -527,7 +512,7 @@ function HomePageContent() {
                                                     </tr>
                                                 )) :
                                                 <tr>
-                                                  <td className='text-center' colSpan={4}>No Parameter available</td>
+                                                    <td className='text-center' colSpan={4}>No Parameter available</td>
                                                 </tr>
                                             }
                                         </tbody>
@@ -551,10 +536,10 @@ function HomePageContent() {
                                     <Table bordered responsive='lg'>
                                         <thead>
                                             <tr>
-                                              <th>Name</th>
-                                              <th>Data Type</th>
-                                              <th>Required/Optional</th>
-                                              <th>Description</th>
+                                                <th>Name</th>
+                                                <th>Data Type</th>
+                                                <th>Required/Optional</th>
+                                                <th>Description</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -562,14 +547,14 @@ function HomePageContent() {
                                                 JSON.parse(apiData?.resheader?.value || '[]').length > 0 ?
                                                     JSON.parse(apiData?.resheader?.value || '[]').map((apiDli, i) => (
                                                         <tr key={arrayIndex('reqliheader', i)}>
-                                                             <td>{apiDli.key}</td>
-                                                             <td>{apiDli.type || "string"}</td>
-                                                             <td>{"Required"}</td>
-                                                             <td>{trucateString(apiDli.description, 25)}</td>
+                                                            <td>{apiDli.key}</td>
+                                                            <td>{apiDli.type || "string"}</td>
+                                                            <td>{"Required"}</td>
+                                                            <td>{trucateString(apiDli.description, 25)}</td>
                                                         </tr>
                                                     )) :
                                                     <tr>
-                                                      <td colSpan={4} className='text-center'>No header available</td>
+                                                        <td colSpan={4} className='text-center'>No header available</td>
                                                     </tr>
                                             }
                                         </tbody>
@@ -607,7 +592,7 @@ function HomePageContent() {
                                             </tr>
                                         )) :
                                         <tr>
-                                            <td  className='text-center' colSpan={4}>No Parameter available</td>
+                                            <td className='text-center' colSpan={4}>No Parameter available</td>
                                         </tr>
                                 }
 
@@ -623,10 +608,10 @@ function HomePageContent() {
                         <Table bordered responsive='lg'>
                             <thead>
                                 <tr>
-                                 <th>Name</th>
-                                 <th>Data Type</th>
-                                 <th>Required/Optional</th>
-                                 <th>Description</th>
+                                    <th>Name</th>
+                                    <th>Data Type</th>
+                                    <th>Required/Optional</th>
+                                    <th>Description</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -667,62 +652,62 @@ function HomePageContent() {
                 </Modal.Body>
             </Modal>
 
-    <Modal size='xl' show={apiModalShow} onHide={() => setApiModalShow(false)} animation={false}>
-        <Modal.Header closeButton>
-          <Modal.Title>Available Apis List</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-            <div className="mt-3 ">
-                <div className="api-table-container">
-                    <table className="custom-table-new table-bordered">
-                    <thead className="custom-thead-new">
-                        <tr className="custom-tr-new">
-                        <th className="custom-th-new"></th>
-                        <th className="custom-th-new">API Name</th>
-                        <th className="custom-th-new">API Description</th>
-                        <th className="custom-th-new">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {availableAPIs.length > 0 && availableAPIs.map((api, index) => (
-                        <tr key={api.id} className="custom-tr-new">
-                            <td className="custom-td-new">
-                            <input
-                                type="checkbox"
-                                // checked={api.approved_status == 0}
-                                defaultChecked={Number(api.approved_status) === 0}
-                                disabled={Number(api.approved_status) === 0}  
-                                onChange={(e) => handleCheckboxChange(api, e.target.checked)}
-                            />
-                            </td>
-                            <td className="custom-td-new">{api.apiname}</td>
-                            <td className="custom-td-new">{api.description}</td>
-                            <td className="custom-td-new">{api.approved_status == 0 && "Requested"}</td>
-                        </tr>
-                        ))}
-                    </tbody>
-                    </table>
-                </div>
-                <div className="d-flex justify-content-between align-items-center">
-                    <div className="mt-3">
-                    {availableTotalPages > 1 && (
-                    <PaginateComponent
-                        currentPage={availableCurrentPage}
-                        totalPages={availableTotalPages}
-                        onPageChange={(page) => availableAPIList(page)}
-                    />)}
+            <Modal size='xl' show={apiModalShow} onHide={() => setApiModalShow(false)} animation={false}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Available Apis List</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className="mt-3 ">
+                        <div className="api-table-container">
+                            <table className="custom-table-new table-bordered">
+                                <thead className="custom-thead-new">
+                                    <tr className="custom-tr-new">
+                                        <th className="custom-th-new"></th>
+                                        <th className="custom-th-new">API Name</th>
+                                        <th className="custom-th-new">API Description</th>
+                                        <th className="custom-th-new">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {availableAPIs.length > 0 && availableAPIs.map((api, index) => (
+                                        <tr key={api.id} className="custom-tr-new">
+                                            <td className="custom-td-new">
+                                                <input
+                                                    type="checkbox"
+                                                    style={{ width: '17px', height: '17px' }}
+                                                    defaultChecked={Number(api.approved_status) === 0}
+                                                    disabled={Number(api.approved_status) === 0}
+                                                    onChange={(e) => handleCheckboxChange(api, e.target.checked)}
+                                                />
+                                            </td>
+                                            <td className="custom-td-new">{api.apiname}</td>
+                                            <td className="custom-td-new">{api.description}</td>
+                                            <td className="custom-td-new">{api.approved_status == 0 && "Requested"}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div className="d-flex justify-content-between align-items-center">
+                            <div className="mt-3">
+                                {availableTotalPages > 1 && (
+                                    <PaginateComponent
+                                        currentPage={availableCurrentPage}
+                                        totalPages={availableTotalPages}
+                                        onPageChange={(page) => availableAPIList(page)}
+                                    />)}
+                            </div>
+                            {availableAPIs.length > 0 && <button className="btn-request mb-1" onClick={multipleAPIReq}>Request Access</button>}
+                        </div>
+                        {loader.page && <PageLoaderBackdrop />}
                     </div>
-                    {availableAPIs.length > 0 && <button className="btn-request mb-1" onClick={multipleAPIReq}>Request Access</button>}
-                </div>
-                {loader.page && <PageLoaderBackdrop />}
-            </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setApiModalShow(false)}>
-            Close
-          </Button>
-        </Modal.Footer>
-    </Modal>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setApiModalShow(false)}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
             {
                 loader && <PageLoaderBackdrop />
             }

@@ -51,11 +51,11 @@ const confirm_swal_with = (callback, title) => {
             return response;
         }
     })
-    .then(() => {})
-    .catch(err => {
-        console.log(err);
-        Swal.close();
-    });
+        .then(() => { })
+        .catch(err => {
+            console.log(err);
+            Swal.close();
+        });
 };
 
 const confirm_swal_success = (callback, title) => {
@@ -72,11 +72,11 @@ const confirm_swal_success = (callback, title) => {
             confirmButton: 'btn btn-primary py-2'
         },
 
-        allowOutsideClick: false,
-        confirmButtonText: 'Click Here',   // 👈 Only one button now
+        confirmButtonText: 'View Apis',   // 👈 Only one button now
+        cancelButtonText: 'Cancel',   // 👈 Only one button now
         padding: 20,
         showLoaderOnConfirm: true,
-
+        showCancelButton: true,
         preConfirm: async () => {
             const response = await new Promise((res, rej) => {
                 callback(res, rej)
@@ -84,11 +84,11 @@ const confirm_swal_success = (callback, title) => {
             return response;
         }
     })
-    .then(() => {})
-    .catch(err => {
-        console.log(err);
-        Swal.close();
-    });
+        .then(() => { })
+        .catch(err => {
+            console.log(err);
+            Swal.close();
+        });
 };
 
 
@@ -195,56 +195,56 @@ const swall_success_animation = (callback, message, confirmText) => {
                     Swal.showLoading();
                 }
             });
-             // 🚀 RUN API
-      callback(
-        () => {
-          // API SUCCESS
-          Swal.fire({
-            title: "Success!",
-            text: "Operation completed successfully",
-            icon: "success",
-          });
-        },
-        () => {
-          // API FAILED
-          Swal.fire({
-            title: "Failed!",
-            text: "Something went wrong",
-            icon: "error",
-          });
+            // 🚀 RUN API
+            callback(
+                () => {
+                    // API SUCCESS
+                    Swal.fire({
+                        title: "Success!",
+                        text: "Operation completed successfully",
+                        icon: "success",
+                    });
+                },
+                () => {
+                    // API FAILED
+                    Swal.fire({
+                        title: "Failed!",
+                        text: "Something went wrong",
+                        icon: "error",
+                    });
+                }
+            );
         }
-      );
-     }
     });
 };
 
 const swall_logout_animate = (onConfirm) => {
-  Swal.fire({
-    title: "Are you sure?",
-    text: "Do you really want to logout?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Logout",
-  }).then((result) => {
-    if (result.isConfirmed) {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "Do you really want to logout?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Logout",
+    }).then((result) => {
+        if (result.isConfirmed) {
 
-      // Show logout animation
-      Swal.fire({
-        title: "Logging out...",
-        text: "Please wait...",
-        icon: "success",
-        timer: 1200,
-        showConfirmButton: false
-      });
+            // Show logout animation
+            Swal.fire({
+                title: "Logging out...",
+                text: "Please wait...",
+                icon: "success",
+                timer: 1200,
+                showConfirmButton: false
+            });
 
-      // Execute your callback after animation
-      setTimeout(() => {
-        onConfirm();
-      }, 1100);
-    }
-  });
+            // Execute your callback after animation
+            setTimeout(() => {
+                onConfirm();
+            }, 1100);
+        }
+    });
 };
 
 

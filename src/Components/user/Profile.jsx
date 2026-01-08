@@ -341,12 +341,7 @@ function Profile() {
   };
 
   const handleTryIt = (api) => {
-     console.log('API item:', api);
-    // Navigate to try-api page with actual category and subcategory IDs
-    const apiId = api.uniqueid;
-    const categoryId = api.category_id || api.categoryid || api.collection_id || 0;
-    const subcategoryId = api.subcategory_id || api.subcategoryid || 0;
-    window.open(`/try-api/${categoryId}/${subcategoryId}/${apiId}`, '_blank');
+    window.open(`/try-api/${api.category_unique_id}/${api.sub_cat_unique_id}/${api.uniqueid}`, '_blank');
   };
 
   const getStatusLabel = (item) => {

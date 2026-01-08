@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
 import { Dropdown, Modal } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import SignupPage from "../../auth/SignupPage";
 import Login from "../../auth/Login";
 import ForgotPassword from "../../auth/ForgotPassword";
 import ResetPassword from "../../auth/ResetPasswrd";
 import { getTokenData, getInitials } from "../../../Utils";
-import { confirm_swal_with, confirm_swal_with_text, success_swal_toast, swall_logout_animate } from "../../../SwalServices";
-// import NotificationBell from "./Notification";
+import { confirm_swal_with, success_swal_toast, swall_logout_animate } from "../../../SwalServices";
 
 function Header() {
   const [fullName, setFullName] = useState('');
   const [show, setShow] = useState(false);
   const [modalName, setModalName] = useState("");
+  const token = getTokenData();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,51 +20,28 @@ function Header() {
       setShow(true);
       setModalName("reset-pass");
     }
-    const token = getTokenData();
     setFullName(token?.fullname || "");
   }, [location]);
 
-  // const logout = () => {
-  //   confirm_swal_with_text()
-  //   localStorage.clear();
-  //   navigate("/");
-  // };
-  // const logout = () => {
-  //   confirm_swal_with_text(async (resolve) => {
-  //     try {
-  //       // Clear local storage or token
-  //       localStorage.clear();
 
-  //       // Optional: show success message
-  //       success_swal_toast("You have been logged out!");
-
-  //       // Navigate to homepage or login
-  //       navigate("/");
-
-  //       resolve(true);
-  //     } catch (err) {
-  //       console.error("Logout error:", err);
-  //     }
-  //   }, "Are you sure you want to logout?");
-  // };
-    const logout = () => {
-      swall_logout_animate(() => {
-        try {
-            localStorage.clear();
-            success_swal_toast("You have been logged out!");
-            navigate("/");
-        } catch (err) {
-          console.error("Logout error:", err);
-        }
-      });
-    }
+  const logout = () => {
+    swall_logout_animate(() => {
+      try {
+        localStorage.clear();
+        success_swal_toast("You have been logged out!");
+        navigate("/");
+      } catch (err) {
+        console.error("Logout error:", err);
+      }
+    });
+  }
 
   const confirm_swal_call = () => {
-      const callback = (resolve, reject) => {
-          resolve();
-      }
-      confirm_swal_with(callback, `To access the APIs your account is in Approval Process`)
-  } 
+    const callback = (resolve, reject) => {
+      resolve();
+    }
+    confirm_swal_with(callback, `To access the APIs your account is in Approval Process`)
+  }
 
   return (
     <div className="header">
@@ -98,39 +75,39 @@ function Header() {
             id="navbarCenterContent"
           >
             {/* Center: Links */}
-            <ul className="navbar-nav mb-2 mb-lg-0">
-              {getTokenData()?.role == 1 && (
+            <ul className="navbar-nav header-nav mb-2 mb-lg-0">
+              {token?.role == 1 && (
                 <li className="nav-item">
                   <Link className="nav-link" to="/master">
                     Admin
                   </Link>
                 </li>
               )}
-              {/* <li className="nav-item">
-                <Link className="nav-link" to="/api/0">
-                  Explore API
-                </Link>
-              </li> */}
               <li className="nav-item">
-                {!getTokenData() ? (
-                  <span className="nav-link" style={{cursor: "pointer"}} onClick={() => {
+                <NavLink className="nav-link" to="/api/0" >
+                  Explore API
+                </NavLink>
+              </li>
+              {/* <li className="nav-item">
+                {token == null ? (
+                  <span className="nav-link" style={{ cursor: "pointer" }} onClick={() => {
                     setModalName("signup");
                     setShow(true);
                   }}>
                     Explore API
                   </span>
-                ) : getTokenData()?.approved_status === 1 ? (
+                ) : token?.approved_status === 1 ? (
                   <Link className="nav-link" to="/api/0">Explore API</Link>
                 ) : (
-                  <span className="nav-link" style={{cursor: "pointer"}} onClick={() => confirm_swal_call()}>
+                  <span className="nav-link" style={{ cursor: "pointer" }} onClick={() => confirm_swal_call()}>
                     Explore API
                   </span>
                 )}
-              </li>
+              </li> */}
               <li className="nav-item">
-                <Link className="nav-link" to="/faq">
+                <NavLink className="nav-link" to="/faq">
                   FAQ
-                </Link>
+                </NavLink>
               </li>
             </ul>
 
@@ -314,17 +291,17 @@ function Header() {
                 </div>
               </div>
               <div className="ps-4 col-xl-7 col-lg-7 col-md-7 col-12">
-                { modalName == "signup" && (
-                  <SignupPage setModalName={setModalName} setShow={setShow}/>
+                {modalName == "signup" && (
+                  <SignupPage setModalName={setModalName} setShow={setShow} />
                 )}
-                { modalName == "login" && (
-                  <Login setModalName={setModalName} setShow={setShow}/>
+                {modalName == "login" && (
+                  <Login setModalName={setModalName} setShow={setShow} />
                 )}
-                { modalName == "forget-pass" && (
-                  <ForgotPassword setModalName={setModalName} setShow={setShow}/>
+                {modalName == "forget-pass" && (
+                  <ForgotPassword setModalName={setModalName} setShow={setShow} />
                 )}
-                { modalName == "reset-pass" && (
-                  <ResetPassword setModalName={setModalName} setShow={setShow}/>
+                {modalName == "reset-pass" && (
+                  <ResetPassword setModalName={setModalName} setShow={setShow} />
                 )}
               </div>
             </div>
@@ -349,36 +326,36 @@ function Header() {
           <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div className="offcanvas-body">
- <ul className="navbar-nav mb-2 mb-lg-0">
-              {getTokenData()?.role == 1 && (
-                <li className="nav-item">
-                  <Link className="nav-link" to="/master">
-                    Admin
-                  </Link>
-                </li>
-              )}
+          <ul className="navbar-nav mb-2 mb-lg-0">
+            {getTokenData()?.role == 1 && (
               <li className="nav-item">
-                {!getTokenData() ? (
-                  <span className="nav-link" style={{cursor: "pointer"}} data-bs-dismiss="offcanvas" onClick={() => {
-                    setModalName("signup");
-                    setShow(true);
-                  }}>
-                    Explore API
-                  </span>
-                ) : getTokenData()?.approved_status === 1 ? (
-                  <Link className="nav-link" to="/api/0">Explore API</Link>
-                ) : (
-                  <span className="nav-link" style={{cursor: "pointer"}} data-bs-dismiss="offcanvas" onClick={() => confirm_swal_call()}>
-                    Explore API
-                  </span>
-                )}
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/faq">
-                  FAQ
+                <Link className="nav-link" to="/master">
+                  Admin
                 </Link>
               </li>
-            </ul>
+            )}
+            <li className="nav-item">
+              {!getTokenData() ? (
+                <span className="nav-link" style={{ cursor: "pointer" }} data-bs-dismiss="offcanvas" onClick={() => {
+                  setModalName("signup");
+                  setShow(true);
+                }}>
+                  Explore API
+                </span>
+              ) : getTokenData()?.approved_status === 1 ? (
+                <Link className="nav-link" to="/api/0">Explore API</Link>
+              ) : (
+                <span className="nav-link" style={{ cursor: "pointer" }} data-bs-dismiss="offcanvas" onClick={() => confirm_swal_call()}>
+                  Explore API
+                </span>
+              )}
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/faq">
+                FAQ
+              </Link>
+            </li>
+          </ul>
         </div>
       </div>
     </div>

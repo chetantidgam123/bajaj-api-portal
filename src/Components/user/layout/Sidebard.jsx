@@ -21,16 +21,16 @@ function Sidebard() {
   const [sidebarData, setSidebarData] = useState([]);
 
   const checkLogin = (collection_id, category_id, api_id) => {
-    console.log(collection_id)
-    if (!getTokenData()) {
-      setShowModal(true);
-      return;
-    }
+    // console.log(collection_id)
+    // if (!getTokenData()) {
+    //   setShowModal(true);
+    //   return;
+    // }
     if (api_id) {
-      if (isClosed) {
-        setActiveKey(null)
-        setSubActiveKey("")
-      }
+      // if (isClosed) {
+      //   setActiveKey(null)
+      //   setSubActiveKey("")
+      // }
       navigate("/collection-api/" + collection_id + "/" + category_id + "/" + api_id);
     } else {
       navigate("/api/" + collection_id + "/" + category_id);
@@ -129,10 +129,11 @@ function Sidebard() {
               className="mt-2 explore"
               activeKey={activeKey}
               onSelect={(key) => {
+                setActiveKey(key);
                 // Only change arrow if user has access
-                if (getTokenData()?.approved_status === 1) {
-                  setActiveKey(key);
-                }
+                // if (getTokenData()?.approved_status === 1) {
+                //   setActiveKey(key);
+                // }
               }}
               alwaysOpen={false}
             >
@@ -153,11 +154,12 @@ function Sidebard() {
                     //   navigate("/api/" + item.record_uuid);
                     // }}
                     onClick={() => {
-                      if (getTokenData()?.approved_status === 1) {
-                        navigate("/api/" + item.record_uuid);
-                      } else {
-                        confirm_swal_call()
-                      }
+                      navigate("/api/" + item.record_uuid);
+                      // if (getTokenData()?.approved_status === 1) {
+                      //   navigate("/api/" + item.record_uuid);
+                      // } else {
+                      //   confirm_swal_call()
+                      // }
                     }}
                   //  onClick={(e) => {
                   //   // STOP ACCORDION FROM OPENING
@@ -341,10 +343,11 @@ function Sidebard() {
                 activeKey={activeKey}
                 onSelect={(key) => {
                   // Only change arrow if user has access
-                  if (getTokenData()?.approved_status === 1) {
-                    setActiveKey(key);
-                    setSubActiveKey("");
-                  }
+                  setActiveKey(key);
+                  // if (getTokenData()?.approved_status === 1) {
+                  //   setActiveKey(key);
+                  //   setSubActiveKey("");
+                  // }
                 }}
                 alwaysOpen={false}
               >
@@ -362,11 +365,11 @@ function Sidebard() {
                           : ""
                       }
                       onClick={() => {
-                        if (getTokenData()?.approved_status === 1) {
-                          navigate("/api/" + item.record_uuid);
-                        } else {
-                          confirm_swal_call()
-                        }
+                        navigate("/api/" + item.record_uuid);
+                        // if (getTokenData()?.approved_status === 1) {
+                        // } else {
+                        //   confirm_swal_call()
+                        // }
                       }}
                     >
                       <img
@@ -468,16 +471,17 @@ function ApiList({ si, cItem, item, sItem, returnClass, setActiveKey, setSubActi
   const navigate = useNavigate()
   const checkPermission = (record_uuid, crecord_uuid, uniqueid) => {
 
-    if (getTokenData()?.jwt_token) {
-      if (isClosed) {
-        setActiveKey(null)
-        setSubActiveKey("")
-      }
-      navigate(`/api/${record_uuid}/${crecord_uuid}/${uniqueid}`)
+    navigate(`/api/${record_uuid}/${crecord_uuid}/${uniqueid}`)
+    // if (getTokenData()?.jwt_token) {
+    //   if (isClosed) {
+    //     setActiveKey(null)
+    //     setSubActiveKey("")
+    //   }
+    //   navigate(`/api/${record_uuid}/${crecord_uuid}/${uniqueid}`)
 
-    } else {
-      error_swal_toast('Please login to access this page')
-    }
+    // } else {
+    //   error_swal_toast('Please login to access this page')
+    // }
   }
   return (
     <div className={returnClass(cItem.apis.length - 1 == si, api_id && sItem.uniqueid == api_id)} >

@@ -10,10 +10,8 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import '../../../src/new.css'
-import { post_data } from '../../ApiServices';
-import { availableApi, convertToPayload, scrollToTop, getTokenData, arrayIndex } from '../../Utils';
+import { availableApi, scrollToTop, arrayIndex } from '../../Utils';
 import { useNavigate } from 'react-router-dom';
-import { error_swal_toast } from '../../SwalServices';
 
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -41,54 +39,54 @@ function PrevArrow({ onClick, isActive }) {
 }
 
 function LandingPage() {
-  const [show, setShow] = useState(false);
-  const [modalName, setModalName] = useState("");
-  const navigate = useNavigate();
-  const [current, setCurrent] = useState(0);
+    const [show, setShow] = useState(false);
+    const [modalName, setModalName] = useState("");
+    const navigate = useNavigate();
+    const [current, setCurrent] = useState(0);
 
     useEffect(() => {
         AOS.init({ duration: 1000, once: true }); // initialize AOS
     }, []);
 
-const settings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 3, // desktop default
-    slidesToScroll: 1,
-    initialSlide: 0,
-    beforeChange: (_, next) => setCurrent(next),
-    nextArrow: (
-      <NextArrow isActive={current < availableApi.length - 3} />
-    ),
-    prevArrow: <PrevArrow isActive={current > 0} />,
-    responsive: [
-      {
-        breakpoint: 1024, // tablet
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-          infinite: false,
-        },
-      },
-      {
-        breakpoint: 768, // mobile landscape
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          infinite: false,
-        },
-      },
-      {
-        breakpoint: 480, // mobile portrait
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          infinite: false,
-        },
-      },
-    ],
-  };
+    const settings = {
+        dots: false,
+        infinite: false,
+        speed: 500,
+        slidesToShow: 3, // desktop default
+        slidesToScroll: 1,
+        initialSlide: 0,
+        beforeChange: (_, next) => setCurrent(next),
+        nextArrow: (
+            <NextArrow isActive={current < availableApi.length - 3} />
+        ),
+        prevArrow: <PrevArrow isActive={current > 0} />,
+        responsive: [
+            {
+                breakpoint: 1024, // tablet
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                    infinite: false,
+                },
+            },
+            {
+                breakpoint: 768, // mobile landscape
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    infinite: false,
+                },
+            },
+            {
+                breakpoint: 480, // mobile portrait
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    infinite: false,
+                },
+            },
+        ],
+    };
 
     useEffect(() => {
         AOS.init({
@@ -100,30 +98,18 @@ const settings = {
         AOS.refresh();
     }, []);
 
-useEffect(() => {
-  const params = new URLSearchParams(window.location.search);
-  if (params.get("openLogin") === "true") {
-    setModalName("login");   // Open login popup
-    setShow(true);           // Show modal
-  }
-}, []);
-
-const getURLIds = async() => {
-    try {
-        const res = await post_data("portal/public", convertToPayload("get-sidebar-list", {}), {})
-        if(res.data.status) {
-           console.log(res.data.data)
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("openLogin") === "true") {
+            setModalName("login");   // Open login popup
+            setShow(true);           // Show modal
         }
-    } catch(error) {
-        console.log(error.message)
-        error_swal_toast(error.message);
-    }
-}
+    }, []);
 
-useEffect(() => {
-    scrollToTop()
-    getURLIds()
-}, [])
+
+    useEffect(() => {
+        scrollToTop()
+    }, [])
 
     return (
         <div className='all'>
@@ -139,20 +125,13 @@ useEffect(() => {
                                     <p className='text-start text-white'>— your one-stop destination for accessing, integrating, and managing powerful APIs that drive seamless digital experiences. Whether you're building customer journeys, or partner integrations, our APIs offer secure, scalable, and easy-to-use solutions to accelerate your development.</p>
                                 </div>
                                 <div className='d-flex justify-content-start mt-3'>
-                                    <button className='btn btn-blue p-3' onClick={() => {
-                                        if (!getTokenData()) {
-                                            setModalName("signup");
-                                            setShow(true);
-                                        } else {
-                                            navigate('/get-started');
-                                        }
-                                    }}>Get Started </button>
+                                    <button className='btn btn-blue p-3' onClick={() => { navigate('/get-started'); }}>Get Started </button>
                                 </div>
                             </div>
                         </div>
                         {/* <div className='col-xl-5 col-lg-4 col-md-12 col-sm-12 col-12 top_image_bounce' data-aos="fade-left"> */}
                         <div className='col-xl-5 col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-center' data-aos="fade-left">
-                            <img src="/assets/img/banner-1.png" className='' style={{width : '80%'}} alt='' />
+                            <img src="/assets/img/banner-1.png" className='' style={{ width: '80%' }} alt='' />
                         </div>
                     </div>
 
@@ -184,7 +163,7 @@ useEffect(() => {
                         <div className='col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-3'>
                             <div className='card-ava'>
                                 <div className='row'>
-                                     <div className='col-5'>
+                                    <div className='col-5'>
                                         <img src="/assets/img/Works-1.png" alt="" className="w-100" />
                                     </div>
                                     <div className='col-7'>
@@ -220,7 +199,7 @@ useEffect(() => {
                                     <div className='col-5'>
                                         <img src="/assets/img/Works-3.png" alt="" className="w-100" />
                                     </div>
-                                     <div className='col-7'>
+                                    <div className='col-7'>
                                         <div className='circle-work'>
                                             <img src="/assets/img/sign-up 3.png" alt="" className="w-75 d-flex justify-content-center align-items-center" />
                                         </div>
@@ -300,48 +279,34 @@ useEffect(() => {
                         </div>
                     </div>
 
-                   <div className="api-slider-container" style={{ width: "100%" }}>
-      <Slider {...settings}>
-        {availableApi.map((card, index) => (
-          <div
-            role="button"
-            key={arrayIndex("availApi", index)}
-            onClick={() => {
-              if (!getTokenData()) {
-                setModalName("signup");
-                setShow(true);
-              } else {
-                navigate(card.routePath);
-              }
-            }}
-            className="p-3"
-            data-aos="zoom-in"
-          >
-            <div className="card-ava">
-              <div className="circle-ava">
-                <img
-                  src="/assets/img/bullet.png"
-                  alt="NA"
-                  className="w-100 d-flex justify-content-start align-items-center"
-                />
-              </div>
-              <div className="content-title my-3">{card.title}</div>
-              <div className="content-details four-lines">{card.details}</div>
-            </div>
-          </div>
-        ))}
-      </Slider>
-    </div>
+                    <div className="api-slider-container" style={{ width: "100%" }}>
+                        <Slider {...settings}>
+                            {availableApi.map((card, index) => (
+                                <div
+                                    role="button"
+                                    key={arrayIndex("availApi", index)}
+                                    onClick={() => { navigate(card.routePath); }}
+                                    className="p-3"
+                                    data-aos="zoom-in"
+                                >
+                                    <div className="card-ava">
+                                        <div className="circle-ava">
+                                            <img
+                                                src="/assets/img/bullet.png"
+                                                alt="NA"
+                                                className="w-100 d-flex justify-content-start align-items-center"
+                                            />
+                                        </div>
+                                        <div className="content-title my-3">{card.title}</div>
+                                        <div className="content-details four-lines">{card.details}</div>
+                                    </div>
+                                </div>
+                            ))}
+                        </Slider>
+                    </div>
 
                     <div className='d-flex justify-content-center mt-4'>
-                        <button className='btn btn-blue p-3' onClick={() => {
-                                if (!getTokenData()) {
-                                    setModalName("signup");
-                                    setShow(true);
-                                } else {
-                                    navigate('api/f054d44c-65cf-49d5-9a68-eef138cd5453');
-                                }
-                            }}>
+                        <button className='btn btn-blue p-3' onClick={() => { navigate('api/f054d44c-65cf-49d5-9a68-eef138cd5453'); }}>
                             View All APIs
                         </button>
                     </div>
