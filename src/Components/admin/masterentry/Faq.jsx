@@ -35,6 +35,8 @@ function Faq() {
       .then((response) => {
         setLoader({ ...loader, pageloader: false });
         if (response.data.status) {
+          setCurrentPage(response.data.currentPage);
+          setTotalPages(response.data.totalPages)
           setgetintouchList(response.data.data);
         } else {
           error_swal_toast(response.data.message || "something went wrong");
@@ -59,10 +61,6 @@ function Faq() {
   };
 
   const handleSubmitAnswer = () => {
-    // if (!answer.trim()) {
-    //   error_swal_toast("Answer cannot be empty!");
-    //   return;
-    // }
 
     const payload = {
       ans: answer,
@@ -158,9 +156,11 @@ function Faq() {
                 </tr>
               ))
             ) : (
+              <tr>
               <td colSpan={8} className="text-center">
                 No data found
               </td>
+              </tr>
             )}
           </tbody>
         </table>

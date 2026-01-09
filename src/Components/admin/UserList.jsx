@@ -5,7 +5,7 @@ import { useMediaQuery } from "react-responsive";
 import Modal from 'react-bootstrap/Modal';
 import { createUserSchema } from "../../Schema";
 import { post_auth_data, post_data } from "../../ApiServices";
-import { arrayIndex, convertToPayload, getTokenData, offsetPagination, sendEmail } from "../../Utils";
+import { arrayIndex, convertToPayload, offsetPagination, sendEmail } from "../../Utils";
 import { ErrorMessage, FormikProvider, useFormik } from "formik";
 import { confirm_swal_with_text, error_swal_toast, success_swal_toast, swall_success_animation } from "../../SwalServices";
 import { PageLoaderBackdrop } from "../../Loader";
@@ -19,7 +19,7 @@ function UserList() {
     const [userList, setUserList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const [search, SetSearch] = useState({ status: '', input: '' });
+    const [search, setSearch] = useState({ status: '', input: '' });
     const handleClose = () => { setShow(false); UserForm.resetForm(); };
     const handleShow = () => setShow(true);
     const isSmallScreen = useMediaQuery({ maxWidth: 991 })
@@ -104,7 +104,6 @@ function UserList() {
         post_auth_data("portal/private", convertToPayload('approve-user', payload), {})
             .then((response) => {
                 if (response.data.status) {
-                    // success_swal_toast(response.data.message);
                     const subject = "BAJAJ Developer Portal-Website Access Granted";
                     const userName = user.fullname;
                     const userEmail = user.emailid;
@@ -126,8 +125,6 @@ function UserList() {
                             reject();
                             error_swal_toast("Email sending failed");
                         });
-                    // getUserList();
-                    // resolve();
                 } else {
                     reject();
                     error_swal_toast(response.data.message || "something went wrong");
@@ -162,7 +159,7 @@ function UserList() {
 
     const refresh = () => {
         const resetSearch = { input: "", status: "" };
-        SetSearch(resetSearch)
+        setSearch(resetSearch)
         getUserList(1, resetSearch);
     }
 
@@ -192,7 +189,7 @@ function UserList() {
                             <input type="email" name="email" className="form-control p-3" id="exampleInputEmail1"
                                 aria-describedby="emailHelp" placeholder="Enter email/Phone Number"
                                 value={search.input}
-                                onChange={(e) => { SetSearch({ ...search, input: (e.target.value).trim() }) }} />
+                                onChange={(e) => { setSearch({ ...search, input: (e.target.value).trim() }) }} />
                         </div>
                     </div>
                     <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-2">
@@ -203,9 +200,8 @@ function UserList() {
                                 id="exampleFormControlSelect1"
                                 value={search.status}
                                 onChange={(e) => {
-                                    // SetSearch({ ...search, status: e.target.value }) }
                                     const value = e.target.value === "" ? "" : Number(e.target.value);
-                                    SetSearch({ ...search, status: value })
+                                    setSearch({ ...search, status: value })
                                 }}
                             >
                                 <option value="" disabled hidden>Select Status</option>
@@ -237,7 +233,7 @@ function UserList() {
                     <tbody>
                         {userList.length > 0 &&
                             userList.map((user, index) => (
-                                <tr key={index}>
+                                <tr key={arrayIndex("userL", index)}>
                                     <td>{user.sr_no || index + 1}</td>
                                     <td>{user.fullname}</td>
                                     <td>{user.emailid}</td>
@@ -251,16 +247,6 @@ function UserList() {
                                     <td>
                                         <div className="d-flex justify-content-center">
                                             <div className="dropdown">
-                                                {/* <Dropdown className="drop" >
-                                                    <Dropdown.Toggle as="button" variant="link" id="dropdown-basic" bsPrefix="p-0 border-0 bg-transparent">
-                                                        <i className="fa-solid fa-ellipsis-vertical"></i>
-                                                    </Dropdown.Toggle>
-                                                    <Dropdown.Menu className="with-action">
-                                                        <Dropdown.Item href="#" onClick={() => { confirm_swal_call(user) }}><i className="fa-regular fa-thumbs-up"></i> {user.approved_status == 1 ? 'Reject' : 'Approve'} User</Dropdown.Item>
-                                                        <Dropdown.Item href="#"><i className="fa-solid fa-pen"></i> Edit User</Dropdown.Item>
-                                                        <Dropdown.Item href="#"><i className="fa-solid fa-trash"></i> Delete User</Dropdown.Item>
-                                                    </Dropdown.Menu>
-                                                </Dropdown> */}
                                                 <Dropdown
                                                     align="end"
                                                     popperconfig={{
@@ -295,7 +281,6 @@ function UserList() {
                                                             <i className="fa-regular fa-thumbs-up"></i>{" "}
                                                             {user.approved_status === 1 ? "Reject" : "Approve"} User
                                                         </Dropdown.Item>
-                                                        {/* <Dropdown.Item><i className="fa-solid fa-pen"></i> Edit User</Dropdown.Item> */}
                                                         <Dropdown.Item onClick={() => confirm_swall_call_delete(user)}><i className="fa-solid fa-trash"></i> Delete User</Dropdown.Item>
                                                         <Dropdown.Item as={Link} to={`/master/user-list/details/${user.id}`} state={{ userData: user }}><i className="fa-solid fa-eye"></i> View Details</Dropdown.Item>
                                                     </Dropdown.Menu>
@@ -305,25 +290,6 @@ function UserList() {
 
 
 
-                                        {/* <div className="d-flex">
-                <Form.Check
-                  type="switch"
-                  id="custom-switch"
-                  checked={user.approved_status == 1}
-                  onChange={() => {
-                    confirm_swal_call(user);
-                  }}
-                /> 
-                <button
-                  className="btn btn-primary btn-sm mx-2"
-                  title="Edit User"
-                >
-                  <i className="fa fa-pencil"></i>
-                </button>
-                <button className="btn btn-danger btn-sm" title="Delete User">
-                  <i className="fa fa-trash"></i>
-                </button>
-              </div>*/}
                                     </td>
                                 </tr>
                             ))}
