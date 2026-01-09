@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Pagination } from "react-bootstrap";
 
 const PaginateComponent = ({ currentPage, totalPages, onPageChange }) => {
@@ -68,6 +69,11 @@ const PaginateComponent = ({ currentPage, totalPages, onPageChange }) => {
   };
 
   return <Pagination>{getPaginationItems()}</Pagination>;
+};
+PaginateComponent.propTypes = {
+  currentPage: PropTypes.number.isRequired,
+  totalPages: PropTypes.number.isRequired,
+  onPageChange: PropTypes.func.isRequired,
 };
 
 export default PaginateComponent;

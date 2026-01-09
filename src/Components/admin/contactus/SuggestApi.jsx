@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { error_swal_toast } from "../../../SwalServices";
 import { post_auth_data } from "../../../ApiServices";
 import { arrayIndex, convertToPayload } from "../../../Utils";
@@ -66,38 +66,15 @@ function SuggestApi() {
                 <td>{userl.companyname}</td>
                 <td>{userl.que}</td>
                 <td>{userl.ans}</td>
-
-                {/* <td>
-                  <div className="d-flex">
-                    <Form.Check
-                      type="switch"
-                      id="custom-switch"
-                      checked={user.approved_status == 1}
-                      onChange={() => {
-                        confirm_swal_call(user);
-                      }}
-                    />
-                    <button
-                      className="btn btn-primary btn-sm mx-2"
-                      title="Edit User"
-                    >
-                      <i className="fa fa-pencil"></i>
-                    </button>
-                    <button
-                      className="btn btn-danger btn-sm"
-                      title="Delete User"
-                    >
-                      <i className="fa fa-trash"></i>
-                    </button>
-                  </div>
-                </td> */}
                 <td>Write Answer</td>
               </tr>
             ))
           ) : (
+            <tr>
             <td colSpan={7} className="text-center">
               No data found
             </td>
+            </tr>
           )}
         </tbody>
       </table>

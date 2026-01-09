@@ -1,35 +1,16 @@
-// import React from 'react'
-// import { useLocation } from 'react-router-dom'
-
-// function userListDetails() {
-//     const location = useLocation();
-//     const user = location.state?.userData;
-
-//     console.log(user)
-
-//   return (
-//     <div>userListDetails</div>
-//   )
-// }
-
-// export default userListDetails
-
-
 import React, { useEffect, useState } from "react";
 import { Formik, Form, Field } from "formik";
-import { Button, Container, Row, Col, Card, Spinner } from "react-bootstrap";
+import { Button, Row, Col, Card, Spinner } from "react-bootstrap";
  
 import { useParams } from "react-router-dom";
 import { post_auth_data } from "../../ApiServices";
-import { convertToPayload, getJwtData } from "../../Utils";
+import { convertToPayload } from "../../Utils";
 import { error_swal_toast } from "../../SwalServices";
  
 const UserDetails = () => {
   const { id } = useParams();
  
-  console.log("User ID from URL:", id);
   const [loader, setLoader] = useState({ page: false });
-  const [profileImage, setProfileImage] = useState("");
   const [editMode, setEditMode] = useState(false);
   const [initialValues, setInitialValues] = useState({
     fullname: "",
@@ -57,7 +38,6 @@ const UserDetails = () => {
         setLoader({ ...loader, page: false });
         if (response.data.status) {
           const user = response.data.data[0];
-          setProfileImage(user.profile_img || "");
           setInitialValues({
             fullname: user.fullname || "",
             mobileno: user.mobileno || "",
@@ -99,20 +79,6 @@ const UserDetails = () => {
           <Card>
             <Card.Header className="d-flex justify-content-between align-items-center">
               <h4 className="mb-0">User Details</h4>
-              {/* <div>
-                {!editMode ? (
-                  <Button variant="primary" onClick={() => setEditMode(true)}>
-                    Edit
-                  </Button>
-                ) : (
-                  <Button
-                    variant="secondary"
-                    onClick={() => setEditMode(false)}
-                  >
-                    Cancel
-                  </Button>
-                )}
-              </div> */}
             </Card.Header>
             <Card.Body>
               {loader.page ? (

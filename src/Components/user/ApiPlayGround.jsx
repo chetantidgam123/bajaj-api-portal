@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react';
 import { InputGroup } from 'react-bootstrap';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { arrayIndex, convertToPayload, getTokenData, } from '../../Utils';
 import { error_swal_toast } from '../../SwalServices';
-import accesscontrol from '/assets/img/access-control.png';
 import dots from '/assets/img/dots.png';
-import egypt from '/assets/img/egypt.png';
 import uparrow from '/assets/img/arrow-right-solid-full 1.png';
 import { post_auth_data, post_data } from '../../ApiServices';
-import { PageLoaderBackdrop, Loader } from '../../Loader';
+import { PageLoaderBackdrop } from '../../Loader';
 import EditableBody from '../user/UtilComponent/EditableBody'
 import { ErrorMessage, FieldArray, Form, FormikProvider, useFormik } from 'formik';
 import { api_decrypt, api_encrypt, encKey } from '../../enc_dec';
@@ -59,7 +57,6 @@ function ApiPlayGround() {
                     }
                     return item
                 })
-                // console.log(a)
                 headersForm.setValues({ parameters: a })
             }).catch((error) => {
                 console.log(error)
@@ -90,9 +87,6 @@ function ApiPlayGround() {
                     if (api_id) {
                         setApiData(response.data.data);
                         let reqSample = JSON.parse(response.data.data.reqsample)
-                        // if(reqSample == '' || reqSample == {}){
-                        //     setShowBody(false)
-                        // }
                         setBodyRequestSample(reqSample)
                         headersForm.setValues({ parameters: JSON.parse(response.data.data.reqheader?.value || '[]') })
                         parameterForm.setValues({ parameters: JSON.parse(response.data.data.query_params?.value || '[]') })
@@ -225,13 +219,7 @@ function ApiPlayGround() {
 
     return (
         <div className="home-container bg-white p-3">
-            {/* <div className="card-new mb-3">
-                <div className="card-body card-bg">
-                    <h5>{title || 'Try it'}</h5>
-                </div>
-            </div> */}
             <div><h3>{title || 'Try it'}</h3></div>
-            {/* <p><img src="/assets/img/http.png" alt="NA" srcSet="" className='me-2 my-2' />{apiData?.apiurl || 'url'}</p> */}
             <div className="d-flex">
                 <div className="input-group">
                     <InputGroup.Text id="basic-addon1">{apiData?.apimethod || 'GET'}</InputGroup.Text>
@@ -333,7 +321,6 @@ function ApiPlayGround() {
                                                 <th>Key</th>
                                                 <th>Value</th>
                                                 <th>description</th>
-                                                {/* <th></th> */}
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -478,7 +465,6 @@ function ApiPlayGround() {
                                                 <th>Key</th>
                                                 <th>Value</th>
                                                 <th>description</th>
-                                                {/* <th></th> */}
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -535,64 +521,12 @@ function ApiPlayGround() {
                         </li>
                     </ul>
                 </div>
-                {/* <div className='col-xl-4 col-lg-4 col-md-9 col-sm-8 col-8 d-flex align-items-center'>
-                    <span className="badge bg-success">200 OK</span>
-                    <div className='grey-dot ms-2'></div>
-                    <span className='ms-2'>1.16 KB</span>
-                    <div className='grey-dot ms-2'></div>
-                    <img src={accesscontrol} className='ms-2' alt="" style={{ width: '20px', height: '20px' }} />
-                    <div className='ms-2'>|</div>
-                    <img src={egypt} className='ms-2' alt="" style={{ width: '20px', height: '20px' }} />
-                    <span className='ms-2'>Save Response</span>
-                    <img src={dots} className='ms-2' alt="" style={{ width: '20px', height: '20px' }} />
-                </div>
-                <div className="tab-content" id="pills-tabContent">
-                    <div className='text-end'>
-                        <button
-                            type="button"
-                            className="btn btn-outline-secondary btn-sm ms-3 mb-1"
-                            onClick={handleEncryptDecryptRes}>
-                            {isEncryptedRes ? "Decrypt" : "Encrypt"}
-                        </button>
-                    </div>
-                    <div className="tab-pane fade show active" id="pills-onenew" role="tabpanel" aria-labelledby="pills-onenew-tab">
-                        <EditableBody curl={bodyResSample} onChange={handleResChange} />
-                    </div>
-                    <div className="tab-pane fade" id="pills-twonew" role="tabpanel" aria-labelledby="pills-twonew-tab">.2..</div>
-
-                </div> */}
                 <div className='col-xl-4 col-lg-4 col-md-9 col-sm-8 col-8 d-flex align-items-center justify-content-end'>
                     <div className='text-end d-flex align-items-center"'>
                         <div className='me-3 mt-1'>
                             <span className="badge bg-success">200 OK</span>
                         </div>
-                        {/* <div className='grey-dot ms-2'></div>
-                        <span className='ms-2'>1.16 KB</span>
-                        <div className='grey-dot ms-2'></div> */}
-                     {/* <div className="dropdown">
-                        <button
-                            className="btn btn-light btn-sm dropdown-toggle"
-                            type="button"
-                            id="respCodeDropdown"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                        >
-                            {respCode?.code || "Select Code"}
-                        </button>
-                        <ul>
-                        {respCode.length > 0 && respCode.map((item, index) => (
-                            <li>{item.code}</li>
-                        ))}
-                        </ul>
-                        <ul className="dropdown-menu" aria-labelledby="respCodeDropdown">
-                            <li><span className="dropdown-item-text fw-bold">Response Info</span></li>
-                            <li><hr className="dropdown-divider" /></li>
-                            <li><span className="dropdown-item-text">Code: {respCode?.code || "N/A"}</span></li>
-                            <li><span className="dropdown-item-text">Status: {respCode?.status || "Success"}</span></li>
-                        </ul>
-                    </div> */}
                         <DropdownButton id="dropdown-basic-button" variant="light" size="sm" align="end" title={selectedCode || "Responses"} className="no-border-dropdown">
-                            {/* <Dropdown.Item href="#/action-2">Another action</Dropdown.Item> */}
                             {respCode.length > 0 && respCode.map((item, index) => (
                                 <Dropdown.Item key={index} onClick={() => setSelectedCode(item.code)}>{item.code}</Dropdown.Item>
                             ))}
@@ -614,19 +548,10 @@ function ApiPlayGround() {
             </div>
             <div className='border-top'></div>
             <div>
-                {/* Console Header */}
-                {/* <span className=' pb-1' style={{ cursor: 'pointer' }} data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
-                    <i className="fa-solid fa-code me-2 text-secondary"></i>
-                    <span className=''>Console</span>
-                </span> */}
                 <div className="offcanvas offcanvas-bottom bottom-backdrop" tabIndex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
                     <div className="offcanvas-header ">
                         <div className=" row d-flex w-100 align-items-center justify-content-between mb-2">
                             <div className='col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12'>
-                                {/* <span className='border-bottom-blue pb-1'>
-                                    <i className="fa-solid fa-code me-2 text-secondary"></i>
-                                    <span className=''>Console</span>
-                                </span> */}
                             </div>
                             <div className='col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 d-flex align-items-center justify-content-end'>
                                 <span className='me-2 mb-0'>All Logs <i className="fa-solid fa-angle-down"></i></span>
@@ -637,8 +562,6 @@ function ApiPlayGround() {
                                 <i className="fa-solid fa-xmark text-secondary" data-bs-dismiss="offcanvas" aria-label="Close"></i>
                             </div>
                         </div>
-                        {/* <h5 className="offcanvas-title" id="offcanvasBottomLabel">Offcanvas bottom</h5> */}
-                        {/* <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button> */}
                     </div>
                     <div className="offcanvas-body small">
                         <div className="border-top pt-2">

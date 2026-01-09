@@ -1,15 +1,13 @@
-import { arrayIndex, copyToClipboard, generators, lang } from "../../Utils"
+import { arrayIndex, copyToClipboard, generators, lang, scrollToTop } from "../../Utils"
 import SyntaxHighLighter from "./SyntaxHighLighter"
 import { useEffect, useState } from "react"
 import PropTypes from 'prop-types';
 import { Badge } from "react-bootstrap";
-import { scrollToTop } from "../../Utils";
 function LangCurlExecuteComp({ apiData, setStatusCode,bodyReqSample,tryit=false }) {
     const [sampleRes, setSampleRes] = useState(null);
     const [sampleReq, setSampleReq] = useState(null);
     const generateLangReq = (lang) => {
         let obj = {
-            // body: JSON.parse(apiData.reqsample || '{}'),
             body: bodyReqSample,
             method: apiData.apimethod,
             url: apiData.apiurl,
@@ -45,21 +43,6 @@ function LangCurlExecuteComp({ apiData, setStatusCode,bodyReqSample,tryit=false 
     return (
         <div>
             <div className="card mb-3">
-                {/* <div className="card-body card-bg d-flex align-items-center p-2">
-                    <div className="row align-items-center">
-                        <div className="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
-                            <Badge pill bg="" className={`me-2 badge-${apiData.apimethod.toLowerCase()}`}> {apiData.apimethod}</Badge>
-                        </div>
-                        <div className="col-xl-7 col-lg-7 col-md-6 col-sm-12 col-12">
-                            <small className="word-break">{apiData.apiurl}</small>
-                        </div>
-                        <div className="col-xl-2 col-lg-2 col-md-6 col-sm-12 col-12 d-flex justify-content-center">
-                            <button
-                                //  onClick={() => { copyToClipboard(JSON.parse(apiData.reqsample) || '{}') }}
-                                className='span-btn-cirlce-btn'><img src="/assets/img/copy.png" alt="copy" /></button>
-                        </div>
-                    </div>
-                </div> */}
                  <div className="card-body card-bg d-flex align-items-center p-2">
                 <div className="d-flex align-items-center w-100">
                     <div className="d-flex align-items-center me-1">
@@ -75,7 +58,6 @@ function LangCurlExecuteComp({ apiData, setStatusCode,bodyReqSample,tryit=false 
                     <div>
                         <button 
                         className='span-btn-cirlce-btn p-0' 
-                        // onClick={() => navigator.clipboard.writeText(apiData.apiurl)}
                         onClick={() => { copyToClipboard(apiData.apiurl) }}
                         >
                         <img src="/assets/img/copy.png" alt="copy"/>
@@ -122,7 +104,6 @@ function LangCurlExecuteComp({ apiData, setStatusCode,bodyReqSample,tryit=false 
                         defaultValue={JSON.parse(apiData.responses?.value || '[]')[0]?.code || ''}
                         onChange={(e) => { genrateCodeRes(e.target.value) }}
                     >
-                        {/* <option value="">Select status Code</option> */}
                         {
                             JSON.parse(apiData.responses?.value || '[]').map((code, i) => (
                                 <option key={arrayIndex('code', i)} value={code.code}>{code.code}</option>

@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Button, Modal, Table } from 'react-bootstrap';
+import { Modal, Table } from 'react-bootstrap';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import LangCurlExecuteComp from './LangCurlExecuteComp';
-import SyntaxHighLighter from './SyntaxHighLighter';
 import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm'
-import { arrayIndex, convertToPayload, copyToClipboard, getTokenData, trucateString } from '../../Utils';
+import { arrayIndex, convertToPayload, getTokenData, trucateString } from '../../Utils';
 import GetStarted from './GetStarted';
 import { error_swal_toast } from '../../SwalServices';
 import { post_auth_data, post_data } from '../../ApiServices';
-import { PageLoaderBackdrop, Loader } from '../../Loader';
+import { PageLoaderBackdrop } from '../../Loader';
 import EditableBody from '../user/UtilComponent/EditableBody'
 function TryApiPage() {
     const navigate = useNavigate();
@@ -149,7 +148,6 @@ function TryApiPage() {
                                                            
                                                         </div>
                         
-                                                        {/* {(collection_id == 0 && getTokenData()?.role != 1) && <GetStarted />} */}
                                                     </div>
                                                 </div>}
                     {(collection_id == 0 || location.pathname.includes('get-started')) && <GetStarted />}
@@ -157,47 +155,10 @@ function TryApiPage() {
                         <div className="card-body card-bg">
                             <div className="d-flex justify-content-between align-items-center mb-3">
                                 <h5 className="" id='requestSample'>Request Sample :</h5>
-                                {/* <button onClick={() => { copyToClipboard(JSON.parse(apiData.reqsample) || '{}') }} className='span-btn'><img src="/assets/img/copy.png" alt="copy" /></button> */}
                             </div>
                             <EditableBody curl={bodyRequestSample} onChange={handleBodyChange} />
                         </div>
                     </div>}
-                    {/* {api_id && apiData && <div className="card mb-3">
-                        <div className="card-body">
-                            <div className="d-flex justify-content-between mb-3">
-                                <h5>Request Parameters Details :</h5>
-                                <button type="button" className="btn btn-outline-primary" onClick={() => { setModalData({ header: [], body: JSON.parse(apiData?.reqbody?.value || '[]') }); setShow(true) }}>View in detail</button>
-                            </div>
-                            <div className="table-responsive-custom">
-                                <Table bordered responsive='lg'>
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Data Type</th>
-                                            <th>Required/Optional</th>
-                                            <th>Description</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {
-                                            JSON.parse(apiData?.reqbody?.value || '[]').length > 0 ?
-                                                JSON.parse(apiData?.reqbody?.value || '[]').map((li, i) => (
-                                                    <tr key={arrayIndex('reqli', i)}>
-                                                        <td>{li.key}</td>
-                                                        <td>{typeof (li.value || '')}</td>
-                                                        <td>{li.isrequired ? "Required" : "Optional"}</td>
-                                                        <td>{trucateString(li.description, 25)}</td>
-                                                    </tr>
-                                                )) :
-                                                <tr>
-                                                    <td className='text-center' colSpan={4}>No Parameter available</td>
-                                                </tr>
-                                        }
-                                    </tbody>
-                                </Table>
-                            </div>
-                        </div>
-                    </div>} */}
                     {api_id && apiData && <div className="card  mb-3">
                         <div className="card-body card-bg">
                             <div className="d-flex justify-content-between mb-3">
@@ -231,15 +192,6 @@ function TryApiPage() {
                             </div>
                         </div>
                     </div>}
-                    {/* {api_id && apiData && <div className="card  mb-3">
-                        <div className="card-body">
-                            <div className="d-flex justify-content-between align-items-center mb-3">
-                                <h5 className="">Response Sample :</h5>
-                                <button onClick={() => { copyToClipboard(responsData.resbody || '{}') }} className='span-btn'><img src="/assets/img/copy.png" alt="copy" /></button>
-                            </div>
-                            <SyntaxHighLighter jsonString={responsData.resbody || '{}'} />
-                        </div>
-                    </div>} */}
                     {api_id && apiData && <div className="card mb-3">
                         <div className="card-body card-bg">
                             <div className="d-flex justify-content-between mb-3">

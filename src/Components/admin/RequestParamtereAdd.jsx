@@ -32,9 +32,6 @@ function RequestParamtereAdd({ modalvalue, setShow, modalType, apiForm }) {
         let obj = { key: "", value: "", isrequired: false, description: "", }
         arrayHelper.push(obj)
     };
-    useEffect(() => {
-        // setInitialValues(modalvalue || [{ key: "", value: "", isrequired: false, description: "", }])
-    })
     return (
         <div>
             <FormikProvider value={parameterForm}>
