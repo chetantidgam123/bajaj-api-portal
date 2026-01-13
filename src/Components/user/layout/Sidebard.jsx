@@ -110,22 +110,16 @@ function Sidebard() {
 
             {/* Main Accordion */}
             <Accordion
-              className="mt-2 explore"
               activeKey={activeKey}
-              onSelect={(key) => {
-                setActiveKey(key);
-                // Only change arrow if user has access
-                // if (getTokenData()?.approved_status === 1) {
-                //   setActiveKey(key);
-                // }
-              }}
+              onSelect={(key) => { setActiveKey(key); }}
               alwaysOpen={false}
+              className="mt-2 explore"
             >
               {sidebarData.map((item, i) => (
                 <Accordion.Item
-                  className="position-relative"
                   key={arrayIndex("acc", i)}
                   eventKey={i}
+                  className="position-relative"
                 >
                   <Accordion.Header
                     className={
@@ -159,10 +153,10 @@ function Sidebard() {
                   // }}
                   >
                     <img
+                      style={{ height: "15px", width: "15px" }}
                       src={`/assets/img/${i == activeKey ? "visualization.png" : "visualization-2.png"
                         }`}
                       alt="NA"
-                      style={{ height: "15px", width: "15px" }}
                     />
                     <span className="link-name ms-2">{item.categoryname}</span>
                   </Accordion.Header>
@@ -172,13 +166,9 @@ function Sidebard() {
                     <Accordion.Body className="p-0">
                       {/* Subcategories */}
                       {item.subcategories.length > 0 && (
-                        <Accordion
-                          activeKey={subActiveKey}
-                          onSelect={(key) => setSubActiveKey(key)}
-                          alwaysOpen={false}
-                        >
+                        <Accordion activeKey={subActiveKey} onSelect={(key) => setSubActiveKey(key)} alwaysOpen={false}>
                           {item.subcategories.map((cItem, ci) => (cItem.isenabled && !cItem.isdeleted) ? ((
-                            <Accordion.Item key={arrayIndex("acc_c", ci)} eventKey={`${i}-${ci}`} style={{ border: "none" }}>
+                            <Accordion.Item style={{ border: "none" }} key={arrayIndex("acc_c", ci)} eventKey={`${i}-${ci}`}>
                               <Accordion.Header
                                 onClick={() => {
                                   checkLogin(item.record_uuid, cItem.record_uuid, 0);
@@ -201,11 +191,13 @@ function Sidebard() {
                                       setSubActiveKey={setSubActiveKey}
                                       isClosed={isClosed}
                                     />
-                                  ) : null)}
+                                  ) : 
+                                  null)}
                                 </Accordion.Body>
                               )}
                             </Accordion.Item>
-                          )) : null)}
+                          )) : 
+                          null)}
                         </Accordion>
                       )}
 
@@ -221,10 +213,8 @@ function Sidebard() {
                               )}
                             >
                               <button
-                                className="span-btn w-100 border-0 bg-none text-start" style={{ background: 'none' }}
-                                onClick={() => {
-                                  checkLogin(item.record_uuid, 0, api.uniqueid);
-                                }}
+                                className="w-100 span-btn border-0 bg-none text-start" style={{ background: 'none' }}
+                                onClick={() => { checkLogin(item.record_uuid, 0, api.uniqueid); }}
                               >
                                 <Badge
                                   pill
@@ -236,7 +226,8 @@ function Sidebard() {
                                 <small className=" text-start text-white">{api.apiname}</small>
                               </button>
                             </div>
-                          ) : null)}
+                          ) : 
+                          null)}
                         </>
                       )}
                     </Accordion.Body>
