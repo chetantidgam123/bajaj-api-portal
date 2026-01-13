@@ -18,7 +18,6 @@ function PrivacyPolicy() {
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    // console.log(ClassicEditor.builtinPlugins.map(p => p.pluginName),'editor');
     getAllPolicies()
   }, [])
 

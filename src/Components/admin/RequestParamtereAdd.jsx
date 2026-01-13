@@ -1,6 +1,6 @@
 import { ErrorMessage, FieldArray, Form, FormikProvider, useFormik } from "formik"
 import { arrayIndex } from "../../Utils"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import PropTypes from 'prop-types';
 function RequestParamtereAdd({ modalvalue, setShow, modalType, apiForm }) {
 

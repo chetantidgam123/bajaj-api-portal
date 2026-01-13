@@ -3,23 +3,19 @@ import { post_data } from "../../ApiServices";
 import { convertToPayload, sendEmail, adminEmail, encrypt, verifyBaseLink } from "../../Utils";
 import { ErrorMessage, FormikProvider, useFormik } from "formik";
 import { signupFormSchema } from "../../Schema";
-import { Form, Modal, Button } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import PropTypes from 'prop-types';
 import FloatingInputLabel from "../user/UtilComponent/FloatingInputLabel";
 import { Link, useLocation } from "react-router-dom";
-import { error_swal_toast, success_swal_toast } from "../../SwalServices";
+import { error_swal_toast } from "../../SwalServices";
 import { useEffect, useState } from "react";
-import { LoaderWight, Loader } from "../../Loader";
+import { Loader } from "../../Loader";
 import { adminNotificationEmail, signUpVerifyEmail } from "../../emailTemplate";
 
 function SignupPage({ setModalName, setShow }) {
   const [loader, setLoader] = useState(false)
   const [otpSent, setOtpSent] = useState(false);
-  // const [showOtpModal, setShowOtpModal] = useState(false);
   const [otpEmail, setOtpEmail] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-
-  // const [otpCountdown, setOtpCountdown] = useState(90);
   const [resendCountdown, setResendCountdown] = useState(90);
   const [canResendOtp, setCanResendOtp] = useState(false);
 
@@ -39,9 +35,6 @@ function SignupPage({ setModalName, setShow }) {
     validationSchema: signupFormSchema,
     onSubmit: (values) => {
       verifyOtpAndRegister(values)
-      // sendOtp(values.emailId);
-      // setOtpEmail(values.emailId);
-      // setShowOtpModal(true);
     },
 
   })
@@ -61,55 +54,18 @@ function SignupPage({ setModalName, setShow }) {
     try {
       setLoader(true)
       await sendEmail({ body: emailBody, toRecepients: [email], subject: String("Email Verification"), contentType: String('text/html') });
-      // success_swal_toast("OTP has been sent to your email!");
-      // setShowOtpModal(true);
       setOtpSent(true);
       setLoader(false)
     } catch (err) {
       setLoader(false)
-      // error_swal_toast("Failed to send OTP email.");
+      console.log(err)
       error_swal_toast("Failed to send email.");
     }
-    // console.log("Generated OTP:", otp); // debug
   };
 
   const verifyOtpAndRegister = async (values) => {
-    // const stored = JSON.parse(localStorage.getItem("signupOtp"));
-
-    // const encryptedOtp = localStorage.getItem('pweoriwpepedaldssdcds');
-    // const decrypted = decrypt(encryptedOtp);
-    // const stored = decrypted ? JSON.parse(decrypted) : null;
-
-    // if (!stored || Date.now() > stored.expiry) {
-    //   error_swal_toast("OTP expired or invalid");
-    //   return;
-    // }
-    // console.log(values.fullName, values.mobileNo, values.emailId, values.userPassword)
-    // if (!stored) return error_swal_toast("OTP not generated or expired.");
-    // if (!stored) {
-    //   error_swal_toast("OTP not generated or expired.");
-    //   verifyOtpAndRegister(false);
-    //   return;
-    // }
-
-    // if (Date.now() > stored.expiry) {
-    //   error_swal_toast("OTP expired. Please request again.");
-    //   localStorage.removeItem("pweoriwpepedaldssdcds");
-    //   // setShowOtpModal(false);
-    //   setOtpSent(false);
-    //   return;
-    // }
-
-    // if (values.enteredOtp !== stored.otp) {
-    //   error_swal_toast("Invalid OTP. Try again.");
-    //   return;
-    // }
-
-    // localStorage.removeItem("pweoriwpepedaldssdcds"); // remove OTP after success
     setLoader(true);
-
     try {
-      // await sendEmail({ body: `Your OTP is: ${stored.otp}`, toRecepients: [otpEmail] });
       let payload = {
         fullName: String(values.fullName),
         companyName: String(values.companyName),
@@ -117,9 +73,7 @@ function SignupPage({ setModalName, setShow }) {
         emailId: String(values.emailId),
         userPassword: String(values.userPassword),
       }
-      // console.log(payload)
       const res = await post_data("portal/public", convertToPayload("register-user", payload), {});
-      // setLoader(false);
       if (res?.data?.status) {
         const emailBody = adminNotificationEmail({
           adminName: "Admin",
@@ -132,16 +86,12 @@ function SignupPage({ setModalName, setShow }) {
         await sendEmail({ body: emailBody, toRecepients: [adminEmail], subject: subject, contentType: 'text/html' });
         await sendOtp(values.emailId);
         setOtpEmail(values.emailId);
-        // setModalName("login");
-        // setShowOtpModal(false);
-        // setOtpSent(false)
         signupForm.resetForm();
         setLoader(false);
       } else if (res?.data?.errors) {
         const message = res?.data?.errors?.shortDescription?.[0]?.message || "Invalid data or password format";
         error_swal_toast(message);
         signupForm.resetForm();
-        // setShowOtpModal(false);
         setOtpSent(false)
         setLoader(false);
       } else if (!res?.data?.status) {
@@ -151,7 +101,6 @@ function SignupPage({ setModalName, setShow }) {
 
     } catch (error) {
       setLoader(false);
-      // setShowOtpModal(false)
       setOtpSent(false)
       error_swal_toast(error.message || "Failed to send email or register user");
     }
@@ -162,31 +111,6 @@ function SignupPage({ setModalName, setShow }) {
       setShow(true);
     }
   }, [location])
-
-  // useEffect(() => {
-  //   let timer;
-  //   if (otpSent && otpCountdown > 0) {
-  //     timer = setInterval(() => {
-  //       setOtpCountdown((prev) => prev - 1);
-  //     }, 1000);
-  //   }
-  //   // else if (otpCountdown === 0) {
-  //   //   setCanResendOtp(true); // allow resend when timer finishes
-  //   // }
-  //   return () => clearInterval(timer);
-  // }, [otpSent, otpCountdown]);
-
-  // useEffect(() => {
-  //   let timer;
-  //   if (otpSent && resendCountdown > 0) {
-  //     timer = setInterval(() => {
-  //       setResendCountdown((prev) => prev - 1);
-  //     }, 1000);
-  //   } else if (resendCountdown === 0) {
-  //     setCanResendOtp(true); // enable resend after 30 seconds
-  //   }
-  //   return () => clearInterval(timer);
-  // }, [otpSent, resendCountdown]);
 
   useEffect(() => {
     let timer;
@@ -199,19 +123,6 @@ function SignupPage({ setModalName, setShow }) {
     }
     return () => clearInterval(timer);
   }, [otpSent, resendCountdown]);
-
-  const formatTime = (seconds) => {
-    const min = Math.floor(seconds / 60);
-    const sec = seconds % 60;
-    return `${min.toString().padStart(2, "0")}:${sec.toString().padStart(2, "0")}`;
-  };
-
-  const handleResendOtp = () => {
-    sendOtp(otpEmail);
-    setResendCountdown(90); // reset 30 sec timer for resend
-    setCanResendOtp(false);
-    // setOtpCountdown(90); // reset full OTP validity countdown if needed
-  };
 
   return (
     <div style={{ height: "35em" }}>
@@ -336,16 +247,12 @@ function SignupPage({ setModalName, setShow }) {
         // </div>
         <div className="d-flex flex-column align-items-center justify-content-center text-center my-5 w-100" style={{ minHeight: "250px" }}>
           <span className="mb-3 fs-1 text-primary">
-            {/* <i className="fa-solid fa-envelope"></i> */}
             <i className="fa-solid fa-circle-check"></i>
           </span>
           <p>User Registered Succesfully</p>
           <p className=" fw-medium">
             Kindly check your mailbox, a verification link has been shared to your email.
           </p>
-          {/* <p>Your account is in Approval process from Bajaj Admin.</p> */}
-          {/* <p className="fw-1">This page will be reloaded automatically Once you click the verfication link.</p> */}
-          {/* <i className="fa-solid fa-rotate-right"></i> */}
         </div>
       )}
 

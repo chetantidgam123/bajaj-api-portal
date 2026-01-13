@@ -1,7 +1,6 @@
 import Header from './Header'
 import Footer from './Footer'
 import { Outlet, useLocation } from 'react-router-dom'
-import Sidebar from './Sidebar'
 import { useEffect, useState } from 'react';
 import Sidebard from './Sidebard';
 
