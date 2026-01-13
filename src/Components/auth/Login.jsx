@@ -1,17 +1,15 @@
 import { Link, useNavigate } from "react-router-dom";
 import { post_data } from "../../ApiServices";
-import { convertToPayload, setTokenData, sendEmail, OTP_KEY } from "../../Utils";
+import { convertToPayload, setTokenData, sendEmail, OTP_KEY, encrypt, decrypt } from "../../Utils";
 import { FormikProvider, useFormik } from "formik";
 import { loginFormSchema } from "../../Schema";
-import { Form, Modal, Button } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import FloatingInputLabel from "../user/UtilComponent/FloatingInputLabel";
 import PropTypes from 'prop-types';
 import { error_swal_toast, success_swal_toast } from "../../SwalServices";
 import { useState, useEffect } from "react";
 import { LoaderWight, Loader } from "../../Loader";
 import { loginOtpEmail } from "../../emailTemplate";
-import { BasicLoader } from "../../Loader";
-import { encrypt, decrypt } from "../../Utils";
 import Swal from "sweetalert2";
 import OtpInput from "react-otp-input";
 
@@ -23,8 +21,6 @@ function Login({ setModalName, setShow }) {
     const [otpEmail, setOtpEmail] = useState("");
     const [otpSent, setOtpSent] = useState(false);
     const [basicLoader, setBasicLoader] = useState(false)
-    const [showPassword, setShowPassword] = useState(false);
-    // const [otpCountdown, setOtpCountdown] = useState(90); // 10 minutes in seconds
     const [resendCountdown, setResendCountdown] = useState(90);
     const [canResendOtp, setCanResendOtp] = useState(false);
     const [backendTokenData, setBackendTokenData] = useState(null); // store token data temporarily
@@ -42,8 +38,6 @@ function Login({ setModalName, setShow }) {
     </div>
 </div>
 <div className="border-top d-none"></div>`,
-        // confirmButtonText: '<button type="button" className="btn">Ok</button>',
-        // confirmButtonText: 'OK',
         showConfirmButton: false,
         customClass: { confirmButton: 'btn-violet-outline btn-hover-fill py-2' },
         didOpen: () => {
@@ -72,15 +66,6 @@ function Login({ setModalName, setShow }) {
         },
     });
 
-    // useEffect(() => {
-    //     let timer;
-    //     if (otpSent && otpCountdown > 0) {
-    //         timer = setInterval(() => setOtpCountdown(prev => prev - 1), 1000);
-    //     }
-    //     return () => clearInterval(timer);
-    // }, [otpSent, otpCountdown]);
-
-    // Resend button countdown (30 sec)
     useEffect(() => {
         let timer;
         if (otpSent && resendCountdown > 0) {
@@ -106,7 +91,6 @@ function Login({ setModalName, setShow }) {
         setLoader(true);
         try {
             const res = await post_data("portal/public", convertToPayload('login', payload), {});
-            // setLoader(false);
             if (res.data.status) {
                 // Store backend token temporarily
                 setBackendTokenData(res.data.userdata);
@@ -116,10 +100,6 @@ function Login({ setModalName, setShow }) {
 
                 // Generate OTP
                 const otp = generateOtp();
-                // const expiry = Date.now() + 5 * 60 * 1000; // 5 minutes
-                // localStorage.setItem("loginOtp", JSON.stringify({ otp, expiry }));
-
-                // const otpPayload = JSON.stringify({ otp, expiry: Date.now() + 90 * 1000 });
                 const otpPayload = JSON.stringify({ otp, expiry: Date.now() + 10 * 60 * 1000 }); // 10 minutes
                 const encryptedOtp = encrypt(otpPayload);
                 localStorage.setItem(OTP_KEY, encryptedOtp);
@@ -138,7 +118,6 @@ function Login({ setModalName, setShow }) {
                 setLoader(false);
                 success_swal_toast("OTP sent to your email!");
                 setOtpSent(true);
-                // setOtpCountdown(90);
                 setResendCountdown(90);
                 setCanResendOtp(false);
                 console.log("Generated OTP:", otp);
@@ -156,7 +135,6 @@ function Login({ setModalName, setShow }) {
 
     // Step 2: Verify OTP and finalize login
     const verifyOtpAndLogin = () => {
-        // const stored = JSON.parse(localStorage.getItem("loginOtp"));
         const encryptedOtp = localStorage.getItem(OTP_KEY);
         const decrypted = decrypt(encryptedOtp);
         const stored = decrypted ? JSON.parse(decrypted) : null;
@@ -198,9 +176,6 @@ function Login({ setModalName, setShow }) {
     const handleResendOtp = async () => {
         const otp = generateOtp();
         const expiry = Date.now() + 5 * 60 * 1000;
-        // localStorage.setItem("loginOtp", JSON.stringify({ otp, expiry }));
-
-        // const otpPayload = JSON.stringify({ otp, expiry: Date.now() + 90 * 1000 });
         const otpPayload = JSON.stringify({ otp, expiry: Date.now() + 10 * 60 * 1000 }); // 10 minutes
         const encryptedOtp = encrypt(otpPayload);
         localStorage.setItem(OTP_KEY, encryptedOtp);
@@ -222,6 +197,7 @@ function Login({ setModalName, setShow }) {
             // setOtpCountdown(90); // optional: reset OTP timer
             console.log("Generated OTP (resend):", otp);
         } catch (err) {
+            console.log(err)
             error_swal_toast("Failed to resend OTP");
         }
     };

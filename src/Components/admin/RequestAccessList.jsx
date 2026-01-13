@@ -159,7 +159,6 @@ function RequestAccessList() {
             additionalParam: "",
         };
         try {
-            // setLoadingList(true);
             const response = await post_auth_data("portal/private", payload, {});
             setLoader({ ...loader, pageloader: false })
             if (response?.data?.status) {
@@ -184,7 +183,6 @@ function RequestAccessList() {
             error_swal_toast("Fetch Error: " + errorMsg);
         } finally {
             setLoader({ ...loader, pageloader: false })
-            // setLoadingList(false);
         }
     };
 
@@ -243,11 +241,6 @@ function RequestAccessList() {
                                 ))
                             }
                         </select>
-                        {/* <div className="form-group mt-2">
-                            <input type="email" name="email" className="form-control p-3" id="exampleInputEmail1"
-                                aria-describedby="emailHelp" placeholder="Search Application Name" value={search.input}
-                                onChange={(e) => { setSearch({ ...search, input: (e.target.value).trim() }) }} />
-                        </div> */}
                     </div>
                     <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-2">
                         <div className="form-group mt-2">
@@ -257,7 +250,6 @@ function RequestAccessList() {
                                 id="exampleFormControlSelect1"
                                 value={search.status}
                                 onChange={(e) => {
-                                    // setSearch({ ...search, status: e.target.value }) }
                                     const value = e.target.value === "" ? "" : Number(e.target.value);
                                     setSearch({ ...search, status: value })
                                 }}

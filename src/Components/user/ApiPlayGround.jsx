@@ -18,7 +18,6 @@ function ApiPlayGround() {
     const [apiData, setApiData] = useState(null);
     const [description, setDescription] = useState('');
     const [title, setTitle] = useState('');
-    const [clientCreds, setClientCreds] = useState({});
     const [responsData, setResponsData] = useState({ resbody: {}, resschema: {} });
     const [loader, setLoader] = useState(false);
     const [isOpen, setIsOpen] = useState(true);
@@ -44,7 +43,6 @@ function ApiPlayGround() {
         }
         post_data(env.VITE_POSTGRE_ENDPOINT, payload, {})
             .then(async (response) => {
-                setClientCreds(response.data.data[0]);
                 let a = headArray.map((item) => {
                     if (item.key == 'client_id') {
                         item.value = response.data.data[0].client_id || ''

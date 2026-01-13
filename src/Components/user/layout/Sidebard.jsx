@@ -1,5 +1,5 @@
 import { Accordion, Badge, Modal } from "react-bootstrap";
-import { arrayIndex, convertToPayload, getTokenData } from "../../../Utils";
+import { arrayIndex, convertToPayload } from "../../../Utils";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Login from "../../auth/Login";
@@ -21,16 +21,7 @@ function Sidebard() {
   const [sidebarData, setSidebarData] = useState([]);
 
   const checkLogin = (collection_id, category_id, api_id) => {
-    // console.log(collection_id)
-    // if (!getTokenData()) {
-    //   setShowModal(true);
-    //   return;
-    // }
     if (api_id) {
-      // if (isClosed) {
-      //   setActiveKey(null)
-      //   setSubActiveKey("")
-      // }
       navigate("/collection-api/" + collection_id + "/" + category_id + "/" + api_id);
     } else {
       navigate("/api/" + collection_id + "/" + category_id);
@@ -42,13 +33,6 @@ function Sidebard() {
     const activeClass = isapiId ? " activeApi" : "";
     return baseClass + activeClass;
   };
-
-  const confirm_swal_call = () => {
-    const callback = (resolve, reject) => {
-      resolve();
-    }
-    confirm_swal_with(callback, `To access the APIs your Account is in Approval Process`)
-  }
 
   const getSidebarlist = () => {
     post_data("portal/public", convertToPayload("get-sidebar-list", {}), {})

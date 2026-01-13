@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import Modal from 'react-bootstrap/Modal';
 import { subCategoryFormSchema } from "../../Schema";
-import { post_auth_data, post_data } from "../../ApiServices";
+import { post_auth_data } from "../../ApiServices";
 import { arrayIndex, convertToPayload, offsetPagination } from "../../Utils";
 import { useFormik } from "formik";
 import { confirm_swal_with_text, error_swal_toast, success_swal_toast } from "../../SwalServices";

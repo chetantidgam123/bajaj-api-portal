@@ -3,15 +3,12 @@ import { Modal, Table, Button } from 'react-bootstrap';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import LangCurlExecuteComp from './LangCurlExecuteComp';
 import SyntaxHighLighter from './SyntaxHighLighter';
-import ReactMarkdown from "react-markdown";
-import remarkGfm from 'remark-gfm'
-import { adminEmail, arrayIndex, convertToPayload, copyToClipboard, getJwtData, getTokenData, offsetPaginationten, scrollToTop, sendEmail, trucateString } from '../../Utils';
+import { adminEmail, arrayIndex, convertToPayload, copyToClipboard, getTokenData, offsetPaginationten, scrollToTop, sendEmail, trucateString } from '../../Utils';
 import GetStarted from './GetStarted';
 import { error_swal_toast, success_swal_toast, confirm_swal_success } from '../../SwalServices';
 import { post_auth_data, post_data } from '../../ApiServices';
-import { PageLoaderBackdrop, Loader, LoaderWight } from '../../Loader';
-import { ApiListRequestEmail, generateApiRequestEmail } from '../../emailTemplate';
-import { apiRequestUser } from '../../emailTemplate';
+import { PageLoaderBackdrop, LoaderWight } from '../../Loader';
+import { ApiListRequestEmail, generateApiRequestEmail, apiRequestUser } from '../../emailTemplate';
 import PaginateComponent from '../common/Pagination';
 function HomePageContent() {
     const navigate = useNavigate();
@@ -21,8 +18,6 @@ function HomePageContent() {
     const [availableCurrentPage, setAvailableCurrentPage] = useState(1);
     const [availableTotalPages, setAvailableTotalPages] = useState(1);
     const [selectedAPIs, setSelectedAPIs] = useState([]);
-    const [fullName, setFullName] = useState("");
-    const [emailId, setEmailId] = useState("");
     const [show, setShow] = useState(false)
     const [show1, setShow1] = useState(false)
     const [apiData, setApiData] = useState(null);
@@ -38,7 +33,6 @@ function HomePageContent() {
     const [tryitLoader, setTryitLoader] = useState(false);
     const [tryitModalDesc, setTryitModalDesc] = useState('')
     const [bodyRequestSample, setBodyRequestSample] = useState('')
-    const [hasTriedApi, setHasTriedApi] = useState(false);
     const [btnName, setBtnName] = useState('Request Access')
     const location = useLocation();
     const tokenData = getTokenData();
@@ -134,10 +128,6 @@ function HomePageContent() {
         }
     }, [statusCode])
 
-    //   useEffect(() => {
-    //     getUserData();
-    //   }, []);
-
     const checkAccess = () => {
         const payload = { api_id: api_id }
         setTryitLoader(true)
@@ -160,12 +150,9 @@ function HomePageContent() {
             }).catch((error) => {
                 setTryitLoader(false)
                 console.log(error)
-                setHasTriedApi(true)
                 if (!api_id) {
                     navigate('/')
                 }
-                // error_swal_toast(error.message)
-
             })
     }
 
@@ -191,7 +178,6 @@ function HomePageContent() {
                 if (response.data.status) {
                     setBtnName('Access Pending')
                     setOpenTryitModal(false);
-                    // success_swal_toast(response.data.message);
                     confirm_swal_call()
                     const emailBody = generateApiRequestEmail({
                         adminName: "Admin",
@@ -240,22 +226,18 @@ function HomePageContent() {
         setLoader(true)
         post_auth_data("portal/private", convertToPayload("get-user-available-api", payload), {})
             .then((response) => {
-                // setLoader(prev => ({ ...prev, page: false }));
                 setLoader(false)
                 if (response.data.status) {
                     setAvailableAPIs(response.data.result || [])
-                    // const totalCount = response?.data?.totalRecords ?? response?.data?.result?.length ?? 0;
                     const totalCount = response?.data?.totalRecords;
                     setAvailableTotalPages(Math.ceil(totalCount / offsetPaginationten))
                     setAvailableCurrentPage(page)
                 } else {
-                    //   setLoader(prev => ({ ...prev, page: false }));
                     setLoader(false)
                     error_swal_toast(response.data.message || "Something went wrong");
                 }
             })
             .catch((error) => {
-                // setLoader(prev => ({ ...prev, page: false }));
                 setLoader(false)
                 error_swal_toast(error.message || "Something went wrong");
                 console.error("Error during profile update:", error);
@@ -327,12 +309,6 @@ function HomePageContent() {
         }
         );
     };
-
-    // useEffect(() => {
-    //     if (category_id && !getTokenData()) {
-    //         navigate('/');
-    //     }
-    // }, [category_id])
 
     return (
         <div className="home-container">

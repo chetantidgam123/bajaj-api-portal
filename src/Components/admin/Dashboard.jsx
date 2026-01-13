@@ -4,14 +4,12 @@ import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
   const [fullName, setFullName] = useState("");
-  const [userImage, setUserImage] = useState("");
 
   const navigate = useNavigate()
 
   useEffect(() => {
     let token = getTokenData();
     setFullName(token?.fullname || "");
-    setUserImage(token?.userImage || "");
   }, []);
 
   return (

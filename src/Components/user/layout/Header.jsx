@@ -88,22 +88,6 @@ function Header() {
                   Explore API
                 </NavLink>
               </li>
-              {/* <li className="nav-item">
-                {token == null ? (
-                  <span className="nav-link" style={{ cursor: "pointer" }} onClick={() => {
-                    setModalName("signup");
-                    setShow(true);
-                  }}>
-                    Explore API
-                  </span>
-                ) : token?.approved_status === 1 ? (
-                  <Link className="nav-link" to="/api/0">Explore API</Link>
-                ) : (
-                  <span className="nav-link" style={{ cursor: "pointer" }} onClick={() => confirm_swal_call()}>
-                    Explore API
-                  </span>
-                )}
-              </li> */}
               <li className="nav-item">
                 <NavLink className="nav-link" to="/faq">
                   FAQ
@@ -157,10 +141,6 @@ function Header() {
               </button>
             )}
 
-            {/* <div className="fs-2 me-3" style={{ color: '#007bff' }}>
-              <NotificationBell />
-            </div> */}
-
             {/* Profile Dropdown (when user is logged in) */}
             {getTokenData() && (
               <Dropdown className="p-0 me-3">
@@ -180,16 +160,6 @@ function Header() {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu className="custom-dropdown-menu py-0 with-caret">
-                  {/* {getTokenData()?.role == 1 && (
-                    <Link
-                      style={{ textDecoration: "none", color: "#212529" }}
-                      to="/master"
-                    >
-                      <Dropdown.Item as="span" active>
-                        Dashboard
-                      </Dropdown.Item>
-                    </Link>
-                  )} */}
 
                   {getTokenData()?.approved_status === 1 && <Link
                     style={{ textDecoration: "none", color: "#212529" }}
@@ -209,60 +179,6 @@ function Header() {
               </Dropdown>
             )}
 
-            {/* Notification Dropdown */}
-            {/* <Dropdown align="end">
-              <Dropdown.Toggle
-                id="dropdown-basic"
-                style={{
-                  background: "transparent",
-                  border: "none",
-                  padding: "0px",
-                  borderRadius: "50%",
-                  position: "relative",
-                }}
-              >
-                <i
-                  className="fa fa-bell"
-                  style={{ fontSize: "20px", color: "#333" }}
-                ></i>
-                <span
-                  style={{
-                    position: "absolute",
-                    top: "-13px",
-                    right: "4px",
-                    background: "#0052A4",
-                    color: "white",
-                    borderRadius: "50%",
-                    padding: "2px 6px",
-                    fontSize: "10px",
-                    fontWeight: "bold",
-                  }}
-                >
-                  3
-                </span>
-              </Dropdown.Toggle>
-
-              
-              <Dropdown.Menu style={{ minWidth: "250px" }}>
-                <Dropdown.Header>Notifications</Dropdown.Header>
-                <Dropdown.Item>
-                  <strong>New Message</strong>
-                  <div style={{ fontSize: "12px", color: "#777" }}>
-                    You have received a new message.
-                  </div>
-                </Dropdown.Item>
-                <Dropdown.Item>
-                  <strong>System Update</strong>
-                  <div style={{ fontSize: "12px", color: "#777" }}>
-                    Your profile has been updated successfully.
-                  </div>
-                </Dropdown.Item>
-                <Dropdown.Divider />
-                <Dropdown.Item as="button" className="text-center">
-                  View All
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown> */}
           </div>
         </div>
       </nav>

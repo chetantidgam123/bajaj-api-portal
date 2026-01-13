@@ -13,28 +13,6 @@ function Header() {
   const [isClosed, setIsClosed] = useState(false);
 
   const navigate = useNavigate();
-  // const logout = () => {
-  //     localStorage.clear();
-  //     navigate('/')
-  // }
-  // const logout = () => {
-  //     confirm_swal_with_text(async (resolve) => {
-  //         try {
-  //             // Clear local storage or token
-  //             localStorage.clear();
-
-  //             // Optional: show success message
-  //             success_swal_toast("You have been logged out!");
-
-  //             // Navigate to homepage or login
-  //             navigate("/");
-
-  //             resolve(true);
-  //         } catch (err) {
-  //             console.error("Logout error:", err);
-  //         }
-  //     }, "Are you sure you want to logout?");
-  // }
   const logout = () => {
     swall_logout_animate(() => {
       try {

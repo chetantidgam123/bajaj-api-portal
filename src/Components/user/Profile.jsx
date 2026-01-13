@@ -1,15 +1,13 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { post_auth_data } from "../../ApiServices";
 import { getJwtData, offsetPagination, scrollToTop, sendEmail, convertToPayload } from "../../Utils";
 import { FormikProvider, useFormik } from "formik";
 import { profileFormSchema } from "../../Schema";
 import { Form } from "react-bootstrap";
 import { error_swal_toast, success_swal_toast } from "../../SwalServices";
-import { useState } from "react";
 import { LoaderWight, PageLoaderBackdrop } from "../../Loader";
 import { ApiListRequestEmail } from "../../emailTemplate";
 import PaginateComponent from "../common/Pagination";
-import { useNavigate } from "react-router-dom";
 
 const copyToClipboard = (text, label) => {
   navigator.clipboard.writeText(text).then(() => {
@@ -20,21 +18,12 @@ const copyToClipboard = (text, label) => {
 };
 
 function Profile() {
-  const navigate = useNavigate();
   const [loader, setLoader] = useState({ page: false, submit: false });
   const [fullName, setFullName] = useState("");
   const [emailId, setEmailId] = useState("");
-  const [profileImage, setProfileImage] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [selectedAPIs, setSelectedAPIs] = useState([]);
 
-  //   const [availableAPIs, setAvailableAPIs] = useState([
-  //   { name: "Perform Otp SignIn With VIN", description: "Lorem ipsum dolor sit amet" },
-  //   { name: "Otp Login Verification Request", description: "Lorem ipsum dolor sit amet" },
-  //   { name: "Get All States", description: "Lorem ipsum dolor sit amet" },
-  //   { name: "Models By Brand", description: "Lorem ipsum dolor sit amet" },
-  //   { name: "Generate Token", description: "Lorem ipsum dolor sit amet" },
-  // ]);
   const [availableAPIs, setAvailableAPIs] = useState([])
   const [accessibleApi, setAccessibleApi] = useState([])
 
@@ -89,20 +78,6 @@ function Profile() {
     }
   }, [activeTab]);
 
-
-  // useEffect(() => {
-  //   if (activeTab === "available") {
-  //     availableAPIList();
-  //   }
-
-  //   if (activeTab === "accessible") {
-  //     accessibleAPIList();
-  //   }
-
-  //   if (activeTab === "home") {
-  //     getUserData();
-  //   }
-  // }, [activeTab]);
   const accessibleAPIList = async (page = 1) => {
     const payload = {
       category_id: 0,
@@ -147,7 +122,6 @@ function Profile() {
         setLoader(prev => ({ ...prev, page: false }));
         if (response.data.status) {
           setAvailableAPIs(response.data.result || [])
-          // const totalCount = response?.data?.totalRecords ?? response?.data?.result?.length ?? 0;
           const totalCount = response?.data?.totalRecords;
           setAvailableTotalPages(Math.ceil(totalCount / offsetPagination))
           setAvailableCurrentPage(page)
@@ -210,7 +184,6 @@ function Profile() {
     const reader = new FileReader();
     reader.onloadend = () => {
       const base64String = reader.result;
-      setProfileImage(base64String);
       Profileform.setFieldValue("profile_img", base64String);
     };
     reader.readAsDataURL(file);
@@ -222,10 +195,6 @@ function Profile() {
       return;
     }
     setLoader((prev) => ({ ...prev, submit: true }));
-    // const payL = {
-    //   api_id: selectedAPIs.map((api) => api.id),
-    //   application_name: selectedAPIs.map((api) => api.application_name)
-    // }
     const payL = {
       apis: selectedAPIs.map((api) => ({
         api_id: String(api.uniqueid),
@@ -259,7 +228,6 @@ function Profile() {
         if (response.data.status) {
           setFullName(response.data.data[0].fullname || "");
           setEmailId(response.data.data[0].emailid || "");
-          setProfileImage(response.data.data[0].profile_img || "");
           Profileform.setValues({
             fullname: response.data.data[0].fullname || "",
             mobileno: response.data.data[0].mobileno || "",
@@ -317,15 +285,6 @@ function Profile() {
     success_swal_toast("Request sent successfully!");
   };
 
-  //   const handleCheckboxChange = (apiName, isChecked) => {
-  //   setSelectedAPIs((prev) => {
-  //     if (isChecked) {
-  //       return [...prev, apiName];
-  //     } else {
-  //       return prev.filter((name) => name !== apiName);
-  //     }
-  //   });
-  // };
   const handleCheckboxChange = (api, isChecked) => {
     setSelectedAPIs((prev) => {
       if (isChecked) {
@@ -695,11 +654,6 @@ function Profile() {
                       </div>
 
                     </div>
-                    {/* <div className="d-flex justify-content-end mt-3">
-                <button className="btn btn-primary profilePageButton px-3" type="submit" disabled={loader.submit}>
-                  Submit {loader.submit && <LoaderWight />}
-                </button>
-              </div> */}
                     <div className="d-flex justify-content-end mt-3">
                       {!isEditing ? (
                         <button
@@ -736,57 +690,6 @@ function Profile() {
               </FormikProvider>
               {loader.page && <PageLoaderBackdrop />}
             </div></div>
-            {/* <div className="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-              <div className="card-bg  p-4 mt-4">
-                <div className="card p-3">
-                  <h4 className="mb-0">Available APIs</h4>
-                  <div className="mt-3 ">
-                    <div className="api-table-container">
-                      <table className="custom-table-new">
-                        <thead className="custom-thead-new">
-                          <tr className="custom-tr-new">
-                            <th className="custom-th-new"></th>
-                            <th className="custom-th-new">API Name</th>
-                            <th className="custom-th-new">API Description</th>
-                            <th className="custom-th-new">Status</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {availableAPIs.length > 0 && availableAPIs.map((api, index) => (
-                            <tr key={api.id} className="custom-tr-new">
-                              <td className="custom-td-new">
-                                <input
-                                  type="checkbox"
-                                  // checked={api.approved_status == 0}
-                                  defaultChecked={Number(api.approved_status) === 0}
-                                  disabled={Number(api.approved_status) === 0}  
-                                  onChange={(e) => handleCheckboxChange(api, e.target.checked)}
-                                />
-                              </td>
-                              <td className="custom-td-new">{api.apiname}</td>
-                              <td className="custom-td-new">{api.description}</td>
-                              <td className="custom-td-new">{api.approved_status == 0 && "Requested"}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                    <div className="d-flex justify-content-between align-items-center">
-                      <div className="mt-3">
-                        {availableTotalPages > 1 && (
-                        <PaginateComponent
-                          currentPage={availableCurrentPage}
-                          totalPages={availableTotalPages}
-                          onPageChange={(page) => availableAPIList(page)}
-                        />)}
-                      </div>
-                      {availableAPIs.length > 0 && <button className="btn-request mb-1" onClick={multipleAPIReq}>Request Access</button>}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {loader.page && <PageLoaderBackdrop />}
-            </div> */}
             <div className="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
               <div className="card-bg  p-4 mt-4">
                 <div className="card p-3">
@@ -827,7 +730,6 @@ function Profile() {
                           totalPages={accessibleTotalPages}
                           onPageChange={(page) => accessibleAPIList(page)}
                         />)}
-                      {/* <button className="btn-request">Try it</button> */}
                     </div>
                   </div>
                 </div>
