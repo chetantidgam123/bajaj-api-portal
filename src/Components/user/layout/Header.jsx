@@ -184,21 +184,15 @@ function Header() {
       </nav>
 
       {/* Auth Modal */}
-      <Modal size="lg" show={show} onHide={() => setShow(false)} centered>
+      <Modal show={show} onHide={() => setShow(false)} centered size="lg">
         <Modal.Header closeButton className="border-bottom-0 py-0"></Modal.Header>
         <Modal.Body className="pt-0">
           <div className="col-12 px-3">
             <div className="row">
               <div className="col-xl-5 col-lg-5 col-md-5 col-12 signUpsideBanner">
-                <img
-                  src="/assets/img/Bajaj Logo.png"
-                  alt="NA"
-                  className="mt-2"
-                />
+                <img src="/assets/img/Bajaj Logo.png" alt="NA" className="mt-2"/>
                 <div className="authContent">
-                  <h1 className="title">
-                    Welcome to Bajaj API Developer Portal.
-                  </h1>
+                  <h1 className="title">Welcome to Bajaj API Developer Portal.</h1>
                   <p>
                     Your one-stop destination for accessing, integrating, and
                     managing powerful APIs that drive seamless digital
@@ -207,16 +201,20 @@ function Header() {
                 </div>
               </div>
               <div className="ps-4 col-xl-7 col-lg-7 col-md-7 col-12">
-                {modalName == "signup" && (
+                {modalName == "signup" && 
+                (
                   <SignupPage setModalName={setModalName} setShow={setShow} />
                 )}
-                {modalName == "login" && (
+                {modalName == "login" && 
+                (
                   <Login setModalName={setModalName} setShow={setShow} />
                 )}
-                {modalName == "forget-pass" && (
+                {modalName == "forget-pass" && 
+                (
                   <ForgotPassword setModalName={setModalName} setShow={setShow} />
                 )}
-                {modalName == "reset-pass" && (
+                {modalName == "reset-pass" && 
+                (
                   <ResetPassword setModalName={setModalName} setShow={setShow} />
                 )}
               </div>
