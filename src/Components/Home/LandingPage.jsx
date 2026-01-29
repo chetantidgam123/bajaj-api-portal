@@ -104,6 +104,10 @@ function LandingPage() {
             setModalName("login");   // Open login popup
             setShow(true);           // Show modal
         }
+        if (params.get("opensignup") === "true") {
+            setModalName("signup");   // Open login popup
+            setShow(true);           // Show modal
+        }
     }, []);
 
 

@@ -1,5 +1,4 @@
-import React, {useState, useEffect} from 'react';
-import logo from '../../../public/assets/img/logo.png'
+import React, { useState, useEffect } from 'react';
 import { post_data } from '../../ApiServices';
 import { convertToPayload, decrypt } from '../../Utils';
 import { error_swal_toast } from '../../SwalServices';
@@ -7,51 +6,50 @@ import { useParams } from 'react-router-dom';
 import { PageLoaderBackdrop } from '../../Loader';
 
 function VerifyEmail() {
-   const baseUrl = import.meta.env.VITE_APP_BASE_URL;
-   const [verifyMail, setVerifyMail] = useState(null)
-   const { emailid } = useParams();
-   const email = decrypt(decodeURIComponent(emailid));
+  const baseUrl = import.meta.env.VITE_APP_BASE_URL;
+  const [verifyMail, setVerifyMail] = useState(null)
+  const { emailid } = useParams();
+  const email = decrypt(decodeURIComponent(emailid));
 
-   const getVerifyMail = async () => {
-        post_data("portal/public", convertToPayload('verify-signup-link', { "emailid": email }), {})
-            .then((response) => {
-               if(response.data.status) {
-                    setVerifyMail(true)
-               } else {
-                    setVerifyMail(false)
-               }
-            }).catch((error) => {
-                console.log(error.message)
-                setVerifyMail(false);
-                error_swal_toast(error.message || error);
-            })
-    }
+  const getVerifyMail = async () => {
+    post_data("portal/public", convertToPayload('verify-signup-link', { "emailid": email }), {})
+      .then((response) => {
+        if (response.data.status) {
+          setVerifyMail(true)
+        } else {
+          setVerifyMail(false)
+        }
+      }).catch((error) => {
+        console.log(error.message)
+        setVerifyMail(false);
+        error_swal_toast(error.message || error);
+      })
+  }
 
-useEffect(() => {
+  useEffect(() => {
     getVerifyMail()
-}, [])
+  }, [])
 
-//   // 🔥 Auto redirect after success
-// useEffect(() => {
-//   if (verifyMail === true) {
-//     const timer = setTimeout(() => {
-//       window.location.href = `${baseUrl}?openLogin=true`;
-//     }, 3000); // 3 seconds
+  //   // 🔥 Auto redirect after success
+  // useEffect(() => {
+  //   if (verifyMail === true) {
+  //     const timer = setTimeout(() => {
+  //       window.location.href = `${baseUrl}?openLogin=true`;
+  //     }, 3000); // 3 seconds
 
-//     return () => clearTimeout(timer);
-//   }
-// }, [verifyMail]);
-    
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [verifyMail]);
+
   return (
     <div className="d-flex flex-column align-items-center justify-content-center text-center" style={{ height: '100vh' }}>
-      <img src={logo} alt="Company Logo" width="120" className="mb-3" />
-      {verifyMail === null && <PageLoaderBackdrop />} 
+      <img src="/assets/img/logo.png" alt="Company Logo" width="120" className="mb-3" />
+      {verifyMail === null && <PageLoaderBackdrop />}
       {verifyMail === true && (
         <div>
           <h3>Email is verified successfully</h3>
           <p>
-            You will be redirected to Login Page within a few seconds.
-            If not, click the button below.
+            You will be redirected to the Login page. Click the button below to continue.
           </p>
           <a
             href={`${baseUrl}?openLogin=true`}
@@ -67,6 +65,14 @@ useEffect(() => {
         <div>
           <h3>Email verification Failed</h3>
           <p>Please try again.</p>
+          <a
+            href={`${baseUrl}?opensignup=true`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-primary"
+          >
+            Click Here
+          </a>
         </div>
       )}
     </div>

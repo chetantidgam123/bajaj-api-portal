@@ -1,11 +1,10 @@
 import Header from './Header'
 import Footer from './Footer'
 import { Outlet, useLocation } from 'react-router-dom'
-import { useEffect, useState } from 'react';
-import Sidebard from './Sidebard';
+import { lazy, Suspense, useEffect, useState } from 'react';
+const Sidebard = lazy(() => import('./Sidebard'));
 
 function HomeLayout() {
-  const [pageData, setPageData] = useState("");
   const [showsidebar, setShowsidebar] = useState(true);
   const path = useLocation();
 
@@ -24,9 +23,11 @@ function HomeLayout() {
       <Header />
       <div className="container-fluid col-12  py-3">
         {showsidebar && <div className="DashboardLayout">
-          <Sidebard />
+          <Suspense fallback={null}>
+            <Sidebard />
+          </Suspense>
           <div className="entity_mainSection_user ">
-            <Outlet context={{ pageData }} />
+            <Outlet />
           </div>
         </div>}
         {!showsidebar &&

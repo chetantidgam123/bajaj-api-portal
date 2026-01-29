@@ -1,13 +1,13 @@
 import { Accordion, Badge, Modal } from "react-bootstrap";
 import { arrayIndex, convertToPayload } from "../../../Utils";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Login from "../../auth/Login";
 import ForgotPassword from "../../auth/ForgotPassword";
 import ResetPassword from "../../auth/ResetPasswrd";
 import SignupPage from "../../auth/SignupPage";
 import { post_data } from "../../../ApiServices";
-import { confirm_swal_with, error_swal_toast } from "../../../SwalServices";
+import { error_swal_toast } from "../../../SwalServices";
 import PropTypes from "prop-types";
 
 function Sidebard() {
@@ -19,6 +19,7 @@ function Sidebard() {
   const { api_id } = useParams();
   const [isClosed, setIsClosed] = useState(false); // sidebar toggle
   const [sidebarData, setSidebarData] = useState([]);
+  const path = useLocation();
 
   const checkLogin = (collection_id, category_id, api_id) => {
     if (api_id) {
@@ -69,7 +70,9 @@ function Sidebard() {
   };
 
   useEffect(() => {
-    getSidebarlist();
+    if (path.pathname != "/user/profile" && path.pathname != '/get-started') {
+      getSidebarlist();
+    }
   }, []);
 
   // Reset subActiveKey when parent accordion changes
@@ -91,9 +94,6 @@ function Sidebard() {
       <div className={`sidebar_entity-user height-84vh main-layout ${isClosed ? "close" : ""}`}>
         <div className="sidebar-user ">
           <div className="row">
-            <div className="col-xl-9 col-lg-9 col-md-9 col-sm-10 col-10">
-              <h4 className="heading-hide heading-display text-white">Explore Api</h4>
-            </div>
             <div
               className={`${isClosed
                 ? "col-xl-12 col-lg-12 col-md-12 col-sm-2 col-2"
@@ -128,30 +128,7 @@ function Sidebard() {
                         ? "disabled"
                         : ""
                     }
-                    // onClick={() => {
-                    //   navigate("/api/" + item.record_uuid);
-                    // }}
-                    onClick={() => {
-                      navigate("/api/" + item.record_uuid);
-                      // if (getTokenData()?.approved_status === 1) {
-                      //   navigate("/api/" + item.record_uuid);
-                      // } else {
-                      //   confirm_swal_call()
-                      // }
-                    }}
-                  //  onClick={(e) => {
-                  //   // STOP ACCORDION FROM OPENING
-                  //   e.stopPropagation();
-                  //   e.preventDefault();
-                  //   // Also stop React-Bootstrap from detecting toggle event
-                  //   e.nativeEvent.stopImmediatePropagation?.();
-                  //   if (getTokenData()?.approved_status !== 1) {
-                  //     confirm_swal_call();
-                  //     return;
-                  //   }
-                  //   navigate("/api/" + item.record_uuid);
-                  // }}
-                  >
+                    onClick={() => { navigate("/api/" + item.record_uuid) }}>
                     <img
                       style={{ height: "15px", width: "15px" }}
                       src={`/assets/img/${i == activeKey ? "visualization.png" : "visualization-2.png"
@@ -191,13 +168,13 @@ function Sidebard() {
                                       setSubActiveKey={setSubActiveKey}
                                       isClosed={isClosed}
                                     />
-                                  ) : 
-                                  null)}
+                                  ) :
+                                    null)}
                                 </Accordion.Body>
                               )}
                             </Accordion.Item>
-                          )) : 
-                          null)}
+                          )) :
+                            null)}
                         </Accordion>
                       )}
 
@@ -226,8 +203,8 @@ function Sidebard() {
                                 <small className=" text-start text-white">{api.apiname}</small>
                               </button>
                             </div>
-                          ) : 
-                          null)}
+                          ) :
+                            null)}
                         </>
                       )}
                     </Accordion.Body>
