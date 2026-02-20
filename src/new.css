@@ -1376,3 +1376,7 @@ button {
 .header-bajaj .collapse:not(.show) {
     display: none !important;
 }
+.new-input {
+    border: 1px solid #006AD0;
+    padding-left: 32px;
+}

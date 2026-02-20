@@ -11,6 +11,7 @@ import { error_swal_toast } from "../../SwalServices";
 import { useEffect, useState } from "react";
 import { Loader } from "../../Loader";
 import { adminNotificationEmail, signUpVerifyEmail } from "../../emailTemplate";
+import Select from 'react-select';
 
 function SignupPage({ setModalName, setShow }) {
   const [loader, setLoader] = useState(false)
@@ -19,6 +20,11 @@ function SignupPage({ setModalName, setShow }) {
   const [resendCountdown, setResendCountdown] = useState(90);
   const [canResendOtp, setCanResendOtp] = useState(false);
 
+  const [inputValue, setInputValue] = useState('');
+  const [options, setOptions] = useState([]);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editValue, setEditValue] = useState("");
 
   const location = useLocation();
   const signupForm = useFormik({
@@ -106,6 +112,33 @@ function SignupPage({ setModalName, setShow }) {
     }
   };
 
+const companyName = async () => {
+  try {
+    const response = await post_data("portal/public", convertToPayload('get-company-list', {}), {});
+    
+    if (response.data.status) {
+      const apiList = response.data.result || [];
+         const options = apiList
+        .filter(company => company.company_name != null && company.company_name !== '') // Remove null/empty
+        .map(company => ({
+          value: company.company_name,
+          label: company.company_name
+        }));
+        console.log(options)
+      setOptions([...options, {value: "other", label: "other"}]);
+    } else {
+      setOptions([]);
+    }
+  } catch (error) {
+    console.error("API Error:", error);
+    setOptions([]);
+  }
+};
+
+useEffect(() => {
+  companyName();
+}, []);
+
   useEffect(() => {
     if (location.pathname.includes('reset')) {
       setShow(true);
@@ -124,6 +157,40 @@ function SignupPage({ setModalName, setShow }) {
     return () => clearInterval(timer);
   }, [otpSent, resendCountdown]);
 
+  const handleChanges = (option) => {
+    if(option.value === "other") {
+      setIsEditing(true);
+      setEditValue("");
+      setSelectedOption({value: "", label: ""});
+      signupForm.setFieldValue("companyName", "");
+    } else {
+      setSelectedOption(option);
+      setEditValue(option.label);
+      setIsEditing(true);
+      signupForm.setFieldValue("companyName", option.label);
+    }
+  }
+
+  const handleInputChange = (e) => {
+    const newLabel = e.target.value;
+    setEditValue(newLabel);
+    setSelectedOption({value: newLabel.toLowerCase(), label:newLabel})
+    signupForm.setFieldValue("companyName", newLabel);
+  }
+
+  const handleReset = () => {
+    setSelectedOption(null);
+    setIsEditing(false);
+    setEditValue("");
+  }
+
+  useEffect(() => {
+  if (!inputValue) {
+    setInputValue(signupForm.values.companyName || '');
+  }
+}, [signupForm.values.companyName]);
+
+
   return (
     <div style={{ height: "35em" }}>
       {!otpSent ? (
@@ -137,7 +204,86 @@ function SignupPage({ setModalName, setShow }) {
                 <FloatingInputLabel fieldName={`fullName`} formikFrom={signupForm} labelText={`Full Name`} />
               </div>
               <div className="">
-                <FloatingInputLabel fieldName={`companyName`} formikFrom={signupForm} labelText={`Company Name`} />
+                {/* <FloatingInputLabel fieldName={`companyName`} formikFrom={signupForm} labelText={`Company Name`} /> */}
+                {!isEditing ? (
+                  <Select
+                    value={selectedOption}
+                    onChange={handleChanges}
+                    options={options}
+                    placeholder="Select Company..."
+                    name="companyName"
+                    className="react-select-container pb-3 mt-3"
+                    styles={{
+                      menuPortal: (base) => ({
+                        ...base,
+                        zIndex: 9999,
+                        backgroundColor: 'white',
+                        boxShadow: '0 10px 25px rgba(0,0,0,0.15)',
+                        borderRadius: '0px',
+                      }),
+                      menu: (base) => ({
+                        ...base,
+                        backgroundColor: 'white',
+                        zIndex: 9999
+                      }),
+                      control: (base) => ({
+                        ...base,
+                        zIndex: 1,
+                        minHeight: '60px',  // Increased height for Select
+                        padding: '0 2px',   // Consistent padding
+                        borderRadius: '6px',
+                        border: '1px solid#e6e6e6'
+                      }),
+                      valueContainer: (base) => ({
+                        ...base,
+                        padding: '8px 2px'  // Extra padding inside
+                      })
+                    }}
+                  />
+                ) : (
+                  // <div className="input-group mb-3 border rounded" style={{minHeight: '60px'}}>
+                  <div 
+                    className="input-group mb-3"
+                    style={{
+                      height: '60px',
+                      border: '1px solid #e6e6e6',
+                      borderRadius: '6px',
+                      overflow: 'hidden'
+                    }}
+                  >
+                    <input 
+                      type="text" 
+                      // className="form-control py-4 px-3"  // Increased py-4 padding
+                       className="form-control border-0 px-3"
+                      value={editValue} 
+                      onChange={handleInputChange} 
+                      placeholder="Select Company" 
+                      autoFocus
+                      // style={{height: '60px', lineHeight: 'normal'}}  // Fixed height
+                       style={{ height: '100%' }}
+                    />
+                    <button 
+                      // className="btn btn-outline-grey bg-light px-4" 
+                      type="button" 
+                      onClick={handleReset} 
+                      title="back to dropdown"
+                      // style={{height: '60px', lineHeight: '60px'}}  // Match input height
+                      style={{
+                        width: '55px',
+                        border: 'none',
+                        borderLeft: '1px solid #e6e6e6',
+                        background: 'white',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      {/* <i className="bi bi-x-circle text-muted">X</i> */}X
+                    </button>
+                  </div>
+                )}
+                <ErrorMessage name="companyName" component="div" className="text-danger small mt-1" />
               </div>
               <div className="">
                 <FloatingInputLabel fieldName={`emailId`} formikFrom={signupForm} labelText={`Email Address`} />
