@@ -90,19 +90,20 @@ const searchFilter = async (searchTerm) => {
     setTimeoutId(newTimeout);      
   };
 
-  const handleKeyDown = (e) => {
-    if(e.key === 'Enter') {
-      navigate(`/api/${queryList.subcatgory_id}/${queryList.category_id}/${queryList.api_id}`)
-    }
-  }
+  // const handleKeyDown = (e) => {
+  //   if(e.key === 'Enter') {
+  //     navigate(`/api/${queryList.subcatgory_id}/${queryList.category_id}/${queryList.api_id}`)
+  //   }
+  // }
 
 const handleSelect = (item) => {
-  console.log(item)
+  // console.log(item)
   setQueryList(item);
   setQuery(item.apiname);
   setResults([]);
   setIsUserSelected(true);
   setSearchComplete(false);
+  navigate(`/api/${item.subcatgory_id}/${item.category_id}/${item.api_id}`);
 };
 
   return (
@@ -165,7 +166,7 @@ const handleSelect = (item) => {
               value={query} 
               onChange={handleChange} 
               placeholder="Search API's" 
-              onKeyDown={handleKeyDown}
+              // onKeyDown={handleKeyDown}
               className="form-control rounded-pill new-input bg-white pe-4"
             />
             {
