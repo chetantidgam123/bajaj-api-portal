@@ -24,30 +24,30 @@ function Header() {
   const [isUserSelected, setIsUserSelected] = useState(false)
   const [searchComplete, setSearchComplete] = useState(false);
 
-const searchFilter = async (searchTerm) => {
-  if(!searchTerm) {
-    setResults([]);
+  const searchFilter = async (searchTerm) => {
+    if (!searchTerm) {
+      setResults([]);
+      setSearchComplete(false);
+      return;
+    }
+    let payload = { search_text: searchTerm };
+    setLoading(true);
     setSearchComplete(false);
-    return;
-  }
-  let payload = { search_text: searchTerm };
-  setLoading(true);
-  setSearchComplete(false);
-  post_data("portal/public", convertToPayload('serach-api-by-name', payload), {})
-    .then((response) => {
-      if (response.data.status) {
-        const apiList = response.data.result || [];
-        setResults(apiList);
-      }
-    })
-    .catch((error) => {
-      console.error("API Error:", error);
-    })
-    .finally(() => {
-      setLoading(false);
-      setSearchComplete(true);
-    });
-};
+    post_data("portal/public", convertToPayload('serach-api-by-name', payload), {})
+      .then((response) => {
+        if (response.data.status) {
+          const apiList = response.data.result || [];
+          setResults(apiList);
+        }
+      })
+      .catch((error) => {
+        console.error("API Error:", error);
+      })
+      .finally(() => {
+        setLoading(false);
+        setSearchComplete(true);
+      });
+  };
 
   useEffect(() => {
     if (location.pathname.includes("reset")) {
@@ -81,13 +81,13 @@ const searchFilter = async (searchTerm) => {
     const value = e.target.value;
     setQuery(value);
     setIsUserSelected(false)
-    if(timeoutId) clearTimeout(timeoutId);
+    if (timeoutId) clearTimeout(timeoutId);
 
     const newTimeout = setTimeout(() => {
       searchFilter(value);
     }, 500)
 
-    setTimeoutId(newTimeout);      
+    setTimeoutId(newTimeout);
   };
 
   // const handleKeyDown = (e) => {
@@ -96,15 +96,15 @@ const searchFilter = async (searchTerm) => {
   //   }
   // }
 
-const handleSelect = (item) => {
-  // console.log(item)
-  setQueryList(item);
-  setQuery(item.apiname);
-  setResults([]);
-  setIsUserSelected(true);
-  setSearchComplete(false);
-  navigate(`/api/${item.subcatgory_id}/${item.category_id}/${item.api_id}`);
-};
+  const handleSelect = (item) => {
+    // console.log(item)
+    setQueryList(item);
+    setQuery(item.apiname);
+    setResults([]);
+    setIsUserSelected(true);
+    setSearchComplete(false);
+    navigate(`/api/${item.subcatgory_id}/${item.category_id}/${item.api_id}`);
+  };
 
   return (
     <div className="header">
@@ -157,56 +157,56 @@ const handleSelect = (item) => {
                 </NavLink>
               </li>
             </ul>
-          
+
             {/* Search Input Field */}
-          <div className="position-relative" style={{width: "340px"}}>
-            <i className="fa-solid fa-search position-absolute top-50 translate-middle-y ms-2 text-muted pointer-events-none"></i>
-            <input 
-              type="text" 
-              value={query} 
-              onChange={handleChange} 
-              placeholder="Search API's" 
-              // onKeyDown={handleKeyDown}
-              className="form-control rounded-pill new-input bg-white pe-4"
-            />
-            {
-              loading && (
-                <div className="position-absolute top-50 translate-middle-y" style={{ right: "12px" }}>
-                  <div className="spinner-border spinner-border-sm text-primary" role="status"></div>
-                </div>
-              )
-            }
-            {results.length > 0 && (
-              <div 
-                className="position-absolute w-100 mt-1 bg-white border border-gray-300 rounded shadow-lg"
-                style={{ 
-                  zIndex: 9999,  // High z-index to overlap other sections
-                  maxHeight: '240px',  // Fixed height for scrollbar
-                  overflowY: 'auto',   // Vertical scrollbar only when needed
-                  top: '100%'          // Position directly below input
-                }}
-              >
-                {results.map((item, index) => (
-                  <div
-                    key={item.api_id || index}
-                    onClick={() => handleSelect(item)}
-                    className="p-3 hover:bg-gray-100 cursor-pointer border-bottom border-gray-100 d-flex align-items-center"
-                    style={{ borderBottom: index < results.length - 1 ? '1px solid #f3f4f6' : 'none' }}
-                  >
-                    {item.apiname}
+            <div className="position-relative" style={{ width: "340px" }}>
+              <i className="fa-solid fa-search position-absolute top-50 translate-middle-y ms-2 text-muted pointer-events-none"></i>
+              <input
+                type="text"
+                value={query}
+                onChange={handleChange}
+                placeholder="Search API's"
+                // onKeyDown={handleKeyDown}
+                className="form-control rounded-pill new-input bg-white pe-4"
+              />
+              {
+                loading && (
+                  <div className="position-absolute top-50 translate-middle-y" style={{ right: "12px" }}>
+                    <div className="spinner-border spinner-border-sm text-primary"></div>
                   </div>
-                ))}
-              </div>
-            )}
-            {searchComplete &&!loading && query && results.length === 0 && !isUserSelected && (
-              <div 
-                className="position-absolute w-100 mt-1 bg-white border border-gray-300 rounded shadow-lg p-3 text-gray-500"
-                style={{ zIndex: 9999, top: '100%' }}
-              >
-                No APIs found
-              </div>
-            )}
-          </div>
+                )
+              }
+              {results.length > 0 && (
+                <div
+                  className="position-absolute w-100 mt-1 bg-white border border-gray-300 rounded shadow-lg"
+                  style={{
+                    zIndex: 9999,  // High z-index to overlap other sections
+                    maxHeight: '240px',  // Fixed height for scrollbar
+                    overflowY: 'auto',   // Vertical scrollbar only when needed
+                    top: '100%'          // Position directly below input
+                  }}
+                >
+                  {results.map((item, index) => (
+                    <div
+                      key={item.api_id || index}
+                      onClick={() => handleSelect(item)}
+                      className="p-3 hover:bg-gray-100 cursor-pointer border-bottom border-gray-100 d-flex align-items-center"
+                      style={{ borderBottom: index < results.length - 1 ? '1px solid #f3f4f6' : 'none' }}
+                      role="button" >
+                      {item.apiname}
+                    </div>
+                  ))}
+                </div>
+              )}
+              {searchComplete && !loading && query && results.length === 0 && !isUserSelected && (
+                <div
+                  className="position-absolute w-100 mt-1 bg-white border border-gray-300 rounded shadow-lg p-3 text-gray-500"
+                  style={{ zIndex: 9999, top: '100%' }}
+                >
+                  No APIs found
+                </div>
+              )}
+            </div>
 
             {/* Sign Up / Sign In (Hidden when logged in) */}
             <div className="d-flex gap-2 d-none">
@@ -303,7 +303,7 @@ const handleSelect = (item) => {
           <div className="col-12 px-3">
             <div className="row">
               <div className="col-xl-5 col-lg-5 col-md-5 col-12 signUpsideBanner">
-                <img src="/assets/img/Bajaj Logo.png" alt="NA" className="mt-2"/>
+                <img src="/assets/img/Bajaj Logo.png" alt="NA" className="mt-2" />
                 <div className="authContent">
                   <h1 className="title">Welcome to Bajaj API Developer Portal.</h1>
                   <p>
@@ -314,22 +314,22 @@ const handleSelect = (item) => {
                 </div>
               </div>
               <div className="ps-4 col-xl-7 col-lg-7 col-md-7 col-12">
-                {modalName == "signup" && 
-                (
-                  <SignupPage setModalName={setModalName} setShow={setShow} />
-                )}
-                {modalName == "login" && 
-                (
-                  <Login setModalName={setModalName} setShow={setShow} />
-                )}
-                {modalName == "forget-pass" && 
-                (
-                  <ForgotPassword setModalName={setModalName} setShow={setShow} />
-                )}
-                {modalName == "reset-pass" && 
-                (
-                  <ResetPassword setModalName={setModalName} setShow={setShow} />
-                )}
+                {modalName == "signup" &&
+                  (
+                    <SignupPage setModalName={setModalName} setShow={setShow} />
+                  )}
+                {modalName == "login" &&
+                  (
+                    <Login setModalName={setModalName} setShow={setShow} />
+                  )}
+                {modalName == "forget-pass" &&
+                  (
+                    <ForgotPassword setModalName={setModalName} setShow={setShow} />
+                  )}
+                {modalName == "reset-pass" &&
+                  (
+                    <ResetPassword setModalName={setModalName} setShow={setShow} />
+                  )}
               </div>
             </div>
           </div>

@@ -91,7 +91,7 @@ function HomePageContent() {
             .then(async (response) => {
                 setLoader(false);
                 if (response.status) {
-                    setDescription(response.description || '');
+                    setDescription(response.data.data.description || '');
                     setTitle(response.data.data.subcategoryname || response.data.data.apiname || '');
                     if (api_id) {
                         setApiData(response.data.data);
