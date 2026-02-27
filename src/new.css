@@ -52,7 +52,7 @@ li {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  /* padding: 50px 0px; */
+  /* padding: 50px 0px !important; */
 }
 
 .banner .welcome {
@@ -89,7 +89,7 @@ li {
 
 .card-Works {
   background-color: white;
-  border-radius: 20px;
+  border-radius: 42px;
   padding: 60px;
 }
 
@@ -1054,7 +1054,7 @@ li {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  padding: 60px 0px 80px 0px;
+  padding: 113px 0px;
 }
 
 .about-icon-box {
@@ -1164,22 +1164,54 @@ li {
 
 /* About Us Page - Responsive Styles */
 
-/* Tablet Styles (768px - 1024px) */
-@media (max-width: 1024px) and (min-width: 768px) {
+/* Large Tablet / Small Desktop (1024px - 1200px) */
+@media (max-width: 1200px) and (min-width: 1025px) {
   .aboutus-bg {
-    padding: 50px 0px 60px 0px;
-  }
-
-  .aboutus-bg h1 {
-    font-size: 48px !important;
+    padding: 80px 0px;
   }
 
   .card-Works {
-    padding: 30px 25px;
+    padding: 45px 40px;
+  }
+}
+
+/* Tablet Styles (768px - 1024px) */
+@media (max-width: 1024px) and (min-width: 768px) {
+  .aboutus-bg {
+    padding: 60px 0px 70px 0px;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .aboutus-bg h1 {
+    font-size: 42px !important;
+    line-height: 52px;
+  }
+
+  .margin-top-100px {
+    margin-top: -60px !important;
+  }
+
+  .card-bg {
+    padding: 16px;
+  }
+
+  .card-Works {
+    padding: 35px 30px;
+    border-radius: 30px;
+  }
+
+  .card-Works p {
+    font-size: 15px;
+    line-height: 24px;
+  }
+
+  .card-Works h4 {
+    font-size: 20px;
   }
 
   .card-Works-bg {
-    padding: 20px !important;
+    padding: 24px !important;
   }
 
   .about-icon-box-left,
@@ -1212,12 +1244,29 @@ li {
     font-size: 16px;
     line-height: 24px;
   }
+
+  .offer-description {
+    font-size: 15px;
+    line-height: 22px;
+  }
+
+  .api-list-item {
+    font-size: 15px;
+    line-height: 24px;
+  }
+
+  .para-offer {
+    font-size: 15px;
+    line-height: 24px;
+  }
 }
 
 /* Mobile Styles (up to 767px) */
 @media (max-width: 767px) {
   .aboutus-bg {
-    padding: 40px 0px 50px 0px;
+    padding: 50px 15px 60px 15px;
+    background-size: cover;
+    background-position: center;
   }
 
   .aboutus-bg h1 {
@@ -1226,27 +1275,39 @@ li {
   }
 
   .margin-top-100px {
-    margin-top: 40px !important;
+    margin-top: -40px !important;
   }
 
   .card-bg {
-    padding: 15px;
+    padding: 12px;
     border-radius: 12px;
+    margin-left: 0;
+    margin-right: 0;
   }
 
   .card-Works {
-    padding: 20px 15px;
-    border-radius: 16px;
+    padding: 24px 18px;
+    border-radius: 20px;
   }
 
   .card-Works p {
     font-size: 14px;
     line-height: 22px;
+    margin-bottom: 16px !important;
+  }
+
+  .card-Works h4 {
+    font-size: 18px;
+    margin-bottom: 12px !important;
   }
 
   .card-Works-bg {
     padding: 20px !important;
-    margin-bottom: 16px;
+    margin-bottom: 0;
+  }
+
+  .card-Works-bg.h-100 {
+    height: auto !important;
   }
 
   .about-icon-box-left,
@@ -1311,30 +1372,59 @@ li {
     margin-bottom: 16px !important;
   }
 
-  /* Adjust column spacing for mobile */
-  .col-lg-6.col-md-6 {
-    margin-bottom: 16px !important;
+  /* Ensure proper stacking on mobile */
+  .row.justify-content-center .col-lg-6.col-md-6,
+  .row .col-lg-4.col-md-6 {
+    margin-bottom: 16px;
   }
 
-  .col-lg-4.col-md-6 {
-    margin-bottom: 16px !important;
+  .row.justify-content-center .col-lg-6.col-md-6:last-child,
+  .row .col-lg-4.col-md-6:last-child {
+    margin-bottom: 0;
+  }
+
+  /* List adjustments */
+  ol.ps-3 {
+    padding-left: 20px !important;
+  }
+
+  ol.ps-3 li {
+    margin-bottom: 8px;
   }
 }
 
 /* Extra Small Mobile (up to 480px) */
 @media (max-width: 480px) {
+  .aboutus-bg {
+    padding: 40px 10px 50px 10px;
+  }
+
   .aboutus-bg h1 {
-    font-size: 28px !important;
-    line-height: 36px;
+    font-size: 26px !important;
+    line-height: 34px;
+  }
+
+  .margin-top-100px {
+    margin-top: -30px !important;
   }
 
   .card-bg {
-    padding: 12px;
+    padding: 10px;
     border-radius: 10px;
   }
 
   .card-Works {
-    padding: 16px 12px;
+    padding: 18px 14px;
+    border-radius: 16px;
+  }
+
+  .card-Works p {
+    font-size: 13px;
+    line-height: 20px;
+  }
+
+  .card-Works h4 {
+    font-size: 16px;
   }
 
   .card-Works-bg {
@@ -1346,20 +1436,62 @@ li {
     line-height: 24px;
   }
 
+  .para-offer {
+    font-size: 13px;
+    line-height: 20px;
+  }
+
   .offer-heading {
     font-size: 15px;
     line-height: 22px;
   }
 
+  .offer-description {
+    font-size: 13px;
+    line-height: 18px;
+  }
+
+  .api-list-item {
+    font-size: 13px;
+    line-height: 20px;
+  }
+
   .about-icon-box-left,
   .about-icon-box {
-    width: 55px;
-    height: 55px;
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
+    padding: 10px;
   }
 
   .about-icon {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
+  }
+
+  .about-icon-box-left-below {
+    width: 45px;
+    height: 45px;
+    border-radius: 10px;
+    padding: 10px;
+  }
+
+  .about-icon-other {
+    width: 22px;
+    height: 22px;
+  }
+
+  /* Reduce spacing on very small screens */
+  .card-Works .mb-4 {
+    margin-bottom: 12px !important;
+  }
+
+  .card-Works .mb-3 {
+    margin-bottom: 10px !important;
+  }
+
+  .card-Works .p-4 {
+    padding: 14px !important;
   }
 }
 

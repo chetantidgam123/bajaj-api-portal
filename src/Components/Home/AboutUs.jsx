@@ -23,12 +23,12 @@ function AboutUs() {
 
       {/* Main Content */}
       <div className="card-bg">
-        <div className="container margin-top-100px">
+        <div className="container px-2 px-sm-3 px-md-4 margin-top-100px">
           {/* Introduction */}
-          <div className="row justify-content-center ">
-            <div className="col-lg-12">
+          <div className="row justify-content-center">
+            <div className="col-12">
               <div className="card-Works">
-                <p className=" mb-4">
+                <p className="mb-3 mb-md-4">
                   Welcome to the Bajaj API Developer Portal — a unified platform
                   designed to empower developers, partners, and businesses to
                   build innovative digital solutions using Bajaj's secure and
@@ -40,10 +40,10 @@ function AboutUs() {
                   ecosystem.
                 </p>
                 {/* Mission & Vision */}
-                <div className="row justify-content-center margin-top-24px margin-bottom-24px">
-                  <div className="col-lg-6 col-md-6 mb-4">
-                    <div className="card-Works-bg p-4 h-100">
-                      <div className="mb-3">
+                <div className="row justify-content-center margin-top-24px margin-bottom-24px g-3 g-md-4">
+                  <div className="col-12 col-md-6 mb-3 mb-md-4">
+                    <div className="card-Works-bg p-3 p-md-4 h-100">
+                      <div className="mb-2 mb-md-3">
                         <div className="about-icon-box-left">
                           <img
                             src="/assets/img/about/Our Mission.png"
@@ -52,7 +52,7 @@ function AboutUs() {
                           />
                         </div>
                       </div>
-                      <h4 className="mb-3">Our Mission</h4>
+                      <h4 className="mb-2 mb-md-3">Our Mission</h4>
                       <p>
                         Our mission is to simplify digital transformation by
                         providing easy-to-use, well-documented, and highly
@@ -66,10 +66,9 @@ function AboutUs() {
                       </p>
                     </div>
                   </div>
-
-                  <div className="col-lg-6 col-md-6 mb-4">
-                    <div className="card-Works-bg p-4 h-100">
-                      <div className="mb-3">
+                  <div className="col-12 col-md-6 mb-3 mb-md-4">
+                    <div className="card-Works-bg p-3 p-md-4 h-100">
+                      <div className="mb-2 mb-md-3">
                         <div className="about-icon-box-left">
                           <img
                             src="/assets/img/about/Our Vision.png"
@@ -78,7 +77,7 @@ function AboutUs() {
                           />
                         </div>
                       </div>
-                      <h4 className="mb-3">Our Vision</h4>
+                      <h4 className="mb-2 mb-md-3">Our Vision</h4>
                       <p>
                         We envision a connected digital ecosystem where
                         developers and enterprises can collaborate effortlessly
@@ -97,19 +96,19 @@ function AboutUs() {
                 <p className="text-start para-offer">
                   The Bajaj API Developer Portal provides:
                 </p>
-                <div className="row">
-                  <div className="col-lg-4 col-md-6 margin-bottom-24px">
-                    <div className="card-Works-bg p-4 h-100 ">
-                      <div className="mb-3">
-                        <div className="about-icon-box-left-below ">
+                <div className="row g-3 g-md-4">
+                  <div className="col-12 col-sm-6 col-lg-4">
+                    <div className="card-Works-bg p-3 p-md-4 h-100">
+                      <div className="mb-2 mb-md-3">
+                        <div className="about-icon-box-left-below">
                           <img
                             src="/assets/img/about/Comprehensive API Access.png"
-                            alt="Mission"
+                            alt="Comprehensive API Access"
                             className="about-icon-other"
                           />
                         </div>
                       </div>
-                      <h5 className="mb-3 offer-heading">
+                      <h5 className="mb-2 mb-md-3 offer-heading">
                         Comprehensive API Access
                       </h5>
                       <p className="mb-0 offer-description">
@@ -118,18 +117,18 @@ function AboutUs() {
                       </p>
                     </div>
                   </div>
-                  <div className="col-lg-4 col-md-6 margin-bottom-24px">
-                    <div className="card-Works-bg p-4 h-100 ">
-                      <div className="mb-3">
-                        <div className="about-icon-box-left-below ">
+                  <div className="col-12 col-sm-6 col-lg-4">
+                    <div className="card-Works-bg p-3 p-md-4 h-100">
+                      <div className="mb-2 mb-md-3">
+                        <div className="about-icon-box-left-below">
                           <img
                             src="/assets/img/about/Detailed Documentation.png"
-                            alt="Mission"
+                            alt="Detailed Documentation"
                             className="about-icon-other"
                           />
                         </div>
                       </div>
-                      <h5 className="mb-3 offer-heading">
+                      <h5 className="mb-2 mb-md-3 offer-heading">
                         Detailed Documentation
                       </h5>
                       <p className="mb-0 offer-description">
@@ -138,36 +137,36 @@ function AboutUs() {
                       </p>
                     </div>
                   </div>
-                  <div className="col-lg-4 col-md-6 margin-bottom-24px">
-                    <div className="card-Works-bg p-4 h-100 ">
-                      <div className="mb-3">
-                        <div className="about-icon-box-left-below ">
+                  <div className="col-12 col-sm-6 col-lg-4">
+                    <div className="card-Works-bg p-3 p-md-4 h-100">
+                      <div className="mb-2 mb-md-3">
+                        <div className="about-icon-box-left-below">
                           <img
                             src="/assets/img/about/Robust Security.png"
-                            alt="Mission"
+                            alt="Robust Security"
                             className="about-icon-other"
                           />
                         </div>
                       </div>
-                      <h5 className="mb-3 offer-heading">Robust Security</h5>
+                      <h5 className="mb-2 mb-md-3 offer-heading">Robust Security</h5>
                       <p className="mb-0 offer-description">
                         Industry-standard authentication and authorization
                         mechanisms.
                       </p>
                     </div>
                   </div>
-                  <div className="col-lg-4 col-md-6 margin-bottom-24px">
-                    <div className="card-Works-bg p-4 h-100 ">
-                      <div className="mb-3">
-                        <div className="about-icon-box-left-below ">
+                  <div className="col-12 col-sm-6 col-lg-4">
+                    <div className="card-Works-bg p-3 p-md-4 h-100">
+                      <div className="mb-2 mb-md-3">
+                        <div className="about-icon-box-left-below">
                           <img
                             src="/assets/img/about/Sandbox Environment.png"
-                            alt="Mission"
+                            alt="Sandbox Environment"
                             className="about-icon-other"
                           />
                         </div>
                       </div>
-                      <h5 className="mb-3 offer-heading">
+                      <h5 className="mb-2 mb-md-3 offer-heading">
                         Sandbox Environment
                       </h5>
                       <p className="mb-0 offer-description">
@@ -175,18 +174,18 @@ function AboutUs() {
                       </p>
                     </div>
                   </div>
-                  <div className="col-lg-4 col-md-6 margin-bottom-24px">
-                    <div className="card-Works-bg p-4 h-100 ">
-                      <div className="mb-3">
-                        <div className="about-icon-box-left-below ">
+                  <div className="col-12 col-sm-6 col-lg-4">
+                    <div className="card-Works-bg p-3 p-md-4 h-100">
+                      <div className="mb-2 mb-md-3">
+                        <div className="about-icon-box-left-below">
                           <img
                             src="/assets/img/about/Developer Support.png"
-                            alt="Mission"
+                            alt="Developer Support"
                             className="about-icon-other"
                           />
                         </div>
                       </div>
-                      <h5 className="mb-3 offer-heading">Developer Support</h5>
+                      <h5 className="mb-2 mb-md-3 offer-heading">Developer Support</h5>
                       <p className="mb-0 offer-description">
                         Dedicated resources and support for seamless onboarding.
                       </p>
@@ -199,11 +198,11 @@ function AboutUs() {
                     <h3 className="text-start whtoffer">
                       Why Choose Bajaj APIs?
                     </h3>
-                    <p className="mb-0 para-offer">
+                    <p className="mb-2 mb-md-3 para-offer">
                       Our APIs are built to meet the evolving needs of modern
                       businesses and developers:
                     </p>
-                    <ol className="ps-3">
+                    <ol className="ps-3 ps-md-4">
                       <li className="mb-2 api-list-item">
                         Trusted enterprise-grade infrastructure
                       </li>
@@ -229,14 +228,16 @@ function AboutUs() {
                     </h3>
                     <p className="mb-0 para-offer">
                       Become a part of our growing developer network and unlock
-                      new possibilities with Bajaj APIs. <br></br>
+                      new possibilities with Bajaj APIs.
+                    </p>
+                    <p className="mb-0 para-offer mt-2 mt-md-3">
                       Whether you are building fintech solutions, enterprise
                       applications, or customer engagement platforms, our portal
-                      provides the tools and support you need to succeed{" "}
-                      <br></br>
+                      provides the tools and support you need to succeed.
+                    </p>
+                    <p className="mb-0 para-offer mt-2 mt-md-3">
                       Get Started, Sign up, explore our APIs, and start building
-                      today. <br></br>
-                      Let’s create the future of digital innovation — together.
+                      today. Let's create the future of digital innovation — together.
                     </p>
                   </div>
                 </div>
