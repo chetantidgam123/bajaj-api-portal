@@ -41,18 +41,10 @@ li {
   font-size: 16px;
 }
 .banner {
-  /* background-image: url("/assets/img/banner.png"); */
-  background-image: url("/assets/img/banner-img.png");
-  background-position: center;
-}
-
-.banner {
-  /* background-image: url("/assets/img/banner.png"); */
   background-image: url("/assets/img/banner-img.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  /* padding: 50px 0px !important; */
 }
 
 .banner .welcome {
@@ -84,7 +76,6 @@ li {
   color: #006ad0;
   border: 1px solid #006ad0;
   font-family: Poppins-Regular;
-  border: 1px solid #006ad0;
 }
 
 .card-Works {
@@ -137,7 +128,8 @@ li {
 }
 
 .color-blue {
-  color: #384d6c;
+  color: #0052a4;
+  font-weight: 500;
 }
 
 .font-20 {
@@ -188,7 +180,6 @@ li {
   justify-content: start;
   align-items: center;
   background-color: #ecefff;
-  /* margin: 0 auto; */
 }
 
 .four-lines {
@@ -216,13 +207,6 @@ li {
 .footer ul li {
   margin: 0 15px;
   position: relative;
-}
-
-.footer ul li a {
-  color: #fff;
-  text-decoration: none;
-  font-size: 20px;
-  transition: color 0.3s;
 }
 
 .footer ul li a {
@@ -341,8 +325,9 @@ li {
 
 .close-absolute {
   position: absolute;
+  top: 10px;
   right: 10px;
-  top: 7px;
+  z-index: 1056;
 }
 
 .contactus .nav-pills .nav-link.active {
@@ -507,16 +492,6 @@ li {
   animation-name: MOVE-BG;
 }
 
-@keyframes MOVE-BG {
-  0% {
-    transform: translateX(0);
-  }
-
-  to {
-    transform: translateX(88px);
-  }
-}
-
 .step-1 {
   font-size: 120px;
   color: #ffffff;
@@ -622,6 +597,7 @@ li {
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 18px;
 }
 
 .btn-white {
@@ -679,9 +655,7 @@ li {
     color: #fff;
     font-size: 40px;
   }
-}
 
-@media (max-width: 768px) {
   .custom-arrow.disabled {
     display: none !important;
   }
@@ -891,22 +865,6 @@ li {
   background-color: #ebf3fb;
 }
 
-.circle-profile {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: #f0f0f0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 18px;
-}
-
-.color-blue {
-  color: #0052a4;
-  font-weight: 500;
-}
-
 .custom-dropdown-menu {
   border-radius: 10px;
   min-width: 160px;
@@ -1031,14 +989,6 @@ li {
 
 .contact-tabs-border {
   border: 1px solid #006ad0;
-}
-
-.close-absolute {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 1056;
-  /* Bootstrap modal z-index fix */
 }
 
 .support-bg {
