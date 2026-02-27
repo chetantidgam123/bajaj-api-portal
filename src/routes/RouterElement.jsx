@@ -14,6 +14,7 @@ import TermsofServices from '../Components/Home/TermsofServices';
 import SupportCenter from '../Components/Home/SupportCenter';
 import Privacypolicy from '../Components/Home/Privacypolicy';
 import Contactus from '../Components/Home/Contactus';
+import AboutUs from '../Components/Home/AboutUs';
 import ApiPlaygroundHistory from '../Components/user/ApiPlaygroundHistory';
 const HomePageContent = lazy(() => import('../Components/user/HomePageContent'));
 const PageNotFound = lazy(() => import('../Components/user/PageNotFound'));
@@ -43,6 +44,7 @@ const routes = [
     { path: "/SupportCenter", element: <SupportCenter /> },
     { path: "/Privacypolicy", element: <Privacypolicy /> },
     { path: "/Contactus", element: <Contactus /> },
+    { path: "/AboutUs", element: <AboutUs /> },
     { path: "/try-api/:collection_id/:category_id/:api_id", element: <PrivateRoute><ApiPlayGround /></PrivateRoute> },
 
     {

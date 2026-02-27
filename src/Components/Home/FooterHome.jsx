@@ -196,7 +196,7 @@ function FooterHome() {
               </li>
               <li><Link to={"/Contactus"} data-bs-toggle="modal" data-bs-target="#exampleModal">Contact Us</Link></li>
               <li><Link to={"/SupportCenter"}>Support Center</Link></li>
-              <li><Link to={""}>About Us</Link></li>
+              <li><Link to={"/AboutUs"}>About Us</Link></li>
               {/* <li><Link to={"/user/profile"}>Careers</Link></li> */}
               <li><Link to={"/TermsofServices"}>Terms of Service</Link></li>
               <li><Link to={"/Privacypolicy"}>Privacy Policy</Link></li>
