@@ -10,7 +10,6 @@ import { error_swal_toast, success_swal_toast } from "../../SwalServices";
 import { useState, useEffect } from "react";
 import { LoaderWight, Loader } from "../../Loader";
 import { loginOtpEmail } from "../../emailTemplate";
-import Swal from "sweetalert2";
 import OtpInput from "react-otp-input";
 
 // Generate 6-digit OTP
@@ -26,33 +25,6 @@ function Login({ setModalName, setShow }) {
     const [backendTokenData, setBackendTokenData] = useState(null); // store token data temporarily
     const navigate = useNavigate();
 
-    const show_error_swal_ = (message) => {
-        Swal.fire({
-        html: `<div className="modal-body">
-    <div className="d-flex justify-content-center">
-        <img src="/assets/home/img/error-circle.png" alt="">
-    </div>
-    <p className="text-center mt-3 px-2 letter-spacing font-24 font-400 text-dark font-family mt-3 mb-0">${message}</p>
-    <div class="text-center mt-3">
-        <button id="signupLink" class="btn btn-primary px-4 py-2">Sign Up</button>
-    </div>
-</div>
-<div className="border-top d-none"></div>`,
-        showConfirmButton: false,
-        customClass: { confirmButton: 'btn-violet-outline btn-hover-fill py-2' },
-        didOpen: () => {
-            // Attach event listener AFTER alert opens
-            const link = document.getElementById("signupLink");
-            if (link) {
-                link.addEventListener("click", () => {
-                    Swal.close(); // close SweetAlert
-                    setModalName("signup");
-                    Loginform.resetForm();
-                });
-            }
-        }
-    });
-}
 
     const Loginform = useFormik({
         initialValues: {
@@ -94,7 +66,7 @@ function Login({ setModalName, setShow }) {
             if (res.data.status) {
                 // Store backend token temporarily
                 setBackendTokenData(res.data.userdata);
-
+                
                 // Store email to send OTP
                 setOtpEmail(Loginform.values.emailId);
 
@@ -123,9 +95,7 @@ function Login({ setModalName, setShow }) {
                 console.log("Generated OTP:", otp);
             } else {
                 setLoader(false);
-                if(res.data.message === "Invalid Credentials.")
-                    show_error_swal_("You dont have account please Signup to continue.");
-                else error_swal_toast(res.data.message || "Invalid credentials");
+                error_swal_toast(res.data.message || "Invalid credentials");
             }
         } catch (err) {
             setLoader(false);
